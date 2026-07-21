@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthModel, TokenResponse } from '../../features/users/models/auth.model';
+import { AuthModel, TokenResponse } from '../../features/auth/models/auth.model';
 import { environment } from '../../../environments/environment';
 import { Observable, tap } from 'rxjs';
 

@@ -22,4 +22,11 @@ export class AuthService {
       tap(response => localStorage.setItem("token", response.token))
     );
   }
+
+  logout(): Observable<void> {
+  return this.http.patch<void>(`${this.apiUrl}/auth/logout`, null)
+    .pipe(
+      tap(() => localStorage.removeItem("token"))
+    );
+}
 }

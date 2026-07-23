@@ -1,1 +1,21 @@
-<p>login works!</p>
+<div class="login-container">
+    <p-card>
+        <div class="login-card">
+            <h2 class="login-title">Login</h2>
+            <p-floatlabel>
+            <input id="email" type="text" pInputText [(ngModel)]="email" />
+            <label for="email">Email</label>
+            </p-floatlabel>
+
+            <p-floatlabel>
+            <p-password id="password" [(ngModel)]="password" [toggleMask]="true">
+            </p-password>
+            <label for="password">Password</label>
+            </p-floatlabel>
+
+            <div class="button-container">
+                <p-button label="Submit" />
+            </div>
+        </div>
+    </p-card>
+</div>

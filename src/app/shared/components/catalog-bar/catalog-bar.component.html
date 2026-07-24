@@ -1,0 +1,11 @@
+<p-toolbar>
+
+    <ng-template #center>
+        <p-select [options]="categories" [(ngModel)]="selectedCategory" optionLabel="label" optionValue="value"
+            (onChange)="onCategoryChange()" />
+
+        <p-select [options]="subCategories" [(ngModel)]="selectedSubCategory" optionLabel="label" optionValue="value"
+            [disabled]="!selectedCategory" />
+
+    </ng-template>
+</p-toolbar>

@@ -14,3 +14,36 @@
 
     </p-galleria>
 </div>
+
+<section>
+    <h2>Audiovisual</h2>
+
+    <div class="items-row">
+        <app-item-card
+            *ngFor="let item of audiovisualCards"
+            [item]="item">
+        </app-item-card>
+    </div>
+</section>
+
+<section>
+    <h2>Construction</h2>
+
+    <div class="items-row">
+        <app-item-card
+            *ngFor="let item of constructionCards"
+            [item]="item">
+        </app-item-card>
+    </div>
+</section>
+
+<section>
+    <h2>Events</h2>
+
+    <div class="items-row">
+        <app-item-card
+            *ngFor="let item of eventsCards"
+            [item]="item">
+        </app-item-card>
+    </div>
+</section>

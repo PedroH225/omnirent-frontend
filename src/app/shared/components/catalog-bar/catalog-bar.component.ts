@@ -5,6 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { CategoryService } from '@core/categories/category.service';
 import { CategoryResponse } from '@core/categories/model/category.model';
 import { SubCategoryResponse } from '@core/categories/model/subcategory.model';
+import { ItemService } from '@core/item/item.service';
+import { ItemEnumsResponse } from '@core/item/model/ItemEnumsResponse';
+import { EnumOption } from '../../../../shared/models/EnumOption';
 
 interface SelectOption<T> {
   label: string;
@@ -21,16 +24,32 @@ interface SelectOption<T> {
 export class CatalogBarComponent {
   categories: SelectOption<CategoryResponse>[] = [];
   subCategories: SelectOption<SubCategoryResponse>[] = [];
+  itemConditions: SelectOption<EnumOption>[] = [];
 
+  selectedCondition?: EnumOption;
   selectedCategory?: CategoryResponse;
   selectedSubCategory?: SubCategoryResponse;
 
-  constructor(private categoryService: CategoryService) { }
+  constructor(private categoryService: CategoryService, private itemService: ItemService) { }
 
   ngOnInit() {
     this.getCategories();
+    this.getItemEnums();
   }
 
+  getItemEnums(): void {
+    this.itemService.getItemEnums().subscribe({
+      next: (response) => {
+        this.itemConditions = response.itemConditions.map(condition => ({
+          label: condition.label,
+          value: condition
+        }));
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+  }
   getCategories(): void {
     this.categoryService.getCategoriesWithSub().subscribe({
       next: (response) => {

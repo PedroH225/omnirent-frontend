@@ -7,5 +7,7 @@
         <p-select [options]="subCategories" [(ngModel)]="selectedSubCategory" optionLabel="label" optionValue="value"
             [disabled]="!selectedCategory" />
 
+        <p-select [options]="itemConditions" [(ngModel)]="selectedCondition" optionLabel="label" optionValue="value" />
+
     </ng-template>
 </p-toolbar>

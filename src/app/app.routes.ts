@@ -1,17 +1,29 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/auth/auth.guard';
-import { MyItemsComponent } from './features/items/pages/my-items/my-items.component/my-items.component';
-import { LoginComponent } from './features/auth/pages/login/login.component';
+import { MainLayoutComponent } from '@layout/main-layout/main-layout.component';
+import { authGuard } from '@core/auth/auth.guard';
+import { LoginComponent } from '@features/auth/pages/login/login.component';
+import { HomeComponent } from '@features/home/pages/home/home.component';
+import { MyItemsComponent } from '@features/items/pages/my-items/my-items.component/my-items.component';
 
 export const routes: Routes = [
+    {
+        path: '',
+        component: MainLayoutComponent,
+        children: [
+            {
+                path: '',
+                component: HomeComponent
+            },
+            {
+                path: 'my-items',
+                canActivate: [authGuard],
+                component: MyItemsComponent
+            }
+        ]
+    },
     {
         path: 'login',
         component: LoginComponent
     },
-    {
-        path: 'my-items',
-        canActivate: [authGuard],
-        component: MyItemsComponent
-    }
 ];
 

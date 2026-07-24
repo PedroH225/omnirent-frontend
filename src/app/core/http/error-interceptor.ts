@@ -18,7 +18,7 @@ const router = inject(Router);
                 default:
                     break;
             }
-            return throwError(() => apiError);
+            return throwError(() => error);
         })
     );
 };

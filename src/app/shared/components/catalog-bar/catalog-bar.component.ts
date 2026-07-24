@@ -6,13 +6,26 @@ import { CategoryService } from '@core/categories/category.service';
 import { CategoryResponse } from '@core/categories/model/category.model';
 import { SubCategoryResponse } from '@core/categories/model/subcategory.model';
 import { ItemService } from '@core/item/item.service';
-import { ItemEnumsResponse } from '@core/item/model/ItemEnumsResponse';
 import { EnumOption } from '../../../../shared/models/EnumOption';
+import { ItemFeedSort } from '../../../../shared/models/item-feed-sort';
+import { SelectOption } from '../../../../shared/models/select-option';
 
-interface SelectOption<T> {
-  label: string;
-  value: T;
-}
+
+
+export const ITEM_FEED_SORTS: ItemFeedSort[] = [
+  {
+    code: 'NEWEST',
+    label: 'Newest'
+  },
+  {
+    code: 'PRICE_ASC',
+    label: 'Lowest price'
+  },
+  {
+    code: 'PRICE_DESC',
+    label: 'Highest price'
+  }
+];
 
 @Component({
   selector: 'app-catalog-bar',
@@ -29,8 +42,14 @@ export class CatalogBarComponent {
   selectedCondition?: EnumOption;
   selectedCategory?: CategoryResponse;
   selectedSubCategory?: SubCategoryResponse;
+  selectedSort?: string;
 
   constructor(private categoryService: CategoryService, private itemService: ItemService) { }
+
+  sorts: SelectOption<string>[] = ITEM_FEED_SORTS.map(sort => ({
+    label: sort.label,
+    value: sort.code
+  }));
 
   ngOnInit() {
     this.getCategories();

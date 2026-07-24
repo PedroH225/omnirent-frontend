@@ -2,12 +2,14 @@
 
     <ng-template #center>
         <p-select [options]="categories" [(ngModel)]="selectedCategory" optionLabel="label" optionValue="value"
-            (onChange)="onCategoryChange()" />
+            (onChange)="onCategoryChange()" placeholder="Category" />
 
         <p-select [options]="subCategories" [(ngModel)]="selectedSubCategory" optionLabel="label" optionValue="value"
-            [disabled]="!selectedCategory" />
+            [disabled]="!selectedCategory" placeholder="Subcategory"/>
 
-        <p-select [options]="itemConditions" [(ngModel)]="selectedCondition" optionLabel="label" optionValue="value" />
+        <p-select [options]="itemConditions" [(ngModel)]="selectedCondition" optionLabel="label" optionValue="value" placeholder="Condition"/>
 
+        <p-select [options]="sorts" [(ngModel)]="selectedSort" optionLabel="label" optionValue="value"
+            placeholder="Sort by" />
     </ng-template>
 </p-toolbar>

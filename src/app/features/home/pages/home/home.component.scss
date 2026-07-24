@@ -1,0 +1,38 @@
+.hero-gallery {
+    width: min(90%, 1000px);
+    margin: 0 auto;
+}
+
+:host ::ng-deep .p-galleria {
+    width: 100%;
+}
+
+.hero-image {
+    width: 100%;
+    height: clamp(220px, 45vw, 525px);
+    object-fit: cover;
+    display: block;
+}
+
+:host ::ng-deep .p-galleria-indicators {
+    background: transparent;
+    bottom: 0.75rem;
+}
+
+:host ::ng-deep .p-galleria-indicator button {
+    width: 2rem;
+    height: 0.25rem;
+    border-radius: 999px;
+}
+
+@media (max-width: 768px) {
+    .hero-gallery {
+        width: 100%;
+        z-index: 1;
+    }
+
+    :host ::ng-deep .p-galleria-indicator button {
+        width: 1.2rem;
+        height: 0.2rem;
+    }
+}

@@ -1,2 +1,16 @@
 <app-catalog-bar></app-catalog-bar>
-<p>home works!</p>
+<div class="hero-gallery">
+    <p-galleria
+        [value]="images"
+        [showThumbnails]="false"
+        [showIndicators]="true"
+        [showIndicatorsOnItem]="true"
+        [circular]="true"
+        [autoPlay]="true">
+
+        <ng-template #item let-item>
+            <img [src]="item.itemImageSrc" class="hero-image" />
+        </ng-template>
+
+    </p-galleria>
+</div>

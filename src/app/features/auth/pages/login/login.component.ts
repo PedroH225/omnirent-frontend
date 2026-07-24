@@ -8,7 +8,14 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { AuthModel, TokenResponse } from '../../models/auth.model';
 import { Router } from '@angular/router';
-import { MyItemsComponent } from '../../../items/pages/my-items/my-items.component/my-items.component';
+import { MessageModule } from 'primeng/message';
+import { ApiException } from '../../../../../shared/models/api-exception';
+import { HttpErrorResponse } from '@angular/common/http';
+
+
+const DISPLAYABLE_ERRORS = [
+  'INVALID_CREDENTIALS'
+];
 
 @Component({
   selector: 'app-login',
@@ -21,16 +28,18 @@ import { MyItemsComponent } from '../../../items/pages/my-items/my-items.compone
     ButtonModule,
     InputTextModule,
     FloatLabelModule,
+    MessageModule,
     FormsModule
   ],
 })
 export class LoginComponent {
   email: string = '';
   password: string = '';
+  errorMessage: string = ''
 
   constructor(
     private authService: AuthService,
-    private router : Router) { }
+    private router: Router) { }
 
 
   login() {
@@ -46,11 +55,22 @@ export class LoginComponent {
         localStorage.setItem("token", token.token);
         this.router.navigate(['/my-items']);
 
-      }, (error) => {
-        console.log(error);
+      }, (error: HttpErrorResponse) => {
+        const apiError = error.error as ApiException;
+
+        if (apiError?.errorCode && apiError?.message &&
+          this.isDisplayableError(apiError)
+        ) {
+          this.errorMessage = apiError.message;
+          return;
+        }
+        this.errorMessage = 'Unexpected error. Try again later.';
       }
     );
+  }
 
-
+  private isDisplayableError(error: ApiException): boolean {
+    return !!error &&
+      DISPLAYABLE_ERRORS.includes(error.errorCode);
   }
 }

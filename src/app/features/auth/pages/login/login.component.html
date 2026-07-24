@@ -9,7 +9,8 @@
                 </p-floatlabel>
 
                 <p-floatlabel>
-                    <p-password name="pasword" id="password" [feedback]="false" [(ngModel)]="password" [toggleMask]="true">
+                    <p-password name="pasword" id="password" [feedback]="false" [(ngModel)]="password"
+                        [toggleMask]="true">
                     </p-password>
                     <label for="password">Password</label>
                 </p-floatlabel>
@@ -17,6 +18,9 @@
                 <div class="button-container">
                     <p-button type="submit" label="Submit" />
                 </div>
+                @if (errorMessage) {
+                <p-message severity="error" [text]="errorMessage"></p-message>
+                }
             </div>
         </form>
 

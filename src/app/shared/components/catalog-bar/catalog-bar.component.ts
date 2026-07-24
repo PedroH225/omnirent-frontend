@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Toolbar } from "primeng/toolbar";
 import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { CategoryService } from '@core/categories/category.service';
@@ -9,6 +8,7 @@ import { ItemService } from '@core/item/item.service';
 import { EnumOption } from '../../../../shared/models/EnumOption';
 import { ItemFeedSort } from '../../../../shared/models/item-feed-sort';
 import { SelectOption } from '../../../../shared/models/select-option';
+import { Button } from "primeng/button";
 
 
 
@@ -30,7 +30,7 @@ export const ITEM_FEED_SORTS: ItemFeedSort[] = [
 @Component({
   selector: 'app-catalog-bar',
   standalone: true,
-  imports: [Toolbar, SelectModule, FormsModule],
+  imports: [SelectModule, FormsModule, Button],
   templateUrl: './catalog-bar.component.html',
   styleUrl: './catalog-bar.component.scss'
 })
@@ -91,5 +91,14 @@ export class CatalogBarComponent {
         label: sub.subCategoryLabel,
         value: sub
       })) ?? [];
+  }
+
+  clearFilters(): void {
+    this.selectedCategory = undefined;
+    this.selectedSubCategory = undefined;
+    this.selectedCondition = undefined;
+    this.selectedSort = undefined;
+
+    this.subCategories = [];
   }
 }

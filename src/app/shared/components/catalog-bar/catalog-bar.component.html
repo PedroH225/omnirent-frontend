@@ -1,15 +1,17 @@
-<p-toolbar>
-
-    <ng-template #center>
+<section class="catalog-bar">
+    <div class="catalog-filters">
         <p-select [options]="categories" [(ngModel)]="selectedCategory" optionLabel="label" optionValue="value"
-            (onChange)="onCategoryChange()" placeholder="Category" />
+            placeholder="Category" (onChange)="onCategoryChange()" />
 
         <p-select [options]="subCategories" [(ngModel)]="selectedSubCategory" optionLabel="label" optionValue="value"
-            [disabled]="!selectedCategory" placeholder="Subcategory"/>
+            placeholder="Subcategory" [disabled]="!selectedCategory" />
 
-        <p-select [options]="itemConditions" [(ngModel)]="selectedCondition" optionLabel="label" optionValue="value" placeholder="Condition"/>
+        <p-select [options]="itemConditions" [(ngModel)]="selectedCondition" optionLabel="label" optionValue="value"
+            placeholder="Condition" />
 
         <p-select [options]="sorts" [(ngModel)]="selectedSort" optionLabel="label" optionValue="value"
             placeholder="Sort by" />
-    </ng-template>
-</p-toolbar>
+
+        <p-button label="Clear" icon="pi pi-filter-slash" severity="secondary" rounded (onClick)="clearFilters()" />
+    </div>
+</section>

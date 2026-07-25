@@ -34,23 +34,23 @@ export class HomeComponent {
     constructionCards: ItemCardModel[] = [];
     eventsCards: ItemCardModel[] = [];
 
-    responsiveOptions = [
-        {
-            breakpoint: '1200px',
-            numVisible: 3,
-            numScroll: 1
-        },
-        {
-            breakpoint: '768px',
-            numVisible: 2,
-            numScroll: 1
-        },
-        {
-            breakpoint: '560px',
-            numVisible: 1,
-            numScroll: 1
-        }
-    ];
+responsiveOptions = [
+    {
+        breakpoint: '1200px',
+        numVisible: 3,
+        numScroll: 1
+    },
+    {
+        breakpoint: '992px',
+        numVisible: 2,
+        numScroll: 1
+    },
+    {
+        breakpoint: '768px',
+        numVisible: 1,
+        numScroll: 1
+    }
+];
 
     constructor(
         private categoryService: CategoryService,

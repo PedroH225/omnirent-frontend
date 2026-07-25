@@ -15,11 +15,14 @@
 <section class="category-section">
 
     <div class="section-header">
-        <h2>Audiovisual</h2>
+        <div>
+            <h2>Capture every moment</h2>
+            <p>Professional cameras, lighting and audio equipment.</p>
+        </div>
         <a>View all</a>
     </div>
 
-    <p-carousel [value]="audiovisualCards" [numVisible]="4" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+    <p-carousel [value]="audiovisualCards" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
 
         <ng-template #item let-item>
             <div class="card-wrapper">
@@ -36,11 +39,15 @@
 <section class="category-section">
 
     <div class="section-header">
-        <h2>Construction</h2>
+
+        <div>
+            <h2>Build with the right tools</h2>
+            <p>Construction equipment for projects of any size.</p>
+        </div>
         <a>View all</a>
     </div>
 
-    <p-carousel [value]="constructionCards" [numVisible]="4" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+    <p-carousel [value]="constructionCards" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
 
         <ng-template #item let-item>
             <div class="card-wrapper">
@@ -57,11 +64,14 @@
 <section class="category-section">
 
     <div class="section-header">
-        <h2>Events</h2>
+        <div>
+            <h2>Create unforgettable events</h2>
+            <p>Everything you need to organize and power your next event.</p>
+        </div>
         <a>View all</a>
     </div>
 
-    <p-carousel [value]="eventsCards" [numVisible]="4" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+    <p-carousel [value]="eventsCards" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
 
         <ng-template #item let-item>
             <div class="card-wrapper">

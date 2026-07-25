@@ -1,5 +1,5 @@
 .hero-gallery {
-    width: min(90%, 1000px);
+    width: min(100%, 1600px);
     margin: 0 auto;
 }
 
@@ -27,7 +27,7 @@
 
 
 .category-section {
-    max-width: 1600px;
+    max-width: 1750px;
     margin: 3rem auto;
     padding-inline: clamp(1rem, 6vw, 6rem);
 }
@@ -45,12 +45,21 @@
     margin: 0;
     font-size: 1.5rem;
     font-weight: 600;
-    color: var(--p-text-color);
+    color: var(--p-primary-color);
+}
+
+.section-header p {
+    margin-top: .35rem;
+    color: var(--p-text-muted-color);
+    font-size: 1.15rem;
 }
 
 .section-header a {
+    flex-shrink: 0;
+    white-space: nowrap;
+
     color: var(--p-primary-color);
-    font-size: .9rem;
+    font-size: 1rem;
     cursor: pointer;
     transition: opacity .2s ease;
 }
@@ -62,11 +71,13 @@
 
 .card-wrapper {
     padding: .5rem;
+    width: 100%;
+    
+    box-sizing: border-box;
 }
 
-
-:host ::ng-deep .p-carousel-content {
-    gap: .5rem;
+:host ::ng-deep .p-carousel {
+    width: 100%;
 }
 
 :host ::ng-deep .p-carousel-prev-button,

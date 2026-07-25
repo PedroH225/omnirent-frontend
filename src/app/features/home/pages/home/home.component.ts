@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { CategoryService } from '@core/categories/category.service';
 import { ItemService } from '@core/item/item.service';
 import { ItemFeed } from '@core/item/model/item-feed-model';
@@ -11,15 +11,16 @@ import { environment } from '../../../../../environments/environment';
 import { SelectOption } from '../../../../../shared/models/select-option';
 import { ItemCardModel } from '../../../../../shared/models/item-card-model';
 import { ItemCardComponent } from "@shared/components/item-card/item-card.component";
-
+import { CarouselModule } from 'primeng/carousel';
 @Component({
     selector: 'app-home',
     standalone: true,
     imports: [
-    CatalogBarComponent,
-    GalleriaModule,
-    ItemCardComponent
-],
+        CatalogBarComponent,
+        GalleriaModule,
+        ItemCardComponent,
+        CarouselModule
+    ],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
 })
@@ -33,17 +34,36 @@ export class HomeComponent {
     constructionCards: ItemCardModel[] = [];
     eventsCards: ItemCardModel[] = [];
 
+    responsiveOptions = [
+        {
+            breakpoint: '1200px',
+            numVisible: 3,
+            numScroll: 1
+        },
+        {
+            breakpoint: '768px',
+            numVisible: 2,
+            numScroll: 1
+        },
+        {
+            breakpoint: '560px',
+            numVisible: 1,
+            numScroll: 1
+        }
+    ];
+
     constructor(
         private categoryService: CategoryService,
-        private itemService: ItemService
-    ) {}
+        private itemService: ItemService,
+        private cdr: ChangeDetectorRef
+    ) { }
 
     ngOnInit(): void {
         this.getCategories();
 
-        this.loadCategoryItems('AUDIOVISUAL', this.audiovisualCards);
-        this.loadCategoryItems('CONSTRUCTION', this.constructionCards);
-        this.loadCategoryItems('EVENTS', this.eventsCards);
+        this.loadCategoryItems('AUDIOVISUAL', 'audiovisualCards');
+        this.loadCategoryItems('CONSTRUCTION', 'constructionCards');
+        this.loadCategoryItems('EVENTS', 'eventsCards');
     }
 
     images = [
@@ -78,21 +98,19 @@ export class HomeComponent {
         });
     }
 
-loadCategoryItems(
-    category: string,
-    target: ItemCardModel[]
-): void {
-    this.itemService.getItemFeedHome(category).subscribe({
-        next: (response) => {
-            target.push(
-                ...response.content.map(item => this.mapItem(item))
-            );
-        },
-        error: (error) => {
-            console.error(error);
-        }
-    });
-}
+    loadCategoryItems(
+        category: string,
+        target: 'audiovisualCards' | 'constructionCards' | 'eventsCards'
+    ): void {
+        this.itemService.getItemFeedHome(category).subscribe({
+            next: (response) => {
+                this[target] = response.content.map(item => this.mapItem(item));
+            },
+            error: (error) => {
+                console.error(error);
+            }
+        });
+    }
 
     mapItem(item: ItemFeed): ItemCardModel {
         return {

@@ -1,12 +1,8 @@
 <app-catalog-bar></app-catalog-bar>
+
 <div class="hero-gallery">
-    <p-galleria
-        [value]="images"
-        [showThumbnails]="false"
-        [showIndicators]="true"
-        [showIndicatorsOnItem]="true"
-        [circular]="true"
-        [autoPlay]="true">
+    <p-galleria [value]="images" [showThumbnails]="false" [showIndicators]="true" [showIndicatorsOnItem]="true"
+        [circular]="true" [autoPlay]="true">
 
         <ng-template #item let-item>
             <img [src]="item.itemImageSrc" class="hero-image" />
@@ -15,35 +11,65 @@
     </p-galleria>
 </div>
 
-<section>
-    <h2>Audiovisual</h2>
 
-    <div class="items-row">
-        <app-item-card
-            *ngFor="let item of audiovisualCards"
-            [item]="item">
-        </app-item-card>
+<section class="category-section">
+
+    <div class="section-header">
+        <h2>Audiovisual</h2>
+        <a>View all</a>
     </div>
+
+    <p-carousel [value]="audiovisualCards" [numVisible]="4" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+
+        <ng-template #item let-item>
+            <div class="card-wrapper">
+                <app-item-card [item]="item">
+                </app-item-card>
+            </div>
+        </ng-template>
+
+    </p-carousel>
+
 </section>
 
-<section>
-    <h2>Construction</h2>
 
-    <div class="items-row">
-        <app-item-card
-            *ngFor="let item of constructionCards"
-            [item]="item">
-        </app-item-card>
+<section class="category-section">
+
+    <div class="section-header">
+        <h2>Construction</h2>
+        <a>View all</a>
     </div>
+
+    <p-carousel [value]="constructionCards" [numVisible]="4" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+
+        <ng-template #item let-item>
+            <div class="card-wrapper">
+                <app-item-card [item]="item">
+                </app-item-card>
+            </div>
+        </ng-template>
+
+    </p-carousel>
+
 </section>
 
-<section>
-    <h2>Events</h2>
 
-    <div class="items-row">
-        <app-item-card
-            *ngFor="let item of eventsCards"
-            [item]="item">
-        </app-item-card>
+<section class="category-section">
+
+    <div class="section-header">
+        <h2>Events</h2>
+        <a>View all</a>
     </div>
+
+    <p-carousel [value]="eventsCards" [numVisible]="4" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+
+        <ng-template #item let-item>
+            <div class="card-wrapper">
+                <app-item-card [item]="item">
+                </app-item-card>
+            </div>
+        </ng-template>
+
+    </p-carousel>
+
 </section>

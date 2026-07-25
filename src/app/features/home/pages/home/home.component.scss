@@ -25,14 +25,68 @@
     border-radius: 999px;
 }
 
+
+.category-section {
+    max-width: 1600px;
+    margin: 3rem auto;
+    padding-inline: clamp(1rem, 6vw, 6rem);
+}
+
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 1.25rem;
+}
+
+.section-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--p-text-color);
+}
+
+.section-header a {
+    color: var(--p-primary-color);
+    font-size: .9rem;
+    cursor: pointer;
+    transition: opacity .2s ease;
+}
+
+.section-header a:hover {
+    opacity: .75;
+}
+
+
+.card-wrapper {
+    padding: .5rem;
+}
+
+
+:host ::ng-deep .p-carousel-content {
+    gap: .5rem;
+}
+
+:host ::ng-deep .p-carousel-prev-button,
+:host ::ng-deep .p-carousel-next-button {
+    color: var(--p-primary-color);
+}
+
+
 @media (max-width: 768px) {
+
     .hero-gallery {
         width: 100%;
-        z-index: 1;
     }
 
     :host ::ng-deep .p-galleria-indicator button {
         width: 1.2rem;
-        height: 0.2rem;
+        height: .2rem;
+    }
+
+    .category-section {
+        padding-inline: 1rem;
     }
 }

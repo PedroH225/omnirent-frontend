@@ -12,15 +12,17 @@ import { SelectOption } from '../../../../shared/models/select-option';
 import { ItemCardModel } from '../../../../shared/models/item-card-model';
 import { ItemCardComponent } from "@shared/components/item-card/item-card.component";
 import { CarouselModule } from 'primeng/carousel';
+import { TimeLineComponent } from "../time-line/time-line.component";
 @Component({
     selector: 'app-home',
     standalone: true,
     imports: [
-        CatalogBarComponent,
-        GalleriaModule,
-        ItemCardComponent,
-        CarouselModule
-    ],
+    CatalogBarComponent,
+    GalleriaModule,
+    ItemCardComponent,
+    CarouselModule,
+    TimeLineComponent
+],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
 })

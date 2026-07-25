@@ -1,8 +1,9 @@
 :host ::ng-deep .p-toolbar {
     border: none;
     border-radius: 0;
+    background-color: var(--p-surface-100);
     padding-inline: clamp(1.5rem, 6vw, 6rem);
-    border-bottom: 1px solid #d1d5db;
+    border-bottom: 1px solid var(--p-surface-200);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
@@ -37,7 +38,7 @@
 
 :host ::ng-deep .login-button {
     padding-inline: 1.5rem;
-    background-color: #2563EB;
+    background-color: var(--p-primary-color);
 }
 
 @media (max-width: 768px) {

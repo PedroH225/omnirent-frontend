@@ -1,8 +1,11 @@
 @import "primeicons/primeicons.css";
 .footer {
-    background: var(--p-surface-800);
-    color: var(--p-surface-0);
-    border-top: 3px solid var(--p-primary-color);
+        border: none;
+    border-radius: 0;
+    background: var(--p-surface-200);
+    color: var(--p-text-muted-color);
+    border-top: 2px solid var(--p-surface-300);
+    
     padding: 2.5rem clamp(1.5rem, 6vw, 6rem);
 }
 

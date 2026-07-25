@@ -24,6 +24,52 @@ const OmniRentTheme = definePreset(Lara, {
             800: '#1b4892',
             900: '#1a3d77',
             950: '#11284f'
+        },
+
+        colorScheme: {
+            light: {
+                surface: {
+                    0: '#ffffff',
+                    50: '#f8fafc',
+                    100: '#f1f5f9',
+                    200: '#e2e8f0',
+                    300: '#cbd5e1',
+                    400: '#94a3b8',
+                    500: '#64748b',
+                    600: '#475569',
+                    700: '#334155',
+                    800: '#1e293b',
+                    900: '#0f172a',
+                    950: '#020617'
+                },
+
+                text: {
+                    color: '#1e293b',
+                    mutedColor: '#64748b'
+                }
+            },
+
+            dark: {
+                surface: {
+                    0: '#0f172a',
+                    50: '#111827',
+                    100: '#1e293b',
+                    200: '#334155',
+                    300: '#475569',
+                    400: '#64748b',
+                    500: '#94a3b8',
+                    600: '#cbd5e1',
+                    700: '#e2e8f0',
+                    800: '#f1f5f9',
+                    900: '#f8fafc',
+                    950: '#ffffff'
+                },
+
+                text: {
+                    color: '#f8fafc',
+                    mutedColor: '#94a3b8'
+                }
+            }
         }
     }
 });
@@ -36,7 +82,7 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: OmniRentTheme,
         options: {
-          darkModeSelector: false
+          darkModeSelector: true
         }
       }
     }),

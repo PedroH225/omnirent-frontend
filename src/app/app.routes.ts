@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { MainLayoutComponent } from '@layout/main-layout/main-layout.component';
 import { authGuard } from '@core/auth/auth.guard';
 import { LoginComponent } from '@features/auth/pages/login/login.component';
-import { HomeComponent } from '@features/home/pages/home/home.component';
+import { HomeComponent } from '@features/home/home-page/home.component';
 import { MyItemsComponent } from '@features/items/pages/my-items/my-items.component/my-items.component';
 
 export const routes: Routes = [

@@ -5,7 +5,7 @@ import { LoginComponent } from '@features/auth/pages/login/login.component';
 import { HomeComponent } from '@features/home/home-page/home.component';
 import { MyItemsComponent } from '@features/items/pages/my-items/my-items.component/my-items.component';
 import { DashboardComponent } from '@features/user/pages/dashboard/dashboard.component';
-import { UserLayoutComponent } from '@features/user/pages/user-layout/user-layout.component';
+import { UserLayoutComponent } from '@features/user/layouts/user-layout/user-layout.component';
 
 export const routes: Routes = [
     {

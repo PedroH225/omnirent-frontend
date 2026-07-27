@@ -22,7 +22,7 @@ export class UserSidebarComponent {
         {
           label: 'My Listings',
           icon: 'pi pi-list',
-          routerLink: '/account/listings'
+          routerLink: '/account/my-items'
         },
         {
           label: 'Create Listing',

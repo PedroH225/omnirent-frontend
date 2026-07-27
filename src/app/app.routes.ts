@@ -4,6 +4,7 @@ import { authGuard } from '@core/auth/auth.guard';
 import { LoginComponent } from '@features/auth/pages/login/login.component';
 import { HomeComponent } from '@features/home/home-page/home.component';
 import { MyItemsComponent } from '@features/items/pages/my-items/my-items.component/my-items.component';
+import { DashboardComponent } from '@features/user/pages/dashboard/dashboard.component';
 
 export const routes: Routes = [
     {
@@ -13,6 +14,11 @@ export const routes: Routes = [
             {
                 path: '',
                 component: HomeComponent
+            },
+            {
+                path: 'dashboard',
+                canActivate: [authGuard],
+                component: DashboardComponent
             },
             {
                 path: 'my-items',

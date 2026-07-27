@@ -1,0 +1,103 @@
+.hero-gallery {
+    width: min(100%, 1600px);
+    margin: 0 auto;
+}
+
+:host ::ng-deep .p-galleria {
+    width: 100%;
+}
+
+.hero-image {
+    width: 100%;
+    height: clamp(220px, 45vw, 525px);
+    object-fit: cover;
+    display: block;
+}
+
+:host ::ng-deep .p-galleria-indicators {
+    background: transparent;
+    bottom: 0.75rem;
+}
+
+:host ::ng-deep .p-galleria-indicator button {
+    width: 2rem;
+    height: 0.25rem;
+    border-radius: 999px;
+}
+
+
+.category-section {
+    max-width: 1750px;
+    margin: 3rem auto;
+    padding-inline: clamp(1rem, 6vw, 6rem);
+}
+
+
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 1.25rem;
+}
+
+.section-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--p-primary-color);
+}
+
+.section-header p {
+    margin-top: .35rem;
+    color: var(--p-text-muted-color);
+    font-size: 1.15rem;
+}
+
+.section-header a {
+    flex-shrink: 0;
+    white-space: nowrap;
+
+    color: var(--p-primary-color);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: opacity .2s ease;
+}
+
+.section-header a:hover {
+    opacity: .75;
+}
+
+
+.card-wrapper {
+    padding: .5rem;
+    width: 100%;
+    
+    box-sizing: border-box;
+}
+
+:host ::ng-deep .p-carousel {
+    width: 100%;
+}
+
+:host ::ng-deep .p-carousel-prev-button,
+:host ::ng-deep .p-carousel-next-button {
+    color: var(--p-primary-color);
+}
+
+
+@media (max-width: 768px) {
+
+    .hero-gallery {
+        width: 100%;
+    }
+
+    :host ::ng-deep .p-galleria-indicator button {
+        width: 1.2rem;
+        height: .2rem;
+    }
+
+    .category-section {
+        padding-inline: 1rem;
+    }
+}

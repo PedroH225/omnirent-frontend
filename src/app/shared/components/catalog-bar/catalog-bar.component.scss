@@ -1,0 +1,47 @@
+.catalog-bar {
+    padding: 1rem clamp(1rem, 6vw, 6rem);
+}
+
+.catalog-filters {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    width: min(100%, 900px);
+    margin: 0 auto;
+}
+
+.catalog-filters ::ng-deep .p-select {
+    flex: 1;
+    min-width: 160px;
+    max-width: 220px;
+}
+
+:host ::ng-deep .clear-button {
+    border: 1px solid var(--p-select-border-color);
+    background: transparent;
+    color: var(--p-text-color);
+}
+
+:host ::ng-deep .clear-button:hover {
+    background: var(--p-surface-100);
+}
+
+@media (max-width: 768px) {
+    .catalog-bar {
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .catalog-filters {
+        width: max-content;
+        flex-wrap: nowrap;
+    }
+
+    .catalog-filters ::ng-deep .p-select {
+        flex: 0 0 170px;
+    }
+}

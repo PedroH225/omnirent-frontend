@@ -1,0 +1,32 @@
+<section class="how-it-works">
+
+    <div class="section-header how-header">
+        <div>
+            <h2>How it works</h2>
+            <p>Find the equipment you need, choose your dates, and start your rental.</p>
+        </div>
+    </div>
+
+    <div class="timeline-container">
+        <p-timeline
+            [value]="events"
+            [layout]="isMobile ? 'vertical' : 'horizontal'"
+            [align]="isMobile ? 'left' : 'top'">
+
+            <ng-template #marker let-event>
+                <span class="timeline-marker">
+                    <i [class]="event.icon"></i>
+                </span>
+            </ng-template>
+
+            <ng-template #content let-event>
+                <div class="timeline-content">
+                    <h3>{{ event.title }}</h3>
+                    <p>{{ event.description }}</p>
+                </div>
+            </ng-template>
+
+        </p-timeline>
+    </div>
+
+</section>

@@ -1,0 +1,23 @@
+<p-toolbar>
+    <ng-template #start>
+        <div class="logo-container">
+            <img src="assets/omni-logo-full.png" alt="OmniRent" class="logo logo-full" />
+
+            <img src="assets/omni-logo.png" alt="OmniRent" class="logo logo-small" />
+        </div>
+    </ng-template>
+
+    <ng-template #center>
+        <div class="search-container">
+            <p-iconfield iconPosition="left">
+                <p-inputicon styleClass="pi pi-search" />
+                <input type="text" pInputText placeholder="Search..." />
+            </p-iconfield>
+        </div>
+    </ng-template>
+
+    <ng-template #end>
+        <p-button styleClass="login-button" label="Login" icon="pi pi-user" severity="info" routerLink="/login"
+            rounded />
+    </ng-template>
+</p-toolbar>

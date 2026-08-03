@@ -82,7 +82,7 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: OmniRentTheme,
         options: {
-          darkModeSelector: true
+          darkModeSelector: false
         }
       }
     }),

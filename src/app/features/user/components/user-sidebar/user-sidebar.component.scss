@@ -1,0 +1,55 @@
+:host {
+    display: block;
+    width: 100%;
+    max-width: 18rem;
+}
+
+:host ::ng-deep .p-panelmenu {
+    border: 1px solid var(--p-surface-200);
+    border-radius: 1rem;
+    overflow: hidden;
+    background: var(--p-surface-0);
+}
+
+:host ::ng-deep .p-panelmenu-header-link,
+:host ::ng-deep .p-panelmenu-item-link {
+    padding: .9rem 1rem;
+    gap: .75rem;
+
+    color: var(--p-text-color);
+
+    transition:
+        background-color .2s ease,
+        color .2s ease;
+}
+
+:host ::ng-deep .p-panelmenu-header-link:hover,
+:host ::ng-deep .p-panelmenu-item-link:hover {
+    background: var(--p-primary-50);
+    color: var(--p-primary-600);
+}
+
+:host ::ng-deep .p-panelmenu-item-link.p-focus,
+:host ::ng-deep .p-panelmenu-header-link.p-focus {
+    box-shadow: none;
+}
+
+:host ::ng-deep .p-panelmenu-icon,
+:host ::ng-deep .p-menuitem-icon {
+    color: var(--p-primary-500);
+}
+
+:host ::ng-deep .p-panelmenu-content {
+    border: none;
+    background: var(--p-surface-0);
+}
+
+:host ::ng-deep .p-panelmenu-item-link {
+    padding-left: 2.5rem;
+}
+
+.sidebar {
+    position: sticky;
+    top: 1rem;
+    align-self: start;
+}

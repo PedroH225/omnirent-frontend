@@ -41,6 +41,11 @@
     background-color: var(--p-primary-color);
 }
 
+
+:host ::ng-deep .user-menu .p-button-label {
+    display: inline;
+}
+
 @media (max-width: 768px) {
     :host ::ng-deep .p-toolbar {
         padding: 0.75rem 1rem;
@@ -54,5 +59,9 @@
         display: block;
     }
 
-    
+    :host ::ng-deep .user-menu .p-button-label {
+        display: none;
+    }
+
+
 }

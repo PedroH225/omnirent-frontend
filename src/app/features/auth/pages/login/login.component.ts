@@ -53,7 +53,7 @@ export class LoginComponent {
       (response) => {
         const token: TokenResponse = response as TokenResponse;
         localStorage.setItem("token", token.token);
-        this.router.navigate(['/my-items']);
+        this.router.navigate(['/account']);
 
       }, (error: HttpErrorResponse) => {
         const apiError = error.error as ApiException;

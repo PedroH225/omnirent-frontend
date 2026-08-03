@@ -32,7 +32,11 @@ export class AuthService {
   logout(): Observable<void> {
     return this.http.patch<void>(`${this.apiUrl}/auth/logout`, null)
       .pipe(
-        tap(() => localStorage.removeItem("token"))
+        tap(() => {
+          localStorage.removeItem("token");
+          this.userService.clearCurrentUser();
+        }
+        )
       );
   }
 

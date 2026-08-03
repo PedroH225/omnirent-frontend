@@ -17,7 +17,14 @@
     </ng-template>
 
     <ng-template #end>
+
+        @if (currentUser(); as user) {
+        <p-splitbutton styleClass="user-menu" [label]="user.username" icon="pi pi-user" [model]="items" rounded />
+        }
+        @else {
         <p-button styleClass="login-button" label="Login" icon="pi pi-user" severity="info" routerLink="/login"
             rounded />
+
+        }
     </ng-template>
 </p-toolbar>

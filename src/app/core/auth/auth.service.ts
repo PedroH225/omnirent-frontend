@@ -5,6 +5,7 @@ import { environment } from '../../../environments/environment';
 import { Observable, tap } from 'rxjs';
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from '../../features/auth/models/jwt.payload';
+import { UserService } from '@core/user/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +14,18 @@ export class AuthService {
 
   private readonly apiUrl: string = environment.apiUrl;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private userService: UserService) { }
 
   login(authModel: AuthModel): Observable<TokenResponse> {
     return this.http.post<TokenResponse>(
       `${this.apiUrl}/auth/login`, authModel
     )
       .pipe(
-        tap(response => localStorage.setItem("token", response.token))
+        tap(response => {
+          localStorage.setItem("token", response.token);
+          this.userService.loadLoggedUserData();
+        }
+        )
       );
   }
 

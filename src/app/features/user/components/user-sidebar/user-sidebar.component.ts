@@ -36,12 +36,12 @@ export class UserSidebarComponent {
       icon: 'pi pi-calendar',
       items: [
         {
-          label: 'As Renter',
+          label: 'Renting',
           icon: 'pi pi-shopping-cart',
           routerLink: '/account/rentals'
         },
         {
-          label: 'As Owner',
+          label: 'Renting Out',
           icon: 'pi pi-briefcase',
           routerLink: '/account/rentals/owner'
         }

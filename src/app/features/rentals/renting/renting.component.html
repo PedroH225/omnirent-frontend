@@ -1,0 +1,58 @@
+<p-dataview [value]="rentals" [layout]="layout">
+
+    <ng-template #header>
+
+        <div class="flex justify-between items-center">
+
+            <h2 class="text-xl font-semibold">
+                My Rentals
+            </h2>
+
+
+            <p-selectbutton [(ngModel)]="layout" [options]="options" optionValue="value">
+
+                <ng-template #item let-item>
+                    <i class="pi" [ngClass]="{
+                        'pi-th-large': item.value === 'grid',
+                        'pi-list': item.value === 'list'
+                       }">
+                    </i>
+                </ng-template>
+
+            </p-selectbutton>
+
+        </div>
+
+    </ng-template>
+
+    <ng-template #grid let-items>
+
+        <div class="rentals-grid">
+
+            <div *ngFor="let rental of items">
+
+                <app-rental-card [rental]="rental">
+                </app-rental-card>
+
+            </div>
+
+        </div>
+
+    </ng-template>
+
+
+    <ng-template #list let-items>
+
+        <div class="list-container">
+
+                   <app-rental-list-item
+                    *ngFor="let rental of items"
+                    [rental]="rental">
+                </app-rental-list-item>
+
+        </div>
+
+    </ng-template>
+
+
+</p-dataview>

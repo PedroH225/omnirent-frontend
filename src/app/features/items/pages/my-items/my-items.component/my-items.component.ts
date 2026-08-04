@@ -49,11 +49,12 @@ export class MyItemsComponent {
         this.items = response.content.map(item => ({
           ...item,
           thumbnailKey: item.thumbnailKey
-            ? `${this.storageUrl}/items/${item.thumbnailKey}`
+            ? `${this.storageUrl}/${item.thumbnailKey}`
             : null
         }));
 
         console.log(response);
+                console.log(this.items);
       },
       error: (error) => {
         console.log(error);

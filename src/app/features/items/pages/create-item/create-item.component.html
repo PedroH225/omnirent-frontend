@@ -1,17 +1,26 @@
-<p-tabs value="details">
+<p-tabs value="details" (valueChange)="onTabChange($event)">
 
     <p-tablist>
 
         <p-tab value="details">
             Item Details
+            @if (getTabHasError('details')) {
+            <i class="pi pi-exclamation-circle tab-error-icon"></i>
+            }
         </p-tab>
 
         <p-tab value="images">
             Images
+            @if (getTabHasError('images')) {
+            <i class="pi pi-exclamation-circle tab-error-icon"></i>
+            }
         </p-tab>
 
         <p-tab value="address">
             Pickup Address
+            @if (getTabHasError('address')) {
+            <i class="pi pi-exclamation-circle tab-error-icon"></i>
+            }
         </p-tab>
 
     </p-tablist>
@@ -25,10 +34,11 @@
                 <div class="field">
                     <p-floatlabel variant="in">
 
-                        <input id="name" pInputText [(ngModel)]="form.name" name="name">
+                        <input id="name" pInputText [(ngModel)]="form.name" name="name"
+                            (ngModelChange)="onFieldChange('name')">
 
                         <label for="name">
-                            Name
+                            Title
                         </label>
 
                     </p-floatlabel>
@@ -41,7 +51,8 @@
                 <div class="field">
                     <p-floatlabel variant="in">
 
-                        <input id="brand" pInputText [(ngModel)]="form.brand" name="brand">
+                        <input id="brand" pInputText [(ngModel)]="form.brand" name="brand"
+                            (ngModelChange)="onFieldChange('brand')">
 
                         <label for="brand">
                             Brand
@@ -58,7 +69,8 @@
 
                     <p-floatlabel variant="in">
 
-                        <input id="model" pInputText [(ngModel)]="form.model" name="model">
+                        <input id="model" pInputText [(ngModel)]="form.model" name="model"
+                            (ngModelChange)="onFieldChange('model')">
 
                         <label for="model">
                             Model
@@ -76,7 +88,8 @@
                     <p-floatlabel variant="in">
 
                         <p-select inputId="condition" [(ngModel)]="form.itemCondition" name="itemCondition"
-                            [options]="conditions" optionLabel="label" optionValue="value">
+                            [options]="conditions" optionLabel="label" optionValue="value"
+                            (ngModelChange)="onFieldChange('itemCondition')">
                         </p-select>
 
                         <label for="condition">
@@ -110,8 +123,9 @@
 
                     <p-floatlabel variant="in">
 
-                        <p-select inputId="subcategory" [options]="subCategories" [(ngModel)]="form.subCategoryId"
-                            optionLabel="label" optionValue="value" [disabled]="!selectedCategory" appendTo="body">
+                        <p-select inputId="subCategoryId" [options]="subCategories" [(ngModel)]="form.subCategoryId"
+                            (ngModelChange)="onFieldChange('subCategoryId')" optionLabel="label" optionValue="value"
+                            [disabled]="!selectedCategory" appendTo="body">
                         </p-select>
 
                         <label for="subcategory">
@@ -128,7 +142,7 @@
                     <p-floatlabel variant="in">
 
                         <p-inputnumber inputId="basePrice" [(ngModel)]="form.basePrice" name="basePrice" mode="currency"
-                            currency="BRL" locale="pt-BR">
+                            (ngModelChange)="onFieldChange('basePrice')" currency="BRL" locale="pt-BR">
                         </p-inputnumber>
 
                         <label for="basePrice">
@@ -186,7 +200,7 @@
                     <p-floatlabel variant="in">
 
                         <textarea id="description" pTextarea rows="6" maxlength="1000" [(ngModel)]="form.description"
-                            name="description"></textarea>
+                            (ngModelChange)="onFieldChange('description')" name="description"></textarea>
 
                         <label for="description">
                             Description
@@ -227,7 +241,7 @@
 
                         <app-address-card *ngFor="let address of addresses" [address]="address" [showActions]="false"
                             [selectable]="true" [selected]="form.addressId === address.id"
-                            (select)="selectAddress($event)">
+                            (ngModelChange)="onFieldChange('addressId')" (select)="selectAddress($event)">
                         </app-address-card>
 
                     </div>

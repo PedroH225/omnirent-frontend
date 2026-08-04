@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, SimpleChange } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { ItemService } from '@core/item/item.service';
@@ -26,6 +26,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { CommonModule } from '@angular/common';
 import { AddressCardComponent } from '@features/address/components/address-card/address-card.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ApiValidationException } from '@shared/models/api-field-exception';
 
 @Component({
   selector: 'app-create-item',
@@ -55,6 +57,8 @@ export class CreateItemComponent {
   selectedSubCategory?: SubCategoryResponse;
   selectedCategory?: CategoryResponse;
 
+  visitedTabs = new Set<string>();
+
   constructor(
     private itemService: ItemService,
     private addressService: AddressService,
@@ -83,16 +87,33 @@ export class CreateItemComponent {
         this.router.navigate(['/account/my-items']);
       },
 
-      error: (error) => {
-        this.backendErrors = error.error;
-      }
+      error: (error: HttpErrorResponse) => {
 
+        const apiException: ApiValidationException = error.error as ApiValidationException;
+        if (apiException?.errorCode == "VALIDATION_ERROR") {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Validation failed',
+            detail: 'Please review the highlighted fields and try again.'
+          });
+
+          this.backendErrors = apiException.fields;
+        }
+        console.error(error);
+      }
     });
 
   }
 
-  onFieldChange(field: string): void {
 
+  getFieldError(field: string): string | undefined {
+    return this.backendErrors.find(
+      error => error.field === field
+    )?.message;
+  }
+
+  onFieldChange(field: string): void {
+    
     this.backendErrors = this.backendErrors.filter(
       error => error.field !== field
     );
@@ -142,12 +163,6 @@ export class CreateItemComponent {
       })) ?? [];
   }
 
-  getFieldError(field: string): string | undefined {
-    return this.backendErrors.find(
-      error => error.field === field
-    )?.message;
-  }
-
   get hourlyPrice(): number {
     return (this.form.basePrice ?? 0) * 0.2;
   }
@@ -162,6 +177,39 @@ export class CreateItemComponent {
 
   selectAddress(address: AddressModel): void {
     this.form.addressId = address.id;
+  }
+
+  getTabHasError(tab: string): boolean {
+
+    if (this.visitedTabs.has(tab)) {
+      return false;
+    }
+
+    const fieldsByTab: Record<string, string[]> = {
+      details: [
+        'name',
+        'brand',
+        'model',
+        'description',
+        'itemCondition',
+        'subCategoryId',
+        'basePrice'
+      ],
+      images: [
+        'images'
+      ],
+      address: [
+        'addressId'
+      ]
+    };
+
+    return this.backendErrors.some(error =>
+      fieldsByTab[tab]?.includes(error.field)
+    );
+  }
+
+  onTabChange(tab: string | number) {
+    this.visitedTabs.add(String(tab));
   }
 
   private createEmptyItem(): ItemRequestModel {

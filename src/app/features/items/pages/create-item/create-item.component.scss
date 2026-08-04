@@ -52,6 +52,11 @@
     border-top: 1px solid var(--p-surface-200);
 }
 
+.tab-error-icon {
+    color: var(--p-red-500);
+    margin-left: .5rem;
+}
+
 :host ::ng-deep {
 
     .p-tabs {

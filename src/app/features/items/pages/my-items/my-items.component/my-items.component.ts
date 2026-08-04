@@ -2,17 +2,18 @@ import { Component } from '@angular/core';
 import { ItemService } from '@core/item/item.service';
 import { ItemDisplay } from '@core/item/model/item-display-model';
 import { ActivatedRoute } from '@angular/router';
-import { PageResponse } from '../../../../../shared/models/page.response.model';
 import { environment } from '../../../../../../environments/environment';
 import { FormsModule } from '@angular/forms';
 import { DataViewModule } from 'primeng/dataview';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import { Button } from 'primeng/button';
 import { CommonModule } from '@angular/common';
+import { ItemManagementListComponent } from "@features/items/components/item-management-list/item-management-list.component";
+import { ItemManagementCardComponent } from "@features/items/components/item-management-card/item-management-card.component";
+import { PageResponse } from '@shared/models/page.response.model';
 
 @Component({
   selector: 'app-my-items.component',
-  imports: [CommonModule, Button, SelectButtonModule, DataViewModule, FormsModule],
+  imports: [CommonModule, SelectButtonModule, DataViewModule, FormsModule, ItemManagementListComponent, ItemManagementCardComponent],
   templateUrl: './my-items.component.html',
   styleUrl: './my-items.component.scss'
 })

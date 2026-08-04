@@ -1,0 +1,89 @@
+<div class="address-form">
+
+    <div class="form-grid">
+
+        <div class="field">
+            <label>Street</label>
+            <input 
+                pInputText
+                [(ngModel)]="form.street">
+        </div>
+
+
+        <div class="field">
+            <label>Number</label>
+            <input 
+                pInputText
+                [(ngModel)]="form.number">
+        </div>
+
+
+        <div class="field">
+            <label>Complement</label>
+            <input 
+                pInputText
+                [(ngModel)]="form.complement">
+        </div>
+
+
+        <div class="field">
+            <label>District</label>
+            <input 
+                pInputText
+                [(ngModel)]="form.district">
+        </div>
+
+
+        <div class="field">
+            <label>City</label>
+            <input 
+                pInputText
+                [(ngModel)]="form.city">
+        </div>
+
+
+        <div class="field">
+            <label>State</label>
+            <input 
+                pInputText
+                [(ngModel)]="form.state">
+        </div>
+
+
+        <div class="field">
+            <label>Country</label>
+            <input 
+                pInputText
+                [(ngModel)]="form.country">
+        </div>
+
+
+        <div class="field">
+            <label>ZIP Code</label>
+            <input 
+                pInputText
+                [(ngModel)]="form.zipCode">
+        </div>
+
+    </div>
+
+
+    <div class="actions">
+
+        <p-button
+            label="Cancel"
+            severity="secondary"
+            [outlined]="true"
+            (click)="onCancel()">
+        </p-button>
+
+
+        <p-button
+            label="Save"
+            icon="pi pi-check"
+            (click)="onSave()">
+        </p-button>
+
+    </div>
+
+</div>

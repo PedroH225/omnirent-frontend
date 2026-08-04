@@ -10,22 +10,24 @@
         </p>
     </div>
 
-    <p-button
-        label="Add Address"
-        icon="pi pi-plus">
+    <p-button label="Add Address" icon="pi pi-plus" (click)="openCreate()">
     </p-button>
 
 </div>
 
 <p-confirmdialog></p-confirmdialog>
 
+<p-dialog [(visible)]="displayForm" header="Address" [modal]="true">
+
+    <app-address-form [address]="selectedAddress" (save)="saveAddress($event)" (cancel)="displayForm = false">
+    </app-address-form>
+
+</p-dialog>
+
 <div class="addresses-grid">
 
-    <app-address-card
-        *ngFor="let address of addresses"
-        [address]="address"
-        (delete)="deleteAddress($event)">
-    </app-address-card>
-
+    <app-address-card *ngFor="let address of addresses" [address]="address" 
+    (delete)="deleteAddress($event)"
+    (edit)="openEdit($event)"></app-address-card>
 
 </div>

@@ -6,10 +6,13 @@ import { AddressCardComponent } from "../components/address-card/address-card.co
 import { CommonModule } from '@angular/common';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { Dialog } from "primeng/dialog";
+import { AddressFormComponent } from "../components/address-form/address-form.component";
+import { AddressRequestModel } from '../model/address-request-model';
 
 @Component({
   selector: 'app-user-address',
-  imports: [CommonModule, Button, ConfirmDialogModule, AddressCardComponent],
+  imports: [CommonModule, Button, ConfirmDialogModule, AddressCardComponent, Dialog, AddressFormComponent],
   providers: [
     ConfirmationService
   ],
@@ -17,6 +20,9 @@ import { ConfirmationService } from 'primeng/api';
   styleUrl: './user-address.component.scss'
 })
 export class UserAddressComponent {
+  displayForm: boolean = false;
+
+  selectedAddress: AddressModel | undefined;
 
   addresses: AddressModel[] = [];
 
@@ -24,6 +30,16 @@ export class UserAddressComponent {
 
   ngOnInit(): void {
     this.loadUserAddresses();
+  }
+
+  openEdit($event: AddressModel) {
+    this.selectedAddress = $event;
+    this.displayForm = true;
+  }
+
+  openCreate() {
+    this.selectedAddress = undefined;
+    this.displayForm = true;
   }
 
   loadUserAddresses(): void {
@@ -36,6 +52,43 @@ export class UserAddressComponent {
       }
     });
   }
+
+saveAddress(address: AddressRequestModel) {
+
+  if (address.id) {
+
+    this.addressService.updateAddress(address).subscribe({
+      next: (updatedAddress) => {
+        const index = this.addresses.findIndex(
+          item => item.id === updatedAddress.id
+        );
+
+        if (index !== -1) {
+          this.addresses[index] = updatedAddress;
+        }
+
+        this.displayForm = false;
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+
+    return;
+  }
+
+
+  this.addressService.addAddress(address).subscribe({
+    next: (newAddress) => {
+      this.addresses.push(newAddress);
+      this.displayForm = false;
+    },
+    error: (error) => {
+      console.error(error);
+    }
+  });
+
+}
 
   deleteAddress(addressId: string): void {
     this.addressService.deleteAddress(addressId).subscribe({

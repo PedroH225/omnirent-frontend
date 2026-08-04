@@ -17,6 +17,9 @@ export class AddressCardComponent {
   @Output()
   delete = new EventEmitter<string>();
 
+  @Output()
+  edit = new EventEmitter<AddressModel>();
+
   constructor(private confirmationService: ConfirmationService) { }
 
   onDelete(): void {
@@ -32,5 +35,9 @@ export class AddressCardComponent {
         this.delete.emit(this.address.id);
       }
     });
+  }
+
+  onEdit(): void {
+    this.edit.emit(this.address);
   }
 }

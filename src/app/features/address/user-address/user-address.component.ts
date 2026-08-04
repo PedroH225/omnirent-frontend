@@ -5,16 +5,18 @@ import { Button } from "primeng/button";
 import { AddressCardComponent } from "../components/address-card/address-card.component";
 import { CommonModule } from '@angular/common';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Dialog } from "primeng/dialog";
 import { AddressFormComponent } from "../components/address-form/address-form.component";
 import { AddressRequestModel } from '../model/address-request-model';
+import { ToastModule } from 'primeng/toast';
 
 @Component({
   selector: 'app-user-address',
-  imports: [CommonModule, Button, ConfirmDialogModule, AddressCardComponent, Dialog, AddressFormComponent],
+  imports: [CommonModule, Button, ConfirmDialogModule, AddressCardComponent, Dialog, AddressFormComponent, ToastModule],
   providers: [
-    ConfirmationService
+    ConfirmationService,
+    MessageService
   ],
   templateUrl: './user-address.component.html',
   styleUrl: './user-address.component.scss'
@@ -26,7 +28,7 @@ export class UserAddressComponent {
 
   addresses: AddressModel[] = [];
 
-  constructor(private addressService: AddressService) { }
+  constructor(private addressService: AddressService, private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.loadUserAddresses();
@@ -53,10 +55,45 @@ export class UserAddressComponent {
     });
   }
 
-saveAddress(address: AddressRequestModel) {
+  saveAddress(address: AddressRequestModel) {
+    const original = this.addresses.find(
+      item => item.id === address.id
+    );
 
-  if (address.id) {
+    if (original && this.isSameAddress(original, address)) {
+      this.displayForm = false;
+      return;
+    }
 
+    if (address.id) {
+      this.updateAddress(address);
+
+      return;
+    }
+
+    this.addAddress(address);
+  }
+
+  addAddress(address: AddressRequestModel) {
+
+    this.addressService.addAddress(address).subscribe({
+      next: (newAddress) => {
+        this.addresses.push(newAddress);
+        this.displayForm = false;
+
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Address added successfully'
+        });
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    });
+  }
+
+  updateAddress(address: AddressRequestModel) {
     this.addressService.updateAddress(address).subscribe({
       next: (updatedAddress) => {
         const index = this.addresses.findIndex(
@@ -68,27 +105,18 @@ saveAddress(address: AddressRequestModel) {
         }
 
         this.displayForm = false;
+
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Address updated successfully'
+        });
       },
       error: (error) => {
         console.error(error);
       }
     });
-
-    return;
   }
-
-
-  this.addressService.addAddress(address).subscribe({
-    next: (newAddress) => {
-      this.addresses.push(newAddress);
-      this.displayForm = false;
-    },
-    error: (error) => {
-      console.error(error);
-    }
-  });
-
-}
 
   deleteAddress(addressId: string): void {
     this.addressService.deleteAddress(addressId).subscribe({
@@ -102,5 +130,18 @@ saveAddress(address: AddressRequestModel) {
       }
     });
 
+  }
+
+  isSameAddress(a: AddressModel, b: AddressRequestModel): boolean {
+    return (
+      a.street === b.street &&
+      a.number === b.number &&
+      a.complement === b.complement &&
+      a.district === b.district &&
+      a.city === b.city &&
+      a.state === b.state &&
+      a.country === b.country &&
+      a.zipCode === b.zipCode
+    );
   }
 }

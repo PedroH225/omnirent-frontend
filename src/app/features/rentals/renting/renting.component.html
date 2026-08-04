@@ -1,4 +1,5 @@
-<p-dataview [value]="rentals" [layout]="layout">
+<p-dataview [value]="rentals" [layout]="layout" [rows]="size" [first]="page * size" [totalRecords]="totalElements"
+    [paginator]="true" [lazy]="true" (onPage)="onPageChange($event)">
 
     <ng-template #header>
 
@@ -45,10 +46,8 @@
 
         <div class="list-container">
 
-                   <app-rental-list-item
-                    *ngFor="let rental of items"
-                    [rental]="rental">
-                </app-rental-list-item>
+            <app-rental-list-item *ngFor="let rental of items" [rental]="rental">
+            </app-rental-list-item>
 
         </div>
 

@@ -1,0 +1,102 @@
+.list-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    padding: 1rem;
+
+    background: var(--p-surface-0);
+    border: 1px solid var(--p-surface-200);
+    border-radius: 1rem;
+}
+
+
+.list-image {
+    width: 140px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: .75rem;
+    background: var(--p-surface-100);
+    flex-shrink: 0;
+}
+
+
+.list-content {
+    flex: 1;
+    min-width: 0;
+
+    h3 {
+        margin: 0 0 .5rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+}
+
+
+.details {
+    display: flex;
+    gap: 1rem;
+    color: var(--p-text-muted-color);
+    font-size: .9rem;
+}
+
+
+.status {
+    font-weight: 500;
+
+    &.confirmed {
+        color: var(--p-green-600);
+    }
+
+    &.pending {
+        color: var(--p-yellow-600);
+    }
+
+    &.cancelled {
+        color: var(--p-red-600);
+    }
+}
+
+
+.dates {
+    margin-top: .5rem;
+    color: var(--p-text-muted-color);
+    font-size: .9rem;
+}
+
+
+.list-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: .75rem;
+}
+
+
+.price {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+
+@media (max-width: 768px) {
+
+    .list-item {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+
+    .list-image {
+        width: 100%;
+        height: 180px;
+    }
+
+
+    .list-actions {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+}

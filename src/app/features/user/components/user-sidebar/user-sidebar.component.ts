@@ -38,12 +38,12 @@ export class UserSidebarComponent {
         {
           label: 'Renting',
           icon: 'pi pi-shopping-cart',
-          routerLink: '/account/rentals'
+          routerLink: '/account/renting'
         },
         {
           label: 'Renting Out',
           icon: 'pi pi-briefcase',
-          routerLink: '/account/rentals/owner'
+          routerLink: '/account/renting-out'
         }
       ]
     },

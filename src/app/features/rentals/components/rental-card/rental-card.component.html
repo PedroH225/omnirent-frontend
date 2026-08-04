@@ -1,0 +1,55 @@
+<div class="rental-card">
+
+    <div class="image-container">
+        <img [src]="rental.itemSnapshotDto.thumbnailKey || 'assets/placeholder-img.png'"
+            [alt]="rental.itemSnapshotDto.name">
+    </div>
+
+
+    <div class="content">
+
+        <h3>
+            {{ rental.itemSnapshotDto.name }}
+        </h3>
+
+
+        <div class="details">
+
+            <span class="period">
+                {{ rental.rentalPeriodLabel }}
+            </span>
+
+            <span class="status" [ngClass]="rental.rentalStatus.toLowerCase()">
+                {{ rental.rentalStatusLabel }}
+            </span>
+
+        </div>
+
+
+        @if (rental.startDate && rental.endDate) {
+        <div class="dates">
+            {{ rental.startDate | date:'dd/MM/yyyy' }}
+            -
+            {{ rental.endDate | date:'dd/MM/yyyy' }}
+        </div>
+        }
+
+
+        <div class="footer">
+
+            <span class="price">
+                R$ {{ rental.finalPrice | number:'1.2-2' }}
+            </span>
+
+            <p-button
+            label="Details"
+            icon="pi pi-info-circle"
+            [text]="true"
+            [routerLink]="['/rentals', rental.id]">
+        </p-button>
+
+        </div>
+
+    </div>
+
+</div>

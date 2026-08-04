@@ -1,0 +1,28 @@
+<div class="address-header">
+
+    <div>
+        <h2>
+            My Addresses
+        </h2>
+
+        <p>
+            Manage your saved addresses
+        </p>
+    </div>
+
+    <p-button
+        label="Add Address"
+        icon="pi pi-plus">
+    </p-button>
+
+</div>
+
+
+<div class="addresses-grid">
+
+    <app-address-card
+        *ngFor="let address of addresses"
+        [address]="address">
+    </app-address-card>
+
+</div>

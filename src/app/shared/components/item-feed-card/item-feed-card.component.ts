@@ -1,18 +1,18 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ItemCardModel } from '../../models/item-card-model';
+import { ItemFeedCardModel } from '../../models/item-card-model';
 import { Button } from "primeng/button";
 import { CurrencyPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-item-card',
+  selector: 'app-item-feed-card',
   imports: [Button, CurrencyPipe],
-  templateUrl: './item-card.component.html',
-  styleUrl: './item-card.component.scss'
+  templateUrl: './item-feed-card.component.html',
+  styleUrl: './item-feed-card.component.scss'
 })
-export class ItemCardComponent {
+export class ItemFeedCardComponent {
 
   @Input({ required: true })
-  item!: ItemCardModel;
+  item!: ItemFeedCardModel;
 
   @Output()
   view = new EventEmitter<string>();

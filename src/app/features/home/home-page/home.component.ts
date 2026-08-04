@@ -9,20 +9,20 @@ import { CatalogBarComponent } from '@shared/components/catalog-bar/catalog-bar.
 import { GalleriaModule } from 'primeng/galleria';
 import { environment } from '../../../../environments/environment';
 import { SelectOption } from '../../../shared/models/select-option';
-import { ItemCardModel } from '../../../shared/models/item-card-model';
-import { ItemCardComponent } from "@shared/components/item-card/item-card.component";
 import { CarouselModule } from 'primeng/carousel';
 import { TimeLineComponent } from "../time-line/time-line.component";
+import { ItemFeedCardModel } from '@shared/models/item-card-model';
+import { ItemFeedCardComponent } from "@shared/components/item-feed-card/item-feed-card.component";
 @Component({
     selector: 'app-home',
     standalone: true,
     imports: [
-    CatalogBarComponent,
-    GalleriaModule,
-    ItemCardComponent,
-    CarouselModule,
-    TimeLineComponent
-],
+        CatalogBarComponent,
+        GalleriaModule,
+        CarouselModule,
+        TimeLineComponent,
+        ItemFeedCardComponent
+    ],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
 })
@@ -32,32 +32,31 @@ export class HomeComponent {
 
     categories: SelectOption<CategoryResponse>[] = [];
 
-    audiovisualCards: ItemCardModel[] = [];
-    constructionCards: ItemCardModel[] = [];
-    eventsCards: ItemCardModel[] = [];
+    audiovisualCards: ItemFeedCardModel[] = [];
+    constructionCards: ItemFeedCardModel[] = [];
+    eventsCards: ItemFeedCardModel[] = [];
 
-responsiveOptions = [
-    {
-        breakpoint: '1200px',
-        numVisible: 3,
-        numScroll: 1
-    },
-    {
-        breakpoint: '992px',
-        numVisible: 2,
-        numScroll: 1
-    },
-    {
-        breakpoint: '768px',
-        numVisible: 1,
-        numScroll: 1
-    }
-];
+    responsiveOptions = [
+        {
+            breakpoint: '1200px',
+            numVisible: 3,
+            numScroll: 1
+        },
+        {
+            breakpoint: '992px',
+            numVisible: 2,
+            numScroll: 1
+        },
+        {
+            breakpoint: '768px',
+            numVisible: 1,
+            numScroll: 1
+        }
+    ];
 
     constructor(
         private categoryService: CategoryService,
         private itemService: ItemService,
-        private cdr: ChangeDetectorRef
     ) { }
 
     ngOnInit(): void {
@@ -114,7 +113,7 @@ responsiveOptions = [
         });
     }
 
-    mapItem(item: ItemFeed): ItemCardModel {
+    mapItem(item: ItemFeed): ItemFeedCardModel {
         return {
             id: item.id,
             name: item.name,

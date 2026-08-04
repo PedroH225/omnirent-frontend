@@ -5,7 +5,7 @@ import { DataViewModule, DataViewPageEvent } from 'primeng/dataview';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { RentalService } from '@core/rental/rental.service';
 
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RentalCardComponent } from '../components/rental-card/rental-card.component';
 import { RentalDisplayModel } from '../model/rental-display-model';
 import { environment } from '../../../../environments/environment';

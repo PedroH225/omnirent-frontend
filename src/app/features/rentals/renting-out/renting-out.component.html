@@ -1,4 +1,5 @@
-<p-dataview [value]="rentals" [layout]="layout">
+<p-dataview [value]="rentals" [layout]="layout" [rows]="size" [first]="page * size" [totalRecords]="totalElements"
+    [paginator]="true" [lazy]="true" (onPage)="onPageChange($event)">
 
     <ng-template #header>
 

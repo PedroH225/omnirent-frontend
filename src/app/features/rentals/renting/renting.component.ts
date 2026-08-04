@@ -9,7 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RentalCardComponent } from '../components/rental-card/rental-card.component';
 import { RentalDisplayModel } from '../model/rental-display-model';
 import { environment } from '../../../../environments/environment';
-import { PageResponse } from '../../../../shared/models/page.response.model';
+import { PageResponse } from '../../../shared/models/page.response.model';
 import { RentalListItemComponent } from "../components/rental-list-item/rental-list-item.component";
 
 @Component({

@@ -8,8 +8,8 @@ import { CatalogBarComponent } from '@shared/components/catalog-bar/catalog-bar.
 
 import { GalleriaModule } from 'primeng/galleria';
 import { environment } from '../../../../environments/environment';
-import { SelectOption } from '../../../../shared/models/select-option';
-import { ItemCardModel } from '../../../../shared/models/item-card-model';
+import { SelectOption } from '../../../shared/models/select-option';
+import { ItemCardModel } from '../../../shared/models/item-card-model';
 import { ItemCardComponent } from "@shared/components/item-card/item-card.component";
 import { CarouselModule } from 'primeng/carousel';
 import { TimeLineComponent } from "../time-line/time-line.component";

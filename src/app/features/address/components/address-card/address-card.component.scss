@@ -1,0 +1,59 @@
+.address-card {
+    background: var(--p-surface-0);
+    border: 1px solid var(--p-surface-200);
+    border-radius: 1rem;
+    padding: 1.25rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+
+    transition: box-shadow .2s ease;
+
+    &:hover {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, .08);
+    }
+}
+
+
+.address-main {
+
+    h3 {
+        margin: 0 0 .75rem;
+        font-size: 1.1rem;
+        font-weight: 600;
+    }
+
+    p {
+        margin: .25rem 0;
+        color: var(--p-text-muted-color);
+        font-size: .95rem;
+    }
+
+    .country {
+        margin-top: .75rem;
+        font-size: .85rem;
+    }
+
+}
+
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: .75rem;
+}
+
+
+@media (max-width: 768px) {
+
+    .actions {
+        justify-content: stretch;
+
+        p-button {
+            flex: 1;
+        }
+    }
+
+}

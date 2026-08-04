@@ -1,0 +1,37 @@
+<div class="address-header">
+
+    <div>
+        <h2>
+            My Addresses
+        </h2>
+
+        <p>
+            Manage your saved addresses
+        </p>
+    </div>
+
+    <p-button label="Add Address" icon="pi pi-plus" (click)="openCreate()">
+    </p-button>
+
+</div>
+
+<p-toast></p-toast>
+
+<p-confirmdialog></p-confirmdialog>
+<p-dialog [(visible)]="displayForm" header="Address" [modal]="true" (onHide)="onCancel()">
+
+    <app-address-form 
+    [address]="selectedAddress" [backendErrors]="backendErrors" 
+    (save)="saveAddress($event)" (cancel)="onCancel()"
+    (fieldChange)="clearBackendError($event)" >
+    </app-address-form>
+
+</p-dialog>
+
+<div class="addresses-grid">
+
+    <app-address-card *ngFor="let address of addresses" [address]="address" 
+    (delete)="deleteAddress($event)"
+    (edit)="openEdit($event)"></app-address-card>
+
+</div>

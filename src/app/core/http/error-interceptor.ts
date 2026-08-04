@@ -1,6 +1,6 @@
 import { HttpErrorResponse, HttpInterceptorFn } from "@angular/common/http";
 import { catchError, throwError } from "rxjs";
-import { ApiException } from "../../../shared/models/api-exception";
+import { ApiException } from "../../shared/models/api-exception";
 import { Router } from "@angular/router";
 import { inject } from "@angular/core";
 

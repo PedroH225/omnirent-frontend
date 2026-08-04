@@ -4,10 +4,15 @@ import { AddressModel } from '../model/address-model';
 import { Button } from "primeng/button";
 import { AddressCardComponent } from "../components/address-card/address-card.component";
 import { CommonModule } from '@angular/common';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-user-address',
-  imports: [CommonModule, Button, AddressCardComponent],
+  imports: [CommonModule, Button, ConfirmDialogModule, AddressCardComponent],
+  providers: [
+    ConfirmationService
+  ],
   templateUrl: './user-address.component.html',
   styleUrl: './user-address.component.scss'
 })
@@ -30,5 +35,19 @@ export class UserAddressComponent {
         console.error(error);
       }
     });
+  }
+
+  deleteAddress(addressId: string): void {
+    this.addressService.deleteAddress(addressId).subscribe({
+      next: () => {
+        this.addresses = this.addresses.filter(
+          address => address.id !== addressId
+        );
+      },
+      error: error => {
+        console.error(error);
+      }
+    });
+
   }
 }

@@ -17,12 +17,15 @@
 
 </div>
 
+<p-confirmdialog></p-confirmdialog>
 
 <div class="addresses-grid">
 
     <app-address-card
         *ngFor="let address of addresses"
-        [address]="address">
+        [address]="address"
+        (delete)="deleteAddress($event)">
     </app-address-card>
+
 
 </div>

@@ -6,7 +6,7 @@
         </h3>
 
         @if (address.complement) {
-            <p>{{ address.complement }}</p>
+        <p>{{ address.complement }}</p>
         }
 
         <p>{{ address.district }}</p>
@@ -23,8 +23,8 @@
     </div>
 
     <div class="actions">
-        <p-button label="Edit"/>
-        <p-button label="Delete" severity="danger"/>
+        <p-button label="Edit" />
+        <p-button label="Delete" severity="danger" (click)="onDelete()" />
     </div>
 
 </div>

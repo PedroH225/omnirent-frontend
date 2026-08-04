@@ -16,4 +16,8 @@ export class AddressService {
   getUserAddresses(): Observable<AddressModel[]> {
     return this.http.get<AddressModel[]>(`${this.apiUrl}/address/user`);
   }
+
+  deleteAddress(addressId: string): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/address/${addressId}`);
+  }
 }

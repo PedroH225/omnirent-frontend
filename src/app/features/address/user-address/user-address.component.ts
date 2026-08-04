@@ -10,6 +10,9 @@ import { Dialog } from "primeng/dialog";
 import { AddressFormComponent } from "../components/address-form/address-form.component";
 import { AddressRequestModel } from '../model/address-request-model';
 import { ToastModule } from 'primeng/toast';
+import { FieldError } from '@shared/models/field-error';
+import { HttpErrorResponse } from '@angular/common/http';
+import { ApiValidationException } from '@shared/models/api-field-exception';
 
 @Component({
   selector: 'app-user-address',
@@ -22,6 +25,7 @@ import { ToastModule } from 'primeng/toast';
   styleUrl: './user-address.component.scss'
 })
 export class UserAddressComponent {
+  backendErrors: FieldError[] = [];
   displayForm: boolean = false;
 
   selectedAddress: AddressModel | undefined;
@@ -86,8 +90,15 @@ export class UserAddressComponent {
           summary: 'Success',
           detail: 'Address added successfully'
         });
+
+        this.backendErrors = [];
       },
-      error: (error) => {
+      error: (error: HttpErrorResponse) => {
+        const validationException = error.error as ApiValidationException;
+        if (validationException?.errorCode == 'VALIDATION_ERROR') {
+          this.backendErrors = validationException.fields;
+
+        }
         console.error(error);
       }
     });
@@ -111,8 +122,15 @@ export class UserAddressComponent {
           summary: 'Success',
           detail: 'Address updated successfully'
         });
+
+        this.backendErrors = [];
+
       },
-      error: (error) => {
+      error: (error: HttpErrorResponse) => {
+        const validationException = error.error as ApiValidationException;
+        if (validationException?.errorCode == 'VALIDATION_ERROR') {
+          this.backendErrors = validationException.fields;
+        }
         console.error(error);
       }
     });
@@ -130,6 +148,18 @@ export class UserAddressComponent {
       }
     });
 
+  }
+
+  onCancel() {
+    this.displayForm = false;
+    this.backendErrors = [];
+    this.selectedAddress = undefined;
+  }
+
+  clearBackendError(field: string) {
+    this.backendErrors = this.backendErrors.filter(
+      error => error.field !== field
+    );
   }
 
   isSameAddress(a: AddressModel, b: AddressRequestModel): boolean {

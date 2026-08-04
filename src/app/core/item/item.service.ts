@@ -6,6 +6,8 @@ import { ItemEnumsResponse } from './model/ItemEnumsResponse';
 import { ItemFeed } from './model/item-feed-model';
 import { PageResponse } from '../../shared/models/page.response.model';
 import { ItemDisplay } from './model/item-display-model';
+import { ItemRequestModel } from '@features/items/model/item-request-model';
+import { ItemCreatedModel } from '@features/items/model/item-created-model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +17,10 @@ export class ItemService {
   private readonly apiUrl: string = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
+
+  createItem(newItem: ItemRequestModel): Observable<ItemCreatedModel> {
+    return this.http.post<ItemCreatedModel>(`${this.apiUrl}/item`, newItem);
+  }
 
   getItemEnums(): Observable<ItemEnumsResponse> {
     return this.http.get<ItemEnumsResponse>(this.apiUrl + "/item/enums");

@@ -1,0 +1,253 @@
+<p-tabs value="details">
+
+    <p-tablist>
+
+        <p-tab value="details">
+            Item Details
+        </p-tab>
+
+        <p-tab value="images">
+            Images
+        </p-tab>
+
+        <p-tab value="address">
+            Pickup Address
+        </p-tab>
+
+    </p-tablist>
+
+    <p-tabpanels>
+
+        <p-tabpanel value="details">
+
+            <div class="form-section">
+
+                <div class="field">
+                    <p-floatlabel variant="in">
+
+                        <input id="name" pInputText [(ngModel)]="form.name" name="name">
+
+                        <label for="name">
+                            Name
+                        </label>
+
+                    </p-floatlabel>
+
+                    <app-field-error [message]="getFieldError('name')">
+                    </app-field-error>
+
+                </div>
+
+                <div class="field">
+                    <p-floatlabel variant="in">
+
+                        <input id="brand" pInputText [(ngModel)]="form.brand" name="brand">
+
+                        <label for="brand">
+                            Brand
+                        </label>
+
+                    </p-floatlabel>
+
+                    <app-field-error [message]="getFieldError('brand')">
+                    </app-field-error>
+
+                </div>
+
+                <div class="field">
+
+                    <p-floatlabel variant="in">
+
+                        <input id="model" pInputText [(ngModel)]="form.model" name="model">
+
+                        <label for="model">
+                            Model
+                        </label>
+
+                    </p-floatlabel>
+
+                    <app-field-error [message]="getFieldError('model')">
+                    </app-field-error>
+
+                </div>
+
+                <div class="field">
+
+                    <p-floatlabel variant="in">
+
+                        <p-select inputId="condition" [(ngModel)]="form.itemCondition" name="itemCondition"
+                            [options]="conditions" optionLabel="label" optionValue="value">
+                        </p-select>
+
+                        <label for="condition">
+                            Condition
+                        </label>
+
+                    </p-floatlabel>
+
+                    <app-field-error [message]="getFieldError('itemCondition')">
+                    </app-field-error>
+
+                </div>
+
+                <div class="field">
+
+                    <p-floatlabel variant="in">
+
+                        <p-select inputId="category" [options]="categories" [(ngModel)]="selectedCategory"
+                            optionLabel="label" optionValue="value" (onChange)="onCategoryChange()" appendTo="body">
+                        </p-select>
+
+                        <label for="category">
+                            Category
+                        </label>
+
+                    </p-floatlabel>
+
+                </div>
+
+                <div class="field">
+
+                    <p-floatlabel variant="in">
+
+                        <p-select inputId="subcategory" [options]="subCategories" [(ngModel)]="form.subCategoryId"
+                            optionLabel="label" optionValue="value" [disabled]="!selectedCategory" appendTo="body">
+                        </p-select>
+
+                        <label for="subcategory">
+                            Subcategory
+                        </label>
+
+                    </p-floatlabel>
+
+                    <app-field-error [message]="getFieldError('subCategoryId')">
+                    </app-field-error>
+                </div>
+
+                <div class="field">
+                    <p-floatlabel variant="in">
+
+                        <p-inputnumber inputId="basePrice" [(ngModel)]="form.basePrice" name="basePrice" mode="currency"
+                            currency="BRL" locale="pt-BR">
+                        </p-inputnumber>
+
+                        <label for="basePrice">
+                            Base Price
+                        </label>
+
+                    </p-floatlabel>
+
+                    <app-field-error [message]="getFieldError('basePrice')">
+                    </app-field-error>
+                </div>
+
+                <div class="price-preview">
+
+                    <div class="price-card">
+
+                        <span>Hourly</span>
+                        <strong>
+                            {{ hourlyPrice | currency:'BRL':'symbol':'1.2-2' }}
+                        </strong>
+
+                    </div>
+
+                    <div class="price-card">
+
+                        <span>Daily</span>
+                        <strong>
+                            {{ form.basePrice | currency:'BRL':'symbol':'1.2-2' }}
+                        </strong>
+
+                    </div>
+
+                    <div class="price-card">
+
+                        <span>Weekly</span>
+                        <strong>
+                            {{ weeklyPrice | currency:'BRL':'symbol':'1.2-2' }}
+                        </strong>
+
+                    </div>
+
+                    <div class="price-card">
+
+                        <span>Monthly</span>
+                        <strong>
+                            {{ monthlyPrice | currency:'BRL':'symbol':'1.2-2' }}
+                        </strong>
+
+                    </div>
+
+                </div>
+
+                <div class="field field-full">
+
+                    <p-floatlabel variant="in">
+
+                        <textarea id="description" pTextarea rows="6" maxlength="1000" [(ngModel)]="form.description"
+                            name="description"></textarea>
+
+                        <label for="description">
+                            Description
+                        </label>
+
+                    </p-floatlabel>
+
+                    <div class="character-count">
+                        {{ form.description?.length ?? 0 }} / 1000
+                    </div>
+
+                    <app-field-error [message]="getFieldError('description')">
+                    </app-field-error>
+
+                </div>
+
+            </div>
+        </p-tabpanel>
+        <p-tabpanel value="images">
+
+            <div class="form-section">
+
+                <p-fileupload mode="advanced" [multiple]="true" [customUpload]="true" chooseLabel="Choose Images">
+                </p-fileupload>
+
+            </div>
+
+        </p-tabpanel>
+
+        <p-tabpanel value="address">
+
+            <div class="form-section">
+
+                <div class="field">
+
+
+                    <div class="addresses-grid">
+
+                        <app-address-card *ngFor="let address of addresses" [address]="address" [showActions]="false"
+                            [selectable]="true" [selected]="form.addressId === address.id"
+                            (select)="selectAddress($event)">
+                        </app-address-card>
+
+                    </div>
+
+                    <app-field-error [message]="getFieldError('addressId')">
+                    </app-field-error>
+
+                </div>
+
+            </div>
+
+        </p-tabpanel>
+
+    </p-tabpanels>
+
+</p-tabs>
+
+<div class="actions">
+
+    <p-button label="Publish" (onClick)="save()">
+    </p-button>
+
+</div>

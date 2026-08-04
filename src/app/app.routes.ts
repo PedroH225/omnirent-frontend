@@ -9,6 +9,7 @@ import { UserLayoutComponent } from '@features/user/layouts/user-layout/user-lay
 import { RentingComponent } from '@features/rentals/renting/renting.component';
 import { RentingOutComponent } from '@features/rentals/renting-out/renting-out.component';
 import { UserAddressComponent } from '@features/address/user-address/user-address.component';
+import { CreateItemComponent } from '@features/items/pages/create-item/create-item.component';
 
 export const routes: Routes = [
     {
@@ -39,6 +40,10 @@ export const routes: Routes = [
                 {
                     path: 'renting-out',
                     component: RentingOutComponent
+                },
+                {
+                    path: 'create-item',
+                    component: CreateItemComponent
                 },
                 {
                     path: 'addresses',

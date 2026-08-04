@@ -1,5 +1,4 @@
-<div class="address-card">
-
+<div class="address-card" [class.selectable]="selectable" [class.selected]="selected" (click)="onSelect()">
     <div class="address-main">
         <h3>
             {{ address.street }}, {{ address.number }}
@@ -21,10 +20,9 @@
             {{ address.country }}
         </p>
     </div>
-
-    <div class="actions">
-        <p-button label="Edit" (click)="onEdit()"/>
+    <div class="actions" *ngIf="showActions">
+        <p-button label="Edit" (click)="onEdit()" />
         <p-button label="Delete" severity="danger" (click)="onDelete()" />
-    </div>
 
+    </div>
 </div>

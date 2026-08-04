@@ -22,4 +22,13 @@ export class RentalService {
     return this.http.get<PageResponse<RentalDisplayModel>>(this.apiUrl + "/rental/find/rented", { params });
 
   }
+
+    getRentingOut(page: number, size: number): Observable<PageResponse<RentalDisplayModel>> {
+    const params = new HttpParams()
+      .set("page", page)
+      .set("size", size);
+
+    return this.http.get<PageResponse<RentalDisplayModel>>(this.apiUrl + "/rental/find/userRentals", { params });
+
+  }
 }

@@ -7,6 +7,7 @@ import { MyItemsComponent } from '@features/items/pages/my-items/my-items.compon
 import { DashboardComponent } from '@features/user/pages/dashboard/dashboard.component';
 import { UserLayoutComponent } from '@features/user/layouts/user-layout/user-layout.component';
 import { RentingComponent } from '@features/rentals/renting/renting.component';
+import { RentingOutComponent } from '@features/rentals/renting-out/renting-out.component';
 
 export const routes: Routes = [
     {
@@ -33,6 +34,10 @@ export const routes: Routes = [
                 {
                     path: 'renting',
                     component: RentingComponent
+                },
+                {
+                    path: 'renting-out',
+                    component: RentingOutComponent
                 }
             ]
         }

@@ -43,7 +43,7 @@ export class UserSidebarComponent {
         {
           label: 'Renting Out',
           icon: 'pi pi-briefcase',
-          routerLink: '/account/rentals/owner'
+          routerLink: '/account/renting-out'
         }
       ]
     },

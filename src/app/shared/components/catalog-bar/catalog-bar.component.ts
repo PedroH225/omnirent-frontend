@@ -5,9 +5,9 @@ import { CategoryService } from '@core/categories/category.service';
 import { CategoryResponse } from '@core/categories/model/category.model';
 import { SubCategoryResponse } from '@core/categories/model/subcategory.model';
 import { ItemService } from '@core/item/item.service';
-import { EnumOption } from '../../../../shared/models/EnumOption';
-import { ItemFeedSort } from '../../../../shared/models/item-feed-sort';
-import { SelectOption } from '../../../../shared/models/select-option';
+import { EnumOption } from '../../models/EnumOption';
+import { ItemFeedSort } from '../../models/item-feed-sort';
+import { SelectOption } from '../../models/select-option';
 import { Button } from "primeng/button";
 
 

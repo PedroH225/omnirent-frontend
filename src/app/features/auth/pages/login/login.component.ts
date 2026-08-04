@@ -9,7 +9,7 @@ import { AuthService } from '../../../../core/auth/auth.service';
 import { AuthModel, TokenResponse } from '../../models/auth.model';
 import { Router } from '@angular/router';
 import { MessageModule } from 'primeng/message';
-import { ApiException } from '../../../../../shared/models/api-exception';
+import { ApiException } from '../../../../shared/models/api-exception';
 import { HttpErrorResponse } from '@angular/common/http';
 
 

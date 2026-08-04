@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ItemService } from '@core/item/item.service';
 import { ItemDisplay } from '@core/item/model/item-display-model';
 import { ActivatedRoute } from '@angular/router';
-import { PageResponse } from '../../../../../../shared/models/page.response.model';
+import { PageResponse } from '../../../../../shared/models/page.response.model';
 import { environment } from '../../../../../../environments/environment';
 import { FormsModule } from '@angular/forms';
 import { DataViewModule } from 'primeng/dataview';

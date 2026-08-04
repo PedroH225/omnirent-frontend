@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PageResponse } from '../../../shared/models/page.response.model';
+import { PageResponse } from '../../shared/models/page.response.model';
 import { RentalDisplayModel } from '@features/rentals/model/rental-display-model';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';

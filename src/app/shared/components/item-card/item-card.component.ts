@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ItemCardModel } from '../../../../shared/models/item-card-model';
+import { ItemCardModel } from '../../models/item-card-model';
 import { Button } from "primeng/button";
 import { CurrencyPipe } from '@angular/common';
 

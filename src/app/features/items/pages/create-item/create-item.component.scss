@@ -125,15 +125,30 @@
     }
 }
 
-@media (max-width: 768px) {
+.loading-overlay {
+    position: fixed;
+    inset: 0;
 
-    .price-preview {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
+    background: rgba(255, 255, 255, .65);
+    backdrop-filter: blur(2px);
 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+
+    z-index: 9999;
+}
+
+.loading-overlay span {
+    font-weight: 500;
 }
 
 @media (max-width: 768px) {
+    .price-preview {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 
     .form-section {
         padding: 1.5rem 0;

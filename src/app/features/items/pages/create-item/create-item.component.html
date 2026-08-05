@@ -1,5 +1,14 @@
 <p-tabs value="details" (valueChange)="onTabChange($event)">
 
+    @if (loading) {
+    <div class="loading-overlay">
+        <p-progressSpinner strokeWidth="4" animationDuration=".8s">
+        </p-progressSpinner>
+
+        <span>{{ loadingMessage }}</span>
+    </div>
+    }
+
     <p-tablist>
 
         <p-tab value="details">
@@ -221,12 +230,9 @@
         </p-tabpanel>
         <p-tabpanel value="images">
 
-            <div class="form-section">
 
-                <p-fileupload mode="advanced" [multiple]="true" [customUpload]="true" chooseLabel="Choose Images">
-                </p-fileupload>
+            <app-item-images (imagesChange)="onImagesChange($event)"></app-item-images>
 
-            </div>
 
         </p-tabpanel>
 

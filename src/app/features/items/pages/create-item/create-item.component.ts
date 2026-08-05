@@ -28,13 +28,17 @@ import { AddressCardComponent } from '@features/address/components/address-card/
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApiValidationException } from '@shared/models/api-field-exception';
+import { ItemImagesComponent } from "@features/items/components/item-images/item-images.component";
+import { ItemImageForm } from '@features/items/model/item-image-form-model';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { ItemCreatedModel } from '@features/items/model/item-created-model';
 
 @Component({
   selector: 'app-create-item',
   imports: [
     FormsModule, InputTextModule, TextareaModule, TabsModule, FileUploadModule,
     Select, FieldErrorComponent, Button, FloatLabel, InputNumberModule, CommonModule,
-    AddressCardComponent
+    AddressCardComponent, ProgressSpinnerModule, ItemImagesComponent
   ],
   providers: [
     ConfirmationService
@@ -43,6 +47,8 @@ import { ApiValidationException } from '@shared/models/api-field-exception';
   styleUrl: './create-item.component.scss'
 })
 export class CreateItemComponent {
+  loading: boolean = false;
+  loadingMessage: string = 'Loading...';
   form: ItemRequestModel = this.createEmptyItem();
 
   backendErrors: FieldError[] = [];
@@ -59,6 +65,8 @@ export class CreateItemComponent {
 
   visitedTabs = new Set<string>();
 
+  images: ItemImageForm[] = [];
+
   constructor(
     private itemService: ItemService,
     private addressService: AddressService,
@@ -74,20 +82,24 @@ export class CreateItemComponent {
     this.getItemEnums();
   }
 
-  save(): void {
+  onImagesChange(images: ItemImageForm[]): void {
+    this.images = images;
+  }
 
+  save(): void {
+    this.loading = true;
+    this.loadingMessage = 'Creating item...';
     this.itemService.createItem(this.form).subscribe({
 
-      next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Success',
-          detail: 'Item created successfully'
-        });
-        this.router.navigate(['/account/my-items']);
+      next: (response: ItemCreatedModel) => {
+        if (this.images.length > 0) {
+          this.uploadImages(response.id);
+        } else {
+          this.finishCreation();
+        }
       },
-
       error: (error: HttpErrorResponse) => {
+        this.loading = false;
 
         const apiException: ApiValidationException = error.error as ApiValidationException;
         if (apiException?.errorCode == "VALIDATION_ERROR") {
@@ -104,7 +116,41 @@ export class CreateItemComponent {
     });
 
   }
+  uploadImages(itemId: string): void {
+    this.loadingMessage = 'Uploading images...';
+    this.itemService.uploadImages(itemId, this.images).subscribe({
 
+      next: () => {
+        this.finishCreation();
+      },
+
+      error: (error: HttpErrorResponse) => {
+        this.messageService.add({
+          severity: 'warn',
+          summary: 'Images',
+          detail: 'The item was created, but the images could not be uploaded.'
+        });
+
+        console.error(error);
+
+        this.finishCreation();
+      }
+
+    });
+
+  }
+
+  private finishCreation(): void {
+  this.loading = false;
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Success',
+      detail: 'Item created successfully.'
+    });
+
+    this.router.navigate(['/account/my-items']);
+
+  }
 
   getFieldError(field: string): string | undefined {
     return this.backendErrors.find(
@@ -113,7 +159,7 @@ export class CreateItemComponent {
   }
 
   onFieldChange(field: string): void {
-    
+
     this.backendErrors = this.backendErrors.filter(
       error => error.field !== field
     );

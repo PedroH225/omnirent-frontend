@@ -27,7 +27,7 @@ export class UserSidebarComponent {
         {
           label: 'Create Listing',
           icon: 'pi pi-plus',
-          routerLink: '/listings/new'
+          routerLink: '/account/create-item'
         }
       ]
     },

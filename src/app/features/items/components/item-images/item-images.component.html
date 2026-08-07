@@ -1,0 +1,105 @@
+<div class="images-section">
+
+    <div class="images-header">
+
+        <div>
+            <h3>Images</h3>
+            <small>
+                Upload up to 5 images. Drag to change the display order.
+            </small>
+        </div>
+
+        <p-button
+            icon="pi pi-plus"
+            label="Add Images"
+            [disabled]="images.length >= 5"
+            (onClick)="fileInput.click()">
+        </p-button>
+
+        <input
+            #fileInput
+            type="file"
+            hidden
+            multiple
+            accept="image/*"
+            (change)="onFilesSelected($event)">
+
+    </div>
+
+    <div class="images-grid">
+
+        <div
+            class="image-card"
+            *ngFor="let image of images; let i = index">
+
+            <div class="preview">
+
+                <img
+                    [src]="image.previewUrl"
+                    alt="Preview">
+
+                @if (i === 0) {
+                    <div class="badge">
+                        Main
+                    </div>
+                }
+
+            </div>
+
+            <div class="image-footer">
+
+                <span>
+                    #{{ i + 1 }}
+                </span>
+
+                <div class="actions">
+
+                    <p-button
+                        icon="pi pi-arrow-left"
+                        [text]="true"
+                        [disabled]="i === 0"
+                        (onClick)="moveLeft(i)">
+                    </p-button>
+
+                    <p-button
+                        icon="pi pi-arrow-right"
+                        [text]="true"
+                        [disabled]="i === images.length - 1"
+                        (onClick)="moveRight(i)">
+                    </p-button>
+
+                    <p-button
+                        icon="pi pi-trash"
+                        severity="danger"
+                        [text]="true"
+                        (onClick)="removeImage(i)">
+                    </p-button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        @if (images.length < 5) {
+
+            <button
+                type="button"
+                class="add-card"
+                (click)="fileInput.click()">
+
+                <i class="pi pi-plus"></i>
+
+                <span>Add Image</span>
+
+            </button>
+
+        }
+
+    </div>
+
+    <small class="hint">
+        The first image will be used as the main thumbnail.
+    </small>
+
+</div>

@@ -1,0 +1,62 @@
+<div class="item-card">
+
+    <div class="image-container">
+
+        <img
+            [src]="item.thumbnailKey || 'assets/placeholder-img.png'"
+            [alt]="item.name">
+
+    </div>
+
+    <div class="content">
+
+        <span class="category">
+            {{ item.subCategoryName }}
+        </span>
+
+        <h3>
+            {{ item.name }}
+        </h3>
+
+        <div class="details">
+
+            <span>
+                {{ item.itemConditionLabel }}
+            </span>
+
+            <span
+                class="status"
+                [class.available]="item.itemStatus === 'AVAILABLE'">
+
+                {{ item.itemStatusLabel }}
+
+            </span>
+
+        </div>
+
+        <div class="footer">
+
+            <span class="price">
+                ${{ item.basePrice }}/day
+            </span>
+
+            <div class="actions">
+
+                <p-button
+                    icon="pi pi-pencil"
+                    [text]="true">
+                </p-button>
+
+                <p-button
+                    icon="pi pi-trash"
+                    severity="danger"
+                    [text]="true">
+                </p-button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

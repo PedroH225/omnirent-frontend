@@ -88,7 +88,7 @@ export class UserAddressComponent {
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
-          detail: 'Address added successfully'
+          detail: 'Item added successfully'
         });
 
         this.backendErrors = [];

@@ -9,13 +9,9 @@
     justify-content: space-between;
     gap: 1.5rem;
 
-    transition: box-shadow .2s ease;
-
-    &:hover {
-        box-shadow: 0 6px 16px rgba(0, 0, 0, .08);
-    }
+    transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+    cursor: default;
 }
-
 
 .address-main {
 
@@ -38,13 +34,29 @@
 
 }
 
+.address-card:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, .08);
+}
+
+.address-card.selectable {
+    cursor: pointer;
+}
+
+.address-card.selectable:hover {
+    border-color: var(--p-primary-color);
+}
+
+.address-card.selected {
+    border-color: var(--p-primary-color);
+    background: var(--p-primary-50);
+    box-shadow: 0 0 0 1px var(--p-primary-color);
+}
 
 .actions {
     display: flex;
     justify-content: flex-end;
     gap: .75rem;
 }
-
 
 @media (max-width: 768px) {
 

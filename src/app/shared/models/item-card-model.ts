@@ -1,4 +1,4 @@
-export interface ItemCardModel {
+export interface ItemFeedCardModel {
     id: string;
     name: string;
     conditionLabel: string;

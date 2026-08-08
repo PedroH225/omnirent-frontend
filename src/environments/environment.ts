@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://aws-url.com',
-  storageUrl: 'images.omnirentplatform.com/omnirent-images'
+  apiUrl: 'https://api.omnirentplatform.com',
+  storageUrl: 'https://images.omnirentplatform.com/omnirent-images'
 };

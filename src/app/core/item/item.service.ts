@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 import { ItemEnumsResponse } from './model/ItemEnumsResponse';
 import { ItemFeed } from './model/item-feed-model';
 import { PageResponse } from '../../shared/models/page.response.model';
@@ -18,6 +18,8 @@ export class ItemService {
 
   private readonly apiUrl: string = environment.apiUrl;
 
+  private itemEnums$?: Observable<ItemEnumsResponse>;
+
   constructor(private http: HttpClient) { }
 
   getItemDetail(itemId: string): Observable<ItemDetailModel> {
@@ -33,7 +35,15 @@ export class ItemService {
   }
 
   getItemEnums(): Observable<ItemEnumsResponse> {
-    return this.http.get<ItemEnumsResponse>(this.apiUrl + "/item/enums");
+    if (!this.itemEnums$) {
+      this.itemEnums$ = this.http
+        .get<ItemEnumsResponse>(this.apiUrl + '/item/enums')
+        .pipe(
+          shareReplay(1)
+        );
+    }
+
+    return this.itemEnums$;
   }
 
   getItemFeedHome(category: string): Observable<PageResponse<ItemFeed>> {

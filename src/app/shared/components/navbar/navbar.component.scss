@@ -7,6 +7,12 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
+.logo-link {
+    display: inline-flex;
+    text-decoration: none;
+    cursor: pointer;
+}
+
 .logo-container {
     display: flex;
     align-items: center;

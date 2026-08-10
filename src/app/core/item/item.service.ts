@@ -9,6 +9,7 @@ import { ItemDisplay } from './model/item-display-model';
 import { ItemRequestModel } from '@features/items/model/item-request-model';
 import { ItemCreatedModel } from '@features/items/model/item-created-model';
 import { ItemImageForm } from '@features/items/model/item-image-form-model';
+import { ItemDetailModel } from './model/item-detail-model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,10 @@ export class ItemService {
   private readonly apiUrl: string = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
+
+  getItemDetail(itemId: string): Observable<ItemDetailModel> {
+    return this.http.get<ItemDetailModel>(`${this.apiUrl}/item/find/${itemId}`);
+  }
 
   createItem(newItem: ItemRequestModel): Observable<ItemCreatedModel> {
     return this.http.post<ItemCreatedModel>(`${this.apiUrl}/item`, newItem);

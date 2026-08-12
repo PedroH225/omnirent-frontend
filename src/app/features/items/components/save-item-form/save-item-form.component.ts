@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
 import { AddressService } from '@core/address/address.service';
 import { CategoryService } from '@core/categories/category.service';
 import { CategoryResponse } from '@core/categories/model/category.model';
@@ -40,14 +40,13 @@ type ItemFormMode = 'create' | 'edit';
 export class SaveItemFormComponent {
   @Input() mode: ItemFormMode = 'create';
   @Input() item?: ItemDetailModel;
-  @Input () backendErrors: FieldError[] = [];
+  @Input() backendErrors: FieldError[] = [];
 
   @Output() save = new EventEmitter<ItemRequestModel>();
   @Output() imagesChange = new EventEmitter<ItemImageForm[]>();
   @Output() formChange = new EventEmitter<ItemRequestModel>();
 
   form: ItemRequestModel = this.createEmptyItem();
-
 
   addresses: AddressModel[] = [];
 
@@ -70,6 +69,29 @@ export class SaveItemFormComponent {
     this.loadAddresses();
     this.getCategories();
     this.getItemEnums();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['item'] && this.mode === 'edit' && this.item) {
+      this.initializeEditForm();
+    }
+  }
+
+  private initializeEditForm(): void {
+    if (!this.item) {
+      return;
+    }
+
+    this.form = {
+      name: this.item.name,
+      brand: this.item.brand,
+      model: this.item.model,
+      description: this.item.description,
+      basePrice: this.item.basePrice,
+      itemCondition: this.item.itemCondition,
+      subCategoryId: this.item.subCategory.id,
+      addressId: this.item.pickupAddress.id
+    };
   }
 
   onSave(): void {
@@ -184,6 +206,17 @@ export class SaveItemFormComponent {
 
   onTabChange(tab: string | number) {
     this.visitedTabs.add(String(tab));
+  }
+
+  resetForm(): void {
+    this.visitedTabs.clear();
+    this.images = [];
+
+    if (this.mode === 'edit' && this.item) {
+      this.initializeEditForm();
+    } else {
+      this.form = this.createEmptyItem();
+    }
   }
 
   private createEmptyItem(): ItemRequestModel {

@@ -10,6 +10,8 @@ import { ItemRequestModel } from '@features/items/model/item-request-model';
 import { ItemCreatedModel } from '@features/items/model/item-created-model';
 import { ItemImageForm } from '@features/items/model/item-image-form-model';
 import { ItemDetailModel } from './model/item-detail-model';
+import { UpdateItemRequestModel } from '@features/items/model/item-update-request-model';
+import { ItemUpdatedModel } from './model/item-updated-model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +30,10 @@ export class ItemService {
 
   createItem(newItem: ItemRequestModel): Observable<ItemCreatedModel> {
     return this.http.post<ItemCreatedModel>(`${this.apiUrl}/item`, newItem);
+  }
+
+  updateItem(updatedItem: UpdateItemRequestModel): Observable<ItemUpdatedModel> {
+    return this.http.put<ItemUpdatedModel>(`${this.apiUrl}/item`, updatedItem);
   }
 
   uploadImages(itemId: string, images: ItemImageForm[]): Observable<void> {

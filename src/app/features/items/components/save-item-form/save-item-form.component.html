@@ -1,5 +1,5 @@
 <p-tabs value="details" (valueChange)="onTabChange($event)">
-
+        @if (mode === 'create') {
     <p-tablist>
 
         <p-tab value="details">
@@ -15,16 +15,15 @@
             <i class="pi pi-exclamation-circle tab-error-icon"></i>
             }
         </p-tab>
-
         <p-tab value="address">
             Pickup Address
             @if (getTabHasError('address')) {
             <i class="pi pi-exclamation-circle tab-error-icon"></i>
             }
         </p-tab>
-
+        
     </p-tablist>
-
+        }
     <p-tabpanels>
 
         <p-tabpanel value="details">
@@ -103,6 +102,7 @@
 
                 </div>
 
+                @if (mode === 'create') {
                 <div class="field">
 
                     <p-floatlabel variant="in">
@@ -137,7 +137,7 @@
                     <app-field-error [message]="getFieldError('subCategoryId')">
                     </app-field-error>
                 </div>
-
+                }
                 <div class="field">
                     <p-floatlabel variant="in">
 
@@ -219,13 +219,14 @@
 
             </div>
         </p-tabpanel>
-        <p-tabpanel value="images">
 
+        @if (mode === 'create') {
+        <p-tabpanel value="images">
 
             <app-item-images (imagesChange)="onImagesChange($event)"></app-item-images>
 
-
         </p-tabpanel>
+
 
         <p-tabpanel value="address">
 
@@ -251,7 +252,7 @@
             </div>
 
         </p-tabpanel>
-
+        }
     </p-tabpanels>
 
 </p-tabs>

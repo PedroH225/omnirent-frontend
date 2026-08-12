@@ -16,14 +16,40 @@
         </div>
 
         @if (isOwner) {
-        <p-button label="Editar" />
-        <p-button label="Excluir" />
+        <div class="item-actions">
+            <p-button icon="pi pi-cog" [text]="true" [rounded]="true" severity="primary" 
+                (onClick)="itemMenu.toggle($event)" />
+
+            <p-menu #itemMenu [model]="itemMenuItems" [popup]="true" appendTo="body"/>
+        </div>
         }
 
         @if (!isOwner) {
         <p-button label="Alugar" />
         }
     </header>
+
+    <section class="item-pricing">
+        <div class="price-item">
+            <strong>Hourly</strong>
+            <p>R$ {{ item.priceData.hourPrice }}</p>
+        </div>
+
+        <div class="price-item">
+            <strong>Daily</strong>
+            <p>R$ {{ item.priceData.dailyPrice }}</p>
+        </div>
+
+        <div class="price-item">
+            <strong>Weekly</strong>
+            <p>R$ {{ item.priceData.weeklyPrice }}</p>
+        </div>
+
+        <div class="price-item">
+            <strong>Monthly</strong>
+            <p>R$ {{ item.priceData.monthlyPrice }}</p>
+        </div>
+    </section>
 
     <section class="item-gallery">
         <p-galleria [value]="galleryImages" [responsiveOptions]="responsiveOptions" [numVisible]="5"
@@ -41,63 +67,50 @@
         </p-galleria>
     </section>
 
+    <section class="item-description">
+        <h2>Description</h2>
+
+        <p>{{ item.description }}</p>
+    </section>
+
     <section class="item-information">
-        <h2>Informações</h2>
+        <h2>Product details</h2>
 
-        <div>
-            <strong>Nome</strong>
-            <p>{{ item.name }}</p>
-        </div>
+        <div class="details-grid">
+            <div class="detail-row">
+                <span>Brand</span>
+                <strong>{{ item.brand }}</strong>
+            </div>
 
-        <div>
-            <strong>Marca</strong>
-            <p>{{ item.brand }}</p>
-        </div>
+            <div class="detail-row">
+                <span>Model</span>
+                <strong>{{ item.model }}</strong>
+            </div>
 
-        <div>
-            <strong>Modelo</strong>
-            <p>{{ item.model }}</p>
-        </div>
+            <div class="detail-row">
+                <span>Condition</span>
+                <strong>{{ item.itemConditionLabel }}</strong>
+            </div>
 
-        <div>
-            <strong>Condição</strong>
-            <p>{{ item.itemConditionLabel }}</p>
-        </div>
+            <div class="detail-row">
+                <span>Category</span>
+                <strong>{{ item.subCategory.categoryLabel }}</strong>
+            </div>
 
-        <div>
-            <strong>Descrição</strong>
-            <p>{{ item.description }}</p>
-        </div>
-    </section>
+            <div class="detail-row">
+                <span>Subcategory</span>
+                <strong>{{ item.subCategory.subCategoryLabel }}</strong>
+            </div>
 
-
-    <section class="item-pricing">
-        <h2>Preços</h2>
-
-        <div>
-            <strong>Hora</strong>
-            <p>R$ {{ item.priceData.hourPrice }}</p>
-        </div>
-
-        <div>
-            <strong>Dia</strong>
-            <p>R$ {{ item.priceData.dailyPrice }}</p>
-        </div>
-
-        <div>
-            <strong>Semana</strong>
-            <p>R$ {{ item.priceData.weeklyPrice }}</p>
-        </div>
-
-        <div>
-            <strong>Mês</strong>
-            <p>R$ {{ item.priceData.monthlyPrice }}</p>
+            <div class="detail-row">
+                <span>Status</span>
+                <strong>{{ item.itemStatusLabel }}</strong>
+            </div>
         </div>
     </section>
-
 
     <section class="item-address">
-        <h2>Localização</h2>
+        <h2>Address</h2>
 
         <p>
             {{ item.pickupAddress.street }},
@@ -111,4 +124,13 @@
     </section>
 
 </div>
+
+<p-dialog header="Edit item" [(visible)]="editDialogVisible" [modal]="true" [draggable]="false" [resizable]="false"
+    [style]="{ width: '900px' }" (onHide)="closeEditDialog()">
+
+    <app-save-item-form mode="edit" [item]="item" [backendErrors]="backendErrors" (formChange)="onFormChange($event)"
+        (save)="updateItem()">
+    </app-save-item-form>
+
+</p-dialog>
 }

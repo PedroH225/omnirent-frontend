@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ItemFeedCardModel } from '../../models/item-card-model';
 import { Button } from "primeng/button";
 import { CurrencyPipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-item-feed-card',
@@ -14,11 +15,12 @@ export class ItemFeedCardComponent {
   @Input({ required: true })
   item!: ItemFeedCardModel;
 
-  @Output()
-  view = new EventEmitter<string>();
+  constructor(private router: Router) { }
+
 
   onView(): void {
-    this.view.emit(this.item.id);
+    this.router.navigate(['/items', this.item.id]);
+
   }
 
 }

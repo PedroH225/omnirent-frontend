@@ -10,6 +10,7 @@ import { RentingComponent } from '@features/rentals/renting/renting.component';
 import { RentingOutComponent } from '@features/rentals/renting-out/renting-out.component';
 import { UserAddressComponent } from '@features/address/user-address/user-address.component';
 import { CreateItemComponent } from '@features/items/pages/create-item/create-item.component';
+import { ItemDetailComponent } from '@features/items/pages/item-details/item-details.component';
 
 export const routes: Routes = [
     {
@@ -19,6 +20,10 @@ export const routes: Routes = [
         {
             path: '',
             component: HomeComponent
+        },
+        {
+            path: 'items/:id',
+            component: ItemDetailComponent
         },
         {
             path: 'account',

@@ -2,9 +2,7 @@
 
     <div class="image-container">
 
-        <img
-            [src]="item.thumbnailKey || 'assets/placeholder-img.png'"
-            [alt]="item.name">
+        <img [src]="item.thumbnailKey || 'assets/placeholder-img.png'" [alt]="item.name">
 
     </div>
 
@@ -24,9 +22,7 @@
                 {{ item.itemConditionLabel }}
             </span>
 
-            <span
-                class="status"
-                [class.available]="item.itemStatus === 'AVAILABLE'">
+            <span class="status" [class.available]="item.itemStatus === 'AVAILABLE'">
 
                 {{ item.itemStatusLabel }}
 
@@ -39,21 +35,8 @@
             <span class="price">
                 ${{ item.basePrice }}/day
             </span>
-
-            <div class="actions">
-
-                <p-button
-                    icon="pi pi-pencil"
-                    [text]="true">
-                </p-button>
-
-                <p-button
-                    icon="pi pi-trash"
-                    severity="danger"
-                    [text]="true">
-                </p-button>
-
-            </div>
+            <p-button label="Details" icon="pi pi-eye" [text]="true" [routerLink]="['/items', item.id]">
+            </p-button>
 
         </div>
 

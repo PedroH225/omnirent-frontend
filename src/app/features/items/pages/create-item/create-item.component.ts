@@ -13,6 +13,7 @@ import { MessageService } from 'primeng/api';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FieldError } from '@shared/models/field-error';
 import { ApiValidationException } from '@shared/models/api-field-exception';
+import { ItemFormModel } from '@features/items/model/item-form-model';
 
 @Component({
     selector: 'app-create-item',
@@ -28,7 +29,7 @@ export class CreateItemComponent {
     loading = false;
     loadingMessage = 'Creating item...';
 
-    private form?: ItemRequestModel;
+    private form?: ItemFormModel;
     private images: ItemImageForm[] = [];
 
     backendErrors: FieldError[] = [];
@@ -39,7 +40,7 @@ export class CreateItemComponent {
         private messageService: MessageService
     ) { }
 
-    onFormChange(form: ItemRequestModel): void {
+    onFormChange(form: ItemFormModel): void {
         this.form = form;
     }
 
@@ -48,14 +49,25 @@ export class CreateItemComponent {
     }
 
     save(): void {
-        if (!this.form) {
+        if (!this.form || !this.form.subCategory?.id || !this.form.address?.id) {
             return;
         }
+
+        const request: ItemRequestModel = {
+            name: this.form.name,
+            model: this.form.model,
+            brand: this.form.brand,
+            description: this.form.description,
+            basePrice: this.form.basePrice,
+            itemCondition: this.form.itemCondition,
+            subCategoryId: this.form.subCategory.id,
+            addressId: this.form.address.id
+        };
 
         this.loading = true;
         this.loadingMessage = 'Creating item...';
 
-        this.itemService.createItem(this.form).subscribe({
+        this.itemService.createItem(request).subscribe({
             next: (response: ItemCreatedModel) => {
                 if (this.images.length > 0) {
                     this.uploadImages(response.id);
@@ -68,7 +80,7 @@ export class CreateItemComponent {
 
                 const apiException = error.error as ApiValidationException;
 
-                if (apiException?.errorCode === 'VALIDATION_ERROR') {                    
+                if (apiException?.errorCode === 'VALIDATION_ERROR') {
                     this.backendErrors = apiException.fields;
 
                     this.messageService.add({

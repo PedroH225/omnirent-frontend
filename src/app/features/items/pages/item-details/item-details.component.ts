@@ -9,14 +9,14 @@ import { CommonModule } from '@angular/common';
 import { GalleriaModule } from "primeng/galleria";
 import { SaveItemFormComponent } from "@features/items/components/save-item-form/save-item-form.component";
 import { Dialog } from "primeng/dialog";
-import { ItemRequestModel } from '@features/items/model/item-request-model';
 import { UpdateItemRequestModel } from '@features/items/model/item-update-request-model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { MenuItem, MessageService } from 'primeng/api';
 import { FieldError } from '@shared/models/field-error';
 import { ApiValidationException } from '@shared/models/api-field-exception';
-import { PanelMenu } from "primeng/panelmenu";
 import { Menu } from 'primeng/menu';
+import { forkJoin, Observable } from 'rxjs';
+import { ItemFormModel } from '@features/items/model/item-form-model';
 
 @Component({
   selector: 'app-item-detail',
@@ -33,7 +33,7 @@ export class ItemDetailComponent implements OnInit {
 
   readonly defaultImage: string = 'assets/placeholder-img.png';
 
-  private form?: ItemRequestModel;
+  private form?: ItemFormModel;
 
   backendErrors: FieldError[] = [];
 
@@ -151,38 +151,69 @@ export class ItemDetailComponent implements OnInit {
     return `${this.storageUrl}/${storageKey}`;
   }
 
-  updateItem(): void {
-    if (!this.form) {
-      return;
-    }
-    const request = this.parseUpdateRequest();
-
-    if (!request) {
+  onFormSubmit(): void {
+    if (!this.form || !this.item) {
+      console.log("return")
+      this.closeEditDialog();
       return;
     }
 
-    this.itemService.updateItem(request).subscribe({
-      next: (updated) => {
-        if (!this.item) {
-          return;
-        }
+    const requests: {
+      item?: Observable<any>;
+      address?: Observable<any>;
+      category?: Observable<any>;
+    } = {};
 
-        this.item = {
-          ...this.item,
-          ...updated
-        };
+    const itemRequest = this.parseUpdateRequest();
 
+    if (itemRequest) {
+      requests.item = this.itemService.updateItem(itemRequest);
+    }
+
+    if (this.form.address && this.form.address.id !== this.item.pickupAddress.id) {
+      requests.address = this.itemService.changeAddress(
+        this.item.id,
+        this.form.address.id
+      );
+    }
+
+    if (this.form.subCategory && this.form.subCategory.id !== this.item.subCategory.id) {
+      requests.category = this.itemService.changeSubcategory(
+        this.item.id,
+        this.form.subCategory.id
+      );
+    }
+
+    if (Object.keys(requests).length === 0) {
+      this.closeEditDialog();
+      return;
+    }
+
+    forkJoin(requests).subscribe({
+      next: () => {
         this.messageService.add({
           severity: 'success',
           summary: 'Success',
           detail: 'Item updated successfully.'
         });
+
+        if (this.item && this.form?.subCategory &&
+          this.item.subCategory.id !== this.form.subCategory.id) {
+          this.item.subCategory = this.form.subCategory;
+        }
+
+        if (this.item && this.form?.address &&
+          this.item.pickupAddress.id !== this.form.address.id) {
+          this.item.pickupAddress = this.form.address;
+        }
+
         this.closeEditDialog();
       },
       error: (error: HttpErrorResponse) => {
         const apiException = error.error as ApiValidationException;
 
         if (apiException?.errorCode === 'VALIDATION_ERROR') {
+          console.log("validation error")
           this.backendErrors = apiException.fields;
 
           this.messageService.add({
@@ -193,7 +224,6 @@ export class ItemDetailComponent implements OnInit {
 
           return;
         }
-
         this.messageService.add({
           severity: 'error',
           summary: 'Error',
@@ -204,7 +234,6 @@ export class ItemDetailComponent implements OnInit {
         this.closeEditDialog();
       }
     });
-
   }
 
   changeAvailability() {
@@ -237,7 +266,7 @@ export class ItemDetailComponent implements OnInit {
     })
   }
 
-  onFormChange($event: ItemRequestModel) {
+  onFormChange($event: ItemFormModel) {
     this.form = $event;
   }
 

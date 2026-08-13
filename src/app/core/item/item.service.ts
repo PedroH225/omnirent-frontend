@@ -28,7 +28,6 @@ export class ItemService {
     return this.http.get<ItemDetailModel>(`${this.apiUrl}/item/find/${itemId}`);
   }
   
-
   createItem(newItem: ItemRequestModel): Observable<ItemCreatedModel> {
     return this.http.post<ItemCreatedModel>(`${this.apiUrl}/item`, newItem);
   }
@@ -39,6 +38,14 @@ export class ItemService {
 
   changeAvailability(itemId: string): Observable<void> {
     return this.http.patch<void>(`${this.apiUrl}/item/changeAvailability/${itemId}`, {});
+  }
+
+  changeAddress(itemId: string, addressId: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/item/changeAddress/${itemId}/${addressId}`, {});
+  }
+
+  changeSubcategory(itemId: string, subCategoryId: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/item/changeSubCategory/${itemId}/${subCategoryId}`, {});
   }
 
   uploadImages(itemId: string, images: ItemImageForm[]): Observable<void> {

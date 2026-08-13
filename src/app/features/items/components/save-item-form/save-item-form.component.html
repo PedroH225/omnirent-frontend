@@ -1,13 +1,12 @@
 <p-tabs value="details" (valueChange)="onTabChange($event)">
-        @if (mode === 'create') {
     <p-tablist>
-
         <p-tab value="details">
             Item Details
             @if (getTabHasError('details')) {
             <i class="pi pi-exclamation-circle tab-error-icon"></i>
             }
         </p-tab>
+        @if (mode === 'create') {
 
         <p-tab value="images">
             Images
@@ -15,15 +14,15 @@
             <i class="pi pi-exclamation-circle tab-error-icon"></i>
             }
         </p-tab>
+        }
         <p-tab value="address">
             Pickup Address
             @if (getTabHasError('address')) {
             <i class="pi pi-exclamation-circle tab-error-icon"></i>
             }
         </p-tab>
-        
+
     </p-tablist>
-        }
     <p-tabpanels>
 
         <p-tabpanel value="details">
@@ -102,12 +101,11 @@
 
                 </div>
 
-                @if (mode === 'create') {
                 <div class="field">
 
                     <p-floatlabel variant="in">
 
-                        <p-select inputId="category" [options]="categories" [(ngModel)]="selectedCategory"
+                        <p-select inputId="category" [options]="categories" [(ngModel)]="form.category"
                             optionLabel="label" optionValue="value" (onChange)="onCategoryChange()" appendTo="body">
                         </p-select>
 
@@ -120,12 +118,11 @@
                 </div>
 
                 <div class="field">
-
                     <p-floatlabel variant="in">
 
-                        <p-select inputId="subCategoryId" [options]="subCategories" [(ngModel)]="form.subCategoryId"
+                        <p-select inputId="subCategoryId" [options]="subCategories" [(ngModel)]="form.subCategory"
                             (ngModelChange)="onFieldChange('subCategoryId')" optionLabel="label" optionValue="value"
-                            [disabled]="!selectedCategory" appendTo="body">
+                            [disabled]="!form.category" appendTo="body">
                         </p-select>
 
                         <label for="subcategory">
@@ -137,7 +134,7 @@
                     <app-field-error [message]="getFieldError('subCategoryId')">
                     </app-field-error>
                 </div>
-                }
+
                 <div class="field">
                     <p-floatlabel variant="in">
 
@@ -226,7 +223,7 @@
             <app-item-images (imagesChange)="onImagesChange($event)"></app-item-images>
 
         </p-tabpanel>
-
+        }
 
         <p-tabpanel value="address">
 
@@ -238,7 +235,7 @@
                     <div class="addresses-grid">
 
                         <app-address-card *ngFor="let address of addresses" [address]="address" [showActions]="false"
-                            [selectable]="true" [selected]="form.addressId === address.id"
+                            [selectable]="true" [selected]="form.address?.id === address.id"
                             (ngModelChange)="onFieldChange('addressId')" (select)="selectAddress($event)">
                         </app-address-card>
 
@@ -252,14 +249,14 @@
             </div>
 
         </p-tabpanel>
-        }
+
     </p-tabpanels>
 
 </p-tabs>
 
 <div class="actions">
 
-    <p-button label="Publish" (onClick)="onSave()">
+    <p-button [label]="mode === 'create' ? 'Create' : 'Save'" (onClick)="onSave()">
     </p-button>
 
 </div>

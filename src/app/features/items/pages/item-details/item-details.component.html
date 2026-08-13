@@ -129,7 +129,7 @@
     [style]="{ width: '900px' }" (onHide)="closeEditDialog()">
 
     <app-save-item-form mode="edit" [item]="item" [backendErrors]="backendErrors" (formChange)="onFormChange($event)"
-        (save)="updateItem()">
+        (save)="onFormSubmit()">
     </app-save-item-form>
 
 </p-dialog>

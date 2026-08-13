@@ -24,6 +24,7 @@ import { ItemDetailModel } from '@core/item/model/item-detail-model';
 import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { ConfirmationService } from 'primeng/api';
+import { ItemFormModel } from '@features/items/model/item-form-model';
 
 type ItemFormMode = 'create' | 'edit';
 
@@ -42,21 +43,17 @@ export class SaveItemFormComponent {
   @Input() item?: ItemDetailModel;
   @Input() backendErrors: FieldError[] = [];
 
-  @Output() save = new EventEmitter<ItemRequestModel>();
+  @Output() save = new EventEmitter<ItemFormModel>();
   @Output() imagesChange = new EventEmitter<ItemImageForm[]>();
-  @Output() formChange = new EventEmitter<ItemRequestModel>();
+  @Output() formChange = new EventEmitter<ItemFormModel>();
 
-  form: ItemRequestModel = this.createEmptyItem();
+  form: ItemFormModel = this.createEmptyItem();
 
   addresses: AddressModel[] = [];
 
-  conditions: SelectOption<string>[] = [];
   categories: SelectOption<CategoryResponse>[] = [];
-  subCategories: SelectOption<string>[] = [];
-  selectedCondition?: EnumOption;
-
-  selectedSubCategory?: SubCategoryResponse;
-  selectedCategory?: CategoryResponse;
+  subCategories: SelectOption<SubCategoryResponse>[] = [];
+  conditions: SelectOption<string>[] = [];
 
   visitedTabs = new Set<string>();
 
@@ -71,16 +68,18 @@ export class SaveItemFormComponent {
     this.getItemEnums();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['item'] && this.mode === 'edit' && this.item) {
-      this.initializeEditForm();
-    }
-  }
-
   private initializeEditForm(): void {
-    if (!this.item) {
+    if (!this.item || this.categories.length === 0) {
       return;
     }
+
+    const subCategory = this.item.subCategory;
+
+    const category = this.categories.find(category =>
+      category.value.subCategories.some(
+        sub => sub.id === subCategory.id
+      )
+    )?.value;
 
     this.form = {
       name: this.item.name,
@@ -89,9 +88,12 @@ export class SaveItemFormComponent {
       description: this.item.description,
       basePrice: this.item.basePrice,
       itemCondition: this.item.itemCondition,
-      subCategoryId: this.item.subCategory.id,
-      addressId: this.item.pickupAddress.id
+      category,
+      subCategory,
+      address: this.item.pickupAddress
     };
+
+    this.updateSubCategories();
   }
 
   onSave(): void {
@@ -145,18 +147,53 @@ export class SaveItemFormComponent {
           label: category.categoryLabel,
           value: category
         }));
+
+        if (this.mode === 'edit' && this.item) {
+          this.initializeCategory();
+          this.initializeEditForm();
+        }
+
       }
     });
   }
 
+  private initializeCategory(): void {
+    if (!this.form.subCategory) {
+      return;
+    }
+
+    const category = this.categories.find(category =>
+      category.value.subCategories.some(
+        sub => sub.id === this.form.subCategory!.id
+      )
+    );
+
+    if (!category) {
+      return;
+    }
+
+    this.form.category = category.value;
+    this.updateSubCategories();
+  }
+
+  private updateSubCategories(): void {
+    this.subCategories =
+      this.form.category?.subCategories.map(sub => ({
+        label: sub.subCategoryLabel,
+        value: sub
+      })) ?? [];
+  }
+
   onCategoryChange(): void {
-    this.selectedSubCategory = undefined;
+    this.form.subCategory = undefined;
 
     this.subCategories =
-      this.selectedCategory?.subCategories.map(sub => ({
+      this.form.category?.subCategories.map(sub => ({
         label: sub.subCategoryLabel,
-        value: sub.id
+        value: sub
       })) ?? [];
+
+    this.formChange.emit(this.form);
   }
 
   get hourlyPrice(): number {
@@ -172,7 +209,8 @@ export class SaveItemFormComponent {
   }
 
   selectAddress(address: AddressModel): void {
-    this.form.addressId = address.id;
+    this.form.address = address;
+    this.formChange.emit(this.form);
   }
 
   getTabHasError(tab: string): boolean {
@@ -219,7 +257,7 @@ export class SaveItemFormComponent {
     }
   }
 
-  private createEmptyItem(): ItemRequestModel {
+  private createEmptyItem(): ItemFormModel {
 
     return {
       name: '',
@@ -228,8 +266,8 @@ export class SaveItemFormComponent {
       description: '',
       basePrice: 0,
       itemCondition: undefined!,
-      subCategoryId: '',
-      addressId: ''
+      subCategory: undefined,
+      address: undefined
     };
 
   }

@@ -17,10 +17,10 @@
 
         @if (isOwner) {
         <div class="item-actions">
-            <p-button icon="pi pi-cog" [text]="true" [rounded]="true" severity="primary" 
+            <p-button icon="pi pi-cog" [text]="true" [rounded]="true" severity="primary"
                 (onClick)="itemMenu.toggle($event)" />
 
-            <p-menu #itemMenu [model]="itemMenuItems" [popup]="true" appendTo="body"/>
+            <p-menu #itemMenu [model]="itemMenuItems" [popup]="true" appendTo="body" />
         </div>
         }
 
@@ -70,7 +70,7 @@
     <section class="item-description">
         <h2>Description</h2>
 
-        <p>{{ item.description }}</p>
+        <p>{{ item.description || 'No description provided.' }}</p>
     </section>
 
     <section class="item-information">

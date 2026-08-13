@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ItemService } from '@core/item/item.service';
 import { ItemDetailModel } from '@core/item/model/item-detail-model';
 import { environment } from '../../../../../environments/environment';
@@ -12,7 +12,7 @@ import { Dialog } from "primeng/dialog";
 import { ItemRequestModel } from '@features/items/model/item-request-model';
 import { UpdateItemRequestModel } from '@features/items/model/item-update-request-model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MessageService } from 'primeng/api';
+import { MenuItem, MessageService } from 'primeng/api';
 import { FieldError } from '@shared/models/field-error';
 import { ApiValidationException } from '@shared/models/api-field-exception';
 import { PanelMenu } from "primeng/panelmenu";
@@ -26,9 +26,6 @@ import { Menu } from 'primeng/menu';
   styleUrl: './item-details.component.scss'
 })
 export class ItemDetailComponent implements OnInit {
-  deleteItem() {
-    throw new Error('Method not implemented.');
-  }
   @ViewChild(SaveItemFormComponent)
   saveItemForm?: SaveItemFormComponent;
 
@@ -46,18 +43,7 @@ export class ItemDetailComponent implements OnInit {
     alt: string;
   }[] = [];
 
-  itemMenuItems = [
-    {
-      label: 'Editar',
-      icon: 'pi pi-pencil',
-      command: () => this.openEditDialog()
-    },
-    {
-      label: 'Excluir',
-      icon: 'pi pi-trash',
-      command: () => this.deleteItem()
-    }
-  ];
+  itemMenuItems: MenuItem[] = [];
 
   responsiveOptions = [
     {
@@ -83,7 +69,7 @@ export class ItemDetailComponent implements OnInit {
 
   constructor(
     private itemService: ItemService, private route: ActivatedRoute, private userService: UserService,
-    private messageService: MessageService) { }
+    private messageService: MessageService, private router: Router) { }
 
   ngOnInit(): void {
     const itemId = this.route.snapshot.paramMap.get('id');
@@ -93,6 +79,27 @@ export class ItemDetailComponent implements OnInit {
     }
 
     this.loadItem(itemId);
+  }
+
+  private updateItemMenu(): void {
+    if (!this.item) {
+      return;
+    }
+
+    const isAvailable = this.item.itemStatus === 'AVAILABLE';
+
+    this.itemMenuItems = [
+      {
+        label: 'Edit',
+        icon: 'pi pi-pencil',
+        command: () => this.openEditDialog()
+      },
+      {
+        label: isAvailable ? 'Make unavailable' : 'Make available',
+        icon: isAvailable ? 'pi pi-eye-slash' : 'pi pi-eye',
+        command: () => this.changeAvailability()
+      }
+    ];
   }
 
   private loadItem(itemId: string): void {
@@ -105,6 +112,8 @@ export class ItemDetailComponent implements OnInit {
         this.isOwner = this.userService.currentUser()?.id === item.owner.id;
         this.loadGallery();
         this.isLoading = false;
+        this.updateItemMenu();
+
       },
       error: () => {
         this.isLoading = false;
@@ -196,6 +205,36 @@ export class ItemDetailComponent implements OnInit {
       }
     });
 
+  }
+
+  changeAvailability() {
+    if (!this.item) {
+      return;
+    }
+    this.itemService.changeAvailability(this.item.id).subscribe({
+      next: () => {
+        if (!this.item) {
+          return;
+        }
+        if (this.item.itemStatus === 'AVAILABLE') {
+          this.item.itemStatus = 'UNAVAILABLE';
+          this.item.itemStatusLabel = 'Unavailable';
+        } else {
+          this.item.itemStatus = 'AVAILABLE';
+          this.item.itemStatusLabel = 'Available';
+        }
+        this.updateItemMenu();
+
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Availability updated',
+          detail: `Item is now ${this.item.itemStatusLabel.toLowerCase()}.`
+        });
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    })
   }
 
   onFormChange($event: ItemRequestModel) {

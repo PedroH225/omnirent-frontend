@@ -1,0 +1,10 @@
+.auth-container {
+  font-family: var(--p-font-family);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background: var(--p-surface-100);
+
+}

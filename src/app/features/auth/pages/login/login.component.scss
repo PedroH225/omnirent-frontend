@@ -1,17 +1,35 @@
-.login-container {
-  font-family: var(--p-font-family);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .login-card {
   width: 100%;
-  max-width: 500px;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.logo {
+  margin-top: 1rem;
+  width: 75px;
+  height: auto;
+  object-fit: contain;
+}
+
+.register-link {
+  display: block;
+  margin-top: 1rem;
+  text-align: center;
+  text-decoration: none;
+}
+
+.login-title {
+  color: var(--p-primary-500);
+  text-align: center;
+  margin: 0;
+  font-size: 1.75rem;
 }
 
 #email,
@@ -35,4 +53,28 @@
 .login-title {
   text-align: center;
   margin: 0;
+}
+
+.social-login {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.social-button {
+  width: 55px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  cursor: pointer;
+  border: 1px solid var(--p-content-border-color);
+  border-radius: 15%;
+  background: var(--p-content-background);
+  color: var(--p-primary-color);
+}
+
+.social-button i {
+  font-size: 1.25rem;
 }

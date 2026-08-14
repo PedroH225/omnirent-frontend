@@ -11,56 +11,68 @@ import { RentingOutComponent } from '@features/rentals/renting-out/renting-out.c
 import { UserAddressComponent } from '@features/address/user-address/user-address.component';
 import { CreateItemComponent } from '@features/items/pages/create-item/create-item.component';
 import { ItemDetailComponent } from '@features/items/pages/item-details/item-details.component';
+import { RegisterComponent } from '@features/auth/pages/register/register.component';
+import { AuthAreaComponent } from '@features/auth/layouts/auth-area/auth-area.component';
 
 export const routes: Routes = [
     {
-    path: '',
-    component: MainLayoutComponent,
-    children: [
-        {
-            path: '',
-            component: HomeComponent
-        },
-        {
-            path: 'items/:id',
-            component: ItemDetailComponent
-        },
-        {
-            path: 'account',
-            canActivate: [authGuard],
-            component: UserLayoutComponent,
-            children: [
-                {
-                    path: '',
-                    component: DashboardComponent
-                },
-                {
-                    path: 'my-items',
-                    component: MyItemsComponent
-                },
-                {
-                    path: 'renting',
-                    component: RentingComponent
-                },
-                {
-                    path: 'renting-out',
-                    component: RentingOutComponent
-                },
-                {
-                    path: 'create-item',
-                    component: CreateItemComponent
-                },
-                {
-                    path: 'addresses',
-                    component: UserAddressComponent
-                }
-            ]
-        }
-    ]
-},
-    {
-        path: 'login',
-        component: LoginComponent
+        path: '',
+        component: MainLayoutComponent,
+        children: [
+            {
+                path: '',
+                component: HomeComponent
+            },
+            {
+                path: 'items/:id',
+                component: ItemDetailComponent
+            },
+            {
+                path: 'account',
+                canActivate: [authGuard],
+                component: UserLayoutComponent,
+                children: [
+                    {
+                        path: '',
+                        component: DashboardComponent
+                    },
+                    {
+                        path: 'my-items',
+                        component: MyItemsComponent
+                    },
+                    {
+                        path: 'renting',
+                        component: RentingComponent
+                    },
+                    {
+                        path: 'renting-out',
+                        component: RentingOutComponent
+                    },
+                    {
+                        path: 'create-item',
+                        component: CreateItemComponent
+                    },
+                    {
+                        path: 'addresses',
+                        component: UserAddressComponent
+                    }
+                ]
+            }
+        ]
     },
+    {
+        path: 'auth',
+        component: AuthAreaComponent,
+        children: [
+            {
+                path: 'login',
+                component: LoginComponent
+            },
+            {
+                path: 'register',
+                component: RegisterComponent
+            }
+        ]
+    }
 ];
 

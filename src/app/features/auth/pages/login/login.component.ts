@@ -7,7 +7,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { AuthModel, TokenResponse } from '../../models/auth.model';
-import { Router } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MessageModule } from 'primeng/message';
 import { ApiException } from '../../../../shared/models/api-exception';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -29,7 +29,8 @@ const DISPLAYABLE_ERRORS = [
     InputTextModule,
     FloatLabelModule,
     MessageModule,
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
 })
 export class LoginComponent {

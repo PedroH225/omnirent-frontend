@@ -6,6 +6,7 @@ import { Observable, tap } from 'rxjs';
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from '../../features/auth/models/jwt.payload';
 import { UserService } from '@core/user/user.service';
+import { RegisterDto } from '@features/auth/models/register-model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,10 @@ export class AuthService {
   private readonly apiUrl: string = environment.apiUrl;
 
   constructor(private http: HttpClient, private userService: UserService) { }
+
+  registerUser(register: RegisterDto): Observable<void> {
+    return this.http.post<void>(`${this.apiUrl}/auth/register`, register);
+  }
 
   login(authModel: AuthModel): Observable<TokenResponse> {
     return this.http.post<TokenResponse>(

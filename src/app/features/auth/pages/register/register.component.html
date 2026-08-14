@@ -8,7 +8,7 @@
         </div>
 
         <div class="form-container">
-            <app-save-user-form></app-save-user-form>
+            <app-save-user-form [backendErrors]="backendErrors" (onSave)="register($event)"></app-save-user-form>
         </div>
     </p-card>
 

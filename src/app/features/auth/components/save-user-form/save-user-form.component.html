@@ -1,45 +1,80 @@
 <form (ngSubmit)="save()">
-    <p-floatlabel>
-        <input name="name" id="name" type="text" pInputText [(ngModel)]="form.name" />
-        <label for="name">Name</label>
-    </p-floatlabel>
 
-    <p-floatlabel>
-        <input name="username" id="username" type="text" pInputText [(ngModel)]="form.username" />
-        <label for="username">Username</label>
-    </p-floatlabel>
+    <div class="field-group">
+        <p-floatlabel>
+            <input name="name" id="name" type="text" pInputText [(ngModel)]="form.name"
+                (ngModelChange)="onFieldChange('name')" />
+            <label for="name">Name</label>
+        </p-floatlabel>
 
-    <p-floatlabel>
-        <input name="email" id="email" type="email" pInputText [(ngModel)]="form.email" />
-        <label for="email">Email</label>
-    </p-floatlabel>
+        <app-field-error [message]="getFieldError('name')">
+        </app-field-error>
+    </div>
 
-    <p-floatlabel>
-        <p-datepicker name="birthDate" id="birthDate" [(ngModel)]="form.birthDate" dateFormat="yy/mm/dd" [maxDate]="today"/>
-        <label for="birthDate">Birth date</label>
-    </p-floatlabel>
+    <div class="field-group">
+        <p-floatlabel>
+            <input name="username" id="username" type="text" pInputText [(ngModel)]="form.username"
+                (ngModelChange)="onFieldChange('username')" />
+            <label for="username">Username</label>
+        </p-floatlabel>
+
+        <app-field-error [message]="getFieldError('username')">
+        </app-field-error>
+    </div>
+
+    <div class="field-group">
+        <p-floatlabel>
+            <input name="email" id="email" type="email" pInputText [(ngModel)]="form.email"
+                (ngModelChange)="onFieldChange('email')" />
+            <label for="email">Email</label>
+        </p-floatlabel>
+
+        <app-field-error [message]="getFieldError('email')">
+        </app-field-error>
+    </div>
+
+    <div class="field-group">
+        <p-floatlabel>
+            <p-datepicker name="birthDate" id="birthDate" [(ngModel)]="form.birthDate"
+                (ngModelChange)="onFieldChange('birthDate')" dateFormat="yy/mm/dd" [maxDate]="today" />
+            <label for="birthDate">Birth date</label>
+        </p-floatlabel>
+
+        <app-field-error [message]="getFieldError('birthDate')">
+        </app-field-error>
+    </div>
 
     @if (mode === 'create') {
-    <p-floatlabel>
-        <p-password name="password" id="password" [(ngModel)]="form.password" [feedback]="true" [toggleMask]="true">
-        </p-password>
-        <label for="password">Password</label>
-    </p-floatlabel>
 
-    <p-floatlabel>
-        <p-password name="repeatedPassword" id="repeatedPassword" [(ngModel)]="form.repeatedPassword" [feedback]="false"
-            [toggleMask]="true">
-        </p-password>
-        <label for="repeatedPassword">Repeat password</label>
-    </p-floatlabel>
+    <div class="field-group">
+        <p-floatlabel>
+            <p-password name="password" id="password" [(ngModel)]="form.password"
+                (ngModelChange)="onFieldChange('password')" [feedback]="true" [toggleMask]="true">
+            </p-password>
+            <label for="password">Password</label>
+        </p-floatlabel>
+
+        <app-field-error [message]="getFieldError('password')">
+        </app-field-error>
+    </div>
+
+    <div class="field-group">
+        <p-floatlabel>
+            <p-password name="repeatedPassword" id="repeatedPassword" [(ngModel)]="form.repeatedPassword"
+                (ngModelChange)="onFieldChange('repeatedPassword')" [feedback]="false" [toggleMask]="true">
+            </p-password>
+            <label for="repeatedPassword">Repeat password</label>
+        </p-floatlabel>
+
+        <app-field-error [message]="getFieldError('repeatedPassword')">
+        </app-field-error>
+    </div>
+
     }
+
     <div class="button-container">
         <p-button type="submit" label="Sign up">
         </p-button>
     </div>
 
-    @if (errorMessage) {
-    <p-message severity="error" [text]="errorMessage">
-    </p-message>
-    }
 </form>

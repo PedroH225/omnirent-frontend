@@ -12,6 +12,7 @@ import { UserAddressComponent } from '@features/address/user-address/user-addres
 import { CreateItemComponent } from '@features/items/pages/create-item/create-item.component';
 import { ItemDetailComponent } from '@features/items/pages/item-details/item-details.component';
 import { RegisterComponent } from '@features/auth/pages/register/register.component';
+import { AuthAreaComponent } from '@features/auth/layouts/auth-area/auth-area.component';
 
 export const routes: Routes = [
     {
@@ -60,12 +61,18 @@ export const routes: Routes = [
         ]
     },
     {
-        path: 'login',
-        component: LoginComponent
-    },
-    {
-        path: 'register',
-        component: RegisterComponent
+        path: 'auth',
+        component: AuthAreaComponent,
+        children: [
+            {
+                path: 'login',
+                component: LoginComponent
+            },
+            {
+                path: 'register',
+                component: RegisterComponent
+            }
+        ]
     }
 ];
 

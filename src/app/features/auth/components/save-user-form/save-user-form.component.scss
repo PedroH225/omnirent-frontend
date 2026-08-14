@@ -1,0 +1,34 @@
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+}
+
+p-floatlabel {
+  width: 100%;
+}
+
+#name,
+#username,
+#email {
+  width: 100%;
+}
+
+:host ::ng-deep .p-datepicker,
+:host ::ng-deep .p-password {
+  width: 100%;
+}
+
+:host ::ng-deep .p-password-input {
+  width: 100%;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+:host ::ng-deep p-message {
+  width: 100%;
+}

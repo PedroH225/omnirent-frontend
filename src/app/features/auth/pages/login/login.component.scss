@@ -1,18 +1,3 @@
-.login-container {
-  font-family: var(--p-font-family);
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  background: var(--p-surface-100);
-
-}
-
-.login-container p-card {
-  width: min(400px, 90vw);
-}
-
 .login-card {
   width: 100%;
   display: flex;

@@ -7,6 +7,7 @@ import { environment } from '../../../../environments/environment';
 import { ConfirmRentalComponent } from "../components/actions/confirm-rental/confirm-rental.component";
 import { MessageService } from 'primeng/api';
 import { Toast } from "primeng/toast";
+import { UserService } from '@core/user/user.service';
 
 @Component({
   selector: 'app-rental-detail',
@@ -24,7 +25,8 @@ export class RentalDetailComponent {
     private route: ActivatedRoute,
     private router: Router,
     private rentalService: RentalService,
-    private messageService: MessageService
+    private userService: UserService,
+    private messageService: MessageService,
   ) { }
 
   ngOnInit(): void {
@@ -64,6 +66,10 @@ export class RentalDetailComponent {
         detail: 'The payment was cancelled.'
       });
     }
+  }
+
+  isOwner(): boolean {
+    return this.userService.currentUser()?.id === this.rental?.owner.id;
   }
 
   onPaymentExpired(): void {

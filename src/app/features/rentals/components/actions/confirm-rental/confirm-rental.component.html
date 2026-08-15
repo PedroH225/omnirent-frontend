@@ -1,5 +1,61 @@
 <div class="payment-action">
 
+    @if (isOwner) {
+
+    @if (paymentStatus === 'PREPARING_PAYMENT') {
+    <div class="payment-status">
+
+        <i class="pi pi-spin pi-spinner"></i>
+
+        <div class="payment-status-content">
+            <strong>Preparing rental</strong>
+
+            <span>
+                We're preparing the rental confirmation.
+            </span>
+        </div>
+
+    </div>
+    }
+
+    @if (paymentStatus === 'PENDING') {
+    <div class="payment-status">
+
+        <i class="pi pi-spin pi-spinner"></i>
+
+        <div class="payment-status-content">
+            <strong>Waiting for payment</strong>
+
+            <span>
+                The renter needs to complete the payment to confirm this rental.
+            </span>
+        </div>
+
+    </div>
+    }
+
+    @if (paymentStatus === 'EXPIRED') {
+    <div class="payment-expired">
+
+        <i class="pi pi-clock"></i>
+
+        <span>
+            The payment checkout has expired and the rental has been cancelled.
+        </span>
+
+    </div>
+    }
+
+    @if (paymentStatus === 'ERROR') {
+    <div class="payment-error">
+        <span>
+            We couldn't prepare the rental payment.
+        </span>
+    </div>
+    }
+
+    } @else {
+
     @if (paymentStatus === 'PREPARING_PAYMENT') {
     <div class="payment-status">
 
@@ -71,21 +127,28 @@
 
     @if (paymentStatus === 'ERROR') {
     <div class="payment-error">
-        <span>Payment could not be prepared.</span>
+
+        <span>
+            Payment could not be prepared.
+        </span>
 
         <p-button label="Try again" severity="secondary" size="small" (onClick)="preparePayment()" />
+
     </div>
     }
 
     @if (paymentStatus === 'EXPIRED') {
-
     <div class="payment-expired">
+
         <i class="pi pi-clock"></i>
 
         <span>
             This payment checkout has expired and the rental has been cancelled.
         </span>
+
     </div>
+    }
 
     }
+
 </div>

@@ -18,7 +18,8 @@ export class ConfirmRentalComponent {
   protected readonly Math = Math;
 
   @Input() rentalId!: string;
-
+  @Input() isOwner = false;
+  
   @Output() paymentExpired = new EventEmitter<void>();
   paymentCheckout: PaymentCheckout | undefined;
 

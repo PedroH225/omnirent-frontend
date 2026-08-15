@@ -4,10 +4,14 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RentalService } from '@core/rental/rental.service';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../../environments/environment';
+import { ConfirmRentalComponent } from "../components/actions/confirm-rental/confirm-rental.component";
+import { MessageService } from 'primeng/api';
+import { Toast } from "primeng/toast";
 
 @Component({
   selector: 'app-rental-detail',
-  imports: [CommonModule],
+  imports: [CommonModule, ConfirmRentalComponent, Toast],
+  providers: [],
   templateUrl: './rental-detail.component.html',
   styleUrl: './rental-detail.component.scss'
 })
@@ -19,11 +23,13 @@ export class RentalDetailComponent {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private rentalService: RentalService
+    private rentalService: RentalService,
+    private messageService: MessageService
   ) { }
 
   ngOnInit(): void {
     this.loadRental();
+    this.checkPaymentResult();
   }
 
   private loadRental(): void {
@@ -38,6 +44,28 @@ export class RentalDetailComponent {
         this.rental = rental;
       }
     });
+  }
+
+  private checkPaymentResult(): void {
+    const success = this.route.snapshot.queryParamMap.get('success');
+
+    if (success === 'true') {
+      console.log('ENTROU NO SUCCESS');
+
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Payment',
+        detail: 'Payment completed successfully.'
+      });
+    }
+
+    if (success === 'false') {
+      this.messageService.add({
+        severity: 'info',
+        summary: 'Payment cancelled',
+        detail: 'The payment was cancelled.'
+      });
+    }
   }
 
   buildStorageUrl(): string {

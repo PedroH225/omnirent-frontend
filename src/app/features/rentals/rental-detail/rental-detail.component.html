@@ -1,3 +1,4 @@
+<p-toast></p-toast>
 <div class="rental-details" *ngIf="rental as r">
 
     <main class="rental-content">
@@ -151,7 +152,9 @@
                 <h2>Actions</h2>
             </div>
 
-            <!-- RentalActionCardComponent entra aqui -->
+            @if (rental.rentalStatus === 'CREATED') {
+            <app-confirm-rental [rentalId]="rental.id"></app-confirm-rental>
+            }
 
         </section>
 

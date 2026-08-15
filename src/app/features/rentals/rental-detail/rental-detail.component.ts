@@ -50,8 +50,6 @@ export class RentalDetailComponent {
     const success = this.route.snapshot.queryParamMap.get('success');
 
     if (success === 'true') {
-      console.log('ENTROU NO SUCCESS');
-
       this.messageService.add({
         severity: 'success',
         summary: 'Payment',
@@ -66,6 +64,10 @@ export class RentalDetailComponent {
         detail: 'The payment was cancelled.'
       });
     }
+  }
+
+  onPaymentExpired(): void {
+    this.loadRental();
   }
 
   buildStorageUrl(): string {

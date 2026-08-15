@@ -20,12 +20,21 @@
 
     <div class="payment-ready">
 
-        <p-button label="Continue to payment" icon="pi pi-credit-card" styleClass="payment-button"
-            (onClick)="goToPayment()" />
+        <div class="payment-button-row">
+            <p-button label="Continue to payment" icon="pi pi-credit-card" styleClass="payment-button"
+                (onClick)="goToPayment()" />
 
-        <button type="button" class="payment-info" (click)="paymentInfo.toggle($event)">
-            <i class="pi pi-info-circle"></i>
-        </button>
+            <button type="button" class="payment-info" (click)="paymentInfo.toggle($event)">
+                <i class="pi pi-info-circle"></i>
+            </button>
+        </div>
+
+        <span class="payment-expiration">
+            Checkout expires in
+            {{ Math.floor(remainingSeconds / 60) }}:{{
+            (remainingSeconds % 60).toString().padStart(2, '0')
+            }}
+        </span>
 
         <p-popover #paymentInfo>
             <div class="payment-info-content">
@@ -68,4 +77,15 @@
     </div>
     }
 
+    @if (paymentStatus === 'EXPIRED') {
+
+    <div class="payment-expired">
+        <i class="pi pi-clock"></i>
+
+        <span>
+            This payment checkout has expired and the rental has been cancelled.
+        </span>
+    </div>
+
+    }
 </div>

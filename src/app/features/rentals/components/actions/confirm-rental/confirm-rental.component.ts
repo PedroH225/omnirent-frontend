@@ -1,5 +1,6 @@
+import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PaymentCheckout } from '@core/payment/model/payment-checkout-model';
 import { PaymentWebSocketService } from '@core/payment/payment-websocket.service';
 import { PaymentService } from '@core/payment/payment.service';
@@ -14,10 +15,18 @@ import { PopoverModule } from 'primeng/popover';
   styleUrl: './confirm-rental.component.scss'
 })
 export class ConfirmRentalComponent {
+  protected readonly Math = Math;
+
   @Input() rentalId!: string;
+
+  @Output() paymentExpired = new EventEmitter<void>();
   paymentCheckout: PaymentCheckout | undefined;
 
   paymentStatus: string = 'PREPARING_PAYMENT';
+
+  remainingSeconds = 0;
+
+  private paymentTimer?: ReturnType<typeof setInterval>;
 
   constructor(private paymentService: PaymentService, private paymentWebSocketService: PaymentWebSocketService) { }
 
@@ -26,6 +35,9 @@ export class ConfirmRentalComponent {
   }
 
   ngOnDestroy(): void {
+    if (this.paymentTimer) {
+      clearInterval(this.paymentTimer);
+    }
     this.paymentWebSocketService.disconnect();
   }
 
@@ -45,12 +57,9 @@ export class ConfirmRentalComponent {
     }
 
     this.paymentService.findCheckout(this.rentalId).subscribe({
-
       next: response => {
-        this.paymentCheckout = response;
-        this.paymentStatus = response.status;
+        this.handleCheckout(response);
       },
-
       error: (error: HttpErrorResponse) => {
 
         const apiException = error.error as ApiException;
@@ -73,12 +82,50 @@ export class ConfirmRentalComponent {
     });
   }
 
-  private handlePaymentEvent(event: any): void {
+  private handlePaymentEvent(event: PaymentCheckout): void {
+    if (event.status !== 'PENDING') {
+      return;
+    }
 
-    this.paymentCheckout = event;
-    this.paymentStatus = 'PENDING';
+    this.handleCheckout(event);
 
     this.paymentWebSocketService.disconnect();
   }
 
+
+  private handleCheckout(checkout: PaymentCheckout): void {
+    this.paymentCheckout = checkout;
+    this.paymentStatus = 'PENDING';
+
+    this.startPaymentTimer(checkout.now);
+  }
+
+  private startPaymentTimer(createdAt: string): void {
+    if (this.paymentTimer) {
+      clearInterval(this.paymentTimer);
+    }
+
+    const createdTime = new Date(createdAt).getTime();
+    const expirationTime = createdTime + 30 * 60 * 1000;
+
+    const updateTimer = () => {
+      const remaining = Math.max(
+        0,
+        expirationTime - Date.now()
+      );
+
+      this.remainingSeconds = Math.ceil(remaining / 1000);
+
+      if (remaining <= 0) {
+        clearInterval(this.paymentTimer);
+        this.paymentTimer = undefined;
+
+        this.paymentStatus = 'EXPIRED';
+      }
+    };
+
+    updateTimer();
+
+    this.paymentTimer = setInterval(updateTimer, 1000);
+  }
 }

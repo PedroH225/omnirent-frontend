@@ -40,12 +40,26 @@
 
 .payment-ready {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    gap: .4rem;
+}
+
+.payment-button-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     gap: .5rem;
+    width: 100%;
 }
 
 .payment-button {
     flex: 1;
+}
+
+.payment-expiration {
+    font-size: .8rem;
+    color: var(--p-text-muted-color);
 }
 
 .payment-info {
@@ -171,5 +185,28 @@
     span {
         color: var(--p-text-muted-color);
         font-size: .9rem;
+    }
+}
+
+.payment-expired {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+
+    padding: .75rem 0;
+
+    text-align: center;
+
+    i {
+        color: var(--p-text-muted-color);
+        font-size: 1.25rem;
+    }
+
+    span {
+        color: var(--p-text-color);
+        font-size: .9rem;
+        font-weight: 500;
     }
 }

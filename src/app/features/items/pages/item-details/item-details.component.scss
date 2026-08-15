@@ -12,7 +12,6 @@
 .item-gallery,
 .item-description,
 .item-information,
-.item-pricing,
 .item-address {
     max-width: 1200px;
     margin-left: auto;
@@ -73,6 +72,7 @@
         }
     }
 }
+
 .gallery-image {
     width: 100%;
     height: 520px;
@@ -91,7 +91,6 @@
 
 .item-description,
 .item-information,
-.item-pricing,
 .item-address {
     padding: 2rem 0;
     border-bottom: 1px solid var(--p-surface-border);
@@ -104,6 +103,96 @@
         letter-spacing: -0.01em;
         color: var(--p-primary-color);
     }
+}
+
+/* Rental / Pricing */
+
+.item-pricing {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 1.5rem 0;
+    box-sizing: border-box;
+    border-bottom: 1px solid var(--p-surface-border);
+}
+
+.rent-panel {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.selected-price {
+    display: flex;
+    align-items: baseline;
+    gap: .5rem;
+}
+
+.selected-price .price {
+    color: var(--p-primary-500);
+    font-size: 2.2rem;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.selected-price .period {
+    color: var(--p-text-muted-color);
+    font-size: 1rem;
+}
+
+.rental-label {
+    color: var(--p-text-color);
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.period-options {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+}
+
+.period-card {
+    width: 150px;
+    min-height: 52px;
+    padding: .75rem 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid var(--p-surface-300);
+    border-radius: 10px;
+
+    background: var(--p-surface-0);
+    color: var(--p-text-color);
+
+    font: inherit;
+    font-weight: 500;
+
+    cursor: pointer;
+
+    transition:
+        border-color .2s ease,
+        background-color .2s ease,
+        color .2s ease,
+        box-shadow .2s ease;
+}
+
+.period-card:hover {
+    border-color: var(--p-primary-400);
+    background: var(--p-primary-50);
+}
+
+.period-card.selected {
+    border-color: var(--p-primary-500);
+    background: var(--p-primary-50);
+    color: var(--p-primary-700);
+    box-shadow: 0 0 0 1px var(--p-primary-500);
 }
 
 .item-description {
@@ -120,6 +209,7 @@
 .details-grid {
     display: flex;
     flex-direction: column;
+
     border: 1px solid var(--p-surface-border);
     border-radius: 8px;
     overflow: hidden;
@@ -128,7 +218,9 @@
 .detail-row {
     display: grid;
     grid-template-columns: 220px 1fr;
+
     min-height: 3.25rem;
+
     border-bottom: 1px solid var(--p-surface-border);
 
     &:last-child {
@@ -159,38 +251,11 @@
     }
 }
 
-.item-pricing {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 1.25rem 0;
-    display: flex;
-    align-items: center;
-    gap: 2.5rem;
-    border-bottom: 1px solid var(--p-surface-border);
-}
-
-.price-item {
-    display: flex;
-    flex-direction: column;
-    gap: .25rem;
-}
-
-.price-item span {
-    font-size: .85rem;
-    color: var(--p-text-muted-color);
-}
-
-.price-item strong {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--p-primary-color);
-}
-
 .item-address {
     border-bottom: none;
 
     p {
-        margin: 0.35rem 0;
+        margin: .35rem 0;
         font-size: 1rem;
         line-height: 1.5;
         color: var(--p-text-color-secondary);
@@ -198,12 +263,12 @@
 }
 
 @media (max-width: 768px) {
+
     .item-detail {
         padding: 1rem;
     }
 
     .item-header {
-
         h1 {
             font-size: 1.85rem;
         }
@@ -220,14 +285,15 @@
 
     .item-description,
     .item-information,
-    .item-pricing,
     .item-address {
         padding: 1.5rem 0;
     }
 
-    .details-grid {
-        grid-template-columns: 1fr;
+    .item-pricing {
+        padding: 1.5rem 0;
     }
+
+
 
     .detail-row {
         grid-template-columns: 40% 60%;
@@ -240,13 +306,25 @@
             border-bottom: none;
         }
     }
+}
 
-    .item-pricing {
-        grid-template-columns: 1fr 1fr;
+@media (max-width: 700px) {
+    .period-options {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .period-card {
+        width: auto;
+    }
+
+    .selected-price .price {
+        font-size: 1.8rem;
     }
 }
 
 @media (max-width: 480px) {
+
     .item-header {
         h1 {
             font-size: 1.6rem;
@@ -277,9 +355,8 @@
         padding: .65rem .75rem;
         font-size: .9rem;
     }
+
     .item-pricing {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 1rem;
+        padding: 1.25rem 0;
     }
 }

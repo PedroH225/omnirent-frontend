@@ -2,10 +2,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PageResponse } from '../../shared/models/page.response.model';
 import { RentalDisplayModel } from '@features/rentals/model/rental-display-model';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { RentalDetailComponent } from '@features/rentals/rental-detail/rental-detail.component';
 import { RentalDetailModel } from '@features/rentals/model/rental-detail-model';
+import { RentalEnumsResponse } from '@features/rentals/model/rental-enums-model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ import { RentalDetailModel } from '@features/rentals/model/rental-detail-model';
 export class RentalService {
 
   private readonly apiUrl: string = environment.apiUrl;
+  
+  private rentalEnums$?: Observable<RentalEnumsResponse>;
 
   constructor(private http: HttpClient) { }
 
@@ -29,12 +32,24 @@ export class RentalService {
 
   }
 
-    getRentingOut(page: number, size: number): Observable<PageResponse<RentalDisplayModel>> {
+  getRentingOut(page: number, size: number): Observable<PageResponse<RentalDisplayModel>> {
     const params = new HttpParams()
       .set("page", page)
       .set("size", size);
 
     return this.http.get<PageResponse<RentalDisplayModel>>(this.apiUrl + "/rental/find/userRentals", { params });
 
+  }
+
+  getRentalEnums(): Observable<RentalEnumsResponse> {
+    if (!this.rentalEnums$) {
+      this.rentalEnums$ = this.http
+        .get<RentalEnumsResponse>(`${this.apiUrl}/rental/enums`)
+        .pipe(
+          shareReplay(1)
+        );
+    }
+
+    return this.rentalEnums$;
   }
 }

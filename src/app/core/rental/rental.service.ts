@@ -7,6 +7,8 @@ import { environment } from '../../../environments/environment';
 import { RentalDetailComponent } from '@features/rentals/rental-detail/rental-detail.component';
 import { RentalDetailModel } from '@features/rentals/model/rental-detail-model';
 import { RentalEnumsResponse } from '@features/rentals/model/rental-enums-model';
+import { CreateRentalRequest } from '@features/rentals/model/create-rental-request-model';
+import { RentalCreatedModel } from '@features/rentals/model/rental-created-model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +20,10 @@ export class RentalService {
   private rentalEnums$?: Observable<RentalEnumsResponse>;
 
   constructor(private http: HttpClient) { }
+
+  createRental(request: CreateRentalRequest): Observable<RentalCreatedModel> {
+    return this.http.post<RentalDetailModel>(`${this.apiUrl}/rental`, request);
+  }
 
   getRentalDetail(rentalId: string): Observable<RentalDetailModel> {
     return this.http.get<RentalDetailModel>(`${this.apiUrl}/rental/find/${rentalId}`);

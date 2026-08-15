@@ -347,7 +347,20 @@ export class ItemDetailComponent implements OnInit {
           rentalPeriod: this.selectedRentalPeriod
         };
 
-        // this.rentalService.createRental(request)...
+        this.rentalService.createRental(request).subscribe({
+          next: (response) => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Rental created',
+              detail: `Rental created successfully.`
+            });
+
+            this.router.navigate(['/rentals', response.id]);
+          },
+          error: (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        })
       }
     });
   }

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RentalDetailModel } from '../model/rental-detail-model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RentalService } from '@core/rental/rental.service';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../../environments/environment';
@@ -18,10 +18,15 @@ export class RentalDetailComponent {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private rentalService: RentalService
   ) { }
 
   ngOnInit(): void {
+    this.loadRental();
+  }
+
+  private loadRental(): void {
     const rentalId = this.route.snapshot.paramMap.get('id');
 
     if (!rentalId) {

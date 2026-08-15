@@ -24,7 +24,7 @@
         </div>
         }
         @if (!isOwner) {
-        <p-button label="Rent Now" (onClick)="rentItem()" />
+        <p-button label="Rent Now" [disabled]="item.itemStatus !== 'AVAILABLE'" (onClick)="rentItem()" />
         }
 
     </header>

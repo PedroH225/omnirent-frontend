@@ -18,10 +18,11 @@ import { MarkInUseComponent } from "../components/actions/mark-in-use/mark-in-us
 import { RentalDisplayModel } from '../model/rental-display-model';
 import { RequestReturnComponent } from "../components/actions/request-return/request-return.component";
 import { ShipReturnComponent } from "../components/actions/ship-return/ship-return.component";
+import { MarkReturnedComponent } from "../components/actions/mark-returned/mark-returned.component";
 
 @Component({
   selector: 'app-rental-detail',
-  imports: [CommonModule, ConfirmRentalComponent, Toast, CancelRentalComponent, PrepareItemComponent, RentalTimelineComponent, ShipItemComponent, MarkInUseComponent, RequestReturnComponent, ShipReturnComponent],
+  imports: [CommonModule, ConfirmRentalComponent, Toast, CancelRentalComponent, PrepareItemComponent, RentalTimelineComponent, ShipItemComponent, MarkInUseComponent, RequestReturnComponent, ShipReturnComponent, MarkReturnedComponent],
   providers: [ConfirmationService],
   templateUrl: './rental-detail.component.html',
   styleUrl: './rental-detail.component.scss'

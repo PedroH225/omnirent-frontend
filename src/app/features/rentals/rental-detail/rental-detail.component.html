@@ -189,6 +189,11 @@
             </app-ship-return>
             }
 
+            @if (rental.rentalStatus === 'RETURN_SHIPPED') {
+                <app-mark-returned [rentalId]="rental.id" [isOwner]="isOwner()"
+                (returned)="onRentalStatusChanged($event)"></app-mark-returned>
+            }
+
             @if (rental.rentalStatus === 'CREATED' || rental.rentalStatus === 'CONFIRMED') {
             <app-cancel-rental [rentalId]="rental.id" [rentalStatus]="rental.rentalStatus" [isOwner]="isOwner()"
                 (rentalCancelled)="onRentalStatusChanged($event)">

@@ -49,6 +49,10 @@ export class RentalService {
     return this.http.patch<void>(`${this.apiUrl}/rental/${rentalId}/return-shipped`, {});
   }
 
+  confirmReturn(rentalId: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/rental/${rentalId}/returned`, {});
+  }
+
   getRentalDetail(rentalId: string): Observable<RentalDetailModel> {
     return this.http.get<RentalDetailModel>(`${this.apiUrl}/rental/find/${rentalId}`);
   }

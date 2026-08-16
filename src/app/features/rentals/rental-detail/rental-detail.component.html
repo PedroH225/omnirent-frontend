@@ -178,8 +178,16 @@
             }
 
             @if (rental.rentalStatus === 'IN_USE') {
-            <app-request-return [rentalId]="rental.id" [isOwner]="isOwner()" (returnRequested)="onRentalStatusChanged($event)">
-            </app-request-return> }
+            <app-request-return [rentalId]="rental.id" [isOwner]="isOwner()"
+                (returnRequested)="onRentalStatusChanged($event)">
+            </app-request-return>
+            }
+
+            @if (rental.rentalStatus === 'RETURN_REQUESTED') {
+            <app-ship-return [rentalId]="rental.id" [isOwner]="isOwner()"
+                (returnShipped)="onRentalStatusChanged($event)">
+            </app-ship-return>
+            }
 
             @if (rental.rentalStatus === 'CREATED' || rental.rentalStatus === 'CONFIRMED') {
             <app-cancel-rental [rentalId]="rental.id" [rentalStatus]="rental.rentalStatus" [isOwner]="isOwner()"

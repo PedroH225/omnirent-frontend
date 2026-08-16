@@ -17,10 +17,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { MarkInUseComponent } from "../components/actions/mark-in-use/mark-in-use.component";
 import { RentalDisplayModel } from '../model/rental-display-model';
 import { RequestReturnComponent } from "../components/actions/request-return/request-return.component";
+import { ShipReturnComponent } from "../components/actions/ship-return/ship-return.component";
 
 @Component({
   selector: 'app-rental-detail',
-  imports: [CommonModule, ConfirmRentalComponent, Toast, CancelRentalComponent, PrepareItemComponent, RentalTimelineComponent, ShipItemComponent, MarkInUseComponent, RequestReturnComponent],
+  imports: [CommonModule, ConfirmRentalComponent, Toast, CancelRentalComponent, PrepareItemComponent, RentalTimelineComponent, ShipItemComponent, MarkInUseComponent, RequestReturnComponent, ShipReturnComponent],
   providers: [ConfirmationService],
   templateUrl: './rental-detail.component.html',
   styleUrl: './rental-detail.component.scss'

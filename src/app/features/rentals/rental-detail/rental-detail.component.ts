@@ -5,14 +5,17 @@ import { RentalService } from '@core/rental/rental.service';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../../environments/environment';
 import { ConfirmRentalComponent } from "../components/actions/confirm-rental/confirm-rental.component";
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Toast } from "primeng/toast";
 import { UserService } from '@core/user/user.service';
+import { Button } from "primeng/button";
+import { CancelRentalComponent } from "../components/actions/cancel-rental/cancel-rental.component";
+import { EnumOption } from '@shared/models/EnumOption';
 
 @Component({
   selector: 'app-rental-detail',
-  imports: [CommonModule, ConfirmRentalComponent, Toast],
-  providers: [],
+  imports: [CommonModule, ConfirmRentalComponent, Toast, CancelRentalComponent],
+  providers: [ConfirmationService],
   templateUrl: './rental-detail.component.html',
   styleUrl: './rental-detail.component.scss'
 })
@@ -20,6 +23,8 @@ export class RentalDetailComponent {
   storageUrl = environment.storageUrl;
 
   rental: RentalDetailModel | null = null;
+
+  rentalStatus: EnumOption[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -31,7 +36,20 @@ export class RentalDetailComponent {
 
   ngOnInit(): void {
     this.loadRental();
+    this.getRentalEnums();
+
     this.checkPaymentResult();
+  }
+
+  private getRentalEnums() {
+    this.rentalService.getRentalEnums().subscribe({
+      next: (response) => {
+        this.rentalStatus = response.rentalStatuses;
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    })
   }
 
   private loadRental(): void {
@@ -72,8 +90,22 @@ export class RentalDetailComponent {
     return this.userService.currentUser()?.id === this.rental?.owner.id;
   }
 
-  onPaymentExpired(): void {
-    this.loadRental();
+  onRentalStatusChanged(status: string): void {
+    if (this.rental) {
+      this.rental.rentalStatus = status;
+    }
+  }
+
+  getRentalStatusLabel(): string {
+    const rental = this.rental;
+
+    if (!rental) {
+      return '';
+    }
+
+    return this.rentalStatus.find(
+      status => status.code === rental.rentalStatus
+    )?.label ?? rental.rentalStatus;
   }
 
   buildStorageUrl(): string {

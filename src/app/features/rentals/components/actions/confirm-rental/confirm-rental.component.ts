@@ -20,7 +20,7 @@ export class ConfirmRentalComponent {
   @Input() rentalId!: string;
   @Input() isOwner = false;
   
-  @Output() paymentExpired = new EventEmitter<void>();
+  @Output() paymentExpired = new EventEmitter<string>();
   paymentCheckout: PaymentCheckout | undefined;
 
   paymentStatus: string = 'PREPARING_PAYMENT';
@@ -122,6 +122,7 @@ export class ConfirmRentalComponent {
         this.paymentTimer = undefined;
 
         this.paymentStatus = 'EXPIRED';
+        this.paymentExpired.emit('EXPIRED');
       }
     };
 

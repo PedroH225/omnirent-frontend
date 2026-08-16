@@ -10,7 +10,9 @@
             </div>
 
             <span class="status-badge" [attr.data-status]="r.rentalStatus">
-                {{ r.rentalStatusLabel }}
+
+                {{ getRentalStatusLabel() }}
+
             </span>
         </header>
 
@@ -153,8 +155,15 @@
             </div>
 
             @if (rental.rentalStatus === 'CREATED' || rental.rentalStatus === 'EXPIRED') {
-            <app-confirm-rental [rentalId]="rental.id" [isOwner]="isOwner()" (paymentExpired)="onPaymentExpired()">
+            <app-confirm-rental [rentalId]="rental.id" [isOwner]="isOwner()"
+                (paymentExpired)="onRentalStatusChanged($event)">
             </app-confirm-rental>
+            }
+
+            @if (rental.rentalStatus === 'CREATED' || rental.rentalStatus === 'CONFIRMED') {
+            <app-cancel-rental [rentalId]="rental.id" [rentalStatus]="rental.rentalStatus" [isOwner]="isOwner()"
+                (rentalCancelled)="onRentalStatusChanged($event)">
+            </app-cancel-rental>
             }
 
         </section>

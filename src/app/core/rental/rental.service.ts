@@ -25,6 +25,10 @@ export class RentalService {
     return this.http.post<RentalDetailModel>(`${this.apiUrl}/rental`, request);
   }
 
+  cancelRental(rentalId: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/rental/${rentalId}/cancel`, {});
+  }
+
   getRentalDetail(rentalId: string): Observable<RentalDetailModel> {
     return this.http.get<RentalDetailModel>(`${this.apiUrl}/rental/find/${rentalId}`);
   }

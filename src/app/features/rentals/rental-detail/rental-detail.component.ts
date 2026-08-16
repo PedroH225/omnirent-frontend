@@ -11,10 +11,11 @@ import { UserService } from '@core/user/user.service';
 import { Button } from "primeng/button";
 import { CancelRentalComponent } from "../components/actions/cancel-rental/cancel-rental.component";
 import { EnumOption } from '@shared/models/EnumOption';
+import { PrepareItemComponent } from "../components/actions/prepare-item/prepare-item.component";
 
 @Component({
   selector: 'app-rental-detail',
-  imports: [CommonModule, ConfirmRentalComponent, Toast, CancelRentalComponent],
+  imports: [CommonModule, ConfirmRentalComponent, Toast, CancelRentalComponent, PrepareItemComponent],
   providers: [ConfirmationService],
   templateUrl: './rental-detail.component.html',
   styleUrl: './rental-detail.component.scss'

@@ -160,6 +160,10 @@
             </app-confirm-rental>
             }
 
+            @if (rental.rentalStatus === 'CONFIRMED') {
+                <app-prepare-item [rentalId]="rental.id" [isOwner]="isOwner()" (startedPreparing)="onRentalStatusChanged($event)"></app-prepare-item>
+            }
+
             @if (rental.rentalStatus === 'CREATED' || rental.rentalStatus === 'CONFIRMED') {
             <app-cancel-rental [rentalId]="rental.id" [rentalStatus]="rental.rentalStatus" [isOwner]="isOwner()"
                 (rentalCancelled)="onRentalStatusChanged($event)">

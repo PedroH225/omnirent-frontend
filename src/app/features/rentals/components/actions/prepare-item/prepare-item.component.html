@@ -1,0 +1,24 @@
+<div class="prepare-action">
+
+    @if (isOwner) {
+        <p-button
+            label="Start preparing"
+            icon="pi pi-box"
+            severity="primary"
+            (onClick)="startPreparing()" />
+    } @else {
+        <div class="preparation-status">
+            <i class="pi pi-clock"></i>
+
+            <div class="preparation-status-content">
+                <strong>Preparing your rental</strong>
+
+                <span>
+                    The owner needs to prepare the item before it can be collected.
+                </span>
+            </div>
+        </div>
+    }
+
+</div>
+<p-confirmdialog></p-confirmdialog>

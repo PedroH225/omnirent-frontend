@@ -88,7 +88,7 @@
                 <div class="detail">
                     <span class="label">End date</span>
                     <span class="value">
-                        {{ r.endDate ? (r.endDate | date:'dd/MM/yyyy') : 'Not defined' }}
+                        {{ r.endDate ? (r.endDate | date:'dd/MM/yyyy HH:mm') : 'Not defined' }}
                     </span>
                 </div>
 
@@ -170,6 +170,10 @@
             @if (rental.rentalStatus === 'PREPARING') {
             <app-ship-item [rentalId]="rental.id" [isOwner]="isOwner()" (itemShipped)="onRentalStatusChanged($event)">
             </app-ship-item>
+            }
+
+            @if (rental.rentalStatus === 'SHIPPED') {
+            <app-mark-in-use [rentalId]="rental.id" [isOwner]="isOwner()" (rentalInUse)="onRentalInUse($event)"></app-mark-in-use>
             }
             
             @if (rental.rentalStatus === 'CREATED' || rental.rentalStatus === 'CONFIRMED') {

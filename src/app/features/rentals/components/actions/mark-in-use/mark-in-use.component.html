@@ -1,0 +1,32 @@
+@if (getEstimatedDelivery(); as estimatedDelivery) {
+    <div class="delivery-debug">
+
+        <div class="delivery-estimate">
+            <i class="pi pi-truck"></i>
+
+            <div>
+                <strong>Estimated delivery</strong>
+                <span>
+                    Your item is expected to arrive around
+                    {{ estimatedDelivery | date:'HH:mm' }}.
+                </span>
+            </div>
+        </div>
+
+        <div class="debug-action">
+            <p-button
+                label="Simulate delivery"
+                icon="pi pi-bolt"
+                severity="secondary"
+                [outlined]="true"
+                size="small"
+                styleClass="debug-delivery-button"
+                (onClick)="simulateDelivery()" />
+
+            <small class="debug-notice">
+                Debug only — simulates the delivery process.
+            </small>
+        </div>
+
+    </div>
+}

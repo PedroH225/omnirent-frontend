@@ -13,10 +13,13 @@ import { EnumOption } from '@shared/models/EnumOption';
 import { PrepareItemComponent } from "../components/actions/prepare-item/prepare-item.component";
 import { RentalTimelineComponent } from "../components/rental-time-line/rental-time-line.component";
 import { ShipItemComponent } from "../components/actions/ship-item/ship-item.component";
+import { HttpErrorResponse } from '@angular/common/http';
+import { MarkInUseComponent } from "../components/actions/mark-in-use/mark-in-use.component";
+import { RentalDisplayModel } from '../model/rental-display-model';
 
 @Component({
   selector: 'app-rental-detail',
-  imports: [CommonModule, ConfirmRentalComponent, Toast, CancelRentalComponent, PrepareItemComponent, RentalTimelineComponent, ShipItemComponent],
+  imports: [CommonModule, ConfirmRentalComponent, Toast, CancelRentalComponent, PrepareItemComponent, RentalTimelineComponent, ShipItemComponent, MarkInUseComponent],
   providers: [ConfirmationService],
   templateUrl: './rental-detail.component.html',
   styleUrl: './rental-detail.component.scss'
@@ -68,6 +71,15 @@ export class RentalDetailComponent {
     });
   }
 
+  onRentalInUse(event: RentalDisplayModel): void {
+    if (!this.rental) {
+      return;
+    }
+
+    this.rental.rentalStatus = event.rentalStatus;
+    this.rental.startDate = event.startDate;
+    this.rental.endDate = event.endDate;
+  }
   private checkPaymentResult(): void {
     const success = this.route.snapshot.queryParamMap.get('success');
 

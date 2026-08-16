@@ -4,11 +4,11 @@ import { PageResponse } from '../../shared/models/page.response.model';
 import { RentalDisplayModel } from '@features/rentals/model/rental-display-model';
 import { Observable, shareReplay } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { RentalDetailComponent } from '@features/rentals/rental-detail/rental-detail.component';
 import { RentalDetailModel } from '@features/rentals/model/rental-detail-model';
 import { RentalEnumsResponse } from '@features/rentals/model/rental-enums-model';
 import { CreateRentalRequest } from '@features/rentals/model/create-rental-request-model';
 import { RentalCreatedModel } from '@features/rentals/model/rental-created-model';
+import { RentalOperationalModel } from '@features/rentals/model/rental-operational-model ';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +16,7 @@ import { RentalCreatedModel } from '@features/rentals/model/rental-created-model
 export class RentalService {
 
   private readonly apiUrl: string = environment.apiUrl;
-  
+
   private rentalEnums$?: Observable<RentalEnumsResponse>;
 
   constructor(private http: HttpClient) { }
@@ -33,12 +33,20 @@ export class RentalService {
     return this.http.patch<void>(`${this.apiUrl}/rental/${rentalId}/ship`, {});
   }
 
+  markInUse(rentalId: string): Observable<RentalDisplayModel> {
+    return this.http.patch<RentalDisplayModel>(`${this.apiUrl}/rental/${rentalId}/in-use`, {});
+  }
+
   startPreparing(rentalId: string): Observable<void> {
     return this.http.patch<void>(`${this.apiUrl}/rental/${rentalId}/start-preparing`, {});
   }
 
   getRentalDetail(rentalId: string): Observable<RentalDetailModel> {
     return this.http.get<RentalDetailModel>(`${this.apiUrl}/rental/find/${rentalId}`);
+  }
+
+  getOperationalData(rentalId: string): Observable<RentalOperationalModel> {
+    return this.http.get<RentalOperationalModel>(`${this.apiUrl}/rental/find/operational/${rentalId}`);
   }
 
   getRenting(page: number, size: number): Observable<PageResponse<RentalDisplayModel>> {

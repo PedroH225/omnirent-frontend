@@ -15,4 +15,5 @@ export interface RentalDetailModel {
     address: AddressModel;
     rentalPeriodLabel: string;
     rentalStatusLabel: string;
+    updatedAt: string | null;
 }

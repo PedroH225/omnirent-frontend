@@ -29,6 +29,10 @@ export class RentalService {
     return this.http.patch<void>(`${this.apiUrl}/rental/${rentalId}/cancel`, {});
   }
 
+  shipRental(rentalId: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/rental/${rentalId}/ship`, {});
+  }
+
   startPreparing(rentalId: string): Observable<void> {
     return this.http.patch<void>(`${this.apiUrl}/rental/${rentalId}/start-preparing`, {});
   }

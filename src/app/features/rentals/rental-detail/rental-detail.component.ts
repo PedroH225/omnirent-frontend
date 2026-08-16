@@ -12,10 +12,11 @@ import { CancelRentalComponent } from "../components/actions/cancel-rental/cance
 import { EnumOption } from '@shared/models/EnumOption';
 import { PrepareItemComponent } from "../components/actions/prepare-item/prepare-item.component";
 import { RentalTimelineComponent } from "../components/rental-time-line/rental-time-line.component";
+import { ShipItemComponent } from "../components/actions/ship-item/ship-item.component";
 
 @Component({
   selector: 'app-rental-detail',
-  imports: [CommonModule, ConfirmRentalComponent, Toast, CancelRentalComponent, PrepareItemComponent, RentalTimelineComponent],
+  imports: [CommonModule, ConfirmRentalComponent, Toast, CancelRentalComponent, PrepareItemComponent, RentalTimelineComponent, ShipItemComponent],
   providers: [ConfirmationService],
   templateUrl: './rental-detail.component.html',
   styleUrl: './rental-detail.component.scss'

@@ -25,6 +25,10 @@ export class RentalService {
     return this.http.post<RentalDetailModel>(`${this.apiUrl}/rental`, request);
   }
 
+  startPreparing(rentalId: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/rental/${rentalId}/start-preparing`, {});
+  }
+
   cancelRental(rentalId: string): Observable<void> {
     return this.http.patch<void>(`${this.apiUrl}/rental/${rentalId}/cancel`, {});
   }
@@ -37,8 +41,8 @@ export class RentalService {
     return this.http.patch<RentalDisplayModel>(`${this.apiUrl}/rental/${rentalId}/in-use`, {});
   }
 
-  startPreparing(rentalId: string): Observable<void> {
-    return this.http.patch<void>(`${this.apiUrl}/rental/${rentalId}/start-preparing`, {});
+  requestReturn(rentalId: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/rental/${rentalId}/request-return`, {});
   }
 
   getRentalDetail(rentalId: string): Observable<RentalDetailModel> {
@@ -55,7 +59,6 @@ export class RentalService {
       .set("size", size);
 
     return this.http.get<PageResponse<RentalDisplayModel>>(this.apiUrl + "/rental/find/rented", { params });
-
   }
 
   getRentingOut(page: number, size: number): Observable<PageResponse<RentalDisplayModel>> {
@@ -64,7 +67,6 @@ export class RentalService {
       .set("size", size);
 
     return this.http.get<PageResponse<RentalDisplayModel>>(this.apiUrl + "/rental/find/userRentals", { params });
-
   }
 
   getRentalEnums(): Observable<RentalEnumsResponse> {

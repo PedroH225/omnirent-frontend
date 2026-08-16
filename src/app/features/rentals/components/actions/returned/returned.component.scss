@@ -1,0 +1,38 @@
+.rental-completed {
+    display: flex;
+    align-items: flex-start;
+    gap: .75rem;
+
+    padding: .85rem;
+
+    border: 1px solid var(--p-green-200);
+    border-radius: 8px;
+
+    background: var(--p-green-50);
+
+    i {
+        margin-top: .1rem;
+        flex-shrink: 0;
+
+        color: var(--p-green-600);
+        font-size: 1.1rem;
+    }
+
+    div {
+        display: flex;
+        flex-direction: column;
+        gap: .25rem;
+    }
+
+    strong {
+        color: var(--p-text-color);
+        font-size: .9rem;
+        font-weight: 600;
+    }
+
+    span {
+        color: var(--p-text-muted-color);
+        font-size: .8rem;
+        line-height: 1.45;
+    }
+}

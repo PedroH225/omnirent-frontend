@@ -190,8 +190,12 @@
             }
 
             @if (rental.rentalStatus === 'RETURN_SHIPPED') {
-                <app-mark-returned [rentalId]="rental.id" [isOwner]="isOwner()"
+            <app-mark-returned [rentalId]="rental.id" [isOwner]="isOwner()"
                 (returned)="onRentalStatusChanged($event)"></app-mark-returned>
+            }
+
+            @if (rental.rentalStatus === 'RETURNED') {
+                <app-returned></app-returned>
             }
 
             @if (rental.rentalStatus === 'CREATED' || rental.rentalStatus === 'CONFIRMED') {

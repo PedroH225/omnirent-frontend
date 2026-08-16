@@ -58,10 +58,18 @@ export class RentalTimelineComponent {
   }
 
   isActive(index: number): boolean {
+    if (this.rentalStatus === 'RETURNED') {
+      return false;
+    }
+
     return index === this.currentStageIndex;
   }
 
   isCompleted(index: number): boolean {
+    if (this.rentalStatus === 'RETURNED') {
+      return index <= this.currentStageIndex;
+    }
+    
     return index < this.currentStageIndex;
   }
 

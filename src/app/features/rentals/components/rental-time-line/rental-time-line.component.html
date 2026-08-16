@@ -1,0 +1,39 @@
+<div class="rental-timeline">
+
+    <div class="timeline-track">
+
+        <div class="timeline-line">
+            <div
+                class="timeline-line-progress"
+                [style.width.%]="getOverallProgress()">
+            </div>
+        </div>
+
+        @for (stage of stages; track stage.code; let i = $index) {
+
+            <div
+                class="timeline-stage"
+                [class.active]="isActive(i)"
+                [class.completed]="isCompleted(i)">
+
+                <div class="timeline-marker">
+
+                    @if (isCompleted(i)) {
+                        <i class="pi pi-check"></i>
+                    } @else {
+                        <span></span>
+                    }
+
+                </div>
+
+                <span class="timeline-label">
+                    {{ stage.label }}
+                </span>
+
+            </div>
+
+        }
+
+    </div>
+
+</div>

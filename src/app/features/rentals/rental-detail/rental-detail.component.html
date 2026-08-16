@@ -16,6 +16,8 @@
             </span>
         </header>
 
+        <app-rental-timeline [rentalStatus]="rental.rentalStatus" />
+
         <section class="info-card item-card">
             <div class="section-header">
                 <h2>Item</h2>
@@ -161,7 +163,8 @@
             }
 
             @if (rental.rentalStatus === 'CONFIRMED') {
-                <app-prepare-item [rentalId]="rental.id" [isOwner]="isOwner()" (startedPreparing)="onRentalStatusChanged($event)"></app-prepare-item>
+            <app-prepare-item [rentalId]="rental.id" [isOwner]="isOwner()"
+                (startedPreparing)="onRentalStatusChanged($event)"></app-prepare-item>
             }
 
             @if (rental.rentalStatus === 'CREATED' || rental.rentalStatus === 'CONFIRMED') {

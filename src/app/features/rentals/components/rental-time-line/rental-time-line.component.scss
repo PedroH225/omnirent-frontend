@@ -1,0 +1,132 @@
+.rental-timeline {
+    width: 100%;
+    padding: 1rem 0;
+}
+
+.timeline-track {
+    position: relative;
+
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    width: 100%;
+}
+
+
+.timeline-line {
+    position: absolute;
+
+
+    top: .75rem;
+    left: .75rem;
+    right: .75rem;
+
+
+    height: 3px;
+
+
+    border-radius: 2px;
+    background: var(--p-surface-200);
+
+
+    z-index: 0;
+}
+
+.timeline-line-progress {
+    height: 100%;
+
+    border-radius: inherit;
+    background: var(--p-primary-500);
+
+    transition: width .3s ease;
+}
+
+.timeline-stage {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    z-index: 1;
+}
+
+.timeline-stage:first-child .timeline-label {
+    text-align: left;
+}
+
+.timeline-stage:last-child .timeline-label {
+    text-align: right;
+}
+
+.timeline-marker {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 1.5rem;
+    height: 1.5rem;
+
+    border: 2px solid var(--p-surface-300);
+    border-radius: 50%;
+
+    background: var(--p-surface-0);
+    color: var(--p-text-muted-color);
+
+    z-index: 2;
+
+    > span {
+        width: .4rem;
+        height: .4rem;
+
+        border-radius: 50%;
+        background: var(--p-surface-300);
+    }
+
+    i {
+        font-size: .65rem;
+    }
+}
+
+.timeline-stage.completed {
+    .timeline-marker {
+        border-color: var(--p-primary-500);
+        background: var(--p-primary-500);
+        color: white;
+    }
+}
+
+.timeline-stage.active {
+    .timeline-marker {
+        border-color: var(--p-primary-500);
+        background: var(--p-primary-50);
+
+        > span {
+            background: var(--p-primary-500);
+        }
+    }
+}
+
+.timeline-label {
+    margin-top: .6rem;
+
+    color: var(--p-text-muted-color);
+    font-size: .75rem;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.timeline-stage.completed {
+    .timeline-label {
+        color: var(--p-text-color);
+    }
+}
+
+.timeline-stage.active {
+    .timeline-label {
+        color: var(--p-primary-600);
+        font-weight: 600;
+    }
+}

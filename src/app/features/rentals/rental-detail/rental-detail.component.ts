@@ -20,10 +20,11 @@ import { RequestReturnComponent } from "../components/actions/request-return/req
 import { ShipReturnComponent } from "../components/actions/ship-return/ship-return.component";
 import { MarkReturnedComponent } from "../components/actions/mark-returned/mark-returned.component";
 import { ReturnedComponent } from "../components/actions/returned/returned.component";
+import { LateRentalComponent } from "../components/actions/late-rental/late-rental.component";
 
 @Component({
   selector: 'app-rental-detail',
-  imports: [CommonModule, ConfirmRentalComponent, Toast, CancelRentalComponent, PrepareItemComponent, RentalTimelineComponent, ShipItemComponent, MarkInUseComponent, RequestReturnComponent, ShipReturnComponent, MarkReturnedComponent, ReturnedComponent],
+  imports: [CommonModule, ConfirmRentalComponent, Toast, CancelRentalComponent, PrepareItemComponent, RentalTimelineComponent, ShipItemComponent, MarkInUseComponent, RequestReturnComponent, ShipReturnComponent, MarkReturnedComponent, ReturnedComponent, LateRentalComponent],
   providers: [ConfirmationService],
   templateUrl: './rental-detail.component.html',
   styleUrl: './rental-detail.component.scss'
@@ -75,6 +76,26 @@ export class RentalDetailComponent {
     });
   }
 
+  reloadOperationalData(): void {
+    if (!this.rental) {
+      return;
+    }
+
+    this.rentalService.getOperationalData(this.rental.id).subscribe({
+      next: (response) => {
+        if (this.rental) {
+          this.rental.startDate = response.startDate;
+          this.rental.endDate = response.endDate;
+          this.rental.rentalStatus = response.status;
+          this.rental.updatedAt = response.updatedAt;
+        }
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error(error);
+      }
+    });
+  }
+
   onRentalInUse(event: RentalDisplayModel): void {
     if (!this.rental) {
       return;
@@ -84,6 +105,20 @@ export class RentalDetailComponent {
     this.rental.startDate = event.startDate;
     this.rental.endDate = event.endDate;
   }
+
+  onRentalRenew() {
+    if (!this.rental) {
+      return;
+    }
+    this.reloadOperationalData();
+
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Renew',
+      detail: 'Rental renewed successfully.'
+    });
+  }
+
   private checkPaymentResult(): void {
     const success = this.route.snapshot.queryParamMap.get('success');
 

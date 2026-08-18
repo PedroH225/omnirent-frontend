@@ -198,6 +198,11 @@
                 <app-returned></app-returned>
             }
 
+            @if (rental.rentalStatus === 'LATE') {
+                <app-late-rental [rentalId]="rental.id" [isOwner]="isOwner()"
+                (returnShipped)="onRentalRenew()"></app-late-rental>
+            }
+
             @if (rental.rentalStatus === 'CREATED' || rental.rentalStatus === 'CONFIRMED') {
             <app-cancel-rental [rentalId]="rental.id" [rentalStatus]="rental.rentalStatus" [isOwner]="isOwner()"
                 (rentalCancelled)="onRentalStatusChanged($event)">

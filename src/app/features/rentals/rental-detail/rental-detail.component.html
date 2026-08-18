@@ -1,216 +1,304 @@
 <p-toast></p-toast>
+
 <div class="rental-details" *ngIf="rental as r">
 
-    <main class="rental-content">
+    <header class="rental-header">
+        <div>
+            <span class="eyebrow">Rental</span>
+            <h1>Rental #{{ r.id }}</h1>
+        </div>
 
-        <header class="rental-header">
-            <div>
-                <span class="eyebrow">Rental</span>
-                <h1>Rental #{{ r.id }}</h1>
-            </div>
+        <span class="status-badge" [attr.data-status]="r.rentalStatus">
+            {{ getRentalStatusLabel() }}
+        </span>
+    </header>
 
-            <span class="status-badge" [attr.data-status]="r.rentalStatus">
+    <app-rental-timeline [rentalStatus]="r.rentalStatus" />
 
-                {{ getRentalStatusLabel() }}
+    <div class="rental-layout">
 
-            </span>
-        </header>
+        <main class="rental-content">
 
-        <app-rental-timeline [rentalStatus]="rental.rentalStatus" />
+            <!-- Item -->
 
-        <section class="info-card item-card">
-            <div class="section-header">
-                <h2>Item</h2>
-            </div>
+            <section class="info-card item-card">
 
-            <div class="item-content">
-
-                <div class="item-image">
-
-                    <img *ngIf="r.item.thumbnailKey" [src]="buildStorageUrl()" [alt]="r.item.name" />
-
-                    <img *ngIf="!r.item.thumbnailKey" src="assets/placeholder-img.png" [alt]="r.item.name" />
+                <div class="section-header">
+                    <h2>Item</h2>
                 </div>
 
-                <div class="item-info">
-                    <h3>{{ r.item.name }}</h3>
+                <div class="item-content">
 
-                    <p class="item-model">
-                        {{ r.item.brand }} {{ r.item.model }}
-                    </p>
+                    <div class="item-image">
+                        <img
+                            *ngIf="r.item.thumbnailKey"
+                            [src]="buildStorageUrl()"
+                            [alt]="r.item.name" />
 
-                    <div class="item-meta">
-                        <span>
-                            Condition: <strong>{{ r.item.itemConditionLabel }}</strong>
-                        </span>
+                        <img
+                            *ngIf="!r.item.thumbnailKey"
+                            src="assets/placeholder-img.png"
+                            [alt]="r.item.name" />
+                    </div>
 
-                        <span>
-                            Base price:
-                            <strong>R$ {{ r.item.basePrice | number:'1.2-2' }}</strong>
+                    <div class="item-info">
+
+                        <h3>{{ r.item.name }}</h3>
+
+                        <p class="item-model">
+                            {{ r.item.brand }} {{ r.item.model }}
+                        </p>
+
+                        <div class="item-meta">
+
+                            <span>
+                                Condition:
+                                <strong>
+                                    {{ r.item.itemConditionLabel }}
+                                </strong>
+                            </span>
+
+                            <span>
+                                Base price:
+                                <strong>
+                                    R$ {{ r.item.basePrice | number:'1.2-2' }}
+                                </strong>
+                            </span>
+
+                        </div>
+
+                        <p
+                            class="description"
+                            *ngIf="r.item.description">
+                            {{ r.item.description }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- Rental -->
+
+            <section class="info-card">
+
+                <div class="section-header">
+                    <h2>Rental</h2>
+                </div>
+
+                <div class="details-grid">
+
+                    <div class="detail">
+                        <span class="label">Period</span>
+
+                        <span class="value">
+                            {{ r.rentalPeriodLabel }}
                         </span>
                     </div>
 
-                    <p class="description" *ngIf="r.item.description">
-                        {{ r.item.description }}
-                    </p>
+                    <div class="detail">
+                        <span class="label">Final price</span>
+
+                        <span class="value price">
+                            R$ {{ r.finalPrice | number:'1.2-2' }}
+                        </span>
+                    </div>
+
+                    <div class="detail">
+                        <span class="label">Start date</span>
+
+                        <span class="value">
+                            {{ r.startDate
+                                ? (r.startDate | date:'dd/MM/yyyy HH:mm')
+                                : 'Not defined'
+                            }}
+                        </span>
+                    </div>
+
+                    <div class="detail">
+                        <span class="label">End date</span>
+
+                        <span class="value">
+                            {{ r.endDate
+                                ? (r.endDate | date:'dd/MM/yyyy HH:mm')
+                                : 'Not defined'
+                            }}
+                        </span>
+                    </div>
+
                 </div>
 
-            </div>
-        </section>
+                <div class="rental-participants">
 
-        <section class="info-card">
+                    <div class="participant">
+                        <span class="label">Renter</span>
 
-            <div class="section-header">
-                <h2>Rental details</h2>
-            </div>
+                        <strong>
+                            {{ r.renter.username }}
+                        </strong>
+                    </div>
 
-            <div class="details-grid">
+                    <div class="participant">
+                        <span class="label">Owner</span>
 
-                <div class="detail">
-                    <span class="label">Period</span>
-                    <span class="value">{{ r.rentalPeriodLabel }}</span>
+                        <strong>
+                            {{ r.owner.username }}
+                        </strong>
+                    </div>
+
                 </div>
 
-                <div class="detail">
-                    <span class="label">Final price</span>
-                    <span class="value price">
-                        R$ {{ r.finalPrice | number:'1.2-2' }}
+            </section>
+
+            <!-- Rental location -->
+
+            <section class="info-card">
+
+                <div class="section-header">
+                    <h2>Rental location</h2>
+                </div>
+
+                <address class="address">
+
+                    <strong>
+                        {{ r.address.street }}, {{ r.address.number }}
+                    </strong>
+
+                    <span *ngIf="r.address.complement">
+                        {{ r.address.complement }}
                     </span>
-                </div>
 
-                <div class="detail">
-                    <span class="label">Start date</span>
-                    <span class="value">
-                        {{ r.startDate ? (r.startDate | date:'dd/MM/yyyy') : 'Not defined' }}
+                    <span>
+                        {{ r.address.district }}
+                        — {{ r.address.city }} - {{ r.address.state }}
                     </span>
-                </div>
 
-                <div class="detail">
-                    <span class="label">End date</span>
-                    <span class="value">
-                        {{ r.endDate ? (r.endDate | date:'dd/MM/yyyy HH:mm') : 'Not defined' }}
+                    <span>
+                        {{ r.address.zipCode }}, {{ r.address.country }}
                     </span>
+
+                </address>
+
+            </section>
+
+        </main>
+
+        <!-- Actions -->
+
+        <aside class="rental-sidebar">
+
+            <section class="actions-card">
+
+                <div class="section-header">
+                    <h2>Actions</h2>
                 </div>
 
+                <div class="actions-list">
 
-            </div>
+                    @if (r.rentalStatus === 'CREATED' || r.rentalStatus === 'EXPIRED') {
+                        <div class="action-item">
+                            <app-confirm-rental
+                                [rentalId]="r.id"
+                                [isOwner]="isOwner()"
+                                (paymentExpired)="onRentalStatusChanged($event)">
+                            </app-confirm-rental>
+                        </div>
+                    }
 
-        </section>
+                    @if (r.rentalStatus === 'CONFIRMED') {
+                        <div class="action-item">
+                            <app-prepare-item
+                                [rentalId]="r.id"
+                                [isOwner]="isOwner()"
+                                (startedPreparing)="onRentalStatusChanged($event)">
+                            </app-prepare-item>
+                        </div>
+                    }
 
-        <section class="info-card">
+                    @if (r.rentalStatus === 'PREPARING') {
+                        <div class="action-item">
+                            <app-ship-item
+                                [rentalId]="r.id"
+                                [isOwner]="isOwner()"
+                                (itemShipped)="onRentalStatusChanged($event)">
+                            </app-ship-item>
+                        </div>
+                    }
 
-            <div class="section-header">
-                <h2>Participants</h2>
-            </div>
+                    @if (r.rentalStatus === 'SHIPPED') {
+                        <div class="action-item">
+                            <app-mark-in-use
+                                [rentalId]="r.id"
+                                [isOwner]="isOwner()"
+                                (rentalInUse)="onRentalInUse($event)">
+                            </app-mark-in-use>
+                        </div>
+                    }
 
-            <div class="participants">
+                    @if (r.rentalStatus === 'IN_USE') {
+                        <div class="action-item">
+                            <app-request-return
+                                [rentalId]="r.id"
+                                [isOwner]="isOwner()"
+                                (returnRequested)="onRentalStatusChanged($event)">
+                            </app-request-return>
+                        </div>
+                    }
 
-                <div class="participant">
-                    <span class="label">Renter</span>
-                    <strong>{{ r.renter.username }}</strong>
+                    @if (r.rentalStatus === 'RETURN_REQUESTED') {
+                        <div class="action-item">
+                            <app-ship-return
+                                [rentalId]="r.id"
+                                [isOwner]="isOwner()"
+                                (returnShipped)="onRentalStatusChanged($event)">
+                            </app-ship-return>
+                        </div>
+                    }
+
+                    @if (r.rentalStatus === 'RETURN_SHIPPED') {
+                        <div class="action-item">
+                            <app-mark-returned
+                                [rentalId]="r.id"
+                                [isOwner]="isOwner()"
+                                (returned)="onRentalStatusChanged($event)">
+                            </app-mark-returned>
+                        </div>
+                    }
+
+                    @if (r.rentalStatus === 'RETURNED') {
+                        <div class="action-item">
+                            <app-returned></app-returned>
+                        </div>
+                    }
+
+                    @if (r.rentalStatus === 'LATE') {
+                        <div class="action-item">
+                            <app-late-rental
+                                [rentalId]="r.id"
+                                [isOwner]="isOwner()"
+                                (returnShipped)="onRentalRenew()">
+                            </app-late-rental>
+                        </div>
+                    }
+
+                    @if (r.rentalStatus === 'CREATED' || r.rentalStatus === 'CONFIRMED') {
+                        <div class="action-item">
+                            <app-cancel-rental
+                                [rentalId]="r.id"
+                                [rentalStatus]="r.rentalStatus"
+                                [isOwner]="isOwner()"
+                                (rentalCancelled)="onRentalStatusChanged($event)">
+                            </app-cancel-rental>
+                        </div>
+                    }
+
                 </div>
 
-                <div class="participant">
-                    <span class="label">Owner</span>
-                    <strong>{{ r.owner.username }}</strong>
-                </div>
+            </section>
 
-            </div>
+        </aside>
 
-        </section>
-
-        <section class="info-card">
-
-            <div class="section-header">
-                <h2>Rental address</h2>
-            </div>
-
-            <address class="address">
-
-                <strong>
-                    {{ r.address.street }}, {{ r.address.number }}
-                </strong>
-
-                <span *ngIf="r.address.complement">
-                    {{ r.address.complement }}
-                </span>
-
-                <span>
-                    {{ r.address.district }} — {{ r.address.city }} - {{ r.address.state }}
-                </span>
-
-                <span>
-                    {{ r.address.zipCode }}, {{ r.address.country }}
-                </span>
-
-            </address>
-
-        </section>
-
-    </main>
-
-    <aside class="rental-sidebar">
-
-        <section class="actions-card">
-            <div class="section-header">
-                <h2>Actions</h2>
-            </div>
-
-            @if (rental.rentalStatus === 'CREATED' || rental.rentalStatus === 'EXPIRED') {
-            <app-confirm-rental [rentalId]="rental.id" [isOwner]="isOwner()"
-                (paymentExpired)="onRentalStatusChanged($event)">
-            </app-confirm-rental>
-            }
-
-            @if (rental.rentalStatus === 'CONFIRMED') {
-            <app-prepare-item [rentalId]="rental.id" [isOwner]="isOwner()"
-                (startedPreparing)="onRentalStatusChanged($event)"></app-prepare-item>
-            }
-
-            @if (rental.rentalStatus === 'PREPARING') {
-            <app-ship-item [rentalId]="rental.id" [isOwner]="isOwner()" (itemShipped)="onRentalStatusChanged($event)">
-            </app-ship-item>
-            }
-
-            @if (rental.rentalStatus === 'SHIPPED') {
-            <app-mark-in-use [rentalId]="rental.id" [isOwner]="isOwner()"
-                (rentalInUse)="onRentalInUse($event)"></app-mark-in-use>
-            }
-
-            @if (rental.rentalStatus === 'IN_USE') {
-            <app-request-return [rentalId]="rental.id" [isOwner]="isOwner()"
-                (returnRequested)="onRentalStatusChanged($event)">
-            </app-request-return>
-            }
-
-            @if (rental.rentalStatus === 'RETURN_REQUESTED') {
-            <app-ship-return [rentalId]="rental.id" [isOwner]="isOwner()"
-                (returnShipped)="onRentalStatusChanged($event)">
-            </app-ship-return>
-            }
-
-            @if (rental.rentalStatus === 'RETURN_SHIPPED') {
-            <app-mark-returned [rentalId]="rental.id" [isOwner]="isOwner()"
-                (returned)="onRentalStatusChanged($event)"></app-mark-returned>
-            }
-
-            @if (rental.rentalStatus === 'RETURNED') {
-                <app-returned></app-returned>
-            }
-
-            @if (rental.rentalStatus === 'LATE') {
-                <app-late-rental [rentalId]="rental.id" [isOwner]="isOwner()"
-                (returnShipped)="onRentalRenew()"></app-late-rental>
-            }
-
-            @if (rental.rentalStatus === 'CREATED' || rental.rentalStatus === 'CONFIRMED') {
-            <app-cancel-rental [rentalId]="rental.id" [rentalStatus]="rental.rentalStatus" [isOwner]="isOwner()"
-                (rentalCancelled)="onRentalStatusChanged($event)">
-            </app-cancel-rental>
-            }
-
-        </section>
-
-    </aside>
+    </div>
 
 </div>

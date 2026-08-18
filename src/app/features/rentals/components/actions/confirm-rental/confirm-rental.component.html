@@ -1,0 +1,154 @@
+<div class="payment-action">
+
+    @if (isOwner) {
+
+    @if (paymentStatus === 'PREPARING_PAYMENT') {
+    <div class="payment-status">
+
+        <i class="pi pi-spin pi-spinner"></i>
+
+        <div class="payment-status-content">
+            <strong>Preparing rental</strong>
+
+            <span>
+                We're preparing the rental confirmation.
+            </span>
+        </div>
+
+    </div>
+    }
+
+    @if (paymentStatus === 'PENDING') {
+    <div class="payment-status">
+
+        <i class="pi pi-spin pi-spinner"></i>
+
+        <div class="payment-status-content">
+            <strong>Waiting for payment</strong>
+
+            <span>
+                The renter needs to complete the payment to confirm this rental.
+            </span>
+        </div>
+
+    </div>
+    }
+
+    @if (paymentStatus === 'EXPIRED') {
+    <div class="payment-expired">
+
+        <i class="pi pi-clock"></i>
+
+        <span>
+            The payment checkout has expired and the rental has been cancelled.
+        </span>
+
+    </div>
+    }
+
+    @if (paymentStatus === 'ERROR') {
+    <div class="payment-error">
+        <span>
+            We couldn't prepare the rental payment.
+        </span>
+    </div>
+    }
+
+    } @else {
+
+    @if (paymentStatus === 'PREPARING_PAYMENT') {
+    <div class="payment-status">
+
+        <i class="pi pi-spin pi-spinner"></i>
+
+        <div class="payment-status-content">
+            <strong>Preparing payment</strong>
+
+            <span>
+                We're preparing your payment checkout. Please wait.
+            </span>
+        </div>
+
+    </div>
+    }
+
+    @if (paymentStatus === 'PENDING') {
+
+    <div class="payment-ready">
+
+        <div class="payment-button-row">
+            <p-button label="Continue to payment" icon="pi pi-credit-card" styleClass="payment-button"
+                (onClick)="goToPayment()" />
+
+            <button type="button" class="payment-info" (click)="paymentInfo.toggle($event)">
+                <i class="pi pi-info-circle"></i>
+            </button>
+        </div>
+
+        <span class="payment-expiration">
+            Checkout expires in
+            {{ Math.floor(remainingSeconds / 60) }}:{{
+            (remainingSeconds % 60).toString().padStart(2, '0')
+            }}
+        </span>
+
+        <p-popover #paymentInfo>
+            <div class="payment-info-content">
+                <strong>Test cards</strong>
+
+                <p>
+                    This is a simulated payment environment.
+                    Never use real card information.
+                </p>
+
+                <ul>
+                    <li>4242 4242 4242 4242 — Visa</li>
+                    <li>5555 5555 5555 4444 — Mastercard</li>
+                </ul>
+
+                <small>
+                    Any future expiration date and CVC can be used.
+                </small>
+            </div>
+        </p-popover>
+
+    </div>
+
+    <div class="simulation-notice">
+        <i class="pi pi-info-circle"></i>
+
+        <div>
+            <strong>Simulated payment</strong>
+            <span>No real charges will be made.</span>
+        </div>
+    </div>
+
+    }
+
+    @if (paymentStatus === 'ERROR') {
+    <div class="payment-error">
+
+        <span>
+            Payment could not be prepared.
+        </span>
+
+        <p-button label="Try again" severity="secondary" size="small" (onClick)="preparePayment()" />
+
+    </div>
+    }
+
+    @if (paymentStatus === 'EXPIRED') {
+    <div class="payment-expired">
+
+        <i class="pi pi-clock"></i>
+
+        <span>
+            This payment checkout has expired and the rental has been cancelled.
+        </span>
+
+    </div>
+    }
+
+    }
+
+</div>

@@ -12,7 +12,8 @@ const router = inject(Router);
 
             switch (apiError?.errorCode) {
                 case "INVALID_TOKEN":
-                    router.navigate(['/login']);
+                case "AUTHENTICATION_REQUIRED":
+                    router.navigate(['/auth/login']);
                     localStorage.removeItem("token");
                     break;
                 default:

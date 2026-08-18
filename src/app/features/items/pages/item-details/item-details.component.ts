@@ -11,17 +11,23 @@ import { SaveItemFormComponent } from "@features/items/components/save-item-form
 import { Dialog } from "primeng/dialog";
 import { UpdateItemRequestModel } from '@features/items/model/item-update-request-model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MenuItem, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 import { FieldError } from '@shared/models/field-error';
 import { ApiValidationException } from '@shared/models/api-field-exception';
 import { Menu } from 'primeng/menu';
 import { forkJoin, Observable } from 'rxjs';
 import { ItemFormModel } from '@features/items/model/item-form-model';
+import { EnumOption } from '@shared/models/EnumOption';
+import { RentalService } from '@core/rental/rental.service';
+import { FormsModule } from '@angular/forms';
+import { CreateRentalRequest } from '@features/rentals/model/create-rental-request-model';
+import { ConfirmDialog } from "primeng/confirmdialog";
 
 @Component({
   selector: 'app-item-detail',
   standalone: true,
-  imports: [CommonModule, Button, GalleriaModule, SaveItemFormComponent, Dialog, Menu],
+  imports: [CommonModule, FormsModule, Button, GalleriaModule, SaveItemFormComponent, Dialog, Menu, ConfirmDialog],
+  providers: [ConfirmationService],
   templateUrl: './item-details.component.html',
   styleUrl: './item-details.component.scss'
 })
@@ -36,6 +42,13 @@ export class ItemDetailComponent implements OnInit {
   private form?: ItemFormModel;
 
   backendErrors: FieldError[] = [];
+
+  rentalPeriods: EnumOption[] = [];
+  selectedRentalPeriod = 'DAILY'
+
+  selectedRentalPeriodLabel = 'Daily';
+
+  selectedPrice = 0;
 
   galleryImages: {
     itemImageSrc: string;
@@ -69,7 +82,9 @@ export class ItemDetailComponent implements OnInit {
 
   constructor(
     private itemService: ItemService, private route: ActivatedRoute, private userService: UserService,
-    private messageService: MessageService, private router: Router) { }
+    private messageService: MessageService, private router: Router, private rentalService: RentalService,
+    private confirmationService: ConfirmationService
+  ) { }
 
   ngOnInit(): void {
     const itemId = this.route.snapshot.paramMap.get('id');
@@ -79,6 +94,7 @@ export class ItemDetailComponent implements OnInit {
     }
 
     this.loadItem(itemId);
+    this.getRentalPeriods();
   }
 
   private updateItemMenu(): void {
@@ -113,6 +129,7 @@ export class ItemDetailComponent implements OnInit {
         this.loadGallery();
         this.isLoading = false;
         this.updateItemMenu();
+        this.updateSelectedPrice();
 
       },
       error: () => {
@@ -264,6 +281,88 @@ export class ItemDetailComponent implements OnInit {
         console.error(error);
       }
     })
+  }
+
+  onRentalPeriodChange(): void {
+    this.updateSelectedPrice();
+  }
+
+  private updateSelectedPrice(): void {
+    if (!this.item) {
+      return;
+    }
+    const option = this.rentalPeriods.find(
+      p => p.code === this.selectedRentalPeriod
+    );
+
+    this.selectedRentalPeriodLabel = option?.label ?? '';
+
+    switch (this.selectedRentalPeriod) {
+
+      case 'HOURLY':
+        this.selectedPrice = this.item.priceData.hourPrice;
+        break;
+
+      case 'DAILY':
+        this.selectedPrice = this.item.priceData.dailyPrice;
+        break;
+
+      case 'WEEKLY':
+        this.selectedPrice = this.item.priceData.weeklyPrice;
+        break;
+
+      case 'MONTHLY':
+        this.selectedPrice = this.item.priceData.monthlyPrice;
+        break;
+    }
+  }
+
+  getRentalPeriods(): void {
+    this.rentalService.getRentalEnums().subscribe({
+      next: (response) => {
+        this.rentalPeriods = response.rentalPeriods;
+      },
+      error: (error: HttpErrorResponse) => {
+        console.error(error);
+      }
+    }
+    )
+  }
+
+  rentItem(): void {
+    if (!this.item) {
+      return;
+    }
+
+    this.confirmationService.confirm({
+      header: 'Confirm rental',
+      message: `You are about to rent "${this.item.name}" at R$ ${this.selectedPrice.toFixed(2)}/${this.selectedRentalPeriodLabel.toLowerCase()}. Do you want to continue?`,
+      icon: 'pi pi-question-circle',
+      acceptLabel: 'Rent',
+      rejectLabel: 'Cancel',
+      rejectButtonStyleClass: 'p-button-danger',
+      accept: () => {
+        const request: CreateRentalRequest = {
+          itemId: this.item!.id,
+          rentalPeriod: this.selectedRentalPeriod
+        };
+
+        this.rentalService.createRental(request).subscribe({
+          next: (response) => {
+            this.messageService.add({
+              severity: 'success',
+              summary: 'Rental created',
+              detail: `Rental created successfully.`
+            });
+
+            this.router.navigate(['/rentals', response.id]);
+          },
+          error: (error: HttpErrorResponse) => {
+            console.log(error);
+          }
+        })
+      }
+    });
   }
 
   onFormChange($event: ItemFormModel) {

@@ -13,6 +13,7 @@ import { CreateItemComponent } from '@features/items/pages/create-item/create-it
 import { ItemDetailComponent } from '@features/items/pages/item-details/item-details.component';
 import { RegisterComponent } from '@features/auth/pages/register/register.component';
 import { AuthAreaComponent } from '@features/auth/layouts/auth-area/auth-area.component';
+import { RentalDetailComponent } from '@features/rentals/rental-detail/rental-detail.component';
 
 export const routes: Routes = [
     {
@@ -26,6 +27,10 @@ export const routes: Routes = [
             {
                 path: 'items/:id',
                 component: ItemDetailComponent
+            },
+                        {
+                path: 'rentals/:id',
+                component: RentalDetailComponent
             },
             {
                 path: 'account',

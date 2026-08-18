@@ -1,0 +1,38 @@
+<div class="return-status-info">
+    <i class="pi pi-box"></i>
+
+    <div>
+        <strong>Enjoy your rental</strong>
+
+        @if (isOwner) {
+            <span>
+                Your item is currently being used by the renter.
+            </span>
+        } @else {
+            <span>
+                Your rental is now in use. Enjoy!
+            </span>
+        }
+    </div>
+</div>
+
+<div class="return-action">
+
+    @if (!isOwner) {
+        <p-button
+            label="Request return"
+            icon="pi pi-undo"
+            severity="secondary"
+            [outlined]="true"
+            (onClick)="requestReturn()" />
+    } @else {
+        <div class="return-status">
+            <i class="pi pi-info-circle"></i>
+
+            <span>
+                The renter can request the return of the item.
+            </span>
+        </div>
+    }
+
+</div>

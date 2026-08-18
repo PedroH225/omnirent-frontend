@@ -1,0 +1,39 @@
+.prepare-action {
+    width: 100%;
+}
+
+.preparation-status {
+    display: flex;
+    align-items: flex-start;
+    gap: .75rem;
+
+    padding: .75rem 0;
+
+    color: var(--p-text-muted-color);
+
+    > i {
+        flex-shrink: 0;
+        margin-top: .15rem;
+
+        color: var(--p-primary-500);
+        font-size: 1.1rem;
+    }
+}
+
+.preparation-status-content {
+    display: flex;
+    flex-direction: column;
+    gap: .2rem;
+
+    strong {
+        color: var(--p-text-color);
+        font-size: .9rem;
+        font-weight: 600;
+    }
+
+    span {
+        color: var(--p-text-muted-color);
+        font-size: .8rem;
+        line-height: 1.4;
+    }
+}

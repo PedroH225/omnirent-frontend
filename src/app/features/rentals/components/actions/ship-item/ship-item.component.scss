@@ -1,0 +1,28 @@
+.ship-item {
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+    width: 100%;
+}
+
+.shipping-status {
+    display: flex;
+    align-items: center;
+    gap: .65rem;
+
+    padding: .75rem;
+
+    border-radius: 8px;
+
+    background: var(--p-surface-100);
+    color: var(--p-text-muted-color);
+
+    font-size: .85rem;
+    line-height: 1.4;
+
+    i {
+        flex-shrink: 0;
+        color: var(--p-primary-500);
+        font-size: 1rem;
+    }
+}

@@ -1,0 +1,53 @@
+@if (isOwner) {
+
+    <div class="late-status">
+        <i class="pi pi-clock"></i>
+
+        <div>
+            <strong>Rental overdue</strong>
+
+            <span>
+                The rental period has ended and the item has not been returned yet.
+            </span>
+        </div>
+    </div>
+
+} @else {
+
+    <div class="late-action">
+
+        <div class="late-status">
+            <i class="pi pi-clock"></i>
+
+            <div>
+                <strong>Rental overdue</strong>
+
+                <span>
+                    The rental period has ended. Renew your rental to continue using the item.
+                </span>
+            </div>
+        </div>
+
+        @if (paymentCheckout?.checkoutUrl) {
+
+            <p-button
+                label="Renew rental"
+                icon="pi pi-credit-card"
+                [loading]="loading"
+                (onClick)="goToPayment()" />
+
+        } @else {
+
+            <div class="payment-unavailable">
+                <i class="pi pi-info-circle"></i>
+
+                <span>
+                    Renewal payment is currently unavailable.
+                </span>
+            </div>
+
+        }
+
+    </div>
+
+}

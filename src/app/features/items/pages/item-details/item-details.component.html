@@ -23,32 +23,44 @@
             <p-menu #itemMenu [model]="itemMenuItems" [popup]="true" appendTo="body" />
         </div>
         }
-
         @if (!isOwner) {
-        <p-button label="Alugar" />
+        <p-button label="Rent Now" [disabled]="item.itemStatus !== 'AVAILABLE'" (onClick)="rentItem()" />
         }
+
     </header>
 
     <section class="item-pricing">
-        <div class="price-item">
-            <strong>Hourly</strong>
-            <p>R$ {{ item.priceData.hourPrice }}</p>
-        </div>
 
-        <div class="price-item">
-            <strong>Daily</strong>
-            <p>R$ {{ item.priceData.dailyPrice }}</p>
-        </div>
+        @if (!isOwner) {
+        <div class="rent-panel">
 
-        <div class="price-item">
-            <strong>Weekly</strong>
-            <p>R$ {{ item.priceData.weeklyPrice }}</p>
-        </div>
+            <div class="selected-price">
+                <span class="price">
+                    R$ {{ selectedPrice | number:'1.2-2' }}
+                </span>
 
-        <div class="price-item">
-            <strong>Monthly</strong>
-            <p>R$ {{ item.priceData.monthlyPrice }}</p>
+                <span class="period">
+                    {{ selectedRentalPeriodLabel.toLowerCase() }}
+                </span>
+
+            </div>
+
+            <span class="rental-label">Rental period</span>
+
+            <div class="period-options">
+
+                @for (period of rentalPeriods; track period.code) {
+                <button type="button" class="period-card" [class.selected]="selectedRentalPeriod === period.code"
+                    (click)="selectedRentalPeriod = period.code; onRentalPeriodChange()">
+
+                    <span>{{ period.label }}</span>
+
+                </button>
+                }
+
+            </div>
         </div>
+        }
     </section>
 
     <section class="item-gallery">
@@ -134,3 +146,5 @@
 
 </p-dialog>
 }
+
+<p-confirmdialog />

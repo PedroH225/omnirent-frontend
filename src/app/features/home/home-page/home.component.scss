@@ -109,8 +109,35 @@
     }
 }
 
+.cards-loading {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1rem;
+    width: 100%;
+}
+
+.cards-loading app-item-feed-card-skeleton {
+    min-width: 0;
+    width: 100%;
+}
+
+@media (max-width: 1200px) {
+    .cards-loading {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 992px) {
+    .cards-loading {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
 
 @media (max-width: 768px) {
+
+    .cards-loading {
+        grid-template-columns: 1fr;
+    }
 
     .hero-gallery {
         width: 100%;

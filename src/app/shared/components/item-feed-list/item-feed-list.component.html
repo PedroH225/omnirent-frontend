@@ -4,6 +4,7 @@
         <img
             [src]="item.imageUrl || 'assets/placeholder-img.png'"
             [alt]="item.name"
+            (error)="item.imageUrl = 'assets/placeholder-img.png'"
         />
     </div>
 

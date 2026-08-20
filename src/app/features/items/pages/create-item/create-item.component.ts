@@ -44,7 +44,7 @@ export class CreateItemComponent {
         this.form = form;
     }
 
-    onImagesChange(images: ItemImageForm[]): void {
+    onImagesChange(images: ItemImageForm[]): void {         
         this.images = images;
     }
 
@@ -103,6 +103,8 @@ export class CreateItemComponent {
                 this.finishCreation();
             },
             error: (error: HttpErrorResponse) => {
+                console.log("nego");
+                
                 this.messageService.add({
                     severity: 'warn',
                     summary: 'Images',

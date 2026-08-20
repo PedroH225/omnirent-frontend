@@ -123,7 +123,7 @@ export class HomeComponent {
                 dailyPrice: item.price.dailyPrice
             },
             imageUrl: item.thumbnailStorageKey
-                ? `${this.storageUrl}/items/${item.thumbnailStorageKey}`
+                ? `${this.storageUrl}/${item.thumbnailStorageKey}`
                 : undefined
         };
     }

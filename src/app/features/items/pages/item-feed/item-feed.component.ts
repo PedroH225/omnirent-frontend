@@ -19,6 +19,8 @@ import { Select } from "primeng/select";
 import { CategoryService } from '@core/categories/category.service';
 import { ITEM_FEED_SORTS } from '@shared/models/item-feed-sort';
 import { FeedFilterStateService } from '@core/feed/feed-filter-state.service';
+import { environment } from '../../../../../environments/environment';
+import { ItemFeedCardModel } from '@shared/models/item-card-model';
 
 @Component({
   selector: 'app-item-feed',
@@ -32,7 +34,9 @@ import { FeedFilterStateService } from '@core/feed/feed-filter-state.service';
   styleUrl: './item-feed.component.scss'
 })
 export class ItemFeedComponent implements OnInit {
-  items: ItemFeed[] = [];
+  items: ItemFeedCardModel[] = [];
+
+  storageUrl = environment.storageUrl;
 
   filtersOpen = false;
 
@@ -111,7 +115,8 @@ export class ItemFeedComponent implements OnInit {
       this.itemCondition, this.sort,
       this.page, this.size).subscribe({
         next: (response: PageResponse<ItemFeed>) => {
-          this.items = response.content;
+          this.items = response.content.map(item => this.mapItem(item));
+
           this.totalElements = response.totalElements;
         },
         error: (error: HttpErrorResponse) => {
@@ -251,6 +256,20 @@ export class ItemFeedComponent implements OnInit {
     this.selectedSort = undefined;
 
     this.filterState.setSort(null);
+  }
+
+  mapItem(item: ItemFeed): ItemFeedCardModel {
+    return {
+      id: item.id,
+      name: item.name,
+      conditionLabel: item.itemConditionLabel,
+      price: {
+        dailyPrice: item.price.dailyPrice
+      },
+      imageUrl: item.thumbnailStorageKey
+        ? `${this.storageUrl}/${item.thumbnailStorageKey}`
+        : undefined
+    };
   }
 
   onPageChange(event: any): void {

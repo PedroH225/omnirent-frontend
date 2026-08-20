@@ -8,44 +8,25 @@
                 <h2>Explore items</h2>
             </div>
 
-            <p-selectbutton
-                [(ngModel)]="layout"
-                [options]="options"
-                optionValue="value"
-                styleClass="view-toggle"
-            >
+            <p-selectbutton [(ngModel)]="layout" [options]="options" optionValue="value" styleClass="view-toggle">
                 <ng-template #item let-item>
-                    <i
-                        class="pi"
-                        [ngClass]="{
+                    <i class="pi" [ngClass]="{
                             'pi-th-large': item.value === 'grid',
                             'pi-list': item.value === 'list'
-                        }"
-                    ></i>
+                        }"></i>
                 </ng-template>
             </p-selectbutton>
 
         </div>
 
-        <p-dataview
-            [value]="items"
-            [layout]="layout"
-            [rows]="size"
-            [first]="page * size"
-            [totalRecords]="totalElements"
-            [paginator]="true"
-            [lazy]="true"
-            (onPage)="onPageChange($event)"
-        >
+        <p-dataview [value]="items" [layout]="layout" [rows]="size" [first]="page * size" [totalRecords]="totalElements"
+            [paginator]="true" [lazy]="true" (onPage)="onPageChange($event)">
 
             <ng-template #grid let-items>
 
                 <div class="items-grid">
 
-                    <app-item-feed-card
-                        *ngFor="let item of items"
-                        [item]="item"
-                    />
+                    <app-item-feed-card *ngFor="let item of items" [item]="item" />
 
                 </div>
 
@@ -55,10 +36,7 @@
 
                 <div class="items-list">
 
-                    <app-item-feed-list
-                        *ngFor="let item of items"
-                        [item]="item"
-                    />
+                    <app-item-feed-list *ngFor="let item of items" [item]="item" />
 
                 </div>
 
@@ -70,7 +48,16 @@
 
     <aside class="filters-sidebar">
 
-        <div class="filters-card">
+        <button class="filters-mobile-toggle" type="button" (click)="filtersOpen = !filtersOpen">
+            <span>
+                <i class="pi pi-filter"></i>
+                Filters
+            </span>
+
+            <i class="pi" [ngClass]="filtersOpen ? 'pi-chevron-up' : 'pi-chevron-down'"></i>
+        </button>
+
+        <div class="filters-card" [class.filters-card-open]="filtersOpen">
 
             <div class="filters-header">
                 <div>
@@ -78,30 +65,16 @@
                     <h3>Refine results</h3>
                 </div>
 
-                <p-button
-                    icon="pi pi-filter-slash"
-                    severity="secondary"
-                    [text]="true"
-                    [rounded]="true"
-                    ariaLabel="Clear filters"
-                    (onClick)="clearFilters()"
-                />
+                <p-button icon="pi pi-filter-slash" severity="secondary" [text]="true" [rounded]="true"
+                    ariaLabel="Clear filters" (onClick)="clearFilters()" />
             </div>
 
             <div class="filter-group">
 
                 <label for="category">Category</label>
 
-                <p-select
-                    inputId="category"
-                    [options]="categories"
-                    [(ngModel)]="selectedCategory"
-                    optionLabel="label"
-                    optionValue="value"
-                    placeholder="All categories"
-                    appendTo="body"
-                    (onChange)="onCategoryChange()"
-                />
+                <p-select inputId="category" [options]="categories" [(ngModel)]="selectedCategory" optionLabel="label"
+                    optionValue="value" placeholder="All categories" appendTo="body" (onChange)="onCategoryChange()" />
 
             </div>
 
@@ -109,17 +82,9 @@
 
                 <label for="subcategory">Subcategory</label>
 
-                <p-select
-                    inputId="subcategory"
-                    [options]="subCategories"
-                    [(ngModel)]="selectedSubCategory"
-                    optionLabel="label"
-                    optionValue="value"
-                    placeholder="All subcategories"
-                    [disabled]="!selectedCategory"
-                    appendTo="body"
-                    (onChange)="onSubCategoryChange()"
-                />
+                <p-select inputId="subcategory" [options]="subCategories" [(ngModel)]="selectedSubCategory"
+                    optionLabel="label" optionValue="value" placeholder="All subcategories"
+                    [disabled]="!selectedCategory" appendTo="body" (onChange)="onSubCategoryChange()" />
 
             </div>
 
@@ -127,16 +92,9 @@
 
                 <label for="condition">Condition</label>
 
-                <p-select
-                    inputId="condition"
-                    [options]="itemConditions"
-                    [(ngModel)]="selectedCondition"
-                    optionLabel="label"
-                    optionValue="value"
-                    placeholder="Any condition"
-                    appendTo="body"
-                    (onChange)="onConditionChange()"
-                />
+                <p-select inputId="condition" [options]="itemConditions" [(ngModel)]="selectedCondition"
+                    optionLabel="label" optionValue="value" placeholder="Any condition" appendTo="body"
+                    (onChange)="onConditionChange()" />
 
             </div>
 
@@ -144,16 +102,8 @@
 
                 <label for="sort">Sort by</label>
 
-                <p-select
-                    inputId="sort"
-                    [options]="sorts"
-                    [(ngModel)]="selectedSort"
-                    optionLabel="label"
-                    optionValue="value"
-                    placeholder="Recommended"
-                    appendTo="body"
-                    (onChange)="onSortChange()"
-                />
+                <p-select inputId="sort" [options]="sorts" [(ngModel)]="selectedSort" optionLabel="label"
+                    optionValue="value" placeholder="Recommended" appendTo="body" (onChange)="onSortChange()" />
 
             </div>
 

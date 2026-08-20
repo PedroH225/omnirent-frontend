@@ -24,12 +24,14 @@ import { Select } from "primeng/select";
     CommonModule, FormsModule, SelectButton,
     Button,
     Select
-],
+  ],
   templateUrl: './item-feed.component.html',
   styleUrl: './item-feed.component.scss'
 })
 export class ItemFeedComponent implements OnInit {
   items: ItemFeed[] = [];
+
+  filtersOpen = false;
 
   layout: 'grid' | 'list' = 'grid';
 

@@ -3,6 +3,10 @@
     width: 100%;
 }
 
+.filters-mobile-toggle {
+    display: none;
+}
+
 .feed-page {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 280px;
@@ -152,6 +156,11 @@
 }
 
 @media (max-width: 1000px) {
+
+    :host ::ng-deep .view-toggle {
+        display: none;
+    }
+
     .feed-page {
         grid-template-columns: minmax(0, 1fr) 240px;
         gap: 1.25rem;
@@ -159,12 +168,15 @@
     }
 
     .items-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 1rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.5rem;
+        width: 100%;
     }
 }
 
 @media (max-width: 768px) {
+
     .feed-page {
         display: flex;
         flex-direction: column;
@@ -173,36 +185,113 @@
         padding: 1rem;
     }
 
+    .feed-content {
+        width: 100%;
+    }
+
     .filters-sidebar {
         position: static;
         order: -1;
         width: 100%;
     }
 
+    .filters-mobile-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        width: 100%;
+        padding: .85rem 1rem;
+
+        border: 1px solid var(--p-surface-200);
+        border-radius: .75rem;
+
+        background: var(--p-surface-0);
+        color: var(--p-text-color);
+
+        font: inherit;
+        font-weight: 600;
+
+        cursor: pointer;
+    }
+
+    .filters-mobile-toggle span {
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+    }
+
+    .filters-mobile-toggle .pi-filter {
+        color: var(--p-primary-600);
+    }
+
     .filters-card {
+        max-height: 0;
+        margin-top: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(-8px);
+
+        border-color: transparent;
+
+        transition:
+            max-height .5s ease,
+            margin-top .5s ease,
+            padding .5s ease,
+            opacity .4s ease,
+            transform .5s ease;
+    }
+
+    .filters-card.filters-card-open {
+        max-height: 600px;
+        margin-top: .75rem;
         padding: 1rem;
+
+        opacity: 1;
+        transform: translateY(0);
+
+        border-color: var(--p-surface-200);
     }
 
     .feed-header {
+        width: 100%;
         margin-bottom: 1rem;
     }
 
     .feed-title h2 {
         font-size: 1.25rem;
     }
+
+    .items-grid {
+        width: 100%;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1rem;
+    }
+
+    .items-list {
+        width: 100%;
+    }
+
+    :host ::ng-deep .p-dataview {
+        width: 100%;
+    }
+
+    :host ::ng-deep .p-dataview-content {
+        width: 100%;
+    }
 }
 
 @media (max-width: 480px) {
+
     .feed-page {
         padding: .75rem;
     }
 
-    .feed-header {
-        align-items: flex-start;
-    }
-
     .items-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr);
     }
 
     .filters-card {

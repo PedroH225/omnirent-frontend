@@ -34,12 +34,19 @@
 
 .search-container {
     width: min(40vw, 500px);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 :host ::ng-deep .search-container input {
     width: 100%;
     border-radius: 999px;
     padding-left: 2.5rem;
+}
+
+:host ::ng-deep .search-container p-iconfield {
+    flex: 1;
 }
 
 :host ::ng-deep .login-button {

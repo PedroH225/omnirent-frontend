@@ -13,8 +13,11 @@
         <div class="search-container">
             <p-iconfield iconPosition="left">
                 <p-inputicon styleClass="pi pi-search" />
-                <input type="text" pInputText placeholder="Search..." />
+                <input type="text" pInputText placeholder="Search..." #searchInput
+                    (keyup.enter)="onSearch(searchInput.value)" />
             </p-iconfield>
+
+            <p-button icon="pi pi-search" severity="info" rounded (onClick)="onSearch(searchInput.value)" />
         </div>
     </ng-template>
 

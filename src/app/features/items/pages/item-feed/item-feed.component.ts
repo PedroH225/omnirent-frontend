@@ -109,6 +109,10 @@ export class ItemFeedComponent implements OnInit {
     this.loadSorts();
   }
 
+  ngOnDestroy(): void {
+    this.filterState.reset();
+  }
+
   loadItems(): void {
     this.itemService.getItemFeed(
       this.name, this.category, this.subCategory,
@@ -218,6 +222,10 @@ export class ItemFeedComponent implements OnInit {
     this.filterState.setSort(
       this.selectedSort ?? null
     );
+  }
+
+  applyFilters(): void {
+    this.filterState.updateFeedUrl();
   }
 
   clearFilters(): void {

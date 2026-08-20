@@ -19,30 +19,30 @@
 
         </div>
 
+        @if (items.length === 0) {
+        <div class="empty-state">
+            <i class="pi pi-search"></i>
+            <h3>No items found</h3>
+            <p>There are no items matching the current filters.</p>
+        </div>
+        } @else {
         <p-dataview [value]="items" [layout]="layout" [rows]="size" [first]="page * size" [totalRecords]="totalElements"
             [paginator]="true" [lazy]="true" (onPage)="onPageChange($event)">
 
             <ng-template #grid let-items>
-
                 <div class="items-grid">
-
                     <app-item-feed-card *ngFor="let item of items" [item]="item" />
-
                 </div>
-
             </ng-template>
 
             <ng-template #list let-items>
-
                 <div class="items-list">
-
                     <app-item-feed-list *ngFor="let item of items" [item]="item" />
-
                 </div>
-
             </ng-template>
 
         </p-dataview>
+        }
 
     </main>
 
@@ -138,6 +138,10 @@
                 <p-select inputId="sort" [options]="sorts" [(ngModel)]="selectedSort" optionLabel="label"
                     optionValue="value" placeholder="Recommended" appendTo="body" (onChange)="onSortChange()" />
 
+            </div>
+
+            <div class="filter-actions">
+                <p-button label="Apply filters" icon="pi pi-check" [fluid]="true" (onClick)="applyFilters()" />
             </div>
 
         </div>

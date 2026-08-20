@@ -58,9 +58,7 @@ export class NavbarComponent {
   onSearch(title: string): void {
     this.feedFilterState.setTitle(title);
 
-    console.log(this.feedFilterState.filters());
-    
-    this.router.navigateByUrl('/feed');
+    this.feedFilterState.updateFeedUrl();
   }
 
   logout() {

@@ -1,5 +1,6 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { FeedFilterStateModel } from './model/feed-filter-state';
+import { Params, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,8 @@ export class FeedFilterStateService {
     condition: null,
     sort: null
   });
+
+  private readonly router = inject(Router);
 
   readonly filters = this._filters.asReadonly();
 
@@ -54,6 +57,19 @@ export class FeedFilterStateService {
       sort
     }));
 
+  }
+
+  updateFeedUrl(): void {
+    const queryParams: Params = {
+      name: this.filters().title || null,
+      subCategory: this.filters().subCategory || null,
+      itemCondition: this.filters().condition || null,
+      sort: this.filters().sort || null
+    };
+
+    this.router.navigate(['/feed'], {
+      queryParams
+    });
   }
 
   reset(): void {

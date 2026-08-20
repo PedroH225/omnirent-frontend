@@ -14,6 +14,7 @@ import { ItemDetailComponent } from '@features/items/pages/item-details/item-det
 import { RegisterComponent } from '@features/auth/pages/register/register.component';
 import { AuthAreaComponent } from '@features/auth/layouts/auth-area/auth-area.component';
 import { RentalDetailComponent } from '@features/rentals/rental-detail/rental-detail.component';
+import { ItemFeedComponent } from '@features/items/pages/item-feed/item-feed.component';
 
 export const routes: Routes = [
     {
@@ -25,10 +26,14 @@ export const routes: Routes = [
                 component: HomeComponent
             },
             {
+                path: 'feed',
+                component: ItemFeedComponent
+            },
+            {
                 path: 'items/:id',
                 component: ItemDetailComponent
             },
-                        {
+            {
                 path: 'rentals/:id',
                 component: RentalDetailComponent
             },

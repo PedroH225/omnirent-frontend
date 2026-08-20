@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { CategoryService } from '@core/categories/category.service';
 import { ItemService } from '@core/item/item.service';
 import { ItemFeed } from '@core/item/model/item-feed-model';
@@ -13,6 +13,7 @@ import { CarouselModule } from 'primeng/carousel';
 import { TimeLineComponent } from "../time-line/time-line.component";
 import { ItemFeedCardModel } from '@shared/models/item-card-model';
 import { ItemFeedCardComponent } from "@shared/components/item-feed-card/item-feed-card.component";
+import { Params, Router } from "@angular/router";
 @Component({
     selector: 'app-home',
     standalone: true,
@@ -27,7 +28,6 @@ import { ItemFeedCardComponent } from "@shared/components/item-feed-card/item-fe
     styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-
     storageUrl = environment.storageUrl;
 
     categories: SelectOption<CategoryResponse>[] = [];
@@ -57,6 +57,7 @@ export class HomeComponent {
     constructor(
         private categoryService: CategoryService,
         private itemService: ItemService,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -125,5 +126,10 @@ export class HomeComponent {
                 ? `${this.storageUrl}/items/${item.thumbnailStorageKey}`
                 : undefined
         };
+    }
+
+    viewAll(category: string) {        
+        const queryParams: Params = { category: category };
+        this.router.navigate(['feed'], { queryParams })
     }
 }

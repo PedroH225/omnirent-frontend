@@ -21,16 +21,22 @@
         <a (click)="viewAll('AUDIOVISUAL')">View all</a>
     </div>
 
+    @if (audiovisualCards.length > 0) {
     <p-carousel [value]="audiovisualCards" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
 
         <ng-template #item let-item>
             <div class="card-wrapper">
-                <app-item-feed-card [item]="item">
-                </app-item-feed-card>
+                <app-item-feed-card [item]="item"></app-item-feed-card>
             </div>
         </ng-template>
 
     </p-carousel>
+    } @else {
+    <div class="category-empty">
+        <i class="pi pi-box"></i>
+        <span>No items available</span>
+    </div>
+    }
 
 </section>
 
@@ -46,16 +52,22 @@
         <a (click)="viewAll('CONSTRUCTION')">View all</a>
     </div>
 
+    @if (constructionCards.length > 0) {
     <p-carousel [value]="constructionCards" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
 
         <ng-template #item let-item>
             <div class="card-wrapper">
-                <app-item-feed-card [item]="item">
-                </app-item-feed-card>
+                <app-item-feed-card [item]="item"></app-item-feed-card>
             </div>
         </ng-template>
 
     </p-carousel>
+    } @else {
+    <div class="category-empty">
+        <i class="pi pi-box"></i>
+        <span>No items available</span>
+    </div>
+    }
 
 </section>
 
@@ -70,16 +82,24 @@
         <a (click)="viewAll('EVENTS')">View all</a>
     </div>
 
+    @if (eventsCards.length > 0) {
     <p-carousel [value]="eventsCards" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
+
 
         <ng-template #item let-item>
             <div class="card-wrapper">
-                <app-item-feed-card [item]="item">
-                </app-item-feed-card>
+                <app-item-feed-card [item]="item"></app-item-feed-card>
             </div>
         </ng-template>
 
+
     </p-carousel>
+    } @else {
+    <div class="category-empty">
+        <i class="pi pi-box"></i>
+        <span>No items available</span>
+    </div>
+    }
 
 </section>
 

@@ -1,1 +1,164 @@
-<p>item-feed works!</p>
+<div class="feed-page">
+
+    <main class="feed-content">
+
+        <div class="feed-header">
+
+            <div class="feed-title">
+                <h2>Explore items</h2>
+            </div>
+
+            <p-selectbutton
+                [(ngModel)]="layout"
+                [options]="options"
+                optionValue="value"
+                styleClass="view-toggle"
+            >
+                <ng-template #item let-item>
+                    <i
+                        class="pi"
+                        [ngClass]="{
+                            'pi-th-large': item.value === 'grid',
+                            'pi-list': item.value === 'list'
+                        }"
+                    ></i>
+                </ng-template>
+            </p-selectbutton>
+
+        </div>
+
+        <p-dataview
+            [value]="items"
+            [layout]="layout"
+            [rows]="size"
+            [first]="page * size"
+            [totalRecords]="totalElements"
+            [paginator]="true"
+            [lazy]="true"
+            (onPage)="onPageChange($event)"
+        >
+
+            <ng-template #grid let-items>
+
+                <div class="items-grid">
+
+                    <app-item-feed-card
+                        *ngFor="let item of items"
+                        [item]="item"
+                    />
+
+                </div>
+
+            </ng-template>
+
+            <ng-template #list let-items>
+
+                <div class="items-list">
+
+                    <app-item-feed-list
+                        *ngFor="let item of items"
+                        [item]="item"
+                    />
+
+                </div>
+
+            </ng-template>
+
+        </p-dataview>
+
+    </main>
+
+    <aside class="filters-sidebar">
+
+        <div class="filters-card">
+
+            <div class="filters-header">
+                <div>
+                    <span class="filters-label">FILTERS</span>
+                    <h3>Refine results</h3>
+                </div>
+
+                <p-button
+                    icon="pi pi-filter-slash"
+                    severity="secondary"
+                    [text]="true"
+                    [rounded]="true"
+                    ariaLabel="Clear filters"
+                    (onClick)="clearFilters()"
+                />
+            </div>
+
+            <div class="filter-group">
+
+                <label for="category">Category</label>
+
+                <p-select
+                    inputId="category"
+                    [options]="categories"
+                    [(ngModel)]="selectedCategory"
+                    optionLabel="label"
+                    optionValue="value"
+                    placeholder="All categories"
+                    appendTo="body"
+                    (onChange)="onCategoryChange()"
+                />
+
+            </div>
+
+            <div class="filter-group">
+
+                <label for="subcategory">Subcategory</label>
+
+                <p-select
+                    inputId="subcategory"
+                    [options]="subCategories"
+                    [(ngModel)]="selectedSubCategory"
+                    optionLabel="label"
+                    optionValue="value"
+                    placeholder="All subcategories"
+                    [disabled]="!selectedCategory"
+                    appendTo="body"
+                    (onChange)="onSubCategoryChange()"
+                />
+
+            </div>
+
+            <div class="filter-group">
+
+                <label for="condition">Condition</label>
+
+                <p-select
+                    inputId="condition"
+                    [options]="itemConditions"
+                    [(ngModel)]="selectedCondition"
+                    optionLabel="label"
+                    optionValue="value"
+                    placeholder="Any condition"
+                    appendTo="body"
+                    (onChange)="onConditionChange()"
+                />
+
+            </div>
+
+            <div class="filter-group">
+
+                <label for="sort">Sort by</label>
+
+                <p-select
+                    inputId="sort"
+                    [options]="sorts"
+                    [(ngModel)]="selectedSort"
+                    optionLabel="label"
+                    optionValue="value"
+                    placeholder="Recommended"
+                    appendTo="body"
+                    (onChange)="onSortChange()"
+                />
+
+            </div>
+
+        </div>
+
+    </aside>
+
+</div>

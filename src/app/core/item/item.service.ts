@@ -17,7 +17,6 @@ import { ItemUpdatedModel } from './model/item-updated-model';
   providedIn: 'root'
 })
 export class ItemService {
-
   private readonly apiUrl: string = environment.apiUrl;
 
   private itemEnums$?: Observable<ItemEnumsResponse>;
@@ -27,7 +26,7 @@ export class ItemService {
   getItemDetail(itemId: string): Observable<ItemDetailModel> {
     return this.http.get<ItemDetailModel>(`${this.apiUrl}/item/find/${itemId}`);
   }
-  
+
   createItem(newItem: ItemRequestModel): Observable<ItemCreatedModel> {
     return this.http.post<ItemCreatedModel>(`${this.apiUrl}/item`, newItem);
   }
@@ -70,6 +69,40 @@ export class ItemService {
       .set('sort', "NEWEST");
 
     return this.http.get<PageResponse<ItemFeed>>(this.apiUrl + "/item/feed", { params });
+  }
+
+  getItemFeed(
+    name: string | null, category: string | null, subCategory: string | null, itemCondition: string | null,
+    sort: string | null, page: number, size: number): Observable<PageResponse<ItemFeed>> {
+
+    let params = new HttpParams()
+      .set('page', page)
+      .set('size', size);
+
+    if (name) {
+      params = params.set('name', name);
+    }
+
+    if (category) {
+      params = params.set('category', category);
+    }
+
+    if (subCategory) {
+      params = params.set('subCategory', subCategory);
+    }
+
+    if (itemCondition) {
+      params = params.set('itemCondition', itemCondition);
+    }
+
+    if (sort) {
+      params = params.set('sort', sort);
+    }
+
+    return this.http.get<PageResponse<ItemFeed>>(
+      this.apiUrl + '/item/feed',
+      { params }
+    );
   }
 
   getUserItems(page: number, size: number): Observable<PageResponse<ItemDisplay>> {

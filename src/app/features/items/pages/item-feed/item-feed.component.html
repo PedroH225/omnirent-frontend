@@ -71,7 +71,15 @@
 
             <div class="filter-group">
 
-                <label for="category">Category</label>
+                <div class="filter-label">
+                    <label for="category">Category</label>
+
+                    @if (selectedCategory) {
+                    <button type="button" class="clear-filter" (click)="clearCategory()" aria-label="Clear category">
+                        <i class="pi pi-times"></i>
+                    </button>
+                    }
+                </div>
 
                 <p-select inputId="category" [options]="categories" [(ngModel)]="selectedCategory" optionLabel="label"
                     optionValue="value" placeholder="All categories" appendTo="body" (onChange)="onCategoryChange()" />
@@ -80,7 +88,16 @@
 
             <div class="filter-group">
 
-                <label for="subcategory">Subcategory</label>
+                <div class="filter-label">
+                    <label for="subcategory">Subcategory</label>
+
+                    @if (selectedSubCategory) {
+                    <button type="button" class="clear-filter" (click)="clearSubCategory()"
+                        aria-label="Clear subcategory">
+                        <i class="pi pi-times"></i>
+                    </button>
+                    }
+                </div>
 
                 <p-select inputId="subcategory" [options]="subCategories" [(ngModel)]="selectedSubCategory"
                     optionLabel="label" optionValue="value" placeholder="All subcategories"
@@ -90,7 +107,15 @@
 
             <div class="filter-group">
 
-                <label for="condition">Condition</label>
+                <div class="filter-label">
+                    <label for="condition">Condition</label>
+
+                    @if (selectedCondition) {
+                    <button type="button" class="clear-filter" (click)="clearCondition()" aria-label="Clear condition">
+                        <i class="pi pi-times"></i>
+                    </button>
+                    }
+                </div>
 
                 <p-select inputId="condition" [options]="itemConditions" [(ngModel)]="selectedCondition"
                     optionLabel="label" optionValue="value" placeholder="Any condition" appendTo="body"
@@ -100,7 +125,15 @@
 
             <div class="filter-group">
 
-                <label for="sort">Sort by</label>
+                <div class="filter-label">
+                    <label for="sort">Sort by</label>
+
+                    @if (selectedSort) {
+                    <button type="button" class="clear-filter" (click)="clearSort()" aria-label="Clear sort">
+                        <i class="pi pi-times"></i>
+                    </button>
+                    }
+                </div>
 
                 <p-select inputId="sort" [options]="sorts" [(ngModel)]="selectedSort" optionLabel="label"
                     optionValue="value" placeholder="Recommended" appendTo="body" (onChange)="onSortChange()" />

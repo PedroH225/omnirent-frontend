@@ -39,9 +39,9 @@
 
     h2 {
         margin: 0;
-        font-size: 1.5rem;
+        font-size: 2rem;
         font-weight: 700;
-        color: var(--p-text-color);
+        color: var(--p-primary-500);
     }
 
     span {
@@ -73,7 +73,7 @@
 .items-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 1.5rem;
+    gap: 1.25rem;
     width: 100%;
 }
 
@@ -153,6 +153,44 @@
     p-select {
         width: 100%;
     }
+}
+
+.filter-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+}
+
+.clear-filter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+    color: var(--p-text-muted-color);
+
+    cursor: pointer;
+
+    transition:
+        background-color .2s ease,
+        color .2s ease;
+}
+
+.clear-filter:hover {
+    background: var(--p-surface-200);
+    color: var(--p-text-color);
+}
+
+.clear-filter .pi {
+    font-size: .7rem;
 }
 
 @media (max-width: 1000px) {

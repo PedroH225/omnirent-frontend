@@ -59,12 +59,19 @@ export class FeedFilterStateService {
 
   }
 
+  setFilters(filters: FeedFilterStateModel): void {
+    this._filters.set(filters);
+  }
+
   updateFeedUrl(): void {
     const queryParams: Params = {
       name: this.filters().title || null,
+      category: this.filters().category || null,
       subCategory: this.filters().subCategory || null,
       itemCondition: this.filters().condition || null,
-      sort: this.filters().sort || null
+      sort: this.filters().sort || null,
+      page: 0,
+      size: 20
     };
 
     this.router.navigate(['/feed'], {

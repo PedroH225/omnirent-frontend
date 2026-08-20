@@ -6,28 +6,11 @@ import { CategoryResponse } from '@core/categories/model/category.model';
 import { SubCategoryResponse } from '@core/categories/model/subcategory.model';
 import { ItemService } from '@core/item/item.service';
 import { EnumOption } from '../../models/EnumOption';
-import { ItemFeedSort } from '../../models/item-feed-sort';
 import { SelectOption } from '../../models/select-option';
 import { Button } from "primeng/button";
 import { FeedFilterStateService } from '@core/feed/feed-filter-state.service';
 import { CommonModule } from '@angular/common';
-
-
-
-export const ITEM_FEED_SORTS: ItemFeedSort[] = [
-  {
-    code: 'NEWEST',
-    label: 'Newest'
-  },
-  {
-    code: 'PRICE_ASC',
-    label: 'Lowest price'
-  },
-  {
-    code: 'PRICE_DESC',
-    label: 'Highest price'
-  }
-];
+import { ITEM_FEED_SORTS } from '@shared/models/item-feed-sort';
 
 @Component({
   selector: 'app-catalog-bar',

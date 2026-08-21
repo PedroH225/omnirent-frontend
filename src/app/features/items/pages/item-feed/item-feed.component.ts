@@ -21,6 +21,9 @@ import { ITEM_FEED_SORTS } from '@shared/models/item-feed-sort';
 import { FeedFilterStateService } from '@core/feed/feed-filter-state.service';
 import { environment } from '../../../../../environments/environment';
 import { ItemFeedCardModel } from '@shared/models/item-card-model';
+import { ItemFeedCardSkeletonComponent } from "@shared/components/item-feed-card-skeleton/item-feed-card-skeleton.component";
+import { delay } from 'rxjs';
+import { ItemFeedListSkeletonComponent } from "@shared/components/item-feed-list-skeleton/item-feed-list-skeleton.component";
 
 @Component({
   selector: 'app-item-feed',
@@ -28,7 +31,9 @@ import { ItemFeedCardModel } from '@shared/models/item-card-model';
     ItemFeedCardComponent, ItemFeedListComponent, DataView,
     CommonModule, FormsModule, SelectButton,
     Button,
-    Select
+    Select,
+    ItemFeedCardSkeletonComponent,
+    ItemFeedListSkeletonComponent
   ],
   templateUrl: './item-feed.component.html',
   styleUrl: './item-feed.component.scss'
@@ -39,6 +44,7 @@ export class ItemFeedComponent implements OnInit {
   storageUrl = environment.storageUrl;
 
   filtersOpen = false;
+  loading = true;
 
   layout: 'grid' | 'list' = 'grid';
 
@@ -114,17 +120,22 @@ export class ItemFeedComponent implements OnInit {
   }
 
   loadItems(): void {
+    this.loading = true;
+
     this.itemService.getItemFeed(
       this.name, this.category, this.subCategory,
       this.itemCondition, this.sort,
-      this.page, this.size).subscribe({
+      this.page, this.size)
+//      .pipe(delay(3000))
+      .subscribe({
         next: (response: PageResponse<ItemFeed>) => {
           this.items = response.content.map(item => this.mapItem(item));
-
           this.totalElements = response.totalElements;
+          this.loading = false;
         },
         error: (error: HttpErrorResponse) => {
           console.error(error);
+          this.loading = false;
         }
       });
   }

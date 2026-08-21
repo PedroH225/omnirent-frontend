@@ -4,7 +4,7 @@ import { Card } from "primeng/card";
 
 @Component({
   selector: 'app-auth-area',
-  imports: [RouterModule, Card],
+  imports: [RouterModule],
   templateUrl: './auth-area.component.html',
   styleUrl: './auth-area.component.scss'
 })

@@ -1,0 +1,41 @@
+<div class="feed-list-item">
+
+    <div class="feed-list-image">
+        <img
+            [src]="item.imageUrl || 'assets/placeholder-img.png'"
+            [alt]="item.name"
+            (error)="item.imageUrl = 'assets/placeholder-img.png'"
+        />
+    </div>
+
+    <div class="feed-list-content">
+
+        <span class="feed-list-category">
+            {{ item.categoryLabel }}
+        </span>
+
+        <h3>
+            {{ item.name }}
+        </h3>
+
+        <span class="feed-list-condition">
+            {{ item.conditionLabel }}
+        </span>
+
+        <div class="feed-list-details">
+
+            <strong class="feed-list-price">
+                {{ item.price.dailyPrice | currency:'BRL':'symbol':'1.2-2' }}/day
+            </strong>
+
+            <p-button
+                label="View"
+                size="small"
+                (onClick)="onView()"
+            />
+
+        </div>
+
+    </div>
+
+</div>

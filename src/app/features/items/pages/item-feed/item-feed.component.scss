@@ -1,0 +1,377 @@
+:host {
+    display: block;
+    width: 100%;
+}
+
+.filters-mobile-toggle {
+    display: none;
+}
+
+.feed-page {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 2rem;
+
+    width: min(1400px, 100%);
+    min-height: calc(100vh - 128px);
+
+    margin: 0 auto;
+    padding: 2rem;
+
+    background: var(--p-surface-100);
+}
+
+.feed-content {
+    min-width: 0;
+    min-height: 100%;
+}
+
+.feed-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    margin-bottom: 1.5rem;
+}
+
+.feed-title {
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+
+    h2 {
+        margin: 0;
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--p-primary-500);
+    }
+
+    span {
+        font-size: .9rem;
+        color: var(--p-text-muted-color);
+    }
+}
+
+:host ::ng-deep .view-toggle {
+    border-radius: .75rem;
+
+    .p-togglebutton {
+        min-width: 2.75rem;
+        height: 2.5rem;
+        padding: 0;
+    }
+}
+
+:host ::ng-deep .p-dataview {
+    border: none;
+    background: transparent;
+}
+
+:host ::ng-deep .p-dataview-content {
+    border: none;
+    background: transparent;
+}
+
+.items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.25rem;
+    width: 100%;
+}
+
+.items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+}
+
+:host ::ng-deep .p-paginator {
+    margin-top: 2rem;
+    padding: .75rem 0;
+    border: none;
+    background: transparent;
+}
+
+.filters-sidebar {
+    position: sticky;
+    top: 1.5rem;
+    align-self: start;
+}
+
+.filters-card {
+    padding: 1.25rem;
+
+    background: var(--p-surface-0);
+    border: 1px solid var(--p-surface-200);
+    border-radius: 1rem;
+}
+
+.filters-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+
+    border-bottom: 1px solid var(--p-surface-200);
+}
+
+.filters-label {
+    display: block;
+    margin-bottom: .2rem;
+
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    color: var(--p-primary-600);
+}
+
+.filters-header h3 {
+    margin: 0;
+
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: .45rem;
+
+    margin-bottom: 1rem;
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+
+    label {
+        font-size: .85rem;
+        font-weight: 600;
+        color: var(--p-text-color);
+    }
+
+    p-select {
+        width: 100%;
+    }
+}
+
+.filter-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .5rem;
+}
+
+.clear-filter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0;
+
+    border: none;
+    border-radius: 50%;
+
+    background: transparent;
+    color: var(--p-text-muted-color);
+
+    cursor: pointer;
+
+    transition:
+        background-color .2s ease,
+        color .2s ease;
+}
+
+.clear-filter:hover {
+    background: var(--p-surface-200);
+    color: var(--p-text-color);
+}
+
+.clear-filter .pi {
+    font-size: .7rem;
+}
+
+.empty-state {
+    min-height: 500px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+    text-align: center;
+    color: var(--p-text-muted-color);
+}
+
+.empty-state i {
+    font-size: 2.5rem;
+    margin-bottom: 16px;
+}
+
+.empty-state h3 {
+    margin: 0 0 8px;
+    color: var(--p-text-color);
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.empty-state p {
+    margin: 0;
+    max-width: 400px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.filter-actions {
+    margin-top: 1.25rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--p-surface-200);
+}
+
+@media (max-width: 1000px) {
+
+    :host ::ng-deep .view-toggle {
+        display: none;
+    }
+
+    .feed-page {
+        grid-template-columns: minmax(0, 1fr) 240px;
+        gap: 1.25rem;
+        padding: 1.5rem;
+    }
+
+    .items-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.5rem;
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .feed-page {
+        display: flex;
+        flex-direction: column;
+
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .feed-content {
+        width: 100%;
+    }
+
+    .filters-sidebar {
+        position: static;
+        order: -1;
+        width: 100%;
+    }
+
+    .filters-mobile-toggle {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        width: 100%;
+        padding: .85rem 1rem;
+
+        border: 1px solid var(--p-surface-200);
+        border-radius: .75rem;
+
+        background: var(--p-surface-0);
+        color: var(--p-text-color);
+
+        font: inherit;
+        font-weight: 600;
+
+        cursor: pointer;
+    }
+
+    .filters-mobile-toggle span {
+        display: flex;
+        align-items: center;
+        gap: .6rem;
+    }
+
+    .filters-mobile-toggle .pi-filter {
+        color: var(--p-primary-600);
+    }
+
+    .filters-card {
+        max-height: 0;
+        margin-top: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(-8px);
+
+        border-color: transparent;
+
+        transition:
+            max-height .5s ease,
+            margin-top .5s ease,
+            padding .5s ease,
+            opacity .4s ease,
+            transform .5s ease;
+    }
+
+    .filters-card.filters-card-open {
+        max-height: 600px;
+        margin-top: .75rem;
+        padding: 1rem;
+
+        opacity: 1;
+        transform: translateY(0);
+
+        border-color: var(--p-surface-200);
+    }
+
+    .feed-header {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .feed-title h2 {
+        font-size: 1.25rem;
+    }
+
+    .items-grid {
+        width: 100%;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1rem;
+    }
+
+    .items-list {
+        width: 100%;
+    }
+
+    :host ::ng-deep .p-dataview {
+        width: 100%;
+    }
+
+    :host ::ng-deep .p-dataview-content {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .feed-page {
+        padding: .75rem;
+    }
+
+    .items-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .filters-card {
+        border-radius: .75rem;
+    }
+}

@@ -1,0 +1,175 @@
+<div class="feed-page">
+
+    <main class="feed-content">
+
+        <div class="feed-header">
+
+            <div class="feed-title">
+                <h2>Explore items</h2>
+            </div>
+
+            <p-selectbutton [(ngModel)]="layout" [options]="options" optionValue="value" styleClass="view-toggle">
+                <ng-template #item let-item>
+                    <i class="pi" [ngClass]="{
+                            'pi-th-large': item.value === 'grid',
+                            'pi-list': item.value === 'list'
+                        }"></i>
+                </ng-template>
+            </p-selectbutton>
+
+        </div>
+
+        @if (loading) {
+
+        @if (layout === 'grid') {
+
+        <div class="items-grid">
+            @for (item of [1, 2, 3, 4, 5, 6, 7, 8]; track item) {
+            <app-item-feed-card-skeleton />
+            }
+        </div>
+
+        } @else {
+
+        <div class="items-list">
+            @for (item of [1, 2, 3, 4, 5]; track item) {
+                <app-item-feed-list-skeleton></app-item-feed-list-skeleton>
+            }
+        </div>
+
+        }
+
+        } @else if (items.length === 0) {
+
+        <div class="empty-state">
+            <i class="pi pi-search"></i>
+            <h3>No items found</h3>
+            <p>There are no items matching the current filters.</p>
+        </div>
+
+        } @else {
+
+        <p-dataview [value]="items" [layout]="layout" [rows]="size" [first]="page * size" [totalRecords]="totalElements"
+            [paginator]="true" [lazy]="true" (onPage)="onPageChange($event)">
+
+            <ng-template #grid let-items>
+                <div class="items-grid">
+                    <app-item-feed-card *ngFor="let item of items" [item]="item" />
+                </div>
+            </ng-template>
+
+            <ng-template #list let-items>
+                <div class="items-list">
+                    <app-item-feed-list *ngFor="let item of items" [item]="item" />
+                </div>
+            </ng-template>
+
+        </p-dataview>
+
+        }
+
+    </main>
+
+    <aside class="filters-sidebar">
+
+        <button class="filters-mobile-toggle" type="button" (click)="filtersOpen = !filtersOpen">
+            <span>
+                <i class="pi pi-filter"></i>
+                Filters
+            </span>
+
+            <i class="pi" [ngClass]="filtersOpen ? 'pi-chevron-up' : 'pi-chevron-down'"></i>
+        </button>
+
+        <div class="filters-card" [class.filters-card-open]="filtersOpen">
+
+            <div class="filters-header">
+                <div>
+                    <span class="filters-label">FILTERS</span>
+                    <h3>Refine results</h3>
+                </div>
+
+                <p-button icon="pi pi-filter-slash" severity="secondary" [text]="true" [rounded]="true"
+                    ariaLabel="Clear filters" (onClick)="clearFilters()" />
+            </div>
+
+            <div class="filter-group">
+
+                <div class="filter-label">
+                    <label for="category">Category</label>
+
+                    @if (selectedCategory) {
+                    <button type="button" class="clear-filter" (click)="clearCategory()" aria-label="Clear category">
+                        <i class="pi pi-times"></i>
+                    </button>
+                    }
+                </div>
+
+                <p-select inputId="category" [options]="categories" [(ngModel)]="selectedCategory" optionLabel="label"
+                    optionValue="value" placeholder="All categories" appendTo="body" (onChange)="onCategoryChange()" />
+
+            </div>
+
+            <div class="filter-group">
+
+                <div class="filter-label">
+                    <label for="subcategory">Subcategory</label>
+
+                    @if (selectedSubCategory) {
+                    <button type="button" class="clear-filter" (click)="clearSubCategory()"
+                        aria-label="Clear subcategory">
+                        <i class="pi pi-times"></i>
+                    </button>
+                    }
+                </div>
+
+                <p-select inputId="subcategory" [options]="subCategories" [(ngModel)]="selectedSubCategory"
+                    optionLabel="label" optionValue="value" placeholder="All subcategories"
+                    [disabled]="!selectedCategory" appendTo="body" (onChange)="onSubCategoryChange()" />
+
+            </div>
+
+            <div class="filter-group">
+
+                <div class="filter-label">
+                    <label for="condition">Condition</label>
+
+                    @if (selectedCondition) {
+                    <button type="button" class="clear-filter" (click)="clearCondition()" aria-label="Clear condition">
+                        <i class="pi pi-times"></i>
+                    </button>
+                    }
+                </div>
+
+                <p-select inputId="condition" [options]="itemConditions" [(ngModel)]="selectedCondition"
+                    optionLabel="label" optionValue="value" placeholder="Any condition" appendTo="body"
+                    (onChange)="onConditionChange()" />
+
+            </div>
+
+            <div class="filter-group">
+
+                <div class="filter-label">
+                    <label for="sort">Sort by</label>
+
+                    @if (selectedSort) {
+                    <button type="button" class="clear-filter" (click)="clearSort()" aria-label="Clear sort">
+                        <i class="pi pi-times"></i>
+                    </button>
+                    }
+                </div>
+
+                <p-select inputId="sort" [options]="sorts" [(ngModel)]="selectedSort" optionLabel="label"
+                    optionValue="value" placeholder="Recommended" appendTo="body" (onChange)="onSortChange()" />
+
+            </div>
+
+            <div class="filter-actions">
+                <p-button label="Apply filters" icon="pi pi-check" [fluid]="true" (onClick)="applyFilters()" />
+            </div>
+
+        </div>
+
+    </aside>
+
+</div>

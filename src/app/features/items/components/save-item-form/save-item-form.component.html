@@ -206,7 +206,7 @@
                     </p-floatlabel>
 
                     <div class="character-count">
-                        {{ form.description?.length ?? 0 }} / 1000
+                        {{ form.description.length }} / 1000
                     </div>
 
                     <app-field-error [message]="getFieldError('description')">

@@ -100,8 +100,10 @@ export class SaveItemFormComponent {
     this.save.emit(this.form);
   }
 
-  onImagesChange(images: ItemImageForm[]): void {
+  onImagesChange(images: ItemImageForm[]): void {    
     this.images = images;
+
+    this.imagesChange.emit(this.images);
   }
 
   getFieldError(field: string): string | undefined {

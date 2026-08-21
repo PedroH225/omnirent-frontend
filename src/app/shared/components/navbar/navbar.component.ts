@@ -7,14 +7,17 @@ import { InputIconModule } from 'primeng/inputicon';
 import { InputTextModule } from 'primeng/inputtext';
 import { MenuItem } from 'primeng/api';
 import { ImageModule } from 'primeng/image';
-import { Router, RouterLink, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { UserService } from '@core/user/user.service';
 import { LoggedUserModel } from '@core/user/model/logged-user-model';
 import { AuthService } from '@core/auth/auth.service';
+import { FeedFilterStateService } from '@core/feed/feed-filter-state.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-navbar',
   imports: [
+    CommonModule,
     ToolbarModule,
     ButtonModule,
     SplitButtonModule,
@@ -46,10 +49,17 @@ export class NavbarComponent {
     }
   ];
 
-  constructor(private userService: UserService, private authService: AuthService, private router: Router) {
+  constructor(private userService: UserService, private authService: AuthService, private router: Router,
+    private readonly feedFilterState: FeedFilterStateService
+  ) {
     this.currentUser = userService.currentUser;
   }
 
+  onSearch(title: string): void {
+    this.feedFilterState.setTitle(title);
+
+    this.feedFilterState.updateFeedUrl();
+  }
 
   logout() {
     this.authService.logout().subscribe({

@@ -105,6 +105,8 @@ export class ItemImagesComponent {
     );
 
     this.images = [];
+
+    this.emitImages()
   }
 
 }

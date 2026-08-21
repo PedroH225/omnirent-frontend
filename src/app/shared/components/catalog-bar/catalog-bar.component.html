@@ -4,13 +4,14 @@
             placeholder="Category" (onChange)="onCategoryChange()" appendTo="body" />
 
         <p-select [options]="subCategories" [(ngModel)]="selectedSubCategory" optionLabel="label" optionValue="value"
-            placeholder="Subcategory" [disabled]="!selectedCategory" appendTo="body" />
+            placeholder="Subcategory" [disabled]="!selectedCategory" (onChange)="onSubCategoryChange()"
+            appendTo="body" />
 
         <p-select [options]="itemConditions" [(ngModel)]="selectedCondition" optionLabel="label" optionValue="value"
-            placeholder="Condition" appendTo="body" />
+            placeholder="Condition" (onChange)="onConditionChange()" appendTo="body" />
 
         <p-select [options]="sorts" [(ngModel)]="selectedSort" optionLabel="label" optionValue="value"
-            placeholder="Sort by" appendTo="body" />
+            placeholder="Sort by" (onChange)="onSortChange()" appendTo="body" />
 
         <p-button label="Clear" icon="pi pi-filter-slash" severity="secondary" rounded (onClick)="clearFilters()" />
     </div>

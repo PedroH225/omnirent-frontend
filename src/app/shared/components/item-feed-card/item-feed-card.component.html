@@ -1,7 +1,7 @@
 <div class="item-card">
 
     <div class="image-container">
-        <img [src]="item.imageUrl || 'assets/placeholder-img.png'" [alt]="item.name" />
+        <img [src]="item.imageUrl || 'assets/placeholder-img.png'" [alt]="item.name" (error)="item.imageUrl = 'assets/placeholder-img.png'"/>
     </div>
 
     <div class="content">

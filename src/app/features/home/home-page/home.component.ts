@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { Component } from '@angular/core';
 import { CategoryService } from '@core/categories/category.service';
 import { ItemService } from '@core/item/item.service';
 import { ItemFeed } from '@core/item/model/item-feed-model';
@@ -13,6 +13,9 @@ import { CarouselModule } from 'primeng/carousel';
 import { TimeLineComponent } from "../time-line/time-line.component";
 import { ItemFeedCardModel } from '@shared/models/item-card-model';
 import { ItemFeedCardComponent } from "@shared/components/item-feed-card/item-feed-card.component";
+import { Params, Router } from "@angular/router";
+import { ItemFeedCardSkeletonComponent } from "@shared/components/item-feed-card-skeleton/item-feed-card-skeleton.component";
+import { delay } from 'rxjs';
 @Component({
     selector: 'app-home',
     standalone: true,
@@ -21,13 +24,13 @@ import { ItemFeedCardComponent } from "@shared/components/item-feed-card/item-fe
         GalleriaModule,
         CarouselModule,
         TimeLineComponent,
-        ItemFeedCardComponent
+        ItemFeedCardComponent,
+        ItemFeedCardSkeletonComponent
     ],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-
     storageUrl = environment.storageUrl;
 
     categories: SelectOption<CategoryResponse>[] = [];
@@ -35,6 +38,10 @@ export class HomeComponent {
     audiovisualCards: ItemFeedCardModel[] = [];
     constructionCards: ItemFeedCardModel[] = [];
     eventsCards: ItemFeedCardModel[] = [];
+
+    audiovisualLoading = true;
+    constructionLoading = true;
+    eventsLoading = true;
 
     responsiveOptions = [
         {
@@ -57,6 +64,7 @@ export class HomeComponent {
     constructor(
         private categoryService: CategoryService,
         private itemService: ItemService,
+        private router: Router
     ) { }
 
     ngOnInit(): void {
@@ -103,14 +111,22 @@ export class HomeComponent {
         category: string,
         target: 'audiovisualCards' | 'constructionCards' | 'eventsCards'
     ): void {
-        this.itemService.getItemFeedHome(category).subscribe({
-            next: (response) => {
-                this[target] = response.content.map(item => this.mapItem(item));
-            },
-            error: (error) => {
-                console.error(error);
-            }
-        });
+
+        this.setLoading(target, true);
+
+        this.itemService.getItemFeedHome(category)
+//            .pipe(delay(3000))
+            .subscribe({
+
+                next: (response) => {
+                    this[target] = response.content.map(item => this.mapItem(item));
+                    this.setLoading(target, false);
+                },
+                error: (error) => {
+                    console.error(error);
+                    this.setLoading(target, false);
+                }
+            });
     }
 
     mapItem(item: ItemFeed): ItemFeedCardModel {
@@ -122,8 +138,33 @@ export class HomeComponent {
                 dailyPrice: item.price.dailyPrice
             },
             imageUrl: item.thumbnailStorageKey
-                ? `${this.storageUrl}/items/${item.thumbnailStorageKey}`
+                ? `${this.storageUrl}/${item.thumbnailStorageKey}`
                 : undefined
         };
+    }
+
+    viewAll(category: string) {
+        const queryParams: Params = { category: category };
+        this.router.navigate(['feed'], { queryParams })
+    }
+
+    private setLoading(
+        target: 'audiovisualCards' | 'constructionCards' | 'eventsCards',
+        loading: boolean
+    ): void {
+
+        switch (target) {
+            case 'audiovisualCards':
+                this.audiovisualLoading = loading;
+                break;
+
+            case 'constructionCards':
+                this.constructionLoading = loading;
+                break;
+
+            case 'eventsCards':
+                this.eventsLoading = loading;
+                break;
+        }
     }
 }

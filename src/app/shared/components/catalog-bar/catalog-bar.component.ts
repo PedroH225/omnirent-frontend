@@ -6,31 +6,16 @@ import { CategoryResponse } from '@core/categories/model/category.model';
 import { SubCategoryResponse } from '@core/categories/model/subcategory.model';
 import { ItemService } from '@core/item/item.service';
 import { EnumOption } from '../../models/EnumOption';
-import { ItemFeedSort } from '../../models/item-feed-sort';
 import { SelectOption } from '../../models/select-option';
 import { Button } from "primeng/button";
-
-
-
-export const ITEM_FEED_SORTS: ItemFeedSort[] = [
-  {
-    code: 'NEWEST',
-    label: 'Newest'
-  },
-  {
-    code: 'PRICE_ASC',
-    label: 'Lowest price'
-  },
-  {
-    code: 'PRICE_DESC',
-    label: 'Highest price'
-  }
-];
+import { FeedFilterStateService } from '@core/feed/feed-filter-state.service';
+import { CommonModule } from '@angular/common';
+import { ITEM_FEED_SORTS } from '@shared/models/item-feed-sort';
 
 @Component({
   selector: 'app-catalog-bar',
   standalone: true,
-  imports: [SelectModule, FormsModule, Button],
+  imports: [CommonModule, SelectModule, FormsModule, Button],
   templateUrl: './catalog-bar.component.html',
   styleUrl: './catalog-bar.component.scss'
 })
@@ -44,7 +29,9 @@ export class CatalogBarComponent {
   selectedSubCategory?: SubCategoryResponse;
   selectedSort?: string;
 
-  constructor(private categoryService: CategoryService, private itemService: ItemService) { }
+  constructor(private categoryService: CategoryService, private itemService: ItemService,
+    private feedFilterState: FeedFilterStateService
+  ) { }
 
   sorts: SelectOption<string>[] = ITEM_FEED_SORTS.map(sort => ({
     label: sort.label,
@@ -84,6 +71,7 @@ export class CatalogBarComponent {
   }
 
   onCategoryChange(): void {
+
     this.selectedSubCategory = undefined;
 
     this.subCategories =
@@ -91,6 +79,28 @@ export class CatalogBarComponent {
         label: sub.subCategoryLabel,
         value: sub
       })) ?? [];
+
+    this.feedFilterState.setSubCategory(null);
+    this.feedFilterState.setCategory(
+      this.selectedCategory?.name ?? null
+    );
+  }
+
+  onSubCategoryChange(): void {
+    this.feedFilterState.setSubCategory(
+      this.selectedSubCategory?.name ?? null
+    );
+  }
+
+  onConditionChange(): void {
+    this.feedFilterState.setCondition(
+      this.selectedCondition?.code ?? null
+    );
+  }
+
+  onSortChange(): void {
+    this.feedFilterState.setSort(this.selectedSort ?? null);
+
   }
 
   clearFilters(): void {
@@ -100,5 +110,7 @@ export class CatalogBarComponent {
     this.selectedSort = undefined;
 
     this.subCategories = [];
+
+    this.feedFilterState.reset();
   }
 }

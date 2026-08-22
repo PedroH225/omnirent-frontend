@@ -23,7 +23,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { ConfirmationService } from 'primeng/api';
 import { ItemFormModel } from '@features/items/model/item-form-model';
-import { SaveItemFormValidator } from '@shared/validators/item-form-validator';
+import { SaveItemFormValidator } from '@features/items/validators/item-form-validator';
+import { ItemImagesValidator } from '@features/items/validators/item-image-validator';
 
 type ItemFormMode = 'create' | 'edit';
 
@@ -98,7 +99,14 @@ export class SaveItemFormComponent {
   }
 
   onSave(): void {
-    this.localErrors = SaveItemFormValidator.validate(this.form);
+
+    const formErrors = SaveItemFormValidator.validate(this.form);
+    const imageErrors = ItemImagesValidator.validate(this.images);
+
+    this.localErrors = [
+      ...formErrors,
+      ...imageErrors
+    ];
 
     if (this.localErrors.length > 0) {
       return;
@@ -200,6 +208,17 @@ export class SaveItemFormComponent {
       })) ?? [];
   }
 
+  onImageErrorsChange(errors: FieldError[]): void {
+    this.localErrors = [
+      ...this.localErrors.filter(
+        error =>
+          error.field !== 'images' &&
+          !error.field.startsWith('images.')
+      ),
+      ...errors
+    ];
+  }
+
   onCategoryChange(): void {
     this.form.subCategory = undefined;
 
@@ -231,9 +250,6 @@ export class SaveItemFormComponent {
 
   getTabHasError(tab: string): boolean {
 
-    if (this.visitedTabs.has(tab)) {
-      return false;
-    }
 
     const fieldsByTab: Record<string, string[]> = {
       details: [
@@ -255,8 +271,14 @@ export class SaveItemFormComponent {
 
     const fields = fieldsByTab[tab] ?? [];
 
-    return [...this.localErrors, ...this.backendErrors]
-      .some(error => fields.includes(error.field));
+    return [...this.localErrors, ...this.backendErrors].some(error => {
+      if (tab === 'images') {
+        return error.field === 'images' ||
+          error.field.startsWith('images.');
+      }
+
+      return fields.includes(error.field);
+    });
   }
 
   onTabChange(tab: string | number) {

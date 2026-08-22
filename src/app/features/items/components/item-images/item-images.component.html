@@ -9,39 +9,25 @@
             </small>
         </div>
 
-        <p-button
-            icon="pi pi-plus"
-            label="Add Images"
-            [disabled]="images.length >= 5"
-            (onClick)="fileInput.click()">
+        <p-button icon="pi pi-plus" label="Add Images" [disabled]="images.length >= 5" (onClick)="fileInput.click()">
         </p-button>
 
-        <input
-            #fileInput
-            type="file"
-            hidden
-            multiple
-            accept="image/*"
-            (change)="onFilesSelected($event)">
+        <input #fileInput type="file" hidden multiple accept="image/*" (change)="onFilesSelected($event)">
 
     </div>
 
     <div class="images-grid">
 
-        <div
-            class="image-card"
-            *ngFor="let image of images; let i = index">
+        <div class="image-card" *ngFor="let image of images; let i = index">
 
             <div class="preview">
 
-                <img
-                    [src]="image.previewUrl"
-                    alt="Preview">
+                <img [src]="image.previewUrl" alt="Preview">
 
                 @if (i === 0) {
-                    <div class="badge">
-                        Main
-                    </div>
+                <div class="badge">
+                    Main
+                </div>
                 }
 
             </div>
@@ -54,49 +40,48 @@
 
                 <div class="actions">
 
-                    <p-button
-                        icon="pi pi-arrow-left"
-                        [text]="true"
-                        [disabled]="i === 0"
-                        (onClick)="moveLeft(i)">
+                    <p-button icon="pi pi-arrow-left" [text]="true" [disabled]="i === 0" (onClick)="moveLeft(i)">
                     </p-button>
 
-                    <p-button
-                        icon="pi pi-arrow-right"
-                        [text]="true"
-                        [disabled]="i === images.length - 1"
+                    <p-button icon="pi pi-arrow-right" [text]="true" [disabled]="i === images.length - 1"
                         (onClick)="moveRight(i)">
                     </p-button>
 
-                    <p-button
-                        icon="pi pi-trash"
-                        severity="danger"
-                        [text]="true"
-                        (onClick)="removeImage(i)">
+                    <p-button icon="pi pi-trash" severity="danger" [text]="true" (onClick)="removeImage(i)">
                     </p-button>
 
                 </div>
 
             </div>
 
+            @if (getError(i)) {
+            <div class="image-error">
+                <app-field-error [message]="getError(i)">
+                </app-field-error>
+            </div>
+            }
+
         </div>
 
-        @if (images.length < 5) {
+        @if (images.length < 5) { <button type="button" class="add-card" (click)="fileInput.click()">
 
-            <button
-                type="button"
-                class="add-card"
-                (click)="fileInput.click()">
+            <i class="pi pi-plus"></i>
 
-                <i class="pi pi-plus"></i>
-
-                <span>Add Image</span>
+            <span>Add Image</span>
 
             </button>
 
-        }
+            }
 
     </div>
+
+    @if (getCollectionError()) {
+    <div class="collection-error">
+        <app-field-error [message]="getCollectionError()">
+        </app-field-error>
+    </div>
+    }
+
 
     <small class="hint">
         The first image will be used as the main thumbnail.

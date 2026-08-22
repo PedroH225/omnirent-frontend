@@ -220,7 +220,8 @@
         @if (mode === 'create') {
         <p-tabpanel value="images">
 
-            <app-item-images (imagesChange)="onImagesChange($event)"></app-item-images>
+            <app-item-images (imagesChange)="onImagesChange($event)"
+            (errorsChange)="onImageErrorsChange($event)" ></app-item-images>
 
         </p-tabpanel>
         }

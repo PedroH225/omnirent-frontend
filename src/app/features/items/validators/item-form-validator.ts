@@ -1,6 +1,6 @@
 import { ItemRequestModel } from '@features/items/model/item-request-model';
 import { FieldError } from '@shared/models/field-error';
-import { FormValidationHelper } from './form-validation-helper';
+import { FormValidationHelper } from '../../../shared/validators/form-validation-helper';
 import { ItemFormModel } from '@features/items/model/item-form-model';
 
 export class SaveItemFormValidator {

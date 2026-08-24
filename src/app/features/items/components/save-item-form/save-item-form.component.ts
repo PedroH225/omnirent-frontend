@@ -6,8 +6,6 @@ import { SubCategoryResponse } from '@core/categories/model/subcategory.model';
 import { ItemService } from '@core/item/item.service';
 import { AddressModel } from '@features/address/model/address-model';
 import { ItemImageForm } from '@features/items/model/item-image-form-model';
-import { ItemRequestModel } from '@features/items/model/item-request-model';
-import { EnumOption } from '@shared/models/EnumOption';
 import { FieldError } from '@shared/models/field-error';
 import { SelectOption } from '@shared/models/select-option';
 import { AddressCardComponent } from "@features/address/components/address-card/address-card.component";
@@ -25,6 +23,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TextareaModule } from 'primeng/textarea';
 import { ConfirmationService } from 'primeng/api';
 import { ItemFormModel } from '@features/items/model/item-form-model';
+import { SaveItemFormValidator } from '@features/items/validators/item-form-validator';
+import { ItemImagesValidator } from '@features/items/validators/item-image-validator';
 
 type ItemFormMode = 'create' | 'edit';
 
@@ -58,6 +58,8 @@ export class SaveItemFormComponent {
   visitedTabs = new Set<string>();
 
   images: ItemImageForm[] = [];
+
+  localErrors: FieldError[] = [];
 
   constructor(
     private addressService: AddressService, private categoryService: CategoryService, private itemService: ItemService) { }
@@ -97,22 +99,42 @@ export class SaveItemFormComponent {
   }
 
   onSave(): void {
+
+    const formErrors = SaveItemFormValidator.validate(this.form);
+    const imageErrors = ItemImagesValidator.validate(this.images);
+
+    this.localErrors = [
+      ...formErrors,
+      ...imageErrors
+    ];
+
+    if (this.localErrors.length > 0) {
+      return;
+    }
+
     this.save.emit(this.form);
   }
 
-  onImagesChange(images: ItemImageForm[]): void {    
+  onImagesChange(images: ItemImageForm[]): void {
     this.images = images;
 
     this.imagesChange.emit(this.images);
   }
 
   getFieldError(field: string): string | undefined {
-    return this.backendErrors.find(
+    return this.localErrors.find(
       error => error.field === field
-    )?.message;
+    )?.message
+      ?? this.backendErrors.find(
+        error => error.field === field
+      )?.message;
   }
 
   onFieldChange(field: string): void {
+    this.localErrors = this.localErrors.filter(
+      error => error.field !== field
+    );
+
     this.backendErrors = this.backendErrors.filter(
       error => error.field !== field
     );
@@ -186,6 +208,17 @@ export class SaveItemFormComponent {
       })) ?? [];
   }
 
+  onImageErrorsChange(errors: FieldError[]): void {
+    this.localErrors = [
+      ...this.localErrors.filter(
+        error =>
+          error.field !== 'images' &&
+          !error.field.startsWith('images.')
+      ),
+      ...errors
+    ];
+  }
+
   onCategoryChange(): void {
     this.form.subCategory = undefined;
 
@@ -217,9 +250,6 @@ export class SaveItemFormComponent {
 
   getTabHasError(tab: string): boolean {
 
-    if (this.visitedTabs.has(tab)) {
-      return false;
-    }
 
     const fieldsByTab: Record<string, string[]> = {
       details: [
@@ -239,9 +269,16 @@ export class SaveItemFormComponent {
       ]
     };
 
-    return this.backendErrors.some(error =>
-      fieldsByTab[tab]?.includes(error.field)
-    );
+    const fields = fieldsByTab[tab] ?? [];
+
+    return [...this.localErrors, ...this.backendErrors].some(error => {
+      if (tab === 'images') {
+        return error.field === 'images' ||
+          error.field.startsWith('images.');
+      }
+
+      return fields.includes(error.field);
+    });
   }
 
   onTabChange(tab: string | number) {
@@ -251,6 +288,7 @@ export class SaveItemFormComponent {
   resetForm(): void {
     this.visitedTabs.clear();
     this.images = [];
+    this.localErrors = [];
 
     if (this.mode === 'edit' && this.item) {
       this.initializeEditForm();

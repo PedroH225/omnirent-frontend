@@ -1,262 +1,290 @@
-<p-tabs value="details" (valueChange)="onTabChange($event)">
-    <p-tablist>
-        <p-tab value="details">
-            Item Details
-            @if (getTabHasError('details')) {
-            <i class="pi pi-exclamation-circle tab-error-icon"></i>
-            }
-        </p-tab>
-        @if (mode === 'create') {
+<div class="item-form">
+    <div class="form-container">
 
-        <p-tab value="images">
-            Images
-            @if (getTabHasError('images')) {
-            <i class="pi pi-exclamation-circle tab-error-icon"></i>
-            }
-        </p-tab>
-        }
-        <p-tab value="address">
-            Pickup Address
-            @if (getTabHasError('address')) {
-            <i class="pi pi-exclamation-circle tab-error-icon"></i>
-            }
-        </p-tab>
 
-    </p-tablist>
-    <p-tabpanels>
+        <p-tabs value="details" (valueChange)="onTabChange($event)">
 
-        <p-tabpanel value="details">
+            <p-tablist>
 
-            <div class="form-section">
+                <p-tab value="details">
+                    <span>Item Details</span>
 
-                <div class="field">
-                    <p-floatlabel variant="in">
+                    @if (getTabHasError('details')) {
+                    <i class="pi pi-exclamation-circle tab-error-icon"></i>
+                    }
+                </p-tab>
 
-                        <input id="name" pInputText [(ngModel)]="form.name" name="name"
-                            (ngModelChange)="onFieldChange('name')">
+                @if (mode === 'create') {
+                <p-tab value="images">
+                    <span>Images</span>
 
-                        <label for="name">
-                            Title
-                        </label>
+                    @if (getTabHasError('images')) {
+                    <i class="pi pi-exclamation-circle tab-error-icon"></i>
+                    }
+                </p-tab>
+                }
 
-                    </p-floatlabel>
+                <p-tab value="address">
+                    <span>Pickup Address</span>
 
-                    <app-field-error [message]="getFieldError('name')">
-                    </app-field-error>
+                    @if (getTabHasError('address')) {
+                    <i class="pi pi-exclamation-circle tab-error-icon"></i>
+                    }
+                </p-tab>
 
-                </div>
+            </p-tablist>
 
-                <div class="field">
-                    <p-floatlabel variant="in">
+            <p-tabpanels>
 
-                        <input id="brand" pInputText [(ngModel)]="form.brand" name="brand"
-                            (ngModelChange)="onFieldChange('brand')">
+                <p-tabpanel value="details">
 
-                        <label for="brand">
-                            Brand
-                        </label>
+                    <div class="form-section">
 
-                    </p-floatlabel>
+                        <div class="field">
 
-                    <app-field-error [message]="getFieldError('brand')">
-                    </app-field-error>
+                            <p-floatlabel variant="in">
 
-                </div>
+                                <input id="name" pInputText [(ngModel)]="form.name" name="name"
+                                    (ngModelChange)="onFieldChange('name')">
 
-                <div class="field">
+                                <label for="name">
+                                    Title
+                                </label>
 
-                    <p-floatlabel variant="in">
+                            </p-floatlabel>
 
-                        <input id="model" pInputText [(ngModel)]="form.model" name="model"
-                            (ngModelChange)="onFieldChange('model')">
+                            <app-field-error [message]="getFieldError('name')">
+                            </app-field-error>
 
-                        <label for="model">
-                            Model
-                        </label>
+                        </div>
 
-                    </p-floatlabel>
+                        <div class="field">
 
-                    <app-field-error [message]="getFieldError('model')">
-                    </app-field-error>
+                            <p-floatlabel variant="in">
 
-                </div>
+                                <input id="brand" pInputText [(ngModel)]="form.brand" name="brand"
+                                    (ngModelChange)="onFieldChange('brand')">
 
-                <div class="field">
+                                <label for="brand">
+                                    Brand
+                                </label>
 
-                    <p-floatlabel variant="in">
+                            </p-floatlabel>
 
-                        <p-select inputId="condition" [(ngModel)]="form.itemCondition" name="itemCondition"
-                            [options]="conditions" optionLabel="label" optionValue="value"
-                            (ngModelChange)="onFieldChange('itemCondition')">
-                        </p-select>
+                            <app-field-error [message]="getFieldError('brand')">
+                            </app-field-error>
 
-                        <label for="condition">
-                            Condition
-                        </label>
+                        </div>
 
-                    </p-floatlabel>
+                        <div class="field">
 
-                    <app-field-error [message]="getFieldError('itemCondition')">
-                    </app-field-error>
+                            <p-floatlabel variant="in">
 
-                </div>
+                                <input id="model" pInputText [(ngModel)]="form.model" name="model"
+                                    (ngModelChange)="onFieldChange('model')">
 
-                <div class="field">
+                                <label for="model">
+                                    Model
+                                </label>
 
-                    <p-floatlabel variant="in">
+                            </p-floatlabel>
 
-                        <p-select inputId="category" [options]="categories" [(ngModel)]="form.category"
-                            optionLabel="label" optionValue="value" (onChange)="onCategoryChange()" appendTo="body">
-                        </p-select>
+                            <app-field-error [message]="getFieldError('model')">
+                            </app-field-error>
 
-                        <label for="category">
-                            Category
-                        </label>
+                        </div>
 
-                    </p-floatlabel>
+                        <div class="field">
 
-                </div>
+                            <p-floatlabel variant="in">
 
-                <div class="field">
-                    <p-floatlabel variant="in">
+                                <p-select inputId="condition" [(ngModel)]="form.itemCondition" name="itemCondition"
+                                    [options]="conditions" optionLabel="label" optionValue="value"
+                                    (ngModelChange)="onFieldChange('itemCondition')">
+                                </p-select>
 
-                        <p-select inputId="subCategoryId" [options]="subCategories" [(ngModel)]="form.subCategory"
-                            (ngModelChange)="onFieldChange('subCategoryId')" optionLabel="label" optionValue="value"
-                            [disabled]="!form.category" appendTo="body">
-                        </p-select>
+                                <label for="condition">
+                                    Condition
+                                </label>
 
-                        <label for="subcategory">
-                            Subcategory
-                        </label>
+                            </p-floatlabel>
 
-                    </p-floatlabel>
+                            <app-field-error [message]="getFieldError('itemCondition')">
+                            </app-field-error>
 
-                    <app-field-error [message]="getFieldError('subCategoryId')">
-                    </app-field-error>
-                </div>
+                        </div>
 
-                <div class="field">
-                    <p-floatlabel variant="in">
+                        <div class="field">
 
-                        <p-inputnumber inputId="basePrice" [(ngModel)]="form.basePrice" name="basePrice" mode="currency"
-                            (ngModelChange)="onFieldChange('basePrice')" currency="BRL" locale="pt-BR">
-                        </p-inputnumber>
+                            <p-floatlabel variant="in">
 
-                        <label for="basePrice">
-                            Base Price
-                        </label>
+                                <p-select inputId="category" [options]="categories" [(ngModel)]="form.category"
+                                    optionLabel="label" optionValue="value" (onChange)="onCategoryChange()"
+                                    appendTo="body">
+                                </p-select>
 
-                    </p-floatlabel>
+                                <label for="category">
+                                    Category
+                                </label>
 
-                    <app-field-error [message]="getFieldError('basePrice')">
-                    </app-field-error>
-                </div>
+                            </p-floatlabel>
 
-                <div class="price-preview">
+                        </div>
 
-                    <div class="price-card">
+                        <div class="field">
 
-                        <span>Hourly</span>
-                        <strong>
-                            {{ hourlyPrice | currency:'BRL':'symbol':'1.2-2' }}
-                        </strong>
+                            <p-floatlabel variant="in">
+
+                                <p-select inputId="subCategoryId" [options]="subCategories"
+                                    [(ngModel)]="form.subCategory" (ngModelChange)="onFieldChange('subCategoryId')"
+                                    optionLabel="label" optionValue="value" [disabled]="!form.category" appendTo="body">
+                                </p-select>
+
+                                <label for="subCategoryId">
+                                    Subcategory
+                                </label>
+
+                            </p-floatlabel>
+
+                            <app-field-error [message]="getFieldError('subCategoryId')">
+                            </app-field-error>
+
+                        </div>
+
+                        <div class="field">
+
+                            <p-floatlabel variant="in">
+
+                                <p-inputnumber inputId="basePrice" [(ngModel)]="form.basePrice" name="basePrice"
+                                    mode="currency" (ngModelChange)="onFieldChange('basePrice')" currency="BRL"
+                                    locale="pt-BR">
+                                </p-inputnumber>
+
+                                <label for="basePrice">
+                                    Base Price
+                                </label>
+
+                            </p-floatlabel>
+
+                            <app-field-error [message]="getFieldError('basePrice')">
+                            </app-field-error>
+
+                        </div>
+
+                        <div class="price-preview">
+
+                            <div class="price-card">
+
+                                <span>Hourly</span>
+
+                                <strong>
+                                    {{ hourlyPrice | currency:'BRL':'symbol':'1.2-2' }}
+                                </strong>
+
+                            </div>
+
+                            <div class="price-card">
+
+                                <span>Daily</span>
+
+                                <strong>
+                                    {{ form.basePrice | currency:'BRL':'symbol':'1.2-2' }}
+                                </strong>
+
+                            </div>
+
+                            <div class="price-card">
+
+                                <span>Weekly</span>
+
+                                <strong>
+                                    {{ weeklyPrice | currency:'BRL':'symbol':'1.2-2' }}
+                                </strong>
+
+                            </div>
+
+                            <div class="price-card">
+
+                                <span>Monthly</span>
+
+                                <strong>
+                                    {{ monthlyPrice | currency:'BRL':'symbol':'1.2-2' }}
+                                </strong>
+
+                            </div>
+
+                        </div>
+
+                        <div class="field field-full">
+
+                            <p-floatlabel variant="in">
+
+                                <textarea id="description" pTextarea rows="6" maxlength="1000"
+                                    [(ngModel)]="form.description" (ngModelChange)="onFieldChange('description')"
+                                    name="description">
+                            </textarea>
+
+                                <label for="description">
+                                    Description
+                                </label>
+
+                            </p-floatlabel>
+
+                            <div class="character-count">
+                                {{ form.description.length }} / 1000
+                            </div>
+
+                            <app-field-error [message]="getFieldError('description')">
+                            </app-field-error>
+
+                        </div>
 
                     </div>
 
-                    <div class="price-card">
+                </p-tabpanel>
 
-                        <span>Daily</span>
-                        <strong>
-                            {{ form.basePrice | currency:'BRL':'symbol':'1.2-2' }}
-                        </strong>
+                @if (mode === 'create') {
 
-                    </div>
+                <p-tabpanel value="images">
 
-                    <div class="price-card">
+                    <app-item-images (imagesChange)="onImagesChange($event)"
+                        (errorsChange)="onImageErrorsChange($event)">
+                    </app-item-images>
 
-                        <span>Weekly</span>
-                        <strong>
-                            {{ weeklyPrice | currency:'BRL':'symbol':'1.2-2' }}
-                        </strong>
+                </p-tabpanel>
 
-                    </div>
+                }
 
-                    <div class="price-card">
+                <p-tabpanel value="address">
 
-                        <span>Monthly</span>
-                        <strong>
-                            {{ monthlyPrice | currency:'BRL':'symbol':'1.2-2' }}
-                        </strong>
+                    <div class="address-section">
 
-                    </div>
+                        <div class="addresses-grid">
 
-                </div>
+                            <app-address-card *ngFor="let address of addresses" [address]="address"
+                                [showActions]="false" [selectable]="true" [selected]="form.address?.id === address.id"
+                                (ngModelChange)="onFieldChange('addressId')" (select)="selectAddress($event)">
+                            </app-address-card>
 
-                <div class="field field-full">
+                        </div>
 
-                    <p-floatlabel variant="in">
-
-                        <textarea id="description" pTextarea rows="6" maxlength="1000" [(ngModel)]="form.description"
-                            (ngModelChange)="onFieldChange('description')" name="description"></textarea>
-
-                        <label for="description">
-                            Description
-                        </label>
-
-                    </p-floatlabel>
-
-                    <div class="character-count">
-                        {{ form.description.length }} / 1000
-                    </div>
-
-                    <app-field-error [message]="getFieldError('description')">
-                    </app-field-error>
-
-                </div>
-
-            </div>
-        </p-tabpanel>
-
-        @if (mode === 'create') {
-        <p-tabpanel value="images">
-
-            <app-item-images (imagesChange)="onImagesChange($event)"></app-item-images>
-
-        </p-tabpanel>
-        }
-
-        <p-tabpanel value="address">
-
-            <div class="form-section">
-
-                <div class="field">
-
-
-                    <div class="addresses-grid">
-
-                        <app-address-card *ngFor="let address of addresses" [address]="address" [showActions]="false"
-                            [selectable]="true" [selected]="form.address?.id === address.id"
-                            (ngModelChange)="onFieldChange('addressId')" (select)="selectAddress($event)">
-                        </app-address-card>
+                        <app-field-error [message]="getFieldError('addressId')">
+                        </app-field-error>
 
                     </div>
 
-                    <app-field-error [message]="getFieldError('addressId')">
-                    </app-field-error>
+                </p-tabpanel>
 
-                </div>
+            </p-tabpanels>
 
-            </div>
+        </p-tabs>
 
-        </p-tabpanel>
+        <div class="form-actions">
 
-    </p-tabpanels>
+            <p-button [label]="mode === 'create' ? 'Create' : 'Save'" (onClick)="onSave()">
+            </p-button>
 
-</p-tabs>
-
-<div class="actions">
-
-    <p-button [label]="mode === 'create' ? 'Create' : 'Save'" (onClick)="onSave()">
-    </p-button>
+        </div>
+    </div>
 
 </div>

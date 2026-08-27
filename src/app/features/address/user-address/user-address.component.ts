@@ -1,30 +1,40 @@
 import { Component } from '@angular/core';
 import { AddressService } from '@core/address/address.service';
 import { AddressModel } from '../model/address-model';
-import { Button } from "primeng/button";
-import { AddressCardComponent } from "../components/address-card/address-card.component";
+import { Button } from 'primeng/button';
+import { AddressCardComponent } from '../components/address-card/address-card.component';
 import { CommonModule } from '@angular/common';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Dialog } from "primeng/dialog";
-import { AddressFormComponent } from "../components/address-form/address-form.component";
+import { Dialog } from 'primeng/dialog';
+import { AddressFormComponent } from '../components/address-form/address-form.component';
 import { AddressRequestModel } from '../model/address-request-model';
 import { ToastModule } from 'primeng/toast';
 import { FieldError } from '@shared/models/field-error';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApiValidationException } from '@shared/models/api-field-exception';
+import { finalize } from 'rxjs';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
+import { TranslationService } from '@core/i18n/translation.service';
 
 @Component({
   selector: 'app-user-address',
-  imports: [CommonModule, Button, ConfirmDialogModule, AddressCardComponent, Dialog, AddressFormComponent, ToastModule],
-  providers: [
-    ConfirmationService,
-    MessageService
+  imports: [
+    CommonModule,
+    Button,
+    ConfirmDialogModule,
+    AddressCardComponent,
+    Dialog,
+    AddressFormComponent,
+    ToastModule,
+    TranslatePipe,
   ],
+  providers: [ConfirmationService, MessageService],
   templateUrl: './user-address.component.html',
-  styleUrl: './user-address.component.scss'
+  styleUrl: './user-address.component.scss',
 })
 export class UserAddressComponent {
+  loading = true;
   backendErrors: FieldError[] = [];
   displayForm: boolean = false;
 
@@ -32,7 +42,11 @@ export class UserAddressComponent {
 
   addresses: AddressModel[] = [];
 
-  constructor(private addressService: AddressService, private messageService: MessageService) { }
+  constructor(
+    private addressService: AddressService,
+    private messageService: MessageService,
+    private translationService: TranslationService
+  ) {}
 
   ngOnInit(): void {
     this.loadUserAddresses();
@@ -49,20 +63,27 @@ export class UserAddressComponent {
   }
 
   loadUserAddresses(): void {
-    this.addressService.getUserAddresses().subscribe({
-      next: (addresses) => {
-        this.addresses = addresses;
-      },
-      error: (error) => {
-        console.error(error);
-      }
-    });
+    this.loading = true;
+
+    this.addressService
+      .getUserAddresses()
+      .pipe(
+        finalize(() => {
+          this.loading = false;
+        }),
+      )
+      .subscribe({
+        next: (addresses) => {
+          this.addresses = addresses;
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
   }
 
   saveAddress(address: AddressRequestModel) {
-    const original = this.addresses.find(
-      item => item.id === address.id
-    );
+    const original = this.addresses.find((item) => item.id === address.id);
 
     if (original && this.isSameAddress(original, address)) {
       this.displayForm = false;
@@ -79,7 +100,6 @@ export class UserAddressComponent {
   }
 
   addAddress(address: AddressRequestModel) {
-
     this.addressService.addAddress(address).subscribe({
       next: (newAddress) => {
         this.addresses.push(newAddress);
@@ -87,8 +107,8 @@ export class UserAddressComponent {
 
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Item added successfully'
+          summary: this.translationService.translate('common.messages.success'),
+          detail: this.translationService.translate('account.addresses.messages.added'),
         });
 
         this.backendErrors = [];
@@ -97,10 +117,9 @@ export class UserAddressComponent {
         const validationException = error.error as ApiValidationException;
         if (validationException?.errorCode == 'VALIDATION_ERROR') {
           this.backendErrors = validationException.fields;
-
         }
         console.error(error);
-      }
+      },
     });
   }
 
@@ -108,7 +127,7 @@ export class UserAddressComponent {
     this.addressService.updateAddress(address).subscribe({
       next: (updatedAddress) => {
         const index = this.addresses.findIndex(
-          item => item.id === updatedAddress.id
+          (item) => item.id === updatedAddress.id,
         );
 
         if (index !== -1) {
@@ -119,12 +138,11 @@ export class UserAddressComponent {
 
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Address updated successfully'
+          summary: this.translationService.translate('common.messages.success'),
+          detail: this.translationService.translate('account.addresses.messages.updated'),
         });
 
         this.backendErrors = [];
-
       },
       error: (error: HttpErrorResponse) => {
         const validationException = error.error as ApiValidationException;
@@ -132,7 +150,7 @@ export class UserAddressComponent {
           this.backendErrors = validationException.fields;
         }
         console.error(error);
-      }
+      },
     });
   }
 
@@ -140,14 +158,13 @@ export class UserAddressComponent {
     this.addressService.deleteAddress(addressId).subscribe({
       next: () => {
         this.addresses = this.addresses.filter(
-          address => address.id !== addressId
+          (address) => address.id !== addressId,
         );
       },
-      error: error => {
+      error: (error) => {
         console.error(error);
-      }
+      },
     });
-
   }
 
   onCancel() {
@@ -158,7 +175,7 @@ export class UserAddressComponent {
 
   clearBackendError(field: string) {
     this.backendErrors = this.backendErrors.filter(
-      error => error.field !== field
+      (error) => error.field !== field,
     );
   }
 

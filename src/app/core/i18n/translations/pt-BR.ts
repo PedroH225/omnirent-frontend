@@ -2,7 +2,13 @@ export const ptBR = {
   common: {
     detail: 'Detalhes',
     view: 'Ver',
-    viewAll: 'Ver tudo'
+    viewAll: 'Ver tudo',
+    edit: 'Editar',
+    delete: 'Deletar',
+
+    messages: {
+      success: 'Sucesso',
+    },
   },
 
   enums: {
@@ -282,6 +288,9 @@ export const ptBR = {
   },
 
   account: {
+    messages: {
+      success: 'Sucesso',
+    },
     sidebar: {
       title: 'Minha conta',
       openMenu: 'Abrir menu',
@@ -330,6 +339,27 @@ export const ptBR = {
       empty: {
         title: 'Nenhum anúncio encontrado',
         message: 'Você ainda não possui nenhum anúncio.',
+      },
+    },
+
+    addresses: {
+      title: 'Meus endereços',
+      description: 'Gerencie seus endereços salvos',
+      add: 'Adicionar endereço',
+      loading: 'Carregando endereços...',
+
+      dialog: {
+        title: 'Endereço',
+      },
+
+      empty: {
+        title: 'Nenhum endereço cadastrado',
+        message: 'Você ainda não possui nenhum endereço salvo.',
+      },
+
+      messages: {
+        added: 'Endereço adicionado com sucesso',
+        updated: 'Endereço atualizado com sucesso',
       },
     },
   },

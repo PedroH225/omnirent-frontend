@@ -3,8 +3,14 @@ export const enUS = {
     detail: 'Details',
     view: 'View',
     viewAll: 'View all',
+    edit: 'Edit',
+    delete: 'Delete',
+
+    messages: {
+      success: 'Success',
+    },
   },
-  
+
   enums: {
     itemStatus: {
       analysis: 'Analysis',
@@ -234,7 +240,6 @@ export const enUS = {
 
     edit: {
       title: 'Edit item',
-      label: 'Edit',
 
       dialog: {
         updateSuccess: 'Item updated successfully.',
@@ -328,6 +333,27 @@ export const enUS = {
       empty: {
         title: 'No listings yet',
         message: 'You do not have any listings yet.',
+      },
+    },
+
+    addresses: {
+      title: 'My Addresses',
+      description: 'Manage your saved addresses',
+      add: 'Add Address',
+      loading: 'Loading addresses...',
+
+      dialog: {
+        title: 'Address',
+      },
+
+      empty: {
+        title: 'No addresses yet',
+        message: 'You do not have any saved addresses yet.',
+      },
+
+      messages: {
+        added: 'Address added successfully',
+        updated: 'Address updated successfully',
       },
     },
   },

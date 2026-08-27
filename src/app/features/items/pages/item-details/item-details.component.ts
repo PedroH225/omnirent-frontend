@@ -138,7 +138,7 @@ export class ItemDetailComponent implements OnInit {
 
     this.itemMenuItems = [
       {
-        label: this.translationService.translate('item.edit.label'),
+        label: this.translationService.translate('common.edit'),
         icon: 'pi pi-pencil',
         command: () => this.openEditDialog(),
       },

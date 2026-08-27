@@ -5,15 +5,15 @@ export const enUS = {
       available: 'Available',
       rented: 'Rented',
       unavailable: 'Unavailable',
-      blocked: 'Blocked'
+      blocked: 'Blocked',
     },
 
     itemCondition: {
       new: 'New',
-      likeNew: 'Like new',
+      like_new: 'Like new',
       good: 'Good',
       used: 'Used',
-      heavilyUsed: 'Heavily used'
+      heavily_used: 'Heavily used',
     },
 
     paymentStatus: {
@@ -22,8 +22,8 @@ export const enUS = {
       failed: 'Failed',
       expired: 'Expired',
       cancelled: 'Cancelled',
-      refundRequested: 'Refund requested',
-      refunded: 'Refunded'
+      refund_requested: 'Refund requested',
+      refunded: 'Refunded',
     },
 
     rentalStatus: {
@@ -31,34 +31,34 @@ export const enUS = {
       confirmed: 'Confirmed',
       preparing: 'Preparing',
       shipped: 'Shipped',
-      inUse: 'In use',
-      returnRequested: 'Return requested',
-      returnShipped: 'Return shipped',
+      in_use: 'In use',
+      return_requested: 'Return requested',
+      return_shipped: 'Return shipped',
       returned: 'Returned',
       cancelled: 'Cancelled',
       expired: 'Expired',
-      late: 'Late'
+      late: 'Late',
     },
 
     rentalPeriod: {
       hourly: 'Hourly',
       daily: 'Daily',
       weekly: 'Weekly',
-      monthly: 'Monthly'
+      monthly: 'Monthly',
     },
 
     userStatus: {
       active: 'Active',
       inactive: 'Inactive',
-      banned: 'Banned'
-    }
+      banned: 'Banned',
+    },
   },
 
   category: {
     audiovisual: 'Audiovisual',
     construction: 'Construction',
     it: 'IT',
-    events: 'Events'
+    events: 'Events',
   },
 
   subcategory: {
@@ -79,10 +79,10 @@ export const enUS = {
     tablet: 'Tablet',
     networking: 'Networking',
     drill: 'Drill',
-    cementMixer: 'Cement mixer',
+    cement_mixer: 'Cement mixer',
     generator: 'Generator',
     ladder: 'Ladder',
-    pressureWasher: 'Pressure washer'
+    pressure_washer: 'Pressure washer',
   },
 
   auth: {
@@ -90,60 +90,61 @@ export const enUS = {
       title: 'Sign in',
       email: 'Email',
       password: 'Password',
-      submit: 'Login'
-    }
+      submit: 'Login',
+    },
   },
 
   navbar: {
-    search: 'Search...'
+    search: 'Search...',
   },
 
   home: {
     audiovisual: {
       title: 'Capture every moment',
       description: 'Professional cameras, lighting and audio equipment.',
-      viewAll: 'View all'
+      viewAll: 'View all',
     },
 
     construction: {
       title: 'Build with the right tools',
       description: 'Construction equipment for projects of any size.',
-      viewAll: 'View all'
+      viewAll: 'View all',
     },
 
     events: {
       title: 'Create unforgettable events',
       description: 'Everything you need to organize and power your next event.',
-      viewAll: 'View all'
+      viewAll: 'View all',
     },
 
     empty: 'No items available',
 
     howItWorks: {
       title: 'How it works',
-      description: 'Find the equipment you need, choose your dates, and start your rental.',
+      description:
+        'Find the equipment you need, choose your dates, and start your rental.',
 
       steps: {
         browse: {
           title: 'Browse',
-          description: 'Explore equipment available for rent.'
+          description: 'Explore equipment available for rent.',
         },
 
         book: {
           title: 'Book',
-          description: 'Choose your rental period.'
+          description: 'Choose your rental period.',
         },
 
         confirm: {
           title: 'Confirm',
-          description: 'Wait for the owner approval.'
+          description: 'Wait for the owner approval.',
         },
 
         rent: {
           title: 'Rent',
-          description: 'Pick up the equipment and enjoy.'
-        }
-      }
+          description: 'Pick up the equipment and enjoy.',
+        },
+      },
     },
   },
 
@@ -155,11 +156,25 @@ export const enUS = {
       about: 'About us',
       contact: 'Contact',
       terms: 'Terms of Service',
-      privacy: 'Privacy Policy'
+      privacy: 'Privacy Policy',
     },
 
     social: {
-      title: 'Follow us'
-    }
-  }
+      title: 'Follow us',
+    },
+  },
+
+  catalog: {
+    category: 'Category',
+    subcategory: 'Subcategory',
+    condition: 'Condition',
+    sortBy: 'Sort by',
+    clear: 'Clear',
+
+    sort: {
+      newest: 'Newest',
+      price_asc: 'Price: low to high',
+      price_desc: 'Price: high to low',
+    },
+  },
 } as const;

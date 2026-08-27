@@ -3,7 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { LoggedUserModel } from './model/logged-user-model';
 import { Observable } from 'rxjs';
-import { LocaleService } from '@core/locale/locale.service';
+import { LocaleService } from '@core/i18n/locale.service';
 
 @Injectable({
   providedIn: 'root'

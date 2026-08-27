@@ -13,7 +13,7 @@ import { LoggedUserModel } from '@core/user/model/logged-user-model';
 import { AuthService } from '@core/auth/auth.service';
 import { FeedFilterStateService } from '@core/feed/feed-filter-state.service';
 import { CommonModule } from '@angular/common';
-import { Locale, LocaleService } from '@core/locale/locale.service';
+import { Locale, LocaleService } from '@core/i18n/locale.service';
 import { Select } from "primeng/select";
 import { FormsModule } from '@angular/forms';
 

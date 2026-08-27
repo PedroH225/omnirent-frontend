@@ -1,5 +1,4 @@
 import { Injectable, signal } from '@angular/core';
-import { UserService } from '../user/user.service';
 
 export type Locale = 'en-US' | 'pt-BR';
 

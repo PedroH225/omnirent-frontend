@@ -16,7 +16,7 @@ import { ItemFeedCardComponent } from "@shared/components/item-feed-card/item-fe
 import { Params, Router } from "@angular/router";
 import { ItemFeedCardSkeletonComponent } from "@shared/components/item-feed-card-skeleton/item-feed-card-skeleton.component";
 import { delay } from 'rxjs';
-import { LocaleService } from '@core/locale/locale.service';
+import { LocaleService } from '@core/i18n/locale.service';
 @Component({
     selector: 'app-home',
     standalone: true,

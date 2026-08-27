@@ -17,6 +17,7 @@ import { Params, Router } from "@angular/router";
 import { ItemFeedCardSkeletonComponent } from "@shared/components/item-feed-card-skeleton/item-feed-card-skeleton.component";
 import { delay } from 'rxjs';
 import { LocaleService } from '@core/i18n/locale.service';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
 @Component({
     selector: 'app-home',
     standalone: true,
@@ -26,7 +27,8 @@ import { LocaleService } from '@core/i18n/locale.service';
         CarouselModule,
         TimeLineComponent,
         ItemFeedCardComponent,
-        ItemFeedCardSkeletonComponent
+        ItemFeedCardSkeletonComponent,
+        TranslatePipe
     ],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'

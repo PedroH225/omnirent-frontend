@@ -1,5 +1,4 @@
 import { Component, Signal } from '@angular/core';
-import { ToolbarModule } from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -16,6 +15,8 @@ import { CommonModule } from '@angular/common';
 import { Locale, LocaleService } from '@core/i18n/locale.service';
 import { Select } from "primeng/select";
 import { FormsModule } from '@angular/forms';
+import { TranslationService } from '@core/i18n/translation.service';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
 
 @Component({
   selector: 'app-navbar',
@@ -29,16 +30,13 @@ import { FormsModule } from '@angular/forms';
     InputTextModule,
     RouterModule,
     ImageModule,
-    Select
+    Select,
+    TranslatePipe
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
-  toggleTheme() {
-    throw new Error('Method not implemented.');
-  }
-
   displayLabel: string = 'My Account';
 
   readonly currentUser: Signal<LoggedUserModel | null>;
@@ -74,7 +72,8 @@ export class NavbarComponent {
     private authService: AuthService,
     private router: Router,
     private readonly feedFilterState: FeedFilterStateService,
-    private readonly localeService: LocaleService
+    private readonly localeService: LocaleService,
+    private translationService: TranslationService
   ) {
     this.currentUser = userService.currentUser;
     this.locale = localeService.locale;
@@ -87,6 +86,10 @@ export class NavbarComponent {
 
   setLocale(locale: Locale): void {
     this.localeService.setLocale(locale);
+  }
+
+  toggleTheme() {
+    throw new Error('Method not implemented.');
   }
 
   toggleDarkMode(): void {

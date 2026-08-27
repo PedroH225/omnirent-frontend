@@ -51,7 +51,7 @@
 
         } @else {
 
-        <p-button styleClass="login-button" icon="pi pi-user" label="Sign in" severity="info" routerLink="/auth/login"
+        <p-button styleClass="login-button" icon="pi pi-user" [label]="'auth.login.title' | translate" severity="info" routerLink="/auth/login"
             rounded />
 
         }

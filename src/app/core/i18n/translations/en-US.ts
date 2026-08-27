@@ -181,6 +181,7 @@ export const enUS = {
   item: {
     day: 'day',
     view: 'View',
+    detail: 'Details',
 
     loading: 'Loading...',
     rentNow: 'Rent now',

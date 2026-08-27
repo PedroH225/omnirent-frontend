@@ -1,42 +1,42 @@
 <div class="list-item">
+  <img
+    class="list-image"
+    [src]="item.thumbnailKey || 'assets/placeholder-img.png'"
+    [alt]="item.name"
+  />
 
-    <img class="list-image" [src]="item.thumbnailKey || 'assets/placeholder-img.png'" [alt]="item.name">
+  <div class="list-content">
+    <span class="category">
+      {{ item.subCategoryName }}
+    </span>
 
-    <div class="list-content">
+    <h3>
+      {{ item.name }}
+    </h3>
 
-        <span class="category">
-            {{ item.subCategoryName }}
-        </span>
+    <div class="details">
+      <span>
+        {{
+          "enums.itemCondition." + item.itemCondition.toLowerCase() | translate
+        }}
+      </span>
 
-        <h3>
-            {{ item.name }}
-        </h3>
-
-        <div class="details">
-
-            <span>
-                {{ item.itemConditionLabel }}
-            </span>
-
-            <span class="status" [class.available]="item.itemStatus === 'AVAILABLE'">
-
-                {{ item.itemStatusLabel }}
-
-            </span>
-
-        </div>
-
+      <span class="status" [class.available]="item.itemStatus === 'AVAILABLE'">
+        {{ "enums.itemStatus." + item.itemStatus.toLowerCase() | translate }}
+      </span>
     </div>
+  </div>
 
-    <div class="list-actions">
+  <div class="list-actions">
+    <span class="price">
+      R$ {{ item.basePrice }}/{{ "item.day" | translate }}
+    </span>
 
-        <span class="price">
-            ${{ item.basePrice }}/day
-        </span>
-
-        <p-button label="Details" icon="pi pi-eye" [text]="true" [routerLink]="['/items', item.id]">
-        </p-button>
-
-    </div>
-
+    <p-button
+      [label]="'item.detail' | translate"
+      icon="pi pi-eye"
+      [text]="true"
+      [routerLink]="['/items', item.id]"
+    />
+  </div>
 </div>

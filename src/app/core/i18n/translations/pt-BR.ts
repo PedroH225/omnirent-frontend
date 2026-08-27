@@ -183,6 +183,7 @@ export const ptBR = {
   item: {
     day: 'dia',
     view: 'Ver',
+    detail: 'Detalhes',
 
     loading: 'Carregando...',
     rentNow: 'Alugar agora',
@@ -278,7 +279,7 @@ export const ptBR = {
       clearSort: 'Limpar ordenação',
     },
   },
-  
+
   account: {
     sidebar: {
       title: 'Minha conta',

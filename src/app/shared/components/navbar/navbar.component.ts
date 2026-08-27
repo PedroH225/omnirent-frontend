@@ -83,12 +83,8 @@ export class NavbarComponent {
     this.feedFilterState.updateFeedUrl();
   }
 
-  setLocale(locale: Locale): void {
-    console.log("bosta");
-    
+  setLocale(locale: Locale): void {    
     this.localeService.setLocale(locale);
-
-    console.log(this.localeService.locale());
     
   }
 

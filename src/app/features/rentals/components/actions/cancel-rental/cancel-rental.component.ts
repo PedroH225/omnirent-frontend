@@ -27,12 +27,10 @@ export class CancelRentalComponent {
   ) { }
 
   cancelRental(): void {
-    console.log("entro");
 
     if (!this.rentalId) {
       return;
     }
-    console.log("aaaa");
 
     const isConfirmed = this.rentalStatus === 'CONFIRMED';
 

@@ -179,4 +179,9 @@ export const ptBR = {
       price_desc: 'Preço: maior para menor',
     },
   },
+
+  item: {
+    day: 'dia',
+    view: 'Ver',
+  },
 } as const;

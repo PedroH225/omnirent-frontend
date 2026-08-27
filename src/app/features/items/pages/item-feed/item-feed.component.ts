@@ -281,6 +281,7 @@ export class ItemFeedComponent implements OnInit {
     return {
       id: item.id,
       name: item.name,
+      condition: item.itemCondition,
       conditionLabel: item.itemConditionLabel,
       price: {
         dailyPrice: item.price.dailyPrice

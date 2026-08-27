@@ -93,9 +93,7 @@ export class CatalogBarComponent {
     this.sorts = ITEM_FEED_SORTS.map((sort) => {
       const key = `catalog.sort.${sort.code.toLowerCase()}`;
       const label = this.translationService.translate(key);
-
-      console.log(sort.code, key, label);
-
+      
       return {
         label,
         value: sort.code,

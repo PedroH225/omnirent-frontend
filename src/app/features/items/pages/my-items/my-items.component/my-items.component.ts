@@ -83,7 +83,7 @@ export class MyItemsComponent {
         }));
       },
       error: (error) => {
-        console.log(error);
+        console.error(error);
       }
     });
   }

@@ -177,4 +177,9 @@ export const enUS = {
       price_desc: 'Price: high to low',
     },
   },
+
+  item: {
+    day: 'day',
+    view: 'View',
+  },
 } as const;

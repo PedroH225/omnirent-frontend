@@ -102,9 +102,7 @@ export class CreateItemComponent {
             next: () => {
                 this.finishCreation();
             },
-            error: (error: HttpErrorResponse) => {
-                console.log("nego");
-                
+            error: (error: HttpErrorResponse) => {                
                 this.messageService.add({
                     severity: 'warn',
                     summary: 'Images',

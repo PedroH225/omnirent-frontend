@@ -1,31 +1,36 @@
 <div class="item-card">
+  <div class="image-container">
+    <img
+      [src]="item.imageUrl || 'assets/placeholder-img.png'"
+      [alt]="item.name"
+      (error)="item.imageUrl = 'assets/placeholder-img.png'"
+    />
+  </div>
 
-    <div class="image-container">
-        <img [src]="item.imageUrl || 'assets/placeholder-img.png'" [alt]="item.name" (error)="item.imageUrl = 'assets/placeholder-img.png'"/>
+  <div class="content">
+    <span class="category">
+      {{ item.categoryLabel }}
+    </span>
+
+    <h3>
+      {{ item.name }}
+    </h3>
+    <span>
+      {{ "enums.itemCondition." + item.condition.toLowerCase() | translate }}
+    </span>
+
+    <div class="footer">
+      <strong>
+        {{ item.price.dailyPrice | currency: "BRL" : "symbol" : "1.2-2" }}/{{
+          "item.day" | translate
+        }}
+      </strong>
+
+      <p-button
+        [label]="'item.view' | translate"
+        size="small"
+        (onClick)="onView()"
+      />
     </div>
-
-    <div class="content">
-
-        <span class="category">
-            {{ item.categoryLabel }}
-        </span>
-
-        <h3>
-            {{ item.name }}
-        </h3>
-
-        <span>
-            {{ item.conditionLabel }}
-        </span>
-
-        <div class="footer">
-            <strong>
-                {{ item.price.dailyPrice | currency:'BRL':'symbol':'1.2-2' }}/day
-            </strong>
-
-            <p-button label="View" size="small" (onClick)="onView()" />
-        </div>
-
-    </div>
-
+  </div>
 </div>

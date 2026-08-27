@@ -170,7 +170,6 @@ export class ItemDetailComponent implements OnInit {
 
   onFormSubmit(): void {
     if (!this.form || !this.item) {
-      console.log("return")
       this.closeEditDialog();
       return;
     }
@@ -230,7 +229,6 @@ export class ItemDetailComponent implements OnInit {
         const apiException = error.error as ApiValidationException;
 
         if (apiException?.errorCode === 'VALIDATION_ERROR') {
-          console.log("validation error")
           this.backendErrors = apiException.fields;
 
           this.messageService.add({
@@ -358,7 +356,7 @@ export class ItemDetailComponent implements OnInit {
             this.router.navigate(['/rentals', response.id]);
           },
           error: (error: HttpErrorResponse) => {
-            console.log(error);
+            console.error(error);
           }
         })
       }

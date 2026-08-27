@@ -1,15 +1,26 @@
 .user-layout {
-    display: grid;
-    grid-template-columns: 18rem 1fr;
-    gap: 2rem;
+  display: grid;
+  grid-template-columns: 18rem minmax(0, 1fr);
+  gap: 2rem;
 
-    max-width: 1800px;
-    margin: 2rem auto;
-    padding: 0 1.5rem;
+  max-width: 1800px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
 
-    align-items: start;
+  align-items: start;
 }
 
 .user-content {
-    min-width: 0;
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .user-layout {
+    display: block;
+
+    margin: 1rem auto;
+    margin-top: 0.25rem;
+
+    padding: 0 1rem;
+  }
 }

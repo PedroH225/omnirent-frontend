@@ -1,1 +1,29 @@
-<p-panelmenu [model]="items" [style]="{'width':'300px'}" [multiple]="true" />
+<aside class="sidebar">
+  <p-panelmenu [model]="items" [multiple]="true" />
+</aside>
+
+<div class="mobile-sidebar">
+  <p-button
+    icon="pi pi-bars"
+    [text]="true"
+    [rounded]="true"
+    ariaLabel="Open menu"
+    (onClick)="drawerVisible = true"
+  />
+
+  <div class="mobile-sidebar-divider"></div>
+
+  <span class="mobile-sidebar-title"> My Account </span>
+
+  <div class="mobile-sidebar-spacer"></div>
+
+  <i class="pi pi-user mobile-sidebar-icon"></i>
+</div>
+
+<p-drawer
+  [(visible)]="drawerVisible"
+  position="left"
+  [style]="{ width: '280px' }"
+>
+  <p-panelmenu [model]="items" [multiple]="true" />
+</p-drawer>

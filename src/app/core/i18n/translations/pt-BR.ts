@@ -58,6 +58,22 @@ export const ptBR = {
           description: 'Retire o equipamento e aproveite.'
         }
       }
+    },
+  },
+
+  footer: {
+    description: 'Seu marketplace de aluguel de equipamentos.',
+
+    company: {
+      title: 'Empresa',
+      about: 'Sobre nós',
+      contact: 'Contato',
+      terms: 'Termos de Serviço',
+      privacy: 'Política de Privacidade'
+    },
+
+    social: {
+      title: 'Siga-nos'
     }
   }
 } as const;

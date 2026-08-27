@@ -58,6 +58,22 @@ export const enUS = {
           description: 'Pick up the equipment and enjoy.'
         }
       }
+    },
+  },
+
+  footer: {
+    description: 'Your marketplace for equipment rentals.',
+
+    company: {
+      title: 'Company',
+      about: 'About us',
+      contact: 'Contact',
+      terms: 'Terms of Service',
+      privacy: 'Privacy Policy'
+    },
+
+    social: {
+      title: 'Follow us'
     }
   }
 } as const;

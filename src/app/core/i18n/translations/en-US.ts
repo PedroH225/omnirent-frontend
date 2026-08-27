@@ -313,6 +313,11 @@ export const enUS = {
       empty: {
         title: 'No rentals yet',
         message: 'You are not currently renting any items.',
+
+        rentingOut: {
+          title: 'No rentals yet',
+          message: 'None of your listings are currently being rented.',
+        },
       },
     },
 

@@ -315,6 +315,11 @@ export const ptBR = {
       empty: {
         title: 'Nenhum aluguel encontrado',
         message: 'Você não está alugando nenhum item no momento.',
+
+        rentingOut: {
+          title: 'Nenhum aluguel encontrado',
+          message: 'Nenhum dos seus anúncios está alugado no momento.',
+        },
       },
     },
 

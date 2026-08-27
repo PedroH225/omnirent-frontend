@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { CategoryService } from '@core/categories/category.service';
@@ -13,6 +13,7 @@ import { CommonModule } from '@angular/common';
 import { ITEM_FEED_SORTS } from '@shared/models/item-feed-sort';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { TranslationService } from '@core/i18n/translation.service';
+import { LocaleService } from '@core/i18n/locale.service';
 
 @Component({
   selector: 'app-catalog-bar',
@@ -37,7 +38,17 @@ export class CatalogBarComponent {
     private itemService: ItemService,
     private feedFilterState: FeedFilterStateService,
     private translationService: TranslationService,
-  ) {}
+    private localeService: LocaleService,
+  ) {
+    effect(() => {
+      this.localeService.locale();
+
+      this.loadSorts();
+      this.getItemEnums();
+      this.getCategories();
+      this.translateSubCategories();
+    });
+  }
 
   ngOnInit() {
     this.getCategories();
@@ -91,6 +102,7 @@ export class CatalogBarComponent {
       };
     });
   }
+
   onCategoryChange(): void {
     this.selectedSubCategory = undefined;
 
@@ -104,6 +116,16 @@ export class CatalogBarComponent {
 
     this.feedFilterState.setSubCategory(null);
     this.feedFilterState.setCategory(this.selectedCategory?.name ?? null);
+  }
+
+  private translateSubCategories(): void {
+    this.subCategories =
+      this.selectedCategory?.subCategories.map((sub) => ({
+        label: this.translationService.translate(
+          `subcategory.${sub.name.toLowerCase()}`,
+        ),
+        value: sub,
+      })) ?? [];
   }
 
   onSubCategoryChange(): void {

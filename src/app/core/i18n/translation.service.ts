@@ -5,39 +5,46 @@ import { enUS } from './translations/en-US';
 
 const translations = {
   'pt-BR': ptBR,
-  'en-US': enUS
+  'en-US': enUS,
 };
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TranslationService {
+  constructor(private readonly localeService: LocaleService) {}
 
-  constructor(
-    private readonly localeService: LocaleService
-  ) {}
-
-  translate(key: string): string {
+  translate(key: string, params?: Record<string, string>): string {
     const dictionary = translations[this.localeService.locale()];
 
-    const value = key
-      .split('.')
-      .reduce<unknown>((current, part) => {
-        if (current && typeof current === 'object' && part in current) {
-          return (current as Record<string, unknown>)[part];
-        }
+    const value = key.split('.').reduce<unknown>((current, part) => {
+      if (current && typeof current === 'object' && part in current) {
+        return (current as Record<string, unknown>)[part];
+      }
 
-        return undefined;
-      }, dictionary);
+      return undefined;
+    }, dictionary);
 
-    return typeof value === 'string' ? value : key;
+    if (typeof value !== 'string') {
+      return key;
+    }
+
+    let translated: string = value;
+
+    if (params) {
+      Object.entries(params).forEach(([param, replacement]) => {
+        translated = translated.replace(`{{${param}}}`, replacement);
+      });
+    }
+
+    return translated;
   }
 
-  translation(key: string) {
+  translation(key: string, params?: Record<string, string>) {
     return computed(() => {
       this.localeService.locale();
 
-      return this.translate(key);
+      return this.translate(key, params);
     });
   }
 }

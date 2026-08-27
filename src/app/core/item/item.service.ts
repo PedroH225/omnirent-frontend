@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Observable, shareReplay } from 'rxjs';
+import { Observable, of, shareReplay, tap } from 'rxjs';
 import { ItemEnumsResponse } from './model/ItemEnumsResponse';
 import { ItemFeed } from './model/item-feed-model';
 import { PageResponse } from '../../shared/models/page.response.model';
@@ -12,16 +12,21 @@ import { ItemImageForm } from '@features/items/model/item-image-form-model';
 import { ItemDetailModel } from './model/item-detail-model';
 import { UpdateItemRequestModel } from '@features/items/model/item-update-request-model';
 import { ItemUpdatedModel } from './model/item-updated-model';
+import { CacheDuration, CacheService } from '@core/cache/cache.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ItemService {
   private readonly apiUrl: string = environment.apiUrl;
 
   private itemEnums$?: Observable<ItemEnumsResponse>;
+  private readonly ITEM_ENUMS_CACHE_KEY = 'item-enums';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private readonly cacheService: CacheService,
+  ) {}
 
   getItemDetail(itemId: string): Observable<ItemDetailModel> {
     return this.http.get<ItemDetailModel>(`${this.apiUrl}/item/find/${itemId}`);
@@ -31,33 +36,56 @@ export class ItemService {
     return this.http.post<ItemCreatedModel>(`${this.apiUrl}/item`, newItem);
   }
 
-  updateItem(updatedItem: UpdateItemRequestModel): Observable<ItemUpdatedModel> {
+  updateItem(
+    updatedItem: UpdateItemRequestModel,
+  ): Observable<ItemUpdatedModel> {
     return this.http.put<ItemUpdatedModel>(`${this.apiUrl}/item`, updatedItem);
   }
 
   changeAvailability(itemId: string): Observable<void> {
-    return this.http.patch<void>(`${this.apiUrl}/item/changeAvailability/${itemId}`, {});
+    return this.http.patch<void>(
+      `${this.apiUrl}/item/changeAvailability/${itemId}`,
+      {},
+    );
   }
 
   changeAddress(itemId: string, addressId: string): Observable<void> {
-    return this.http.patch<void>(`${this.apiUrl}/item/changeAddress/${itemId}/${addressId}`, {});
+    return this.http.patch<void>(
+      `${this.apiUrl}/item/changeAddress/${itemId}/${addressId}`,
+      {},
+    );
   }
 
   changeSubcategory(itemId: string, subCategoryId: string): Observable<void> {
-    return this.http.patch<void>(`${this.apiUrl}/item/changeSubCategory/${itemId}/${subCategoryId}`, {});
+    return this.http.patch<void>(
+      `${this.apiUrl}/item/changeSubCategory/${itemId}/${subCategoryId}`,
+      {},
+    );
   }
 
   uploadImages(itemId: string, images: ItemImageForm[]): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/item/${itemId}/images`, this.buildImagesFormData(images));
+    return this.http.post<void>(
+      `${this.apiUrl}/item/${itemId}/images`,
+      this.buildImagesFormData(images),
+    );
   }
 
   getItemEnums(): Observable<ItemEnumsResponse> {
     if (!this.itemEnums$) {
-      this.itemEnums$ = this.http
-        .get<ItemEnumsResponse>(this.apiUrl + '/item/enums')
-        .pipe(
-          shareReplay(1)
-        );
+      const cached = this.cacheService.get<ItemEnumsResponse>('item-enums');
+
+      if (cached) {
+        this.itemEnums$ = of(cached);        
+      } else {
+        this.itemEnums$ = this.http
+          .get<ItemEnumsResponse>(this.apiUrl + '/item/enums')
+          .pipe(
+            tap((response) => {
+              this.cacheService.set('item-enums', response, CacheDuration.LONG);
+            }),
+            shareReplay(1),
+          );
+      }
     }
 
     return this.itemEnums$;
@@ -66,18 +94,23 @@ export class ItemService {
   getItemFeedHome(category: string): Observable<PageResponse<ItemFeed>> {
     const params = new HttpParams()
       .set('category', category)
-      .set('sort', "NEWEST");
+      .set('sort', 'NEWEST');
 
-    return this.http.get<PageResponse<ItemFeed>>(this.apiUrl + "/item/feed", { params });
+    return this.http.get<PageResponse<ItemFeed>>(this.apiUrl + '/item/feed', {
+      params,
+    });
   }
 
   getItemFeed(
-    name: string | null, category: string | null, subCategory: string | null, itemCondition: string | null,
-    sort: string | null, page: number, size: number): Observable<PageResponse<ItemFeed>> {
-
-    let params = new HttpParams()
-      .set('page', page)
-      .set('size', size);
+    name: string | null,
+    category: string | null,
+    subCategory: string | null,
+    itemCondition: string | null,
+    sort: string | null,
+    page: number,
+    size: number,
+  ): Observable<PageResponse<ItemFeed>> {
+    let params = new HttpParams().set('page', page).set('size', size);
 
     if (name) {
       params = params.set('name', name);
@@ -99,25 +132,27 @@ export class ItemService {
       params = params.set('sort', sort);
     }
 
-    return this.http.get<PageResponse<ItemFeed>>(
-      this.apiUrl + '/item/feed',
-      { params }
+    return this.http.get<PageResponse<ItemFeed>>(this.apiUrl + '/item/feed', {
+      params,
+    });
+  }
+
+  getUserItems(
+    page: number,
+    size: number,
+  ): Observable<PageResponse<ItemDisplay>> {
+    const params = new HttpParams().set('page', page).set('size', size);
+
+    return this.http.get<PageResponse<ItemDisplay>>(
+      this.apiUrl + '/item/find/user/me',
+      { params },
     );
   }
 
-  getUserItems(page: number, size: number): Observable<PageResponse<ItemDisplay>> {
-    const params = new HttpParams()
-      .set("page", page)
-      .set("size", size);
-
-    return this.http.get<PageResponse<ItemDisplay>>(this.apiUrl + "/item/find/user/me", { params });
-  }
-
   private buildImagesFormData(images: ItemImageForm[]): FormData {
-
     const formData = new FormData();
 
-    images.forEach(image => {
+    images.forEach((image) => {
       formData.append(image.tempId, image.file);
     });
 
@@ -126,16 +161,16 @@ export class ItemService {
       new Blob(
         [
           JSON.stringify({
-            images: images.map(image => ({
+            images: images.map((image) => ({
               tempId: image.tempId,
-              order: image.order
-            }))
-          })
+              order: image.order,
+            })),
+          }),
         ],
         {
-          type: 'application/json'
-        }
-      )
+          type: 'application/json',
+        },
+      ),
     );
 
     return formData;

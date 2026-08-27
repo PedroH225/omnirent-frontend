@@ -22,8 +22,8 @@ import { FeedFilterStateService } from '@core/feed/feed-filter-state.service';
 import { environment } from '../../../../../environments/environment';
 import { ItemFeedCardModel } from '@shared/models/item-card-model';
 import { ItemFeedCardSkeletonComponent } from "@shared/components/item-feed-card-skeleton/item-feed-card-skeleton.component";
-import { delay } from 'rxjs';
 import { ItemFeedListSkeletonComponent } from "@shared/components/item-feed-list-skeleton/item-feed-list-skeleton.component";
+import { TranslatePipe } from '@core/i18n/translation-pipe';
 
 @Component({
   selector: 'app-item-feed',
@@ -33,7 +33,8 @@ import { ItemFeedListSkeletonComponent } from "@shared/components/item-feed-list
     Button,
     Select,
     ItemFeedCardSkeletonComponent,
-    ItemFeedListSkeletonComponent
+    ItemFeedListSkeletonComponent,
+    TranslatePipe
   ],
   templateUrl: './item-feed.component.html',
   styleUrl: './item-feed.component.scss'

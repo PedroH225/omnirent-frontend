@@ -182,4 +182,38 @@ export const enUS = {
     day: 'day',
     view: 'View',
   },
+
+  feed: {
+    title: 'Explore items',
+
+    empty: {
+      title: 'No items found',
+      description: 'There are no items matching the current filters.',
+    },
+
+    filters: {
+      title: 'FILTERS',
+      refine: 'Refine results',
+      clear: 'Clear filters',
+
+      category: 'Category',
+      allCategories: 'All categories',
+
+      subcategory: 'Subcategory',
+      allSubcategories: 'All subcategories',
+
+      condition: 'Condition',
+      anyCondition: 'Any condition',
+
+      sort: 'Sort by',
+      recommended: 'Recommended',
+
+      apply: 'Apply filters',
+
+      clearCategory: 'Clear category',
+      clearSubcategory: 'Clear subcategory',
+      clearCondition: 'Clear condition',
+      clearSort: 'Clear sort',
+    },
+  },
 } as const;

@@ -184,4 +184,37 @@ export const ptBR = {
     day: 'dia',
     view: 'Ver',
   },
+  feed: {
+    title: 'Explorar itens',
+
+    empty: {
+      title: 'Nenhum item encontrado',
+      description: 'Não há itens correspondentes aos filtros atuais.',
+    },
+
+    filters: {
+      title: 'FILTROS',
+      refine: 'Refinar resultados',
+      clear: 'Limpar filtros',
+
+      category: 'Categoria',
+      allCategories: 'Todas as categorias',
+
+      subcategory: 'Subcategoria',
+      allSubcategories: 'Todas as subcategorias',
+
+      condition: 'Condição',
+      anyCondition: 'Qualquer condição',
+
+      sort: 'Ordenar por',
+      recommended: 'Recomendado',
+
+      apply: 'Aplicar filtros',
+
+      clearCategory: 'Limpar categoria',
+      clearSubcategory: 'Limpar subcategoria',
+      clearCondition: 'Limpar condição',
+      clearSort: 'Limpar ordenação',
+    },
+  },
 } as const;

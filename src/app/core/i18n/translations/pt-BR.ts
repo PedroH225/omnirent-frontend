@@ -1,4 +1,10 @@
 export const ptBR = {
+  common: {
+    detail: 'Detalhes',
+    view: 'Ver',
+    viewAll: 'Ver tudo'
+  },
+
   enums: {
     itemStatus: {
       analysis: 'Em análise',
@@ -102,21 +108,18 @@ export const ptBR = {
     audiovisual: {
       title: 'Capture cada momento',
       description: 'Câmeras profissionais, iluminação e equipamentos de áudio.',
-      viewAll: 'Ver tudo',
     },
 
     construction: {
       title: 'Construa com as ferramentas certas',
       description:
         'Equipamentos para construção de projetos de qualquer tamanho.',
-      viewAll: 'Ver tudo',
     },
 
     events: {
       title: 'Crie eventos inesquecíveis',
       description:
         'Tudo o que você precisa para organizar e realizar seu próximo evento.',
-      viewAll: 'Ver tudo',
     },
 
     empty: 'Nenhum item disponível',
@@ -182,8 +185,6 @@ export const ptBR = {
 
   item: {
     day: 'dia',
-    view: 'Ver',
-    detail: 'Detalhes',
 
     loading: 'Carregando...',
     rentNow: 'Alugar agora',

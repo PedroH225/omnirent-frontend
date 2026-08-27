@@ -1,4 +1,10 @@
 export const enUS = {
+  common: {
+    detail: 'Details',
+    view: 'View',
+    viewAll: 'View all',
+  },
+  
   enums: {
     itemStatus: {
       analysis: 'Analysis',
@@ -102,19 +108,16 @@ export const enUS = {
     audiovisual: {
       title: 'Capture every moment',
       description: 'Professional cameras, lighting and audio equipment.',
-      viewAll: 'View all',
     },
 
     construction: {
       title: 'Build with the right tools',
       description: 'Construction equipment for projects of any size.',
-      viewAll: 'View all',
     },
 
     events: {
       title: 'Create unforgettable events',
       description: 'Everything you need to organize and power your next event.',
-      viewAll: 'View all',
     },
 
     empty: 'No items available',
@@ -180,8 +183,6 @@ export const enUS = {
 
   item: {
     day: 'day',
-    view: 'View',
-    detail: 'Details',
 
     loading: 'Loading...',
     rentNow: 'Rent now',

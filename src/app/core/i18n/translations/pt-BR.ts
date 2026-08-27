@@ -183,7 +183,68 @@ export const ptBR = {
   item: {
     day: 'dia',
     view: 'Ver',
+
+    loading: 'Carregando...',
+    rentNow: 'Alugar agora',
+    rentalPeriod: 'Período de aluguel',
+
+    description: {
+      title: 'Descrição',
+      empty: 'Nenhuma descrição fornecida.',
+    },
+
+    details: {
+      title: 'Detalhes do produto',
+      brand: 'Marca',
+      model: 'Modelo',
+      condition: 'Condição',
+      category: 'Categoria',
+      subcategory: 'Subcategoria',
+      status: 'Status',
+
+      actions: {
+        makeUnavailable: 'Tornar indisponível',
+        makeAvailable: 'Tornar disponível',
+      },
+    },
+
+    availability: {
+      updated: 'Disponibilidade atualizada',
+      available: 'O item está disponível.',
+      unavailable: 'O item está indisponível.',
+    },
+
+    rental: {
+      confirmTitle: 'Confirmar aluguel',
+      confirmMessage:
+        'Você está prestes a alugar "{{name}}" por R$ {{price}}/{{period}}. Deseja continuar?',
+      rent: 'Alugar',
+      cancel: 'Cancelar',
+      createdTitle: 'Aluguel criado',
+      createdMessage: 'Aluguel criado com sucesso.',
+    },
+
+    address: {
+      title: 'Endereço',
+    },
+
+    gallery: {
+      imageNotFound: 'Imagem não encontrada',
+    },
+
+    edit: {
+      title: 'Editar item',
+      label: 'Editar',
+
+      dialog: {
+        updateSuccess: 'Item atualizado com sucesso.',
+        validationFailed: 'Falha na validação',
+        reviewFields: 'Revise os campos destacados e tente novamente.',
+        updateError: 'Falha ao atualizar o item.',
+      },
+    },
   },
+
   feed: {
     title: 'Explorar itens',
 

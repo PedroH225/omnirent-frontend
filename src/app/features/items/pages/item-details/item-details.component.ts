@@ -1,14 +1,21 @@
-import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  effect,
+  EventEmitter,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ItemService } from '@core/item/item.service';
 import { ItemDetailModel } from '@core/item/model/item-detail-model';
 import { environment } from '../../../../../environments/environment';
 import { UserService } from '@core/user/user.service';
-import { Button } from "primeng/button";
+import { Button } from 'primeng/button';
 import { CommonModule } from '@angular/common';
-import { GalleriaModule } from "primeng/galleria";
-import { SaveItemFormComponent } from "@features/items/components/save-item-form/save-item-form.component";
-import { Dialog } from "primeng/dialog";
+import { GalleriaModule } from 'primeng/galleria';
+import { SaveItemFormComponent } from '@features/items/components/save-item-form/save-item-form.component';
+import { Dialog } from 'primeng/dialog';
 import { UpdateItemRequestModel } from '@features/items/model/item-update-request-model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
@@ -21,15 +28,28 @@ import { EnumOption } from '@shared/models/EnumOption';
 import { RentalService } from '@core/rental/rental.service';
 import { FormsModule } from '@angular/forms';
 import { CreateRentalRequest } from '@features/rentals/model/create-rental-request-model';
-import { ConfirmDialog } from "primeng/confirmdialog";
+import { ConfirmDialog } from 'primeng/confirmdialog';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
+import { LocaleService } from '@core/i18n/locale.service';
+import { TranslationService } from '@core/i18n/translation.service';
 
 @Component({
   selector: 'app-item-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, Button, GalleriaModule, SaveItemFormComponent, Dialog, Menu, ConfirmDialog],
+  imports: [
+    CommonModule,
+    FormsModule,
+    Button,
+    GalleriaModule,
+    SaveItemFormComponent,
+    Dialog,
+    Menu,
+    ConfirmDialog,
+    TranslatePipe,
+  ],
   providers: [ConfirmationService],
   templateUrl: './item-details.component.html',
-  styleUrl: './item-details.component.scss'
+  styleUrl: './item-details.component.scss',
 })
 export class ItemDetailComponent implements OnInit {
   @ViewChild(SaveItemFormComponent)
@@ -44,7 +64,7 @@ export class ItemDetailComponent implements OnInit {
   backendErrors: FieldError[] = [];
 
   rentalPeriods: EnumOption[] = [];
-  selectedRentalPeriod = 'DAILY'
+  selectedRentalPeriod = 'DAILY';
 
   selectedRentalPeriodLabel = 'Daily';
 
@@ -61,16 +81,16 @@ export class ItemDetailComponent implements OnInit {
   responsiveOptions = [
     {
       breakpoint: '991px',
-      numVisible: 4
+      numVisible: 4,
     },
     {
       breakpoint: '768px',
-      numVisible: 3
+      numVisible: 3,
     },
     {
       breakpoint: '560px',
-      numVisible: 2
-    }
+      numVisible: 2,
+    },
   ];
 
   private readonly storageUrl = environment.storageUrl;
@@ -81,10 +101,23 @@ export class ItemDetailComponent implements OnInit {
   isOwner = false;
 
   constructor(
-    private itemService: ItemService, private route: ActivatedRoute, private userService: UserService,
-    private messageService: MessageService, private router: Router, private rentalService: RentalService,
-    private confirmationService: ConfirmationService
-  ) { }
+    private itemService: ItemService,
+    private route: ActivatedRoute,
+    private userService: UserService,
+    private messageService: MessageService,
+    private router: Router,
+    private rentalService: RentalService,
+    private confirmationService: ConfirmationService,
+    private localeService: LocaleService,
+    private translationService: TranslationService,
+  ) {
+    effect(() => {
+      this.localeService.locale();
+
+      this.updateItemMenu();
+      this.getRentalPeriods();
+    });
+  }
 
   ngOnInit(): void {
     const itemId = this.route.snapshot.paramMap.get('id');
@@ -94,7 +127,6 @@ export class ItemDetailComponent implements OnInit {
     }
 
     this.loadItem(itemId);
-    this.getRentalPeriods();
   }
 
   private updateItemMenu(): void {
@@ -106,15 +138,19 @@ export class ItemDetailComponent implements OnInit {
 
     this.itemMenuItems = [
       {
-        label: 'Edit',
+        label: this.translationService.translate('item.edit.label'),
         icon: 'pi pi-pencil',
-        command: () => this.openEditDialog()
+        command: () => this.openEditDialog(),
       },
       {
-        label: isAvailable ? 'Make unavailable' : 'Make available',
+        label: this.translationService.translate(
+          isAvailable
+            ? 'item.details.actions.makeUnavailable'
+            : 'item.details.actions.makeAvailable',
+        ),
         icon: isAvailable ? 'pi pi-eye-slash' : 'pi pi-eye',
-        command: () => this.changeAvailability()
-      }
+        command: () => this.changeAvailability(),
+      },
     ];
   }
 
@@ -122,7 +158,7 @@ export class ItemDetailComponent implements OnInit {
     this.isLoading = true;
 
     this.itemService.getItemDetail(itemId).subscribe({
-      next: item => {
+      next: (item) => {
         this.item = item;
 
         this.isOwner = this.userService.currentUser()?.id === item.owner.id;
@@ -130,11 +166,10 @@ export class ItemDetailComponent implements OnInit {
         this.isLoading = false;
         this.updateItemMenu();
         this.updateSelectedPrice();
-
       },
       error: () => {
         this.isLoading = false;
-      }
+      },
     });
   }
 
@@ -148,8 +183,8 @@ export class ItemDetailComponent implements OnInit {
         {
           itemImageSrc: this.defaultImage,
           thumbnailImageSrc: this.defaultImage,
-          alt: 'Imagem not found'
-        }
+          alt: this.translationService.translate('item.gallery.imageNotFound'),
+        },
       ];
 
       return;
@@ -157,10 +192,10 @@ export class ItemDetailComponent implements OnInit {
 
     this.galleryImages = this.item.images
       .sort((a, b) => a.displayOrder - b.displayOrder)
-      .map(image => ({
+      .map((image) => ({
         itemImageSrc: this.getImageUrl(image.storageKey),
         thumbnailImageSrc: this.getImageUrl(image.storageKey),
-        alt: this.item!.name
+        alt: this.item!.name,
       }));
   }
 
@@ -186,17 +221,23 @@ export class ItemDetailComponent implements OnInit {
       requests.item = this.itemService.updateItem(itemRequest);
     }
 
-    if (this.form.address && this.form.address.id !== this.item.pickupAddress.id) {
+    if (
+      this.form.address &&
+      this.form.address.id !== this.item.pickupAddress.id
+    ) {
       requests.address = this.itemService.changeAddress(
         this.item.id,
-        this.form.address.id
+        this.form.address.id,
       );
     }
 
-    if (this.form.subCategory && this.form.subCategory.id !== this.item.subCategory.id) {
+    if (
+      this.form.subCategory &&
+      this.form.subCategory.id !== this.item.subCategory.id
+    ) {
       requests.category = this.itemService.changeSubcategory(
         this.item.id,
-        this.form.subCategory.id
+        this.form.subCategory.id,
       );
     }
 
@@ -209,17 +250,24 @@ export class ItemDetailComponent implements OnInit {
       next: () => {
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'Item updated successfully.'
+          summary: this.translationService.translate(
+            'item.edit.dialog.updateSuccess',
+          ),
         });
 
-        if (this.item && this.form?.subCategory &&
-          this.item.subCategory.id !== this.form.subCategory.id) {
+        if (
+          this.item &&
+          this.form?.subCategory &&
+          this.item.subCategory.id !== this.form.subCategory.id
+        ) {
           this.item.subCategory = this.form.subCategory;
         }
 
-        if (this.item && this.form?.address &&
-          this.item.pickupAddress.id !== this.form.address.id) {
+        if (
+          this.item &&
+          this.form?.address &&
+          this.item.pickupAddress.id !== this.form.address.id
+        ) {
           this.item.pickupAddress = this.form.address;
         }
 
@@ -233,52 +281,67 @@ export class ItemDetailComponent implements OnInit {
 
           this.messageService.add({
             severity: 'error',
-            summary: 'Validation failed',
-            detail: 'Please review the highlighted fields and try again.'
+            summary: this.translationService.translate(
+              'item.edit.dialog.validationFailed',
+            ),
+            detail: this.translationService.translate(
+              'item.edit.dialog.reviewFields',
+            ),
           });
 
           return;
         }
+
         this.messageService.add({
           severity: 'error',
-          summary: 'Error',
-          detail: 'Failed to update item.'
+          summary: this.translationService.translate('common.error'),
+          detail: this.translationService.translate(
+            'item.edit.dialog.updateError',
+          ),
         });
 
         console.error(error);
         this.closeEditDialog();
-      }
+      },
     });
   }
 
-  changeAvailability() {
+  changeAvailability(): void {
     if (!this.item) {
       return;
     }
+
     this.itemService.changeAvailability(this.item.id).subscribe({
       next: () => {
         if (!this.item) {
           return;
         }
+
         if (this.item.itemStatus === 'AVAILABLE') {
           this.item.itemStatus = 'UNAVAILABLE';
-          this.item.itemStatusLabel = 'Unavailable';
         } else {
           this.item.itemStatus = 'AVAILABLE';
-          this.item.itemStatusLabel = 'Available';
         }
+
         this.updateItemMenu();
+
+        const statusKey =
+          this.item.itemStatus === 'AVAILABLE'
+            ? 'item.availability.available'
+            : 'item.availability.unavailable';
 
         this.messageService.add({
           severity: 'success',
-          summary: 'Availability updated',
-          detail: `Item is now ${this.item.itemStatusLabel.toLowerCase()}.`
+          summary: this.translationService.translate(
+            'item.availability.updated',
+          ),
+          detail: this.translationService.translate(statusKey),
         });
       },
       error: (error) => {
         console.error(error);
-      }
-    })
+      },
+    });
   }
 
   onRentalPeriodChange(): void {
@@ -290,13 +353,12 @@ export class ItemDetailComponent implements OnInit {
       return;
     }
     const option = this.rentalPeriods.find(
-      p => p.code === this.selectedRentalPeriod
+      (p) => p.code === this.selectedRentalPeriod,
     );
 
     this.selectedRentalPeriodLabel = option?.label ?? '';
 
     switch (this.selectedRentalPeriod) {
-
       case 'HOURLY':
         this.selectedPrice = this.item.priceData.hourPrice;
         break;
@@ -314,17 +376,22 @@ export class ItemDetailComponent implements OnInit {
         break;
     }
   }
-
   getRentalPeriods(): void {
     this.rentalService.getRentalEnums().subscribe({
       next: (response) => {
-        this.rentalPeriods = response.rentalPeriods;
+        this.rentalPeriods = response.rentalPeriods.map((period) => ({
+          ...period,
+          label: this.translationService.translate(
+            `enums.rentalPeriod.${period.code.toLowerCase()}`,
+          ),
+        }));
+
+        this.updateSelectedPrice();
       },
       error: (error: HttpErrorResponse) => {
         console.error(error);
-      }
-    }
-    )
+      },
+    });
   }
 
   rentItem(): void {
@@ -333,33 +400,42 @@ export class ItemDetailComponent implements OnInit {
     }
 
     this.confirmationService.confirm({
-      header: 'Confirm rental',
-      message: `You are about to rent "${this.item.name}" at R$ ${this.selectedPrice.toFixed(2)}/${this.selectedRentalPeriodLabel.toLowerCase()}. Do you want to continue?`,
+      header: this.translationService.translate('item.rental.confirmTitle'),
+      message: this.translationService.translate('item.rental.confirmMessage', {
+        name: this.item.name,
+        price: this.selectedPrice.toFixed(2),
+        period: this.selectedRentalPeriodLabel.toLowerCase(),
+      }),
       icon: 'pi pi-question-circle',
-      acceptLabel: 'Rent',
-      rejectLabel: 'Cancel',
+      acceptLabel: this.translationService.translate('item.rental.rent'),
+      rejectLabel: this.translationService.translate('item.rental.cancel'),
       rejectButtonStyleClass: 'p-button-danger',
+
       accept: () => {
         const request: CreateRentalRequest = {
           itemId: this.item!.id,
-          rentalPeriod: this.selectedRentalPeriod
+          rentalPeriod: this.selectedRentalPeriod,
         };
 
         this.rentalService.createRental(request).subscribe({
           next: (response) => {
             this.messageService.add({
               severity: 'success',
-              summary: 'Rental created',
-              detail: `Rental created successfully.`
+              summary: this.translationService.translate(
+                'item.rental.createdTitle',
+              ),
+              detail: this.translationService.translate(
+                'item.rental.createdMessage',
+              ),
             });
 
             this.router.navigate(['/rentals', response.id]);
           },
           error: (error: HttpErrorResponse) => {
             console.error(error);
-          }
-        })
-      }
+          },
+        });
+      },
     });
   }
 
@@ -390,13 +466,13 @@ export class ItemDetailComponent implements OnInit {
       brand: this.form.brand,
       description: this.form.description,
       basePrice: this.form.basePrice,
-      itemCondition: this.form.itemCondition
+      itemCondition: this.form.itemCondition,
     };
   }
 
   clearFieldError(field: string): void {
     this.backendErrors = this.backendErrors.filter(
-      error => error.field !== field
+      (error) => error.field !== field,
     );
   }
 }

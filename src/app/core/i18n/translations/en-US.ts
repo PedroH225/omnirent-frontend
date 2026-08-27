@@ -181,6 +181,66 @@ export const enUS = {
   item: {
     day: 'day',
     view: 'View',
+
+    loading: 'Loading...',
+    rentNow: 'Rent now',
+    rentalPeriod: 'Rental period',
+
+    description: {
+      title: 'Description',
+      empty: 'No description provided.',
+    },
+
+    details: {
+      title: 'Product details',
+      brand: 'Brand',
+      model: 'Model',
+      condition: 'Condition',
+      category: 'Category',
+      subcategory: 'Subcategory',
+      status: 'Status',
+
+      actions: {
+        makeUnavailable: 'Make unavailable',
+        makeAvailable: 'Make available',
+      },
+    },
+
+    availability: {
+      updated: 'Availability updated',
+      available: 'Item is now available.',
+      unavailable: 'Item is now unavailable.',
+    },
+
+    rental: {
+      confirmTitle: 'Confirm rental',
+      confirmMessage:
+        'You are about to rent "{{name}}" at R$ {{price}}/{{period}}. Do you want to continue?',
+      rent: 'Rent',
+      cancel: 'Cancel',
+      createdTitle: 'Rental created',
+      createdMessage: 'Rental created successfully.',
+    },
+
+    address: {
+      title: 'Address',
+    },
+
+    gallery: {
+      imageNotFound: 'Image not found',
+    },
+
+    edit: {
+      title: 'Edit item',
+      label: 'Edit',
+
+      dialog: {
+        updateSuccess: 'Item updated successfully.',
+        validationFailed: 'Validation failed',
+        reviewFields: 'Please review the highlighted fields and try again.',
+        updateError: 'Failed to update item.',
+      },
+    },
   },
 
   feed: {

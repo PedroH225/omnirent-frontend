@@ -1,150 +1,206 @@
 @if (isLoading) {
-<p>Carregando...</p>
+  <p>{{ "item.loading" | translate }}</p>
 }
 
 @if (item && !isLoading) {
-
-<div class="item-detail">
-
+  <div class="item-detail">
     <header class="item-header">
-        <div>
-            <span>{{ item.itemStatusLabel }}</span>
+      <div>
+        <span>
+          {{ "enums.itemStatus." + item.itemStatus.toLowerCase() | translate }}
+        </span>
 
-            <h1>{{ item.name }}</h1>
+        <h1>{{ item.name }}</h1>
 
-            <p>{{ item.brand }} {{ item.model }}</p>
-        </div>
+        <p>{{ item.brand }} {{ item.model }}</p>
+      </div>
 
-        @if (isOwner) {
+      @if (isOwner) {
         <div class="item-actions">
-            <p-button icon="pi pi-cog" [text]="true" [rounded]="true" severity="primary"
-                (onClick)="itemMenu.toggle($event)" />
+          <p-button
+            icon="pi pi-cog"
+            [text]="true"
+            [rounded]="true"
+            severity="primary"
+            (onClick)="itemMenu.toggle($event)"
+          />
 
-            <p-menu #itemMenu [model]="itemMenuItems" [popup]="true" appendTo="body" />
+          <p-menu
+            #itemMenu
+            [model]="itemMenuItems"
+            [popup]="true"
+            appendTo="body"
+          />
         </div>
-        }
-        @if (!isOwner) {
-        <p-button label="Rent Now" [disabled]="item.itemStatus !== 'AVAILABLE'" (onClick)="rentItem()" />
-        }
+      }
 
+      @if (!isOwner) {
+        <p-button
+          [label]="'item.rentNow' | translate"
+          [disabled]="item.itemStatus !== 'AVAILABLE'"
+          (onClick)="rentItem()"
+        />
+      }
     </header>
 
     <section class="item-pricing">
-
-        @if (!isOwner) {
+      @if (!isOwner) {
         <div class="rent-panel">
+          <div class="selected-price">
+            <span class="price">
+              R$ {{ selectedPrice | number: "1.2-2" }}
+            </span>
 
-            <div class="selected-price">
-                <span class="price">
-                    R$ {{ selectedPrice | number:'1.2-2' }}
-                </span>
+            <span class="period">
+              {{ selectedRentalPeriodLabel.toLowerCase() }}
+            </span>
+          </div>
 
-                <span class="period">
-                    {{ selectedRentalPeriodLabel.toLowerCase() }}
-                </span>
+          <span class="rental-label">
+            {{ "item.rentalPeriod" | translate }}
+          </span>
 
-            </div>
-
-            <span class="rental-label">Rental period</span>
-
-            <div class="period-options">
-
-                @for (period of rentalPeriods; track period.code) {
-                <button type="button" class="period-card" [class.selected]="selectedRentalPeriod === period.code"
-                    (click)="selectedRentalPeriod = period.code; onRentalPeriodChange()">
-
-                    <span>{{ period.label }}</span>
-
-                </button>
-                }
-
-            </div>
+          <div class="period-options">
+            @for (period of rentalPeriods; track period.code) {
+              <button
+                type="button"
+                class="period-card"
+                [class.selected]="selectedRentalPeriod === period.code"
+                (click)="
+                  selectedRentalPeriod = period.code; onRentalPeriodChange()
+                "
+              >
+                <span>{{ period.label }}</span>
+              </button>
+            }
+          </div>
         </div>
-        }
+      }
     </section>
 
     <section class="item-gallery">
-        <p-galleria [value]="galleryImages" [responsiveOptions]="responsiveOptions" [numVisible]="5"
-            [showItemNavigators]="true" [showThumbnails]="true" [circular]="true"
-            [containerStyle]="{ 'max-width': '100%' }">
+      <p-galleria
+        [value]="galleryImages"
+        [responsiveOptions]="responsiveOptions"
+        [numVisible]="5"
+        [showItemNavigators]="true"
+        [showThumbnails]="true"
+        [circular]="true"
+        [containerStyle]="{ 'max-width': '100%' }"
+      >
+        <ng-template pTemplate="item" let-image>
+          <img
+            [src]="image.itemImageSrc"
+            [alt]="image.alt"
+            class="gallery-image"
+          />
+        </ng-template>
 
-            <ng-template pTemplate="item" let-image>
-                <img [src]="image.itemImageSrc" [alt]="image.alt" class="gallery-image" />
-            </ng-template>
-
-            <ng-template pTemplate="thumbnail" let-image>
-                <img [src]="image.thumbnailImageSrc" [alt]="image.alt" class="gallery-thumbnail" />
-            </ng-template>
-
-        </p-galleria>
+        <ng-template pTemplate="thumbnail" let-image>
+          <img
+            [src]="image.thumbnailImageSrc"
+            [alt]="image.alt"
+            class="gallery-thumbnail"
+          />
+        </ng-template>
+      </p-galleria>
     </section>
 
     <section class="item-description">
-        <h2>Description</h2>
+      <h2>{{ "item.description.title" | translate }}</h2>
 
-        <p>{{ item.description || 'No description provided.' }}</p>
+      <p>
+        {{ item.description || ("item.description.empty" | translate) }}
+      </p>
     </section>
 
     <section class="item-information">
-        <h2>Product details</h2>
+      <h2>{{ "item.details.title" | translate }}</h2>
 
-        <div class="details-grid">
-            <div class="detail-row">
-                <span>Brand</span>
-                <strong>{{ item.brand }}</strong>
-            </div>
-
-            <div class="detail-row">
-                <span>Model</span>
-                <strong>{{ item.model }}</strong>
-            </div>
-
-            <div class="detail-row">
-                <span>Condition</span>
-                <strong>{{ item.itemConditionLabel }}</strong>
-            </div>
-
-            <div class="detail-row">
-                <span>Category</span>
-                <strong>{{ item.subCategory.categoryLabel }}</strong>
-            </div>
-
-            <div class="detail-row">
-                <span>Subcategory</span>
-                <strong>{{ item.subCategory.subCategoryLabel }}</strong>
-            </div>
-
-            <div class="detail-row">
-                <span>Status</span>
-                <strong>{{ item.itemStatusLabel }}</strong>
-            </div>
+      <div class="details-grid">
+        <div class="detail-row">
+          <span>{{ "item.details.brand" | translate }}</span>
+          <strong>{{ item.brand }}</strong>
         </div>
+
+        <div class="detail-row">
+          <span>{{ "item.details.model" | translate }}</span>
+          <strong>{{ item.model }}</strong>
+        </div>
+
+        <div class="detail-row">
+          <span>{{ "item.details.condition" | translate }}</span>
+          <strong>
+            {{
+              "enums.itemCondition." + item.itemCondition.toLowerCase()
+                | translate
+            }}
+          </strong>
+        </div>
+
+        <div class="detail-row">
+          <span>{{ "item.details.category" | translate }}</span>
+          <strong>
+            {{
+              "category." + item.subCategory.category.toLowerCase() | translate
+            }}
+          </strong>
+        </div>
+
+        <div class="detail-row">
+          <span>{{ "item.details.subcategory" | translate }}</span>
+          <strong>
+            {{
+              "subcategory." + item.subCategory.name.toLowerCase() | translate
+            }}
+          </strong>
+        </div>
+
+        <div class="detail-row">
+          <span>{{ "item.details.status" | translate }}</span>
+          <strong>
+            {{
+              "enums.itemStatus." + item.itemStatus.toLowerCase() | translate
+            }}
+          </strong>
+        </div>
+      </div>
     </section>
 
     <section class="item-address">
-        <h2>Address</h2>
+      <h2>{{ "item.address.title" | translate }}</h2>
 
-        <p>
-            {{ item.pickupAddress.street }},
-            {{ item.pickupAddress.number }}
-        </p>
+      <p>
+        {{ item.pickupAddress.street }},
+        {{ item.pickupAddress.number }}
+      </p>
 
-        <p>
-            {{ item.pickupAddress.district }} -
-            {{ item.pickupAddress.city }}/{{ item.pickupAddress.state }}
-        </p>
+      <p>
+        {{ item.pickupAddress.district }} - {{ item.pickupAddress.city }}/{{
+          item.pickupAddress.state
+        }}
+      </p>
     </section>
+  </div>
 
-</div>
-
-<p-dialog header="Edit item" [(visible)]="editDialogVisible" [modal]="true" [draggable]="false" [resizable]="false"
-    [style]="{ width: '900px' }" (onHide)="closeEditDialog()">
-
-    <app-save-item-form mode="edit" [item]="item" [backendErrors]="backendErrors" (formChange)="onFormChange($event)"
-        (save)="onFormSubmit()">
+  <p-dialog
+    [header]="'item.edit.title' | translate"
+    [(visible)]="editDialogVisible"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [style]="{ width: '900px' }"
+    (onHide)="closeEditDialog()"
+  >
+    <app-save-item-form
+      mode="edit"
+      [item]="item"
+      [backendErrors]="backendErrors"
+      (formChange)="onFormChange($event)"
+      (save)="onFormSubmit()"
+    >
     </app-save-item-form>
-
-</p-dialog>
+  </p-dialog>
 }
 
-<p-confirmdialog />
+<p-confirmdialog [draggable]="false" />

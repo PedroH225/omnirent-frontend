@@ -1,21 +1,36 @@
-:host ::ng-deep .p-toolbar {
-    border: none;
-    border-radius: 0;
-    background-color: var(--p-surface-100);
+:host {
+    display: block;
+    width: 100%;
+}
+
+.navbar {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 2rem;
+
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+
     padding-inline: clamp(1.5rem, 6vw, 6rem);
+    padding-block: 0.75rem;
+
+    background-color: var(--p-surface-100);
     border-bottom: 1px solid var(--p-surface-200);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
 }
 
-.logo-link {
-    display: inline-flex;
-    text-decoration: none;
-    cursor: pointer;
+.navbar-logo {
+    min-width: 0;
 }
 
-.logo-container {
-    display: flex;
+.logo-link {
+    display: inline-flex;
     align-items: center;
+
+    text-decoration: none;
+    cursor: pointer;
 }
 
 .logo {
@@ -32,21 +47,91 @@
     width: 45px;
 }
 
+.navbar-search {
+    display: flex;
+    justify-content: center;
+
+    width: 100%;
+    min-width: 0;
+}
+
 .search-container {
-    width: min(40vw, 500px);
     display: flex;
     align-items: center;
     gap: 0.5rem;
+
+    width: min(100%, 500px);
+    min-width: 0;
+}
+
+:host ::ng-deep .search-container p-iconfield {
+    flex: 1 1 auto;
+    min-width: 0;
 }
 
 :host ::ng-deep .search-container input {
     width: 100%;
+    box-sizing: border-box;
+
     border-radius: 999px;
     padding-left: 2.5rem;
 }
 
-:host ::ng-deep .search-container p-iconfield {
-    flex: 1;
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.5rem;
+
+    min-width: 0;
+}
+
+.locale-select {
+    width: auto;
+    min-width: 5rem;
+
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+:host ::ng-deep .locale-select .p-select-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0.5rem 0.4rem;
+
+    background: transparent;
+    border: none;
+}
+
+:host ::ng-deep .locale-select .p-select-dropdown {
+    width: 0.875rem;
+    flex: 0 0 0.875rem;
+
+    background: transparent;
+}
+
+.locale-selected {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.locale-flag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 1.15rem;
+    line-height: 1;
+}
+
+.locale-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 :host ::ng-deep .login-button {
@@ -54,14 +139,46 @@
     background-color: var(--p-primary-color);
 }
 
-
 :host ::ng-deep .user-menu .p-button-label {
     display: inline;
 }
 
+.theme-button {
+    flex-shrink: 0;
+}
+
 @media (max-width: 768px) {
-    :host ::ng-deep .p-toolbar {
+
+    .navbar {
+        grid-template-columns: auto minmax(0, 1fr);
+        grid-template-rows: auto auto;
+
+        gap: 0.75rem 1rem;
+
         padding: 0.75rem 1rem;
+    }
+
+    .navbar-logo {
+        grid-column: 1;
+        grid-row: 1;
+    }
+
+    .navbar-actions {
+        grid-column: 2;
+        grid-row: 1;
+
+        gap: 0.25rem;
+    }
+
+    .navbar-search {
+        grid-column: 1 / -1;
+        grid-row: 2;
+
+        width: 100%;
+    }
+
+    .search-container {
+        width: 100%;
     }
 
     .logo-full {
@@ -73,8 +190,18 @@
     }
 
     :host ::ng-deep .user-menu .p-button-label {
-        display: none;
+        max-width: 90px;
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 
+    .locale-select {
+        min-width: 0;
+    }
 
+    :host ::ng-deep .locale-select .p-select-label {
+        padding-inline: 0.25rem;
+    }
 }

@@ -1,4 +1,4 @@
-import { Component, signal, Signal } from '@angular/core';
+import { Component, Signal } from '@angular/core';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ButtonModule } from 'primeng/button';
 import { SplitButtonModule } from 'primeng/splitbutton';
@@ -13,28 +13,36 @@ import { LoggedUserModel } from '@core/user/model/logged-user-model';
 import { AuthService } from '@core/auth/auth.service';
 import { FeedFilterStateService } from '@core/feed/feed-filter-state.service';
 import { CommonModule } from '@angular/common';
+import { Locale, LocaleService } from '@core/locale/locale.service';
+import { Select } from "primeng/select";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-navbar',
   imports: [
     CommonModule,
-    ToolbarModule,
+    FormsModule,
     ButtonModule,
     SplitButtonModule,
     IconFieldModule,
     InputIconModule,
     InputTextModule,
     RouterModule,
-    ImageModule
+    ImageModule,
+    Select
   ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
+  toggleTheme() {
+    throw new Error('Method not implemented.');
+  }
 
-  displayLabel: string = "My Account"
+  displayLabel: string = 'My Account';
 
   readonly currentUser: Signal<LoggedUserModel | null>;
+  readonly locale: Signal<Locale>;
 
   items: MenuItem[] = [
     {
@@ -48,28 +56,51 @@ export class NavbarComponent {
       command: () => this.logout()
     }
   ];
+  readonly locales = [
+    {
+      label: 'Português (Brasil)',
+      value: 'pt-BR',
+      flag: '🇧🇷'
+    },
+    {
+      label: 'English (US)',
+      value: 'en-US',
+      flag: '🇺🇸'
+    }
+  ];
 
-  constructor(private userService: UserService, private authService: AuthService, private router: Router,
-    private readonly feedFilterState: FeedFilterStateService
+  constructor(
+    private userService: UserService,
+    private authService: AuthService,
+    private router: Router,
+    private readonly feedFilterState: FeedFilterStateService,
+    private readonly localeService: LocaleService
   ) {
     this.currentUser = userService.currentUser;
+    this.locale = localeService.locale;
   }
 
   onSearch(title: string): void {
     this.feedFilterState.setTitle(title);
-
     this.feedFilterState.updateFeedUrl();
   }
 
-  logout() {
-    this.authService.logout().subscribe({
+  setLocale(locale: Locale): void {
+    this.localeService.setLocale(locale);
+  }
 
+  toggleDarkMode(): void {
+    throw new Error('Method not implemented.');
+  }
+
+  logout(): void {
+    this.authService.logout().subscribe({
       next: () => {
         this.router.navigateByUrl('');
       },
       error: (error) => {
         console.error(error);
       }
-    })
+    });
   }
 }

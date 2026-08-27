@@ -16,6 +16,7 @@ import { ItemFeedCardComponent } from "@shared/components/item-feed-card/item-fe
 import { Params, Router } from "@angular/router";
 import { ItemFeedCardSkeletonComponent } from "@shared/components/item-feed-card-skeleton/item-feed-card-skeleton.component";
 import { delay } from 'rxjs';
+import { LocaleService } from '@core/locale/locale.service';
 @Component({
     selector: 'app-home',
     standalone: true,
@@ -64,10 +65,13 @@ export class HomeComponent {
     constructor(
         private categoryService: CategoryService,
         private itemService: ItemService,
-        private router: Router
+        private router: Router,
+        private localeService: LocaleService
     ) { }
 
     ngOnInit(): void {
+        console.log(this.localeService.locale());
+        
         this.getCategories();
 
         this.loadCategoryItems('AUDIOVISUAL', 'audiovisualCards');

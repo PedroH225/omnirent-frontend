@@ -309,5 +309,13 @@ export const ptBR = {
 
       favorites: 'Favoritos',
     },
+
+    rentals: {
+      loading: 'Carregando Aluguéis...',
+      empty: {
+        title: 'Nenhum aluguel encontrado',
+        message: 'Você não está alugando nenhum item no momento.',
+      },
+    },
   },
 } as const;

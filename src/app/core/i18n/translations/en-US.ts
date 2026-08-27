@@ -307,5 +307,13 @@ export const enUS = {
 
       favorites: 'Favorites',
     },
+
+    rentals: {
+      loading: 'Loading Rentals...',
+      empty: {
+        title: 'No rentals yet',
+        message: 'You are not currently renting any items.',
+      },
+    },
   },
 } as const;

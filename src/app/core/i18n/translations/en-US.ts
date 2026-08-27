@@ -276,4 +276,35 @@ export const enUS = {
       clearSort: 'Clear sort',
     },
   },
+
+  account: {
+    sidebar: {
+      title: 'My Account',
+      openMenu: 'Open menu',
+
+      dashboard: 'Dashboard',
+
+      listings: {
+        title: 'Listings',
+        myListings: 'My Listings',
+        create: 'Create Listing',
+      },
+
+      rentals: {
+        title: 'Rentals',
+        renting: 'Renting',
+        rentingOut: 'Renting Out',
+      },
+
+      account: {
+        title: 'Account',
+        profile: 'Profile',
+        addresses: 'Addresses',
+        security: 'Security',
+        settings: 'Settings',
+      },
+
+      favorites: 'Favorites',
+    },
+  },
 } as const;

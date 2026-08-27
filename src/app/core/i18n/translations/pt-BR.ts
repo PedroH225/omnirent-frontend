@@ -278,4 +278,35 @@ export const ptBR = {
       clearSort: 'Limpar ordenação',
     },
   },
+  
+  account: {
+    sidebar: {
+      title: 'Minha conta',
+      openMenu: 'Abrir menu',
+
+      dashboard: 'Painel',
+
+      listings: {
+        title: 'Anúncios',
+        myListings: 'Meus anúncios',
+        create: 'Criar anúncio',
+      },
+
+      rentals: {
+        title: 'Aluguéis',
+        renting: 'Alugando',
+        rentingOut: 'Alugando para outros',
+      },
+
+      account: {
+        title: 'Conta',
+        profile: 'Perfil',
+        addresses: 'Endereços',
+        security: 'Segurança',
+        settings: 'Configurações',
+      },
+
+      favorites: 'Favoritos',
+    },
+  },
 } as const;

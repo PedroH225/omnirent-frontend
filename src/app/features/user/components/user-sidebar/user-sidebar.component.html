@@ -7,13 +7,15 @@
     icon="pi pi-bars"
     [text]="true"
     [rounded]="true"
-    ariaLabel="Open menu"
+    [attr.aria-label]="'account.sidebar.openMenu' | translate"
     (onClick)="drawerVisible = true"
   />
 
   <div class="mobile-sidebar-divider"></div>
 
-  <span class="mobile-sidebar-title"> My Account </span>
+  <span class="mobile-sidebar-title">
+    {{ "account.sidebar.title" | translate }}
+  </span>
 
   <div class="mobile-sidebar-spacer"></div>
 

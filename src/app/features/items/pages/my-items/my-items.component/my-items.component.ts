@@ -21,12 +21,13 @@ import { TranslatePipe } from '@core/i18n/translation-pipe';
     FormsModule,
     ItemManagementListComponent,
     ItemManagementCardComponent,
-    TranslatePipe
+    TranslatePipe,
   ],
   templateUrl: './my-items.component.html',
   styleUrl: './my-items.component.scss',
 })
 export class MyItemsComponent {
+  loading = true;
   page!: number;
   size!: number;
   totalElements!: number;
@@ -83,18 +84,25 @@ export class MyItemsComponent {
   }
 
   getUserItems(page: number, size: number): void {
+    this.loading = true;
+
     this.itemService.getUserItems(page, size).subscribe({
       next: (response: PageResponse<ItemDisplay>) => {
         this.totalElements = response.totalElements;
+
         this.items = response.content.map((item) => ({
           ...item,
           thumbnailKey: item.thumbnailKey
             ? `${this.storageUrl}/${item.thumbnailKey}`
             : null,
         }));
+
+        this.loading = false;
       },
+
       error: (error) => {
         console.error(error);
+        this.loading = false;
       },
     });
   }

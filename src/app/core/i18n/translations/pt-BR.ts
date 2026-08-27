@@ -317,5 +317,14 @@ export const ptBR = {
         message: 'Você não está alugando nenhum item no momento.',
       },
     },
+
+    listings: {
+      loading: 'Carregando anúncios...',
+
+      empty: {
+        title: 'Nenhum anúncio encontrado',
+        message: 'Você ainda não possui nenhum anúncio.',
+      },
+    },
   },
 } as const;

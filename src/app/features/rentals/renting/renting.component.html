@@ -31,7 +31,7 @@
     [rows]="size"
     [first]="page * size"
     [totalRecords]="totalElements"
-    [paginator]="true"
+    [paginator]="totalElements > 0"
     [lazy]="true"
     (onPage)="onPageChange($event)"
   >

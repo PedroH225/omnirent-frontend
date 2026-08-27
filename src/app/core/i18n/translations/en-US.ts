@@ -315,5 +315,14 @@ export const enUS = {
         message: 'You are not currently renting any items.',
       },
     },
+
+    listings: {
+      loading: 'Loading listings...',
+
+      empty: {
+        title: 'No listings yet',
+        message: 'You do not have any listings yet.',
+      },
+    },
   },
 } as const;

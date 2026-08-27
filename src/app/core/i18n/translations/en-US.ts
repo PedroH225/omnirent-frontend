@@ -54,6 +54,37 @@ export const enUS = {
     }
   },
 
+  category: {
+    audiovisual: 'Audiovisual',
+    construction: 'Construction',
+    it: 'IT',
+    events: 'Events'
+  },
+
+  subcategory: {
+    tripod: 'Tripod',
+    camera: 'Camera',
+    soundsystem: 'Sound system',
+    laptop: 'Laptop',
+    drone: 'Drone',
+    lens: 'Lens',
+    microphone: 'Microphone',
+    lighting: 'Lighting',
+    projector: 'Projector',
+    stage: 'Stage',
+    tent: 'Tent',
+    chair: 'Chair',
+    monitor: 'Monitor',
+    server: 'Server',
+    tablet: 'Tablet',
+    networking: 'Networking',
+    drill: 'Drill',
+    cementMixer: 'Cement mixer',
+    generator: 'Generator',
+    ladder: 'Ladder',
+    pressureWasher: 'Pressure washer'
+  },
+
   auth: {
     login: {
       title: 'Sign in',

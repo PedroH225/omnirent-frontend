@@ -54,6 +54,37 @@ export const ptBR = {
     }
   },
 
+  category: {
+    audiovisual: 'Audiovisual',
+    construction: 'Construção',
+    it: 'Informática',
+    events: 'Eventos'
+  },
+
+  subcategory: {
+    tripod: 'Tripé',
+    camera: 'Câmera',
+    soundsystem: 'Sistema de som',
+    laptop: 'Notebook',
+    drone: 'Drone',
+    lens: 'Lente',
+    microphone: 'Microfone',
+    lighting: 'Iluminação',
+    projector: 'Projetor',
+    stage: 'Palco',
+    tent: 'Tenda',
+    chair: 'Cadeira',
+    monitor: 'Monitor',
+    server: 'Servidor',
+    tablet: 'Tablet',
+    networking: 'Rede',
+    drill: 'Furadeira',
+    cementMixer: 'Betoneira',
+    generator: 'Gerador',
+    ladder: 'Escada',
+    pressureWasher: 'Lava Jato'
+  },
+
   auth: {
     login: {
       title: 'Entrar',

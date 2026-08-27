@@ -1,4 +1,59 @@
 export const enUS = {
+  enums: {
+    itemStatus: {
+      analysis: 'Analysis',
+      available: 'Available',
+      rented: 'Rented',
+      unavailable: 'Unavailable',
+      blocked: 'Blocked'
+    },
+
+    itemCondition: {
+      new: 'New',
+      likeNew: 'Like new',
+      good: 'Good',
+      used: 'Used',
+      heavilyUsed: 'Heavily used'
+    },
+
+    paymentStatus: {
+      pending: 'Pending',
+      paid: 'Paid',
+      failed: 'Failed',
+      expired: 'Expired',
+      cancelled: 'Cancelled',
+      refundRequested: 'Refund requested',
+      refunded: 'Refunded'
+    },
+
+    rentalStatus: {
+      created: 'Created',
+      confirmed: 'Confirmed',
+      preparing: 'Preparing',
+      shipped: 'Shipped',
+      inUse: 'In use',
+      returnRequested: 'Return requested',
+      returnShipped: 'Return shipped',
+      returned: 'Returned',
+      cancelled: 'Cancelled',
+      expired: 'Expired',
+      late: 'Late'
+    },
+
+    rentalPeriod: {
+      hourly: 'Hourly',
+      daily: 'Daily',
+      weekly: 'Weekly',
+      monthly: 'Monthly'
+    },
+
+    userStatus: {
+      active: 'Active',
+      inactive: 'Inactive',
+      banned: 'Banned'
+    }
+  },
+
   auth: {
     login: {
       title: 'Sign in',

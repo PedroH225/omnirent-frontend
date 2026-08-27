@@ -1,4 +1,59 @@
 export const ptBR = {
+  enums: {
+    itemStatus: {
+      analysis: 'Em análise',
+      available: 'Disponível',
+      rented: 'Alugado',
+      unavailable: 'Indisponível',
+      blocked: 'Bloqueado'
+    },
+
+    itemCondition: {
+      new: 'Novo',
+      likeNew: 'Como novo',
+      good: 'Bom',
+      used: 'Usado',
+      heavilyUsed: 'Muito usado'
+    },
+
+    paymentStatus: {
+      pending: 'Pendente',
+      paid: 'Pago',
+      failed: 'Falhou',
+      expired: 'Expirado',
+      cancelled: 'Cancelado',
+      refundRequested: 'Reembolso solicitado',
+      refunded: 'Reembolsado'
+    },
+
+    rentalStatus: {
+      created: 'Criado',
+      confirmed: 'Confirmado',
+      preparing: 'Preparando',
+      shipped: 'Enviado',
+      inUse: 'Em uso',
+      returnRequested: 'Devolução solicitada',
+      returnShipped: 'Devolução enviada',
+      returned: 'Devolvido',
+      cancelled: 'Cancelado',
+      expired: 'Expirado',
+      late: 'Atrasado'
+    },
+
+    rentalPeriod: {
+      hourly: 'Por hora',
+      daily: 'Diário',
+      weekly: 'Semanal',
+      monthly: 'Mensal'
+    },
+
+    userStatus: {
+      active: 'Ativo',
+      inactive: 'Inativo',
+      banned: 'Banido'
+    }
+  },
+
   auth: {
     login: {
       title: 'Entrar',

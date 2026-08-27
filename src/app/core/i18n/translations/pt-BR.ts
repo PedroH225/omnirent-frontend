@@ -31,6 +31,33 @@ export const ptBR = {
       viewAll: 'Ver tudo'
     },
 
-    empty: 'Nenhum item disponível'
+    empty: 'Nenhum item disponível',
+
+    howItWorks: {
+      title: 'Como funciona',
+      description: 'Encontre o equipamento que precisa, escolha as datas e comece seu aluguel.',
+
+      steps: {
+        browse: {
+          title: 'Navegue',
+          description: 'Explore os equipamentos disponíveis para aluguel.'
+        },
+
+        book: {
+          title: 'Reserve',
+          description: 'Escolha o período do seu aluguel.'
+        },
+
+        confirm: {
+          title: 'Confirme',
+          description: 'Aguarde a aprovação do proprietário.'
+        },
+
+        rent: {
+          title: 'Alugue',
+          description: 'Retire o equipamento e aproveite.'
+        }
+      }
+    }
   }
 } as const;

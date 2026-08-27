@@ -31,6 +31,33 @@ export const enUS = {
       viewAll: 'View all'
     },
 
-    empty: 'No items available'
+    empty: 'No items available',
+
+    howItWorks: {
+      title: 'How it works',
+      description: 'Find the equipment you need, choose your dates, and start your rental.',
+
+      steps: {
+        browse: {
+          title: 'Browse',
+          description: 'Explore equipment available for rent.'
+        },
+
+        book: {
+          title: 'Book',
+          description: 'Choose your rental period.'
+        },
+
+        confirm: {
+          title: 'Confirm',
+          description: 'Wait for the owner approval.'
+        },
+
+        rent: {
+          title: 'Rent',
+          description: 'Pick up the equipment and enjoy.'
+        }
+      }
+    }
   }
 } as const;

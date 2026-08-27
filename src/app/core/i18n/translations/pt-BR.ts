@@ -5,6 +5,7 @@ export const ptBR = {
     viewAll: 'Ver tudo',
     edit: 'Editar',
     delete: 'Deletar',
+    cancel: 'Cancelar',
 
     messages: {
       success: 'Sucesso',
@@ -360,6 +361,11 @@ export const ptBR = {
       messages: {
         added: 'Endereço adicionado com sucesso',
         updated: 'Endereço atualizado com sucesso',
+
+        confirmDelete: {
+          title: 'Excluir endereço',
+          message: 'Tem certeza de que deseja excluir este endereço?',
+        },
       },
     },
   },

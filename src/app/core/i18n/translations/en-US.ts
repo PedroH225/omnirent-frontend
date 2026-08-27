@@ -5,6 +5,7 @@ export const enUS = {
     viewAll: 'View all',
     edit: 'Edit',
     delete: 'Delete',
+    cancel: 'Cancel',
 
     messages: {
       success: 'Success',
@@ -354,6 +355,11 @@ export const enUS = {
       messages: {
         added: 'Address added successfully',
         updated: 'Address updated successfully',
+
+        confirmDelete: {
+          title: 'Delete address',
+          message: 'Are you sure you want to delete this address?',
+        },
       },
     },
   },

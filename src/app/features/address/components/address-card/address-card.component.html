@@ -1,28 +1,37 @@
-<div class="address-card" [class.selectable]="selectable" [class.selected]="selected" (click)="onSelect()">
-    <div class="address-main">
-        <h3>
-            {{ address.street }}, {{ address.number }}
-        </h3>
+<div
+  class="address-card"
+  [class.selectable]="selectable"
+  [class.selected]="selected"
+  (click)="onSelect()"
+>
+  <div class="address-main">
+    <h3>{{ address.street }}, {{ address.number }}</h3>
 
-        @if (address.complement) {
-        <p>{{ address.complement }}</p>
-        }
+    @if (address.complement) {
+      <p>{{ address.complement }}</p>
+    }
 
-        <p>{{ address.district }}</p>
+    <p>{{ address.district }}</p>
 
-        <p>
-            {{ address.city }} - {{ address.state }}
-        </p>
+    <p>{{ address.city }} - {{ address.state }}</p>
 
-        <p>{{ address.zipCode }}</p>
+    <p>{{ address.zipCode }}</p>
 
-        <p class="country">
-            {{ address.country }}
-        </p>
-    </div>
-    <div class="actions" *ngIf="showActions">
-        <p-button label="Edit" (click)="onEdit()" />
-        <p-button label="Delete" severity="danger" (click)="onDelete()" />
+    <p class="country">
+      {{ address.country }}
+    </p>
+  </div>
 
-    </div>
+  <div class="actions" *ngIf="showActions">
+    <p-button
+      [label]="'common.edit' | translate"
+      (click)="onEdit(); $event.stopPropagation()"
+    />
+
+    <p-button
+      [label]="'common.delete' | translate"
+      severity="danger"
+      (click)="onDelete(); $event.stopPropagation()"
+    />
+  </div>
 </div>

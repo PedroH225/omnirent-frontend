@@ -1,17 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
+import { TranslationService } from '@core/i18n/translation.service';
 import { AddressModel } from '@features/address/model/address-model';
 import { ConfirmationService } from 'primeng/api';
-import { Button } from "primeng/button";
+import { Button } from 'primeng/button';
 
 @Component({
   selector: 'app-address-card',
-  imports: [CommonModule, Button],
+  imports: [CommonModule, Button, TranslatePipe],
   templateUrl: './address-card.component.html',
-  styleUrl: './address-card.component.scss'
+  styleUrl: './address-card.component.scss',
 })
 export class AddressCardComponent {
-
   @Input({ required: true })
   address!: AddressModel;
 
@@ -33,28 +34,35 @@ export class AddressCardComponent {
   @Output()
   select = new EventEmitter<AddressModel>();
 
-  constructor(private confirmationService: ConfirmationService) { }
+  constructor(
+    private confirmationService: ConfirmationService,
+    private translationService: TranslationService,
+  ) {}
 
   onDelete(): void {
     this.confirmationService.confirm({
-      message: 'Are you sure you want to delete this address?',
-      header: 'Delete Address',
+      message: this.translationService.translate(
+        'account.addresses.messages.confirmDelete.message',
+      ),
+      header: this.translationService.translate(
+        'account.addresses.messages.confirmDelete.title',
+      ),
       icon: 'pi pi-exclamation-triangle',
-      acceptLabel: 'Delete',
-      rejectLabel: 'Cancel',
+      acceptLabel: this.translationService.translate('common.delete'),
+      rejectLabel: this.translationService.translate('common.cancel'),
       acceptButtonStyleClass: 'p-button-danger',
       rejectButtonStyleClass: 'p-button-secondary',
       accept: () => {
         this.delete.emit(this.address.id);
-      }
+      },
     });
   }
 
-onSelect(): void {
+  onSelect(): void {
     if (this.selectable) {
-        this.select.emit(this.address);
+      this.select.emit(this.address);
     }
-}
+  }
 
   onEdit(): void {
     this.edit.emit(this.address);

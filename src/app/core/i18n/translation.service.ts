@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { computed, Injectable } from '@angular/core';
 import { LocaleService } from './locale.service';
 import { ptBR } from './translations/pt-BR';
 import { enUS } from './translations/en-US';
@@ -31,5 +31,13 @@ export class TranslationService {
       }, dictionary);
 
     return typeof value === 'string' ? value : key;
+  }
+
+  translation(key: string) {
+    return computed(() => {
+      this.localeService.locale();
+
+      return this.translate(key);
+    });
   }
 }

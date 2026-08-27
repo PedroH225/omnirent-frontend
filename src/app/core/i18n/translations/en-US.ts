@@ -1,7 +1,7 @@
 export const enUS = {
   auth: {
     login: {
-      title: 'Login',
+      title: 'Sign in',
       email: 'Email',
       password: 'Password',
       submit: 'Login'
@@ -9,7 +9,6 @@ export const enUS = {
   },
 
   navbar: {
-    home: 'Home',
-    rentals: 'My rentals'
+    search: 'Search...'
   }
 } as const;

@@ -73,7 +73,6 @@ export class NavbarComponent {
     private router: Router,
     private readonly feedFilterState: FeedFilterStateService,
     private readonly localeService: LocaleService,
-    private translationService: TranslationService
   ) {
     this.currentUser = userService.currentUser;
     this.locale = localeService.locale;
@@ -85,14 +84,15 @@ export class NavbarComponent {
   }
 
   setLocale(locale: Locale): void {
+    console.log("bosta");
+    
     this.localeService.setLocale(locale);
+
+    console.log(this.localeService.locale());
+    
   }
 
   toggleTheme() {
-    throw new Error('Method not implemented.');
-  }
-
-  toggleDarkMode(): void {
     throw new Error('Method not implemented.');
   }
 

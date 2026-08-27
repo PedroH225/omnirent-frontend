@@ -9,7 +9,6 @@ export const ptBR = {
   },
 
   navbar: {
-    home: 'Início',
-    rentals: 'Meus aluguéis'
+    search: 'Pesquisar...'
   }
 } as const;

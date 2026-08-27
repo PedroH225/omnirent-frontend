@@ -12,7 +12,7 @@
             <p-iconfield iconPosition="left">
                 <p-inputicon styleClass="pi pi-search" />
 
-                <input type="text" pInputText placeholder="Search..." #searchInput
+                <input type="text" pInputText [placeholder]="'navbar.search' | translate" #searchInput
                     (keyup.enter)="onSearch(searchInput.value)" />
             </p-iconfield>
 

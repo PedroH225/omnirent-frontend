@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { Card } from "primeng/card";
+import { Card } from 'primeng/card';
 import { DatePickerModule } from 'primeng/datepicker';
-import { SaveUserFormComponent } from "@features/auth/components/save-user-form/save-user-form.component";
+import { SaveUserFormComponent } from '@features/auth/components/save-user-form/save-user-form.component';
 import { Router, RouterLink } from '@angular/router';
 import { UserFormModel } from '@features/auth/models/user-form-model';
 import { RegisterDto } from '@features/auth/models/register-model';
@@ -11,17 +11,29 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ApiValidationException } from '@shared/models/api-field-exception';
 import { MessageService } from 'primeng/api';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
+import { TranslationService } from '@core/i18n/translation.service';
 
 @Component({
   selector: 'app-register',
-  imports: [Card, DatePickerModule, SaveUserFormComponent, RouterLink, TranslatePipe],
+  imports: [
+    Card,
+    DatePickerModule,
+    SaveUserFormComponent,
+    RouterLink,
+    TranslatePipe,
+  ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
   backendErrors: FieldError[] = [];
 
-  constructor(private authService: AuthService, private messageService: MessageService, private router: Router) { }
+  constructor(
+    private authService: AuthService,
+    private messageService: MessageService,
+    private router: Router,
+    private translationService: TranslationService,
+  ) {}
 
   register(userForm: UserFormModel) {
     const register: RegisterDto = this.toRegisterDto(userForm);
@@ -30,32 +42,51 @@ export class RegisterComponent {
       next: () => {
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
-          detail: 'You were registered successfully.'
+          summary: this.translationService.translate(
+            'auth.register.messages.success.title',
+          ),
+          detail: this.translationService.translate(
+            'auth.register.messages.success.message',
+          ),
         });
-        this.router.navigateByUrl("/auth/login");
+
+        this.router.navigateByUrl('/auth/login');
       },
+
       error: (error: HttpErrorResponse) => {
         const apiError = error.error as ApiValidationException;
 
         if (apiError?.errorCode === 'VALIDATION_ERROR') {
           this.backendErrors = apiError.fields;
 
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Validation failed',
-            detail: 'Please review the highlighted fields and try again.'
-          });
+          this.showValidationErrorMessage();
 
           return;
         }
+
         this.messageService.add({
           severity: 'error',
-          summary: 'Unknown Error',
-          detail: 'Unknown error while trying to register. Try again later.'
+          summary: this.translationService.translate(
+            'auth.register.messages.error.title',
+          ),
+          detail: this.translationService.translate(
+            'auth.register.messages.error.message',
+          ),
         });
-      }
-    })
+      },
+    });
+  }
+
+  showValidationErrorMessage(): void {
+    this.messageService.add({
+      severity: 'error',
+      summary: this.translationService.translate(
+        'common.messages.validationError.title',
+      ),
+      detail: this.translationService.translate(
+        'common.messages.validationError.message',
+      ),
+    });
   }
 
   private toRegisterDto(userForm: UserFormModel): RegisterDto {
@@ -65,7 +96,7 @@ export class RegisterComponent {
       email: userForm.email,
       birthDate: userForm?.birthDate,
       password: userForm.password,
-      repeatedPassword: userForm.repeatedPassword
+      repeatedPassword: userForm.repeatedPassword,
     };
   }
 }

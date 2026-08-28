@@ -39,6 +39,7 @@ export class SaveUserFormComponent {
 
   @Output() onSave = new EventEmitter<UserFormModel>();
   @Output() formChange = new EventEmitter<UserFormModel>();
+  @Output() validationError = new EventEmitter<void>();
 
   form: UserFormModel = this.createEmptyForm();
 
@@ -50,6 +51,7 @@ export class SaveUserFormComponent {
     this.localErrors = SaveUserFormValidator.validate(this.form);
 
     if (this.localErrors.length > 0) {
+      this.validationError.emit();
       return;
     }
 

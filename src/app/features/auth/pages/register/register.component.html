@@ -14,6 +14,7 @@
       <app-save-user-form
         [backendErrors]="backendErrors"
         (onSave)="register($event)"
+        (validationError)="showValidationErrorMessage()"
       />
     </div>
   </p-card>

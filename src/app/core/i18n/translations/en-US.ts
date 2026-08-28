@@ -12,6 +12,11 @@ export const enUS = {
 
     messages: {
       success: 'Success',
+
+      validationError: {
+        title: 'Validation failed',
+        message: 'Please review the highlighted fields and try again.',
+      },
     },
   },
 
@@ -116,6 +121,18 @@ export const enUS = {
     register: {
       title: 'Sign up',
       loginPrompt: 'Already have an account? Sign in',
+
+      messages: {
+        success: {
+          title: 'Registration successful',
+          message: 'You were registered successfully.',
+        },
+        error: {
+          title: 'Registration error',
+          message:
+            'An error occurred while trying to register. Please try again later.',
+        },
+      },
 
       form: {
         name: 'Name',

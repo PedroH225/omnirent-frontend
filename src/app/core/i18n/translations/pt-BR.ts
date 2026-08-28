@@ -12,6 +12,11 @@ export const ptBR = {
 
     messages: {
       success: 'Sucesso',
+
+      validationError: {
+        title: 'Falha na validação',
+        message: 'Revise os campos destacados e tente novamente.',
+      },
     },
   },
 
@@ -116,6 +121,18 @@ export const ptBR = {
     register: {
       title: 'Cadastre-se',
       loginPrompt: 'Já tem uma conta? Entre',
+
+      messages: {
+        success: {
+          title: 'Cadastro realizado',
+          message: 'Você foi cadastrado com sucesso.',
+        },
+        error: {
+          title: 'Erro no cadastro',
+          message:
+            'Ocorreu um erro ao tentar realizar o cadastro. Tente novamente mais tarde.',
+        },
+      },
 
       form: {
         name: 'Nome',

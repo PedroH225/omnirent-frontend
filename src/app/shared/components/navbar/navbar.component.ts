@@ -12,11 +12,9 @@ import { LoggedUserModel } from '@core/user/model/logged-user-model';
 import { AuthService } from '@core/auth/auth.service';
 import { FeedFilterStateService } from '@core/feed/feed-filter-state.service';
 import { CommonModule } from '@angular/common';
-import { Locale, LocaleService } from '@core/i18n/locale.service';
-import { Select } from "primeng/select";
 import { FormsModule } from '@angular/forms';
-import { TranslationService } from '@core/i18n/translation.service';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
+import { LocaleSelectorComponent } from "../locale-selector/locale-selector.component";
 
 @Component({
   selector: 'app-navbar',
@@ -30,41 +28,28 @@ import { TranslatePipe } from '@core/i18n/translation-pipe';
     InputTextModule,
     RouterModule,
     ImageModule,
-    Select,
-    TranslatePipe
-  ],
+    TranslatePipe,
+    LocaleSelectorComponent
+],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+  styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent {
   displayLabel: string = 'My Account';
 
   readonly currentUser: Signal<LoggedUserModel | null>;
-  readonly locale: Signal<Locale>;
 
   items: MenuItem[] = [
     {
       label: 'Dashboard',
       icon: 'pi pi-user',
-      routerLink: '/account'
+      routerLink: '/account',
     },
     {
       label: 'Logout',
       icon: 'pi pi-sign-out',
-      command: () => this.logout()
-    }
-  ];
-  readonly locales = [
-    {
-      label: 'Português (Brasil)',
-      value: 'pt-BR',
-      flag: '🇧🇷'
+      command: () => this.logout(),
     },
-    {
-      label: 'English (US)',
-      value: 'en-US',
-      flag: '🇺🇸'
-    }
   ];
 
   constructor(
@@ -72,20 +57,13 @@ export class NavbarComponent {
     private authService: AuthService,
     private router: Router,
     private readonly feedFilterState: FeedFilterStateService,
-    private readonly localeService: LocaleService,
   ) {
     this.currentUser = userService.currentUser;
-    this.locale = localeService.locale;
   }
 
   onSearch(title: string): void {
     this.feedFilterState.setTitle(title);
     this.feedFilterState.updateFeedUrl();
-  }
-
-  setLocale(locale: Locale): void {    
-    this.localeService.setLocale(locale);
-    
   }
 
   toggleTheme() {
@@ -99,7 +77,7 @@ export class NavbarComponent {
       },
       error: (error) => {
         console.error(error);
-      }
+      },
     });
   }
 }

@@ -367,6 +367,27 @@ export const ptBR = {
           title: 'Excluir endereço',
           message: 'Tem certeza de que deseja excluir este endereço?',
         },
+
+        create: {
+          loading: 'Criando anúncio...',
+          uploadingImages: 'Enviando imagens...',
+
+          validationFailed: {
+            title: 'Falha na validação',
+            message: 'Revise os campos destacados e tente novamente.',
+          },
+
+          images: {
+            title: 'Imagens',
+            message:
+              'O anúncio foi criado, mas não foi possível enviar as imagens.',
+          },
+
+          success: {
+            title: 'Sucesso',
+            message: 'Anúncio criado com sucesso.',
+          },
+        },
       },
 
       form: {

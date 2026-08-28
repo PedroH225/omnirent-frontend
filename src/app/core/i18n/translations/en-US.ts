@@ -361,6 +361,27 @@ export const enUS = {
           title: 'Delete address',
           message: 'Are you sure you want to delete this address?',
         },
+
+        create: {
+          loading: 'Creating listing...',
+          uploadingImages: 'Uploading images...',
+
+          validationFailed: {
+            title: 'Validation failed',
+            message: 'Please review the highlighted fields and try again.',
+          },
+
+          images: {
+            title: 'Images',
+            message:
+              'The listing was created, but the images could not be uploaded.',
+          },
+
+          success: {
+            title: 'Success',
+            message: 'Listing created successfully.',
+          },
+        },
       },
 
       form: {

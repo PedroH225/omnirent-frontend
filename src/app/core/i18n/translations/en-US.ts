@@ -116,6 +116,16 @@ export const enUS = {
     register: {
       title: 'Sign up',
       loginPrompt: 'Already have an account? Sign in',
+
+      form: {
+        name: 'Name',
+        username: 'Username',
+        email: 'Email',
+        birthDate: 'Birth date',
+        password: 'Password',
+        repeatedPassword: 'Repeat password',
+        submit: 'Sign up',
+      },
     },
   },
 

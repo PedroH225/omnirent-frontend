@@ -10,6 +10,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FieldError } from '@shared/models/field-error';
 import { FieldErrorComponent } from "@shared/components/field-error/field-error.component";
 import { SaveUserFormValidator } from '@features/auth/validators/user-form-validator';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
 
 type UserFormMode = 'create' | 'edit';
 
@@ -23,7 +24,8 @@ type UserFormMode = 'create' | 'edit';
     Button,
     DatePicker,
     InputTextModule,
-    FieldErrorComponent
+    FieldErrorComponent,
+    TranslatePipe
   ],
   templateUrl: './save-user-form.component.html',
   styleUrl: './save-user-form.component.scss'

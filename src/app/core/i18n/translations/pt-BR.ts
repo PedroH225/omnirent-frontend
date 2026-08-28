@@ -116,6 +116,16 @@ export const ptBR = {
     register: {
       title: 'Cadastre-se',
       loginPrompt: 'Já tem uma conta? Entre',
+
+      form: {
+        name: 'Nome',
+        username: 'Nome de usuário',
+        email: 'E-mail',
+        birthDate: 'Data de nascimento',
+        password: 'Senha',
+        repeatedPassword: 'Repita a senha',
+        submit: 'Cadastrar',
+      },
     },
   },
 

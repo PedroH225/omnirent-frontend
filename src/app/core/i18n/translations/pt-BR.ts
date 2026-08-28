@@ -7,6 +7,7 @@ export const ptBR = {
     delete: 'Deletar',
     cancel: 'Cancelar',
     save: 'Salvar',
+    create: 'Criar',
 
     messages: {
       success: 'Sucesso',
@@ -253,6 +254,50 @@ export const ptBR = {
         updateError: 'Falha ao atualizar o item.',
       },
     },
+
+    form: {
+      tabs: {
+        details: 'Detalhes do anúncio',
+        images: 'Imagens',
+        address: 'Endereço de retirada',
+      },
+
+      fields: {
+        title: 'Título',
+        brand: 'Marca',
+        model: 'Modelo',
+        condition: 'Condição',
+        category: 'Categoria',
+        subcategory: 'Subcategoria',
+        basePrice: 'Preço base',
+        description: 'Descrição',
+      },
+
+      prices: {
+        hourly: 'Por hora',
+        daily: 'Diário',
+        weekly: 'Semanal',
+        monthly: 'Mensal',
+      },
+
+      images: {
+        title: 'Imagens',
+        description:
+          'Envie até 5 imagens. Arraste para alterar a ordem de exibição.',
+
+        actions: {
+          addImages: 'Adicionar imagens',
+          addImage: 'Adicionar imagem',
+          moveLeft: 'Mover para a esquerda',
+          moveRight: 'Mover para a direita',
+          remove: 'Remover imagem',
+        },
+
+        main: 'Principal',
+        preview: 'Pré-visualização',
+        hint: 'A primeira imagem será usada como miniatura principal.',
+      },
+    },
   },
 
   feed: {
@@ -290,9 +335,6 @@ export const ptBR = {
   },
 
   account: {
-    messages: {
-      success: 'Sucesso',
-    },
     sidebar: {
       title: 'Minha conta',
       openMenu: 'Abrir menu',

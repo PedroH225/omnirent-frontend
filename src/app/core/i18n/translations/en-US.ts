@@ -7,6 +7,7 @@ export const enUS = {
     delete: 'Delete',
     cancel: 'Cancel',
     save: 'Save',
+    create: 'Create',
 
     messages: {
       success: 'Success',
@@ -248,6 +249,49 @@ export const enUS = {
         validationFailed: 'Validation failed',
         reviewFields: 'Please review the highlighted fields and try again.',
         updateError: 'Failed to update item.',
+      },
+    },
+
+    form: {
+      tabs: {
+        details: 'Item Details',
+        images: 'Images',
+        address: 'Pickup Address',
+      },
+
+      fields: {
+        title: 'Title',
+        brand: 'Brand',
+        model: 'Model',
+        condition: 'Condition',
+        category: 'Category',
+        subcategory: 'Subcategory',
+        basePrice: 'Base Price',
+        description: 'Description',
+      },
+
+      prices: {
+        hourly: 'Hourly',
+        daily: 'Daily',
+        weekly: 'Weekly',
+        monthly: 'Monthly',
+      },
+
+      images: {
+        title: 'Images',
+        description: 'Upload up to 5 images. Drag to change the display order.',
+
+        actions: {
+          addImages: 'Add Images',
+          addImage: 'Add Image',
+          moveLeft: 'Move left',
+          moveRight: 'Move right',
+          remove: 'Remove image',
+        },
+
+        main: 'Main',
+        preview: 'Preview',
+        hint: 'The first image will be used as the main thumbnail.',
       },
     },
   },

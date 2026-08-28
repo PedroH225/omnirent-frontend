@@ -105,12 +105,17 @@ export const ptBR = {
     login: {
       title: 'Entrar',
       submit: 'Entrar',
-      registerPrompt: "Don't have an account? Sign up",
+      registerPrompt: 'Não tem uma conta? Cadastre-se',
 
       fields: {
         email: 'E-mail',
         password: 'Senha',
       },
+    },
+
+    register: {
+      title: 'Cadastre-se',
+      loginPrompt: 'Já tem uma conta? Entre',
     },
   },
 

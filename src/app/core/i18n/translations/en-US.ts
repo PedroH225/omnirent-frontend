@@ -112,6 +112,11 @@ export const enUS = {
         password: 'Password',
       },
     },
+
+    register: {
+      title: 'Sign up',
+      loginPrompt: 'Already have an account? Sign in',
+    },
   },
 
   navbar: {

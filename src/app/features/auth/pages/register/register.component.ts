@@ -10,10 +10,11 @@ import { AuthService } from '@core/auth/auth.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApiValidationException } from '@shared/models/api-field-exception';
 import { MessageService } from 'primeng/api';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
 
 @Component({
   selector: 'app-register',
-  imports: [Card, DatePickerModule, SaveUserFormComponent, RouterLink],
+  imports: [Card, DatePickerModule, SaveUserFormComponent, RouterLink, TranslatePipe],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })

@@ -64,7 +64,7 @@ export class CreateItemComponent {
 
     this.loading = true;
     this.loadingMessage = this.translationService.translate(
-      'items.messages.create.loading',
+      'item.messages.create.loading',
     );
 
     this.itemService.createItem(request).subscribe({
@@ -82,16 +82,7 @@ export class CreateItemComponent {
 
         if (apiException?.errorCode === 'VALIDATION_ERROR') {
           this.backendErrors = apiException.fields;
-
-          this.messageService.add({
-            severity: 'error',
-            summary: this.translationService.translate(
-              'items.messages.create.validationFailed.title',
-            ),
-            detail: this.translationService.translate(
-              'items.messages.create.validationFailed.message',
-            ),
-          });
+          this.showValidationError();
         }
 
         console.error(error);
@@ -101,7 +92,7 @@ export class CreateItemComponent {
 
   private uploadImages(itemId: string): void {
     this.loadingMessage = this.translationService.translate(
-      'items.messages.create.uploadingImages',
+      'item.messages.create.uploadingImages',
     );
 
     this.itemService.uploadImages(itemId, this.images).subscribe({
@@ -112,10 +103,10 @@ export class CreateItemComponent {
         this.messageService.add({
           severity: 'warn',
           summary: this.translationService.translate(
-            'items.messages.create.images.title',
+            'item.messages.create.images.title',
           ),
           detail: this.translationService.translate(
-            'items.messages.create.images.message',
+            'item.messages.create.images.message',
           ),
         });
 
@@ -132,13 +123,25 @@ export class CreateItemComponent {
     this.messageService.add({
       severity: 'success',
       summary: this.translationService.translate(
-        'items.messages.create.success.title',
+        'item.messages.create.success.title',
       ),
       detail: this.translationService.translate(
-        'items.messages.create.success.message',
+        'item.messages.create.success.message',
       ),
     });
 
     this.router.navigate(['/account/my-items']);
+  }
+
+  showValidationError(): void {
+    this.messageService.add({
+      severity: 'error',
+      summary: this.translationService.translate(
+        'item.messages.create.validationFailed.title',
+      ),
+      detail: this.translationService.translate(
+        'item.messages.create.validationFailed.message',
+      ),
+    });
   }
 }

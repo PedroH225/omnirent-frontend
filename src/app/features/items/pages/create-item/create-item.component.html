@@ -1,14 +1,16 @@
 <app-save-item-form
-    mode="create"
-    [backendErrors]="backendErrors"
-    (formChange)="onFormChange($event)"
-    (imagesChange)="onImagesChange($event)"
-    (save)="save()">
+  mode="create"
+  [backendErrors]="backendErrors"
+  (formChange)="onFormChange($event)"
+  (imagesChange)="onImagesChange($event)"
+  (validationError)="showValidationError()"
+  (save)="save()"
+>
 </app-save-item-form>
 
 @if (loading) {
-    <div class="loading-overlay">
-        <p-progressSpinner strokeWidth="4"></p-progressSpinner>
-        <span>{{ loadingMessage }}</span>
-    </div>
+  <div class="loading-overlay">
+    <p-progressSpinner strokeWidth="4"></p-progressSpinner>
+    <span>{{ loadingMessage }}</span>
+  </div>
 }

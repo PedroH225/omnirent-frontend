@@ -9,6 +9,7 @@ import { FieldError } from '@shared/models/field-error';
 import { Button } from 'primeng/button';
 import { FieldErrorComponent } from '@shared/components/field-error/field-error.component';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
+import { TranslationService } from '@core/i18n/translation.service';
 
 @Component({
   selector: 'app-item-images',
@@ -28,6 +29,8 @@ export class ItemImagesComponent {
 
   @Output()
   imagesChange = new EventEmitter<ItemImageForm[]>();
+
+  constructor(private translationService: TranslationService) {}
 
   private emitImages(): void {
     this.imagesChange.emit(
@@ -65,7 +68,7 @@ export class ItemImagesComponent {
       this.errors = [
         {
           field: 'images',
-          message: 'max_images',
+          message: 'item.form.validation.images.max_images',
         },
       ];
 
@@ -143,11 +146,17 @@ export class ItemImagesComponent {
   }
 
   getError(index: number): string | undefined {
-    return this.errors.find((error) => error.field === `images.${index}`)
-      ?.message;
-  }
+    const message = this.errors.find(
+      (error) => error.field === `images.${index}`,
+    )?.message;
 
+    return message ? this.translationService.translate(message) : undefined;
+  }
   getCollectionError(): string | undefined {
-    return this.errors.find((error) => error.field === 'images')?.message;
+    const message = this.errors.find(
+      (error) => error.field === 'images',
+    )?.message;
+
+    return message ? this.translationService.translate(message) : undefined;
   }
 }

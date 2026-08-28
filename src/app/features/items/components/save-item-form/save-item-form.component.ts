@@ -32,6 +32,7 @@ import { ItemFormModel } from '@features/items/model/item-form-model';
 import { SaveItemFormValidator } from '@features/items/validators/item-form-validator';
 import { ItemImagesValidator } from '@features/items/validators/item-image-validator';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
+import { TranslationService } from '@core/i18n/translation.service';
 
 type ItemFormMode = 'create' | 'edit';
 
@@ -54,7 +55,7 @@ type ItemFormMode = 'create' | 'edit';
     TabPanels,
     InputTextModule,
     TextareaModule,
-    TranslatePipe
+    TranslatePipe,
   ],
   providers: [ConfirmationService],
   templateUrl: './save-item-form.component.html',
@@ -68,6 +69,9 @@ export class SaveItemFormComponent {
   @Output() save = new EventEmitter<ItemFormModel>();
   @Output() imagesChange = new EventEmitter<ItemImageForm[]>();
   @Output() formChange = new EventEmitter<ItemFormModel>();
+
+  @Output()
+  validationError = new EventEmitter<void>();
 
   form: ItemFormModel = this.createEmptyItem();
 
@@ -87,6 +91,7 @@ export class SaveItemFormComponent {
     private addressService: AddressService,
     private categoryService: CategoryService,
     private itemService: ItemService,
+    private translationService: TranslationService,
   ) {}
 
   ngOnInit(): void {
@@ -128,6 +133,11 @@ export class SaveItemFormComponent {
     this.localErrors = [...formErrors, ...imageErrors];
 
     if (this.localErrors.length > 0) {
+      this.validationError.emit();
+      return;
+    }
+
+    if (this.localErrors.length > 0) {
       return;
     }
 
@@ -141,10 +151,13 @@ export class SaveItemFormComponent {
   }
 
   getFieldError(field: string): string | undefined {
-    return (
-      this.localErrors.find((error) => error.field === field)?.message ??
-      this.backendErrors.find((error) => error.field === field)?.message
-    );
+    const localError = this.localErrors.find((error) => error.field === field);
+
+    if (localError) {
+      return this.translationService.translate(localError.message);
+    }
+
+    return this.backendErrors.find((error) => error.field === field)?.message;
   }
 
   onFieldChange(field: string): void {

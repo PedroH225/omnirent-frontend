@@ -16,7 +16,7 @@ export const enUS = {
 
   enums: {
     itemStatus: {
-      analysis: 'Analysis',
+      analisys: 'Analysis',
       available: 'Available',
       rented: 'Rented',
       unavailable: 'Unavailable',
@@ -292,6 +292,67 @@ export const enUS = {
         main: 'Main',
         preview: 'Preview',
         hint: 'The first image will be used as the main thumbnail.',
+      },
+
+      validation: {
+        name: {
+          blank: 'Title is required.',
+          size: 'Title must be at least 3 characters long.',
+          max_size: 'Title must be at most 100 characters long.',
+        },
+        model: {
+          blank: 'Model is required.',
+          max_size: 'Model must be at most 50 characters long.',
+        },
+        brand: {
+          blank: 'Brand is required.',
+          max_size: 'Brand must be at most 50 characters long.',
+        },
+        description: {
+          max_size: 'Description must be at most 1000 characters long.',
+        },
+        basePrice: {
+          required: 'Base price is required.',
+          price_invalid: 'Price must be a valid value.',
+        },
+        itemCondition: {
+          required: 'Item condition is required.',
+        },
+        subCategoryId: {
+          blank: 'Subcategory is required.',
+        },
+        addressId: {
+          required: 'Address is required.',
+          blank: 'Address is required.',
+        },
+
+        images: {
+          max_images: 'You can upload a maximum of 5 images.',
+          empty: 'This image file is empty.',
+          unsupported_media_type:
+            'Unsupported image format. Use JPEG, PNG, or WebP.',
+          duplicate_order: 'Images cannot have the same display order.',
+        },
+      },
+    },
+    
+    messages: {
+      create: {
+        loading: 'Creating item...',
+        uploadingImages: 'Uploading images...',
+        validationFailed: {
+          title: 'Validation failed',
+          message: 'Please review the highlighted fields and try again.',
+        },
+        images: {
+          title: 'Images',
+          message:
+            'The item was created, but the images could not be uploaded.',
+        },
+        success: {
+          title: 'Success',
+          message: 'Item created successfully.',
+        },
       },
     },
   },

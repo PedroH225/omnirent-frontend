@@ -16,7 +16,7 @@ export const ptBR = {
 
   enums: {
     itemStatus: {
-      analysis: 'Em análise',
+      analisys: 'Em análise',
       available: 'Disponível',
       rented: 'Alugado',
       unavailable: 'Indisponível',
@@ -296,6 +296,67 @@ export const ptBR = {
         main: 'Principal',
         preview: 'Pré-visualização',
         hint: 'A primeira imagem será usada como miniatura principal.',
+      },
+
+      validation: {
+        name: {
+          blank: 'O título é obrigatório.',
+          size: 'O título deve ter pelo menos 3 caracteres.',
+          max_size: 'O título deve ter no máximo 100 caracteres.',
+        },
+        model: {
+          blank: 'O modelo é obrigatório.',
+          max_size: 'O modelo deve ter no máximo 50 caracteres.',
+        },
+        brand: {
+          blank: 'A marca é obrigatória.',
+          max_size: 'A marca deve ter no máximo 50 caracteres.',
+        },
+        description: {
+          max_size: 'A descrição deve ter no máximo 1000 caracteres.',
+        },
+        basePrice: {
+          required: 'O preço base é obrigatório.',
+          price_invalid: 'O preço deve ser um valor válido.',
+        },
+        itemCondition: {
+          required: 'A condição do item é obrigatória.',
+        },
+        subCategoryId: {
+          blank: 'A subcategoria é obrigatória.',
+        },
+        addressId: {
+          required: 'O endereço é obrigatório.',
+          blank: 'O endereço é obrigatório.',
+        },
+
+        images: {
+          max_images: 'Você pode enviar no máximo 5 imagens.',
+          empty: 'Este arquivo de imagem está vazio.',
+          unsupported_media_type:
+            'Formato de imagem não suportado. Use JPEG, PNG ou WebP.',
+          duplicate_order:
+            'As imagens não podem ter a mesma ordem de exibição.',
+        },
+      },
+    },
+
+    messages: {
+      create: {
+        loading: 'Criando item...',
+        uploadingImages: 'Enviando imagens...',
+        validationFailed: {
+          title: 'Falha na validação',
+          message: 'Revise os campos destacados e tente novamente.',
+        },
+        images: {
+          title: 'Imagens',
+          message: 'O item foi criado, mas não foi possível enviar as imagens.',
+        },
+        success: {
+          title: 'Sucesso',
+          message: 'Item criado com sucesso.',
+        },
       },
     },
   },

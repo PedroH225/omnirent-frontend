@@ -125,6 +125,34 @@ export const ptBR = {
         password: 'Senha',
         repeatedPassword: 'Repita a senha',
         submit: 'Cadastrar',
+
+        validation: {
+          name: {
+            required: 'O nome é obrigatório.',
+            size: 'O nome deve ter entre 5 e 100 caracteres.',
+          },
+          username: {
+            required: 'O nome de usuário é obrigatório.',
+          },
+          email: {
+            required: 'O e-mail é obrigatório.',
+            invalid_email: 'Informe um e-mail válido.',
+          },
+          birthDate: {
+            required: 'A data de nascimento é obrigatória.',
+            past: 'A data de nascimento deve ser anterior à data atual.',
+          },
+          password: {
+            required: 'A senha é obrigatória.',
+            size: 'A senha deve ter entre 8 e 100 caracteres.',
+            password_pattern:
+              'A senha deve conter pelo menos uma letra e um número.',
+          },
+          repeatedPassword: {
+            required: 'A confirmação da senha é obrigatória.',
+            password_mismatch: 'As senhas não coincidem.',
+          },
+        },
       },
     },
   },

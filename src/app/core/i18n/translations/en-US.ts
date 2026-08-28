@@ -125,6 +125,34 @@ export const enUS = {
         password: 'Password',
         repeatedPassword: 'Repeat password',
         submit: 'Sign up',
+
+        validation: {
+          name: {
+            required: 'Name is required.',
+            size: 'Name must be between 5 and 100 characters.',
+          },
+          username: {
+            required: 'Username is required.',
+          },
+          email: {
+            required: 'Email is required.',
+            invalid_email: 'Enter a valid email address.',
+          },
+          birthDate: {
+            required: 'Birth date is required.',
+            past: 'Birth date must be before today.',
+          },
+          password: {
+            required: 'Password is required.',
+            size: 'Password must be between 8 and 100 characters.',
+            password_pattern:
+              'Password must contain at least one letter and one number.',
+          },
+          repeatedPassword: {
+            required: 'Password confirmation is required.',
+            password_mismatch: 'Passwords do not match.',
+          },
+        },
       },
     },
   },

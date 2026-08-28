@@ -278,17 +278,7 @@ export class ItemDetailComponent implements OnInit {
 
         if (apiException?.errorCode === 'VALIDATION_ERROR') {
           this.backendErrors = apiException.fields;
-
-          this.messageService.add({
-            severity: 'error',
-            summary: this.translationService.translate(
-              'item.edit.dialog.validationFailed',
-            ),
-            detail: this.translationService.translate(
-              'item.edit.dialog.reviewFields',
-            ),
-          });
-
+          this.showValidationError();
           return;
         }
 
@@ -474,5 +464,17 @@ export class ItemDetailComponent implements OnInit {
     this.backendErrors = this.backendErrors.filter(
       (error) => error.field !== field,
     );
+  }
+
+  showValidationError() {
+    this.messageService.add({
+      severity: 'error',
+      summary: this.translationService.translate(
+        'item.edit.dialog.validationFailed',
+      ),
+      detail: this.translationService.translate(
+        'item.edit.dialog.reviewFields',
+      ),
+    });
   }
 }

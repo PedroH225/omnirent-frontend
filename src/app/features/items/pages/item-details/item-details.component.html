@@ -198,6 +198,7 @@
       [backendErrors]="backendErrors"
       (formChange)="onFormChange($event)"
       (save)="onFormSubmit()"
+      (validationError)="showValidationError()"
     >
     </app-save-item-form>
   </p-dialog>

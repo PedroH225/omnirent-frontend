@@ -99,6 +99,11 @@
 }
 
 @media (max-width: 768px) {
+  :host ::ng-deep .p-dialog {
+    width: calc(100vw - 2rem);
+    max-width: none;
+  }
+
   .addresses-page {
     min-height: 450px;
   }

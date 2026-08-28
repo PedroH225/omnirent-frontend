@@ -6,6 +6,7 @@ export const enUS = {
     edit: 'Edit',
     delete: 'Delete',
     cancel: 'Cancel',
+    save: 'Save',
 
     messages: {
       success: 'Success',
@@ -359,6 +360,51 @@ export const enUS = {
         confirmDelete: {
           title: 'Delete address',
           message: 'Are you sure you want to delete this address?',
+        },
+      },
+
+      form: {
+        street: 'Street',
+        number: 'Number',
+        complement: 'Complement',
+        district: 'District',
+        city: 'City',
+        state: 'State',
+        country: 'Country',
+        zipCode: 'ZIP Code',
+      },
+
+      validation: {
+        street: {
+          blank: 'Street is required.',
+          size: 'Street must be between 3 and 120 characters.',
+        },
+        number: {
+          blank: 'Number is required.',
+          max_size: 'Number must have at most 20 characters.',
+        },
+        complement: {
+          max_size: 'Complement must have at most 80 characters.',
+        },
+        district: {
+          blank: 'District is required.',
+          max_size: 'District must have at most 80 characters.',
+        },
+        city: {
+          blank: 'City is required.',
+          max_size: 'City must have at most 80 characters.',
+        },
+        state: {
+          blank: 'State is required.',
+          max_size: 'State must have at most 40 characters.',
+        },
+        country: {
+          blank: 'Country is required.',
+          max_size: 'Country must have at most 40 characters.',
+        },
+        zipCode: {
+          blank: 'ZIP code is required.',
+          max_size: 'ZIP code must have at most 20 characters.',
         },
       },
     },

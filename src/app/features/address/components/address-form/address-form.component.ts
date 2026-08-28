@@ -13,10 +13,18 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FieldErrorComponent } from '@shared/components/field-error/field-error.component';
 import { FieldError } from '@shared/models/field-error';
 import { AddressFormValidator } from '@features/address/validators/address-form-validator';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
+import { TranslationService } from '@core/i18n/translation.service';
 
 @Component({
   selector: 'app-address-form',
-  imports: [FormsModule, Button, InputTextModule, FieldErrorComponent],
+  imports: [
+    FormsModule,
+    Button,
+    InputTextModule,
+    FieldErrorComponent,
+    TranslatePipe,
+  ],
   templateUrl: './address-form.component.html',
   styleUrl: './address-form.component.scss',
 })
@@ -39,6 +47,8 @@ export class AddressFormComponent {
   form: AddressRequestModel = this.createEmptyAddress();
 
   localErrors: FieldError[] = [];
+
+  constructor(private translationService: TranslationService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['address']) {
@@ -65,10 +75,13 @@ export class AddressFormComponent {
   }
 
   getFieldError(field: string): string | undefined {
-    return (
-      this.localErrors.find((error) => error.field === field)?.message ??
-      this.backendErrors.find((error) => error.field === field)?.message
-    );
+    const localError = this.localErrors.find((error) => error.field === field);
+
+    if (localError) {
+      return this.translationService.translate(localError.message);
+    }
+
+    return this.backendErrors.find((error) => error.field === field)?.message;
   }
 
   onSave(): void {

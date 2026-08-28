@@ -3,6 +3,12 @@ import { FormValidationHelper } from '@shared/validators/form-validation-helper'
 import { AddressRequestModel } from '../model/address-request-model';
 
 export class AddressFormValidator {
+  private static readonly PREFIX = 'account.addresses.validation.';
+
+  private static buildMessageKey(field: string, rule: string): string {
+    return `${this.PREFIX}${field}.${rule}`;
+  }
+
   static validate(form: AddressRequestModel): FieldError[] {
     const errors: FieldError[] = [];
 
@@ -108,6 +114,9 @@ export class AddressFormValidator {
       );
     }
 
-    return errors;
+    return errors.map((error) => ({
+      ...error,
+      message: this.buildMessageKey(error.field, error.message),
+    }));
   }
 }

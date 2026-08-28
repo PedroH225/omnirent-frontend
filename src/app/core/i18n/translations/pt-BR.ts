@@ -6,6 +6,7 @@ export const ptBR = {
     edit: 'Editar',
     delete: 'Deletar',
     cancel: 'Cancelar',
+    save: 'Salvar',
 
     messages: {
       success: 'Sucesso',
@@ -365,6 +366,51 @@ export const ptBR = {
         confirmDelete: {
           title: 'Excluir endereço',
           message: 'Tem certeza de que deseja excluir este endereço?',
+        },
+      },
+
+      form: {
+        street: 'Rua',
+        number: 'Número',
+        complement: 'Complemento',
+        district: 'Bairro',
+        city: 'Cidade',
+        state: 'Estado',
+        country: 'País',
+        zipCode: 'CEP',
+      },
+
+      validation: {
+        street: {
+          blank: 'A rua é obrigatória.',
+          size: 'A rua deve ter entre 3 e 120 caracteres.',
+        },
+        number: {
+          blank: 'O número é obrigatório.',
+          max_size: 'O número deve ter no máximo 20 caracteres.',
+        },
+        complement: {
+          max_size: 'O complemento deve ter no máximo 80 caracteres.',
+        },
+        district: {
+          blank: 'O bairro é obrigatório.',
+          max_size: 'O bairro deve ter no máximo 80 caracteres.',
+        },
+        city: {
+          blank: 'A cidade é obrigatória.',
+          max_size: 'A cidade deve ter no máximo 80 caracteres.',
+        },
+        state: {
+          blank: 'O estado é obrigatório.',
+          max_size: 'O estado deve ter no máximo 40 caracteres.',
+        },
+        country: {
+          blank: 'O país é obrigatório.',
+          max_size: 'O país deve ter no máximo 40 caracteres.',
+        },
+        zipCode: {
+          blank: 'O CEP é obrigatório.',
+          max_size: 'O CEP deve ter no máximo 20 caracteres.',
         },
       },
     },

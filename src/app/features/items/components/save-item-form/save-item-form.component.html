@@ -177,7 +177,7 @@
 
             <div class="price-preview">
               <div class="price-card">
-                <span>Hourly</span>
+                <span>{{ "item.form.prices.hourly" | translate }}</span>
 
                 <strong>
                   {{ hourlyPrice | currency: "BRL" : "symbol" : "1.2-2" }}
@@ -185,7 +185,7 @@
               </div>
 
               <div class="price-card">
-                <span>Daily</span>
+                <span>{{ "item.form.prices.daily" | translate }}</span>
 
                 <strong>
                   {{ form.basePrice | currency: "BRL" : "symbol" : "1.2-2" }}
@@ -193,7 +193,7 @@
               </div>
 
               <div class="price-card">
-                <span>Weekly</span>
+                <span>{{ "item.form.prices.weekly" | translate }}</span>
 
                 <strong>
                   {{ weeklyPrice | currency: "BRL" : "symbol" : "1.2-2" }}
@@ -201,7 +201,7 @@
               </div>
 
               <div class="price-card">
-                <span>Monthly</span>
+                <span>{{ "item.form.prices.monthly" | translate }}</span>
 
                 <strong>
                   {{ monthlyPrice | currency: "BRL" : "symbol" : "1.2-2" }}

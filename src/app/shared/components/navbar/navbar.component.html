@@ -11,28 +11,30 @@
     </a>
   </div>
 
-  <div class="navbar-search">
-    <div class="search-container">
-      <p-iconfield iconPosition="left">
-        <p-inputicon styleClass="pi pi-search" />
+  @if (mode === "default") {
+    <div class="navbar-search">
+      <div class="search-container">
+        <p-iconfield iconPosition="left">
+          <p-inputicon styleClass="pi pi-search" />
 
-        <input
-          type="text"
-          pInputText
-          [placeholder]="'navbar.search' | translate"
-          #searchInput
-          (keyup.enter)="onSearch(searchInput.value)"
+          <input
+            type="text"
+            pInputText
+            [placeholder]="'navbar.search' | translate"
+            #searchInput
+            (keyup.enter)="onSearch(searchInput.value)"
+          />
+        </p-iconfield>
+
+        <p-button
+          icon="pi pi-search"
+          severity="info"
+          rounded
+          (onClick)="onSearch(searchInput.value)"
         />
-      </p-iconfield>
-
-      <p-button
-        icon="pi pi-search"
-        severity="info"
-        rounded
-        (onClick)="onSearch(searchInput.value)"
-      />
+      </div>
     </div>
-  </div>
+  }
 
   <div class="navbar-actions">
     <p-button
@@ -43,25 +45,27 @@
       (onClick)="toggleTheme()"
     />
 
-    <app-locale-selector></app-locale-selector>
+    <app-locale-selector />
 
-    @if (currentUser(); as user) {
-      <p-splitbutton
-        styleClass="user-menu"
-        icon="pi pi-user"
-        [label]="user.username"
-        [model]="items"
-        rounded
-      />
-    } @else {
-      <p-button
-        styleClass="login-button"
-        icon="pi pi-user"
-        [label]="'auth.login.title' | translate"
-        severity="info"
-        routerLink="/auth/login"
-        rounded
-      />
+    @if (mode === "default") {
+      @if (currentUser(); as user) {
+        <p-splitbutton
+          styleClass="user-menu"
+          icon="pi pi-user"
+          [label]="user.username"
+          [model]="items"
+          rounded
+        />
+      } @else {
+        <p-button
+          styleClass="login-button"
+          icon="pi pi-user"
+          [label]="'auth.login.title' | translate"
+          severity="info"
+          routerLink="/auth/login"
+          rounded
+        />
+      }
     }
   </div>
 </header>

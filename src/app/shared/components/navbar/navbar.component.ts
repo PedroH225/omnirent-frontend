@@ -1,4 +1,4 @@
-import { Component, Signal } from '@angular/core';
+import { Component, Input, Signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -14,7 +14,9 @@ import { FeedFilterStateService } from '@core/feed/feed-filter-state.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
-import { LocaleSelectorComponent } from "../locale-selector/locale-selector.component";
+import { LocaleSelectorComponent } from '../locale-selector/locale-selector.component';
+
+type NavbarMode = 'default' | 'auth';
 
 @Component({
   selector: 'app-navbar',
@@ -29,12 +31,14 @@ import { LocaleSelectorComponent } from "../locale-selector/locale-selector.comp
     RouterModule,
     ImageModule,
     TranslatePipe,
-    LocaleSelectorComponent
-],
+    LocaleSelectorComponent,
+  ],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent {
+  @Input() mode: NavbarMode = 'default';
+
   displayLabel: string = 'My Account';
 
   readonly currentUser: Signal<LoggedUserModel | null>;

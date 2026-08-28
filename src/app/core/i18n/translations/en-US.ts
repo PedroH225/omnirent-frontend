@@ -8,6 +8,7 @@ export const enUS = {
     cancel: 'Cancel',
     save: 'Save',
     create: 'Create',
+    signIn: 'Sign in',
 
     messages: {
       success: 'Success',
@@ -103,9 +104,13 @@ export const enUS = {
   auth: {
     login: {
       title: 'Sign in',
-      email: 'Email',
-      password: 'Password',
       submit: 'Login',
+      registerPrompt: "Don't have an account? Sign up",
+
+      fields: {
+        email: 'Email',
+        password: 'Password',
+      },
     },
   },
 
@@ -335,7 +340,7 @@ export const enUS = {
         },
       },
     },
-    
+
     messages: {
       create: {
         loading: 'Creating item...',

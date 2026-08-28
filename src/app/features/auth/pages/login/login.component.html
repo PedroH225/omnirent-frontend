@@ -1,40 +1,61 @@
 <p-card styleClass="auth-card">
-    <div class="logo-container">
-        <img src="assets/omni-logo.png" alt="OmniRent" class="logo" />
+  <div class="logo-container">
+    <img src="assets/omni-logo.png" alt="OmniRent" class="logo" />
+  </div>
+
+  <form (ngSubmit)="login()">
+    <div class="login-card">
+      <h2 class="login-title">
+        {{ "auth.login.title" | translate }}
+      </h2>
+
+      <p-floatlabel>
+        <input
+          name="email"
+          id="email"
+          type="text"
+          pInputText
+          [(ngModel)]="email"
+        />
+        <label for="email">
+          {{ "auth.login.fields.email" | translate }}
+        </label>
+      </p-floatlabel>
+
+      <p-floatlabel>
+        <p-password
+          name="password"
+          id="password"
+          [feedback]="false"
+          [(ngModel)]="password"
+          [toggleMask]="true"
+        />
+        <label for="password">
+          {{ "auth.login.fields.password" | translate }}
+        </label>
+      </p-floatlabel>
+
+      @if (errorMessage) {
+        <p-message severity="error" [text]="errorMessage" />
+      }
+
+      <div class="button-container">
+        <p-button type="submit" [label]="'common.signIn' | translate" />
+      </div>
+
+      <div class="social-login">
+        <button type="button" class="social-button">
+          <i class="pi pi-github"></i>
+        </button>
+
+        <button type="button" class="social-button">
+          <i class="pi pi-google"></i>
+        </button>
+      </div>
     </div>
-    <form (ngSubmit)="login()">
-        <div class="login-card">
-            <h2 class="login-title">Sign in</h2>
-            <p-floatlabel>
-                <input name="email" id="email" type="text" pInputText [(ngModel)]="email" />
-                <label for="email">Email</label>
-            </p-floatlabel>
-
-            <p-floatlabel>
-                <p-password name="pasword" id="password" [feedback]="false" [(ngModel)]="password" [toggleMask]="true">
-                </p-password>
-                <label for="password">Password</label>
-            </p-floatlabel>
-
-            @if (errorMessage) {
-            <p-message severity="error" [text]="errorMessage"></p-message>
-            }
-
-            <div class="button-container">
-                <p-button type="submit" label="Sign in" />
-            </div>
-            <div class="social-login">
-                <button type="button" class="social-button">
-                    <i class="pi pi-github"></i>
-                </button>
-
-                <button type="button" class="social-button">
-                    <i class="pi pi-google"></i>
-                </button>
-            </div>
-        </div>
-    </form>
+  </form>
 </p-card>
+
 <a routerLink="/auth/register" class="register-link">
-    Don't have an account? Sign up
+  {{ "auth.login.registerPrompt" | translate }}
 </a>

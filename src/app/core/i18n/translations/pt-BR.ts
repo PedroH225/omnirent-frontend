@@ -8,6 +8,7 @@ export const ptBR = {
     cancel: 'Cancelar',
     save: 'Salvar',
     create: 'Criar',
+    signIn: 'Entrar',
 
     messages: {
       success: 'Sucesso',
@@ -103,9 +104,13 @@ export const ptBR = {
   auth: {
     login: {
       title: 'Entrar',
-      email: 'E-mail',
-      password: 'Senha',
       submit: 'Entrar',
+      registerPrompt: "Don't have an account? Sign up",
+
+      fields: {
+        email: 'E-mail',
+        password: 'Senha',
+      },
     },
   },
 

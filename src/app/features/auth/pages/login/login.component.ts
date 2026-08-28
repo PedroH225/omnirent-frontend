@@ -11,6 +11,7 @@ import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { MessageModule } from 'primeng/message';
 import { ApiException } from '../../../../shared/models/api-exception';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
 
 
 const DISPLAYABLE_ERRORS = [
@@ -30,7 +31,8 @@ const DISPLAYABLE_ERRORS = [
     FloatLabelModule,
     MessageModule,
     FormsModule,
-    RouterLink
+    RouterLink,
+    TranslatePipe
   ],
 })
 export class LoginComponent {

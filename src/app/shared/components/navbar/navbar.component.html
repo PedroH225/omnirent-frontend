@@ -1,35 +1,71 @@
-<p-toolbar>
-    <ng-template #start>
-        <div class="logo-container">
-            <a routerLink="/" class="logo-link">
-                <img src="assets/omni-logo-full.png" alt="OmniRent" class="logo logo-full" />
+<header class="navbar">
+  <div class="navbar-logo">
+    <a routerLink="/" class="logo-link">
+      <img
+        src="assets/omni-logo-full.png"
+        alt="OmniRent"
+        class="logo logo-full"
+      />
 
-                <img src="assets/omni-logo.png" alt="OmniRent" class="logo logo-small" />
-            </a>
-        </div>
-    </ng-template>
+      <img src="assets/omni-logo.png" alt="OmniRent" class="logo logo-small" />
+    </a>
+  </div>
 
-    <ng-template #center>
-        <div class="search-container">
-            <p-iconfield iconPosition="left">
-                <p-inputicon styleClass="pi pi-search" />
-                <input type="text" pInputText placeholder="Search..." #searchInput
-                    (keyup.enter)="onSearch(searchInput.value)" />
-            </p-iconfield>
+  @if (mode === "default") {
+    <div class="navbar-search">
+      <div class="search-container">
+        <p-iconfield iconPosition="left">
+          <p-inputicon styleClass="pi pi-search" />
 
-            <p-button icon="pi pi-search" severity="info" rounded (onClick)="onSearch(searchInput.value)" />
-        </div>
-    </ng-template>
+          <input
+            type="text"
+            pInputText
+            [placeholder]="'navbar.search' | translate"
+            #searchInput
+            (keyup.enter)="onSearch(searchInput.value)"
+          />
+        </p-iconfield>
 
-    <ng-template #end>
+        <p-button
+          icon="pi pi-search"
+          severity="info"
+          rounded
+          (onClick)="onSearch(searchInput.value)"
+        />
+      </div>
+    </div>
+  }
 
-        @if (currentUser(); as user) {
-        <p-splitbutton styleClass="user-menu" [label]="user.username" icon="pi pi-user" [model]="items" rounded />
-        }
-        @else {
-        <p-button styleClass="login-button" label="Login" icon="pi pi-user" severity="info" routerLink="/auth/login"
-            rounded />
+  <div class="navbar-actions">
+    <p-button
+      styleClass="theme-button"
+      icon="pi pi-moon"
+      [rounded]="true"
+      [text]="true"
+      (onClick)="toggleTheme()"
+    />
 
-        }
-    </ng-template>
-</p-toolbar>
+    <app-locale-selector />
+
+    @if (mode === "default") {
+      @if (currentUser(); as user) {
+        <p-splitbutton
+          styleClass="user-menu"
+          icon="pi pi-user"
+          [label]="user.username"
+          [model]="items"
+          rounded
+        />
+      } @else {
+        <p-button
+          styleClass="login-button"
+          icon="pi pi-user"
+          [label]="'auth.login.title' | translate"
+          severity="info"
+          routerLink="/auth/login"
+          rounded
+        />
+      }
+    }
+  </div>
+</header>

@@ -2,15 +2,14 @@
 
     <div class="section-header how-header">
         <div>
-            <h2>How it works</h2>
-            <p>Find the equipment you need, choose your dates, and start your rental.</p>
+            <h2>{{ 'home.howItWorks.title' | translate }}</h2>
+
+            <p>{{ 'home.howItWorks.description' | translate }}</p>
         </div>
     </div>
 
     <div class="timeline-container">
-        <p-timeline
-            [value]="events"
-            [layout]="isMobile ? 'vertical' : 'horizontal'"
+        <p-timeline [value]="events" [layout]="isMobile ? 'vertical' : 'horizontal'"
             [align]="isMobile ? 'left' : 'top'">
 
             <ng-template #marker let-event>
@@ -21,8 +20,8 @@
 
             <ng-template #content let-event>
                 <div class="timeline-content">
-                    <h3>{{ event.title }}</h3>
-                    <p>{{ event.description }}</p>
+                    <h3>{{ event.title | translate }}</h3>
+                    <p>{{ event.description | translate }}</p>
                 </div>
             </ng-template>
 

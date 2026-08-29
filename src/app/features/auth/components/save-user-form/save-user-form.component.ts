@@ -1,15 +1,17 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Password } from "primeng/password";
-import { FloatLabel } from "primeng/floatlabel";
-import { Button } from "primeng/button";
-import { DatePicker } from "primeng/datepicker";
+import { Password } from 'primeng/password';
+import { FloatLabel } from 'primeng/floatlabel';
+import { Button } from 'primeng/button';
+import { DatePicker } from 'primeng/datepicker';
 import { UserFormModel } from '@features/auth/models/user-form-model';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { InputTextModule } from 'primeng/inputtext';
 import { FieldError } from '@shared/models/field-error';
-import { FieldErrorComponent } from "@shared/components/field-error/field-error.component";
+import { FieldErrorComponent } from '@shared/components/field-error/field-error.component';
 import { SaveUserFormValidator } from '@features/auth/validators/user-form-validator';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
+import { TranslationService } from '@core/i18n/translation.service';
 
 type UserFormMode = 'create' | 'edit';
 
@@ -23,13 +25,13 @@ type UserFormMode = 'create' | 'edit';
     Button,
     DatePicker,
     InputTextModule,
-    FieldErrorComponent
+    FieldErrorComponent,
+    TranslatePipe,
   ],
   templateUrl: './save-user-form.component.html',
-  styleUrl: './save-user-form.component.scss'
+  styleUrl: './save-user-form.component.scss',
 })
 export class SaveUserFormComponent {
-
   today: Date = new Date();
 
   @Input() mode: UserFormMode = 'create';
@@ -37,15 +39,19 @@ export class SaveUserFormComponent {
 
   @Output() onSave = new EventEmitter<UserFormModel>();
   @Output() formChange = new EventEmitter<UserFormModel>();
+  @Output() validationError = new EventEmitter<void>();
 
   form: UserFormModel = this.createEmptyForm();
 
   localErrors: FieldError[] = [];
 
+  constructor(private translationService: TranslationService) {}
+
   save(): void {
     this.localErrors = SaveUserFormValidator.validate(this.form);
 
     if (this.localErrors.length > 0) {
+      this.validationError.emit();
       return;
     }
 
@@ -53,21 +59,22 @@ export class SaveUserFormComponent {
   }
 
   getFieldError(field: string): string | undefined {
-    return this.localErrors.find(
-      error => error.field === field
-    )?.message
-      ?? this.backendErrors.find(
-        error => error.field === field
-      )?.message;
+    const localError = this.localErrors.find((error) => error.field === field);
+
+    if (localError) {
+      return this.translationService.translate(localError.message);
+    }
+
+    return this.backendErrors.find((error) => error.field === field)?.message;
   }
 
   onFieldChange(field: string): void {
     this.localErrors = this.localErrors.filter(
-      error => error.field !== field
+      (error) => error.field !== field,
     );
 
     this.backendErrors = this.backendErrors.filter(
-      error => error.field !== field
+      (error) => error.field !== field,
     );
 
     this.formChange.emit(this.form);
@@ -80,7 +87,7 @@ export class SaveUserFormComponent {
       email: '',
       birthDate: null,
       password: '',
-      repeatedPassword: ''
+      repeatedPassword: '',
     };
   }
 }

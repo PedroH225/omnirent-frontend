@@ -1,0 +1,24 @@
+<p-select
+  class="locale-select"
+  [options]="locales"
+  [ngModel]="locale()"
+  optionValue="value"
+  appendTo="body"
+  [showClear]="false"
+  (onChange)="setLocale($event.value)"
+>
+  <ng-template #selectedItem let-selected>
+    <span class="locale-selected">
+      <span class="locale-flag">
+        {{ selected?.flag }}
+      </span>
+    </span>
+  </ng-template>
+
+  <ng-template #item let-locale>
+    <span class="locale-option">
+      <span>{{ locale.flag }}</span>
+      <span>{{ locale.label }}</span>
+    </span>
+  </ng-template>
+</p-select>

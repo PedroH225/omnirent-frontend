@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  effect,
+  EventEmitter,
+  Input,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { AddressService } from '@core/address/address.service';
 import { CategoryService } from '@core/categories/category.service';
 import { CategoryResponse } from '@core/categories/model/category.model';
@@ -8,14 +15,14 @@ import { AddressModel } from '@features/address/model/address-model';
 import { ItemImageForm } from '@features/items/model/item-image-form-model';
 import { FieldError } from '@shared/models/field-error';
 import { SelectOption } from '@shared/models/select-option';
-import { AddressCardComponent } from "@features/address/components/address-card/address-card.component";
-import { TabPanel, Tabs, TabList, Tab, TabPanels } from "primeng/tabs";
-import { ItemImagesComponent } from "../item-images/item-images.component";
-import { FieldErrorComponent } from "@shared/components/field-error/field-error.component";
-import { FloatLabel } from "primeng/floatlabel";
-import { Button } from "primeng/button";
-import { InputNumber } from "primeng/inputnumber";
-import { Select } from "primeng/select";
+import { AddressCardComponent } from '@features/address/components/address-card/address-card.component';
+import { TabPanel, Tabs, TabList, Tab, TabPanels } from 'primeng/tabs';
+import { ItemImagesComponent } from '../item-images/item-images.component';
+import { FieldErrorComponent } from '@shared/components/field-error/field-error.component';
+import { FloatLabel } from 'primeng/floatlabel';
+import { Button } from 'primeng/button';
+import { InputNumber } from 'primeng/inputnumber';
+import { Select } from 'primeng/select';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ItemDetailModel } from '@core/item/model/item-detail-model';
@@ -25,18 +32,36 @@ import { ConfirmationService } from 'primeng/api';
 import { ItemFormModel } from '@features/items/model/item-form-model';
 import { SaveItemFormValidator } from '@features/items/validators/item-form-validator';
 import { ItemImagesValidator } from '@features/items/validators/item-image-validator';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
+import { TranslationService } from '@core/i18n/translation.service';
+import { LocaleService } from '@core/i18n/locale.service';
 
 type ItemFormMode = 'create' | 'edit';
 
 @Component({
   selector: 'app-save-item-form',
-  imports: [FormsModule, CommonModule, AddressCardComponent, TabPanel, ItemImagesComponent, FieldErrorComponent,
-    FloatLabel, Tabs, TabList, Tab, Button, InputNumber, Select, TabPanels, InputTextModule, TextareaModule],
-  providers: [
-    ConfirmationService
+  imports: [
+    FormsModule,
+    CommonModule,
+    AddressCardComponent,
+    TabPanel,
+    ItemImagesComponent,
+    FieldErrorComponent,
+    FloatLabel,
+    Tabs,
+    TabList,
+    Tab,
+    Button,
+    InputNumber,
+    Select,
+    TabPanels,
+    InputTextModule,
+    TextareaModule,
+    TranslatePipe,
   ],
+  providers: [ConfirmationService],
   templateUrl: './save-item-form.component.html',
-  styleUrl: './save-item-form.component.scss'
+  styleUrl: './save-item-form.component.scss',
 })
 export class SaveItemFormComponent {
   @Input() mode: ItemFormMode = 'create';
@@ -46,6 +71,9 @@ export class SaveItemFormComponent {
   @Output() save = new EventEmitter<ItemFormModel>();
   @Output() imagesChange = new EventEmitter<ItemImageForm[]>();
   @Output() formChange = new EventEmitter<ItemFormModel>();
+
+  @Output()
+  validationError = new EventEmitter<void>();
 
   form: ItemFormModel = this.createEmptyItem();
 
@@ -62,7 +90,20 @@ export class SaveItemFormComponent {
   localErrors: FieldError[] = [];
 
   constructor(
-    private addressService: AddressService, private categoryService: CategoryService, private itemService: ItemService) { }
+    private addressService: AddressService,
+    private categoryService: CategoryService,
+    private itemService: ItemService,
+    private translationService: TranslationService,
+    private localeService: LocaleService,
+  ) {
+    effect(() => {
+      this.localeService.locale();
+
+      this.getCategories();
+      this.getItemEnums();
+      this.updateSubCategories();
+    });
+  }
 
   ngOnInit(): void {
     this.loadAddresses();
@@ -77,10 +118,8 @@ export class SaveItemFormComponent {
 
     const subCategory = this.item.subCategory;
 
-    const category = this.categories.find(category =>
-      category.value.subCategories.some(
-        sub => sub.id === subCategory.id
-      )
+    const category = this.categories.find((category) =>
+      category.value.subCategories.some((sub) => sub.id === subCategory.id),
     )?.value;
 
     this.form = {
@@ -92,21 +131,22 @@ export class SaveItemFormComponent {
       itemCondition: this.item.itemCondition,
       category,
       subCategory,
-      address: this.item.pickupAddress
+      address: this.item.pickupAddress,
     };
 
     this.updateSubCategories();
   }
 
   onSave(): void {
-
     const formErrors = SaveItemFormValidator.validate(this.form);
     const imageErrors = ItemImagesValidator.validate(this.images);
 
-    this.localErrors = [
-      ...formErrors,
-      ...imageErrors
-    ];
+    this.localErrors = [...formErrors, ...imageErrors];
+
+    if (this.localErrors.length > 0) {
+      this.validationError.emit();
+      return;
+    }
 
     if (this.localErrors.length > 0) {
       return;
@@ -122,62 +162,64 @@ export class SaveItemFormComponent {
   }
 
   getFieldError(field: string): string | undefined {
-    return this.localErrors.find(
-      error => error.field === field
-    )?.message
-      ?? this.backendErrors.find(
-        error => error.field === field
-      )?.message;
+    const localError = this.localErrors.find((error) => error.field === field);
+
+    if (localError) {
+      return this.translationService.translate(localError.message);
+    }
+
+    return this.backendErrors.find((error) => error.field === field)?.message;
   }
 
   onFieldChange(field: string): void {
     this.localErrors = this.localErrors.filter(
-      error => error.field !== field
+      (error) => error.field !== field,
     );
 
     this.backendErrors = this.backendErrors.filter(
-      error => error.field !== field
+      (error) => error.field !== field,
     );
 
     this.formChange.emit(this.form);
   }
 
   private loadAddresses(): void {
-
     this.addressService.getUserAddresses().subscribe({
-      next: addresses => this.addresses = addresses
+      next: (addresses) => (this.addresses = addresses),
     });
-
   }
 
   getItemEnums(): void {
     this.itemService.getItemEnums().subscribe({
       next: (response) => {
-        this.conditions = response.itemConditions.map(condition => ({
-          label: condition.label,
-          value: condition.code
+        this.conditions = response.itemConditions.map((condition) => ({
+          label: this.translationService.translate(
+            `enums.itemCondition.${condition.code.toLowerCase()}`,
+          ),
+          value: condition.code,
         }));
       },
       error: (error) => {
         console.error(error);
-      }
+      },
     });
   }
 
   getCategories(): void {
     this.categoryService.getCategoriesWithSub().subscribe({
       next: (response) => {
-        this.categories = response.map(category => ({
-          label: category.categoryLabel,
-          value: category
+        this.categories = response.map((category) => ({
+          label: this.translationService.translate(
+            `category.${category.name.toLowerCase()}`,
+          ),
+          value: category,
         }));
 
         if (this.mode === 'edit' && this.item) {
           this.initializeCategory();
           this.initializeEditForm();
         }
-
-      }
+      },
     });
   }
 
@@ -186,10 +228,10 @@ export class SaveItemFormComponent {
       return;
     }
 
-    const category = this.categories.find(category =>
+    const category = this.categories.find((category) =>
       category.value.subCategories.some(
-        sub => sub.id === this.form.subCategory!.id
-      )
+        (sub) => sub.id === this.form.subCategory!.id,
+      ),
     );
 
     if (!category) {
@@ -202,31 +244,28 @@ export class SaveItemFormComponent {
 
   private updateSubCategories(): void {
     this.subCategories =
-      this.form.category?.subCategories.map(sub => ({
-        label: sub.subCategoryLabel,
-        value: sub
+      this.form.category?.subCategories.map((sub) => ({
+        label: this.translationService.translate(
+          `subcategory.${sub.name.toLowerCase()}`,
+        ),
+        value: sub,
       })) ?? [];
   }
 
   onImageErrorsChange(errors: FieldError[]): void {
     this.localErrors = [
       ...this.localErrors.filter(
-        error =>
-          error.field !== 'images' &&
-          !error.field.startsWith('images.')
+        (error) =>
+          error.field !== 'images' && !error.field.startsWith('images.'),
       ),
-      ...errors
+      ...errors,
     ];
   }
 
   onCategoryChange(): void {
     this.form.subCategory = undefined;
 
-    this.subCategories =
-      this.form.category?.subCategories.map(sub => ({
-        label: sub.subCategoryLabel,
-        value: sub
-      })) ?? [];
+    this.updateSubCategories();
 
     this.formChange.emit(this.form);
   }
@@ -249,8 +288,6 @@ export class SaveItemFormComponent {
   }
 
   getTabHasError(tab: string): boolean {
-
-
     const fieldsByTab: Record<string, string[]> = {
       details: [
         'name',
@@ -259,22 +296,17 @@ export class SaveItemFormComponent {
         'description',
         'itemCondition',
         'subCategoryId',
-        'basePrice'
+        'basePrice',
       ],
-      images: [
-        'images'
-      ],
-      address: [
-        'addressId'
-      ]
+      images: ['images'],
+      address: ['addressId'],
     };
 
     const fields = fieldsByTab[tab] ?? [];
 
-    return [...this.localErrors, ...this.backendErrors].some(error => {
+    return [...this.localErrors, ...this.backendErrors].some((error) => {
       if (tab === 'images') {
-        return error.field === 'images' ||
-          error.field.startsWith('images.');
+        return error.field === 'images' || error.field.startsWith('images.');
       }
 
       return fields.includes(error.field);
@@ -298,7 +330,6 @@ export class SaveItemFormComponent {
   }
 
   private createEmptyItem(): ItemFormModel {
-
     return {
       name: '',
       model: '',
@@ -307,9 +338,7 @@ export class SaveItemFormComponent {
       basePrice: 0,
       itemCondition: undefined!,
       subCategory: undefined,
-      address: undefined
+      address: undefined,
     };
-
   }
-
 }

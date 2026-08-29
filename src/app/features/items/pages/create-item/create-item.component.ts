@@ -14,119 +14,134 @@ import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { FieldError } from '@shared/models/field-error';
 import { ApiValidationException } from '@shared/models/api-field-exception';
 import { ItemFormModel } from '@features/items/model/item-form-model';
+import { TranslationService } from '@core/i18n/translation.service';
 
 @Component({
-    selector: 'app-create-item',
-    imports: [
-        SaveItemFormComponent,
-        ProgressSpinnerModule
-    ],
-    templateUrl: './create-item.component.html',
-    styleUrl: './create-item.component.scss'
+  selector: 'app-create-item',
+  imports: [SaveItemFormComponent, ProgressSpinnerModule],
+  templateUrl: './create-item.component.html',
+  styleUrl: './create-item.component.scss',
 })
 export class CreateItemComponent {
+  loading = false;
+  loadingMessage = '';
 
-    loading = false;
-    loadingMessage = 'Creating item...';
+  private form?: ItemFormModel;
+  private images: ItemImageForm[] = [];
 
-    private form?: ItemFormModel;
-    private images: ItemImageForm[] = [];
+  backendErrors: FieldError[] = [];
 
-    backendErrors: FieldError[] = [];
+  constructor(
+    private itemService: ItemService,
+    private router: Router,
+    private messageService: MessageService,
+    private translationService: TranslationService,
+  ) {}
 
-    constructor(
-        private itemService: ItemService,
-        private router: Router,
-        private messageService: MessageService
-    ) { }
+  onFormChange(form: ItemFormModel): void {
+    this.form = form;
+  }
 
-    onFormChange(form: ItemFormModel): void {
-        this.form = form;
+  onImagesChange(images: ItemImageForm[]): void {
+    this.images = images;
+  }
+
+  save(): void {
+    if (!this.form || !this.form.subCategory?.id || !this.form.address?.id) {
+      return;
     }
 
-    onImagesChange(images: ItemImageForm[]): void {         
-        this.images = images;
-    }
+    const request: ItemRequestModel = {
+      name: this.form.name,
+      model: this.form.model,
+      brand: this.form.brand,
+      description: this.form.description,
+      basePrice: this.form.basePrice,
+      itemCondition: this.form.itemCondition,
+      subCategoryId: this.form.subCategory.id,
+      addressId: this.form.address.id,
+    };
 
-    save(): void {
-        if (!this.form || !this.form.subCategory?.id || !this.form.address?.id) {
-            return;
+    this.loading = true;
+    this.loadingMessage = this.translationService.translate(
+      'item.messages.create.loading',
+    );
+
+    this.itemService.createItem(request).subscribe({
+      next: (response: ItemCreatedModel) => {
+        if (this.images.length > 0) {
+          this.uploadImages(response.id);
+        } else {
+          this.finishCreation();
         }
-
-        const request: ItemRequestModel = {
-            name: this.form.name,
-            model: this.form.model,
-            brand: this.form.brand,
-            description: this.form.description,
-            basePrice: this.form.basePrice,
-            itemCondition: this.form.itemCondition,
-            subCategoryId: this.form.subCategory.id,
-            addressId: this.form.address.id
-        };
-
-        this.loading = true;
-        this.loadingMessage = 'Creating item...';
-
-        this.itemService.createItem(request).subscribe({
-            next: (response: ItemCreatedModel) => {
-                if (this.images.length > 0) {
-                    this.uploadImages(response.id);
-                } else {
-                    this.finishCreation();
-                }
-            },
-            error: (error: HttpErrorResponse) => {
-                this.loading = false;
-
-                const apiException = error.error as ApiValidationException;
-
-                if (apiException?.errorCode === 'VALIDATION_ERROR') {
-                    this.backendErrors = apiException.fields;
-
-                    this.messageService.add({
-                        severity: 'error',
-                        summary: 'Validation failed',
-                        detail: 'Please review the highlighted fields and try again.'
-                    });
-                }
-
-                console.error(error);
-            }
-        });
-    }
-
-    private uploadImages(itemId: string): void {
-        this.loadingMessage = 'Uploading images...';
-
-        this.itemService.uploadImages(itemId, this.images).subscribe({
-            next: () => {
-                this.finishCreation();
-            },
-            error: (error: HttpErrorResponse) => {
-                console.log("nego");
-                
-                this.messageService.add({
-                    severity: 'warn',
-                    summary: 'Images',
-                    detail: 'The item was created, but the images could not be uploaded.'
-                });
-
-                console.error(error);
-
-                this.finishCreation();
-            }
-        });
-    }
-
-    private finishCreation(): void {
+      },
+      error: (error: HttpErrorResponse) => {
         this.loading = false;
 
+        const apiException = error.error as ApiValidationException;
+
+        if (apiException?.errorCode === 'VALIDATION_ERROR') {
+          this.backendErrors = apiException.fields;
+          this.showValidationError();
+        }
+
+        console.error(error);
+      },
+    });
+  }
+
+  private uploadImages(itemId: string): void {
+    this.loadingMessage = this.translationService.translate(
+      'item.messages.create.uploadingImages',
+    );
+
+    this.itemService.uploadImages(itemId, this.images).subscribe({
+      next: () => {
+        this.finishCreation();
+      },
+      error: (error: HttpErrorResponse) => {
         this.messageService.add({
-            severity: 'success',
-            summary: 'Success',
-            detail: 'Item created successfully.'
+          severity: 'warn',
+          summary: this.translationService.translate(
+            'item.messages.create.images.title',
+          ),
+          detail: this.translationService.translate(
+            'item.messages.create.images.message',
+          ),
         });
 
-        this.router.navigate(['/account/my-items']);
-    }
+        console.error(error);
+
+        this.finishCreation();
+      },
+    });
+  }
+
+  private finishCreation(): void {
+    this.loading = false;
+
+    this.messageService.add({
+      severity: 'success',
+      summary: this.translationService.translate(
+        'item.messages.create.success.title',
+      ),
+      detail: this.translationService.translate(
+        'item.messages.create.success.message',
+      ),
+    });
+
+    this.router.navigate(['/account/my-items']);
+  }
+
+  showValidationError(): void {
+    this.messageService.add({
+      severity: 'error',
+      summary: this.translationService.translate(
+        'item.messages.create.validationFailed.title',
+      ),
+      detail: this.translationService.translate(
+        'item.messages.create.validationFailed.message',
+      ),
+    });
+  }
 }

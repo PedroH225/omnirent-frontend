@@ -1,59 +1,78 @@
-<p-dataview [value]="rentals" [layout]="layout" [rows]="size" [first]="page * size" [totalRecords]="totalElements"
-    [paginator]="true" [lazy]="true" (onPage)="onPageChange($event)">
+<div class="renting-out-page">
+  <ng-container *ngIf="loading; else rentalsContent">
+    <div class="renting-out-loading">
+      <i class="pi pi-spin pi-spinner"></i>
 
-    <ng-template #header>
+      <span>
+        {{ "account.rentals.loading" | translate }}
+      </span>
+    </div>
+  </ng-container>
 
-        <div class="flex justify-between items-center">
+  <ng-template #rentalsContent>
+    <p-dataview
+      [value]="rentals"
+      [layout]="layout"
+      [rows]="size"
+      [first]="page * size"
+      [totalRecords]="totalElements"
+      [paginator]="!loading && totalElements > 0"
+      [lazy]="true"
+      (onPage)="onPageChange($event)"
+    >
+      <ng-template #header>
+        <div class="renting-out-header">
+          <h2>
+            {{ "account.sidebar.rentals.rentingOut" | translate }}
+          </h2>
 
-            <h2 class="text-xl font-semibold">
-                Renting Out
-            </h2>
-
-
-            <p-selectbutton [(ngModel)]="layout" [options]="options" optionValue="value">
-
-                <ng-template #item let-item>
-                    <i class="pi" [ngClass]="{
-                        'pi-th-large': item.value === 'grid',
-                        'pi-list': item.value === 'list'
-                       }">
-                    </i>
-                </ng-template>
-
-            </p-selectbutton>
-
+          <p-selectbutton
+            [(ngModel)]="layout"
+            class="layout-selector"
+            [options]="options"
+            optionValue="value"
+          >
+            <ng-template #item let-item>
+              <i
+                class="pi"
+                [ngClass]="{
+                  'pi-th-large': item.value === 'grid',
+                  'pi-list': item.value === 'list',
+                }"
+              ></i>
+            </ng-template>
+          </p-selectbutton>
         </div>
+      </ng-template>
 
-    </ng-template>
-
-    <ng-template #grid let-items>
-
-        <div class="rentals-grid">
-
-            <div *ngFor="let rental of items">
-
-                <app-rental-card [rental]="rental">
-                </app-rental-card>
-
-            </div>
-
+      <ng-template #grid let-items>
+        <div class="rentals-grid" *ngIf="items.length > 0; else emptyRentals">
+          <app-rental-card *ngFor="let rental of items" [rental]="rental" />
         </div>
+      </ng-template>
 
-    </ng-template>
-
-
-    <ng-template #list let-items>
-
-        <div class="list-container">
-
-                   <app-rental-list-item
-                    *ngFor="let rental of items"
-                    [rental]="rental">
-                </app-rental-list-item>
-
+      <ng-template #list let-items>
+        <div class="list-container" *ngIf="items.length > 0; else emptyRentals">
+          <app-rental-list-item
+            *ngFor="let rental of items"
+            [rental]="rental"
+          />
         </div>
+      </ng-template>
 
-    </ng-template>
+      <ng-template #emptyRentals>
+        <div class="empty-rentals">
+          <i class="pi pi-calendar-clock"></i>
 
+          <h3>
+            {{ "account.rentals.empty.rentingOut.title" | translate }}
+          </h3>
 
-</p-dataview>
+          <p>
+            {{ "account.rentals.empty.rentingOut.message" | translate }}
+          </p>
+        </div>
+      </ng-template>
+    </p-dataview>
+  </ng-template>
+</div>

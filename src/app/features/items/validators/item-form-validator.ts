@@ -4,143 +4,119 @@ import { FormValidationHelper } from '../../../shared/validators/form-validation
 import { ItemFormModel } from '@features/items/model/item-form-model';
 
 export class SaveItemFormValidator {
+  private static readonly PREFIX = 'item.form.validation.';
 
-    static validate(form: ItemFormModel): FieldError[] {
-        const errors: FieldError[] = [];
+  private static buildMessageKey(field: string, rule: string): string {
+    return `${this.PREFIX}${field}.${rule}`;
+  }
 
-        this.validateName(form, errors);
-        this.validateModel(form, errors);
-        this.validateBrand(form, errors);
-        this.validateDescription(form, errors);
-        this.validateBasePrice(form, errors);
-        this.validateItemCondition(form, errors);
-        this.validateSubCategory(form, errors);
-        this.validateAddress(form, errors);
+  static validate(form: ItemFormModel): FieldError[] {
+    const errors: FieldError[] = [];
 
-        return errors;
+    this.validateName(form, errors);
+    this.validateModel(form, errors);
+    this.validateBrand(form, errors);
+    this.validateDescription(form, errors);
+    this.validateBasePrice(form, errors);
+    this.validateItemCondition(form, errors);
+    this.validateSubCategory(form, errors);
+    this.validateAddress(form, errors);
+
+    return errors.map((error) => ({
+      ...error,
+      message: this.buildMessageKey(error.field, error.message),
+    }));
+  }
+
+  private static validateName(form: ItemFormModel, errors: FieldError[]): void {
+    const value = form.name;
+
+    if (!FormValidationHelper.notBlank(errors, 'name', value)) {
+      return;
     }
 
-    private static validateName(
-        form: ItemFormModel,
-        errors: FieldError[]
-    ): void {
-        const value = form.name;
+    FormValidationHelper.minLength(errors, 'name', value, 3);
+    FormValidationHelper.maxLength(errors, 'name', value, 100);
+  }
 
-        if (!FormValidationHelper.notBlank(errors, 'name', value)) {
-            return;
-        }
+  private static validateModel(
+    form: ItemFormModel,
+    errors: FieldError[],
+  ): void {
+    const value = form.model;
 
-        FormValidationHelper.minLength(errors, 'name', value, 3);
-        FormValidationHelper.maxLength(errors, 'name', value, 100);
+    if (!FormValidationHelper.notBlank(errors, 'model', value)) {
+      return;
     }
 
-    private static validateModel(
-        form: ItemFormModel,
-        errors: FieldError[]
-    ): void {
-        const value = form.model;
+    FormValidationHelper.maxLength(errors, 'model', value, 50);
+  }
 
-        if (!FormValidationHelper.notBlank(errors, 'model', value)) {
-            return;
-        }
+  private static validateBrand(
+    form: ItemFormModel,
+    errors: FieldError[],
+  ): void {
+    const value = form.brand;
 
-        FormValidationHelper.maxLength(errors, 'model', value, 50);
+    if (!FormValidationHelper.notBlank(errors, 'brand', value)) {
+      return;
     }
 
-    private static validateBrand(
-        form: ItemFormModel,
-        errors: FieldError[]
-    ): void {
-        const value = form.brand;
+    FormValidationHelper.maxLength(errors, 'brand', value, 50);
+  }
 
-        if (!FormValidationHelper.notBlank(errors, 'brand', value)) {
-            return;
-        }
+  private static validateDescription(
+    form: ItemFormModel,
+    errors: FieldError[],
+  ): void {
+    const value = form.description;
 
-        FormValidationHelper.maxLength(errors, 'brand', value, 50);
+    if (value == null || value === '') {
+      return;
     }
 
-    private static validateDescription(
-        form: ItemFormModel,
-        errors: FieldError[]
-    ): void {
-        const value = form.description;
+    FormValidationHelper.maxLength(errors, 'description', value, 1000);
+  }
 
-        if (value == null || value === '') {
-            return;
-        }
+  private static validateBasePrice(
+    form: ItemFormModel,
+    errors: FieldError[],
+  ): void {
+    const value = form.basePrice;
 
-        FormValidationHelper.maxLength(
-            errors,
-            'description',
-            value,
-            1000
-        );
+    if (!FormValidationHelper.required(errors, 'basePrice', value)) {
+      return;
     }
 
-    private static validateBasePrice(
-        form: ItemFormModel,
-        errors: FieldError[]
-    ): void {
-        const value = form.basePrice;
+    FormValidationHelper.positive(errors, 'basePrice', value);
+  }
 
-        if (!FormValidationHelper.required(
-            errors,
-            'basePrice',
-            value
-        )) {
-            return;
-        }
+  private static validateItemCondition(
+    form: ItemFormModel,
+    errors: FieldError[],
+  ): void {
+    FormValidationHelper.required(errors, 'itemCondition', form.itemCondition);
+  }
 
-        FormValidationHelper.positive(
-            errors,
-            'basePrice',
-            value
-        );
-    }
+  private static validateSubCategory(
+    form: ItemFormModel,
+    errors: FieldError[],
+  ): void {
+    FormValidationHelper.required(errors, 'addressId', form.address?.id);
 
-    private static validateItemCondition(
-        form: ItemFormModel,
-        errors: FieldError[]
-    ): void {
-        FormValidationHelper.required(
-            errors,
-            'itemCondition',
-            form.itemCondition
-        );
-    }
+    FormValidationHelper.notBlank(
+      errors,
+      'subCategoryId',
+      form.subCategory?.id,
+    );
+  }
 
-    private static validateSubCategory(
-        form: ItemFormModel,
-        errors: FieldError[]
-    ): void {
-        FormValidationHelper.required(
-            errors,
-            'addressId',
-            form.address?.id
-        );
-        
-        FormValidationHelper.notBlank(
-            errors,
-            'subCategoryId',
-            form.subCategory?.id
-        );
-    }
+  private static validateAddress(
+    form: ItemFormModel,
+    errors: FieldError[],
+  ): void {
+    FormValidationHelper.required(errors, 'addressId', form.address?.id);
 
-    private static validateAddress(
-        form: ItemFormModel,
-        errors: FieldError[]
-    ): void {
-        FormValidationHelper.required(
-            errors,
-            'addressId',
-            form.address?.id
-        );
-
-        FormValidationHelper.notBlank(
-            errors,
-            'addressId',
-            form.address?.id
-        );
-    }
+    FormValidationHelper.notBlank(errors, 'addressId', form.address?.id);
+  }
 }

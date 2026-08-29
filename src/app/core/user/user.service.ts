@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { LoggedUserModel } from './model/logged-user-model';
 import { Observable } from 'rxjs';
+import { LocaleService } from '@core/i18n/locale.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,12 +16,13 @@ export class UserService {
 
   readonly currentUser = this._currentUser.asReadonly();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private localeService: LocaleService) { }
 
   loadLoggedUserData(): void {
     this.http.get<LoggedUserModel>(`${this.apiUrl}/user/me`).subscribe({
       next: (user) => {
-        this.setCurrentUser(user);
+        this._currentUser.set(user);
+        this.localeService.setLocale(user.locale);
       },
       error: (error) => {
         this.clearCurrentUser();
@@ -31,9 +33,5 @@ export class UserService {
 
   clearCurrentUser() {
     this._currentUser.set(null);
-  }
-
-  setCurrentUser(user: LoggedUserModel) {
-    this._currentUser.set(user);
   }
 }

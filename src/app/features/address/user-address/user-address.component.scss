@@ -1,41 +1,133 @@
+:host {
+  display: block;
+}
+
+.addresses-page {
+  min-height: 500px;
+}
+
 .address-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 
-    padding: 1.25rem 1.5rem;
-    margin-bottom: 1.5rem;
+  gap: 1rem;
+  width: 100%;
+  margin-bottom: 1rem;
 
-    background: var(--p-surface-0);
-    border: 1px solid var(--p-surface-200);
-    border-radius: 1rem;
+  h2 {
+    margin: 0;
 
-    h2 {
-        margin: 0;
-        font-size: 1.25rem;
-        font-weight: 600;
-    }
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
 
-    p {
-        margin: .25rem 0 0;
-        color: var(--p-text-muted-color);
-        font-size: .9rem;
-    }
+  p {
+    margin: 0.35rem 0 0;
+
+    color: var(--p-text-muted-color);
+    font-size: 0.9rem;
+  }
+
+  p-button {
+    align-self: center;
+  }
+}
+
+.addresses-loading,
+.empty-addresses {
+  min-height: 500px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.addresses-loading {
+  gap: 0.75rem;
+
+  color: var(--p-text-muted-color);
+
+  i {
+    font-size: 1.5rem;
+  }
+}
+
+.empty-addresses {
+  padding: 2rem;
+
+  i {
+    margin-bottom: 0.75rem;
+
+    font-size: 2.25rem;
+    color: var(--p-primary-500);
+  }
+
+  h3 {
+    margin: 0;
+
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  p {
+    max-width: 400px;
+    margin: 0.5rem 0 1rem;
+
+    color: var(--p-text-muted-color);
+    line-height: 1.5;
+  }
 }
 
 .addresses-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 320px);
-    gap: 1.5rem;
+  display: grid;
+
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+
+  gap: 1.25rem;
 }
 
+@media (min-width: 1200px) {
+  .addresses-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+
+    gap: 1.5rem;
+  }
+}
 
 @media (max-width: 768px) {
+  :host ::ng-deep .p-dialog {
+    width: calc(100vw - 2rem);
+    max-width: none;
+  }
 
-    .address-header {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 1rem;
+  .addresses-page {
+    min-height: 450px;
+  }
+
+  .addresses-loading,
+  .empty-addresses {
+    min-height: 450px;
+  }
+
+  .address-header {
+    align-items: flex-start;
+
+    p-button {
+      align-self: stretch;
     }
+  }
 
+  .address-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .addresses-grid {
+    grid-template-columns: 1fr;
+
+    gap: 1rem;
+  }
 }

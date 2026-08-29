@@ -1,42 +1,49 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ItemService } from '@core/item/item.service';
 import { ItemFeed } from '@core/item/model/item-feed-model';
-import { ItemFeedCardComponent } from "@shared/components/item-feed-card/item-feed-card.component";
-import { ItemFeedListComponent } from "@shared/components/item-feed-list/item-feed-list.component";
+import { ItemFeedCardComponent } from '@shared/components/item-feed-card/item-feed-card.component';
+import { ItemFeedListComponent } from '@shared/components/item-feed-list/item-feed-list.component';
 import { PageResponse } from '@shared/models/page.response.model';
-import { DataView } from "primeng/dataview";
-import { SelectButton } from "primeng/selectbutton";
-import { Button } from "primeng/button";
+import { DataView } from 'primeng/dataview';
+import { SelectButton } from 'primeng/selectbutton';
+import { Button } from 'primeng/button';
 import { SelectOption } from '@shared/models/select-option';
 import { SubCategoryResponse } from '@core/categories/model/subcategory.model';
 import { EnumOption } from '@shared/models/EnumOption';
 import { CategoryResponse } from '@core/categories/model/category.model';
-import { Select } from "primeng/select";
+import { Select } from 'primeng/select';
 import { CategoryService } from '@core/categories/category.service';
 import { ITEM_FEED_SORTS } from '@shared/models/item-feed-sort';
 import { FeedFilterStateService } from '@core/feed/feed-filter-state.service';
 import { environment } from '../../../../../environments/environment';
 import { ItemFeedCardModel } from '@shared/models/item-card-model';
-import { ItemFeedCardSkeletonComponent } from "@shared/components/item-feed-card-skeleton/item-feed-card-skeleton.component";
-import { delay } from 'rxjs';
-import { ItemFeedListSkeletonComponent } from "@shared/components/item-feed-list-skeleton/item-feed-list-skeleton.component";
+import { ItemFeedCardSkeletonComponent } from '@shared/components/item-feed-card-skeleton/item-feed-card-skeleton.component';
+import { ItemFeedListSkeletonComponent } from '@shared/components/item-feed-list-skeleton/item-feed-list-skeleton.component';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
+import { LocaleService } from '@core/i18n/locale.service';
+import { TranslationService } from '@core/i18n/translation.service';
 
 @Component({
   selector: 'app-item-feed',
   imports: [
-    ItemFeedCardComponent, ItemFeedListComponent, DataView,
-    CommonModule, FormsModule, SelectButton,
+    ItemFeedCardComponent,
+    ItemFeedListComponent,
+    DataView,
+    CommonModule,
+    FormsModule,
+    SelectButton,
     Button,
     Select,
     ItemFeedCardSkeletonComponent,
-    ItemFeedListSkeletonComponent
+    ItemFeedListSkeletonComponent,
+    TranslatePipe,
   ],
   templateUrl: './item-feed.component.html',
-  styleUrl: './item-feed.component.scss'
+  styleUrl: './item-feed.component.scss',
 })
 export class ItemFeedComponent implements OnInit {
   items: ItemFeedCardModel[] = [];
@@ -51,12 +58,12 @@ export class ItemFeedComponent implements OnInit {
   options = [
     {
       label: 'Grid',
-      value: 'grid'
+      value: 'grid',
     },
     {
       label: 'List',
-      value: 'list'
-    }
+      value: 'list',
+    },
   ];
 
   page = 0;
@@ -84,12 +91,21 @@ export class ItemFeedComponent implements OnInit {
     private readonly categoryService: CategoryService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-    private readonly filterState: FeedFilterStateService
-  ) { }
+    private readonly filterState: FeedFilterStateService,
+    private readonly localeService: LocaleService,
+    private readonly translationService: TranslationService,
+  ) {
+    effect(() => {
+      this.localeService.locale();
+
+      this.loadCategories();
+      this.loadItemEnums();
+      this.loadSorts();
+    });
+  }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
-
+    this.route.queryParams.subscribe((params) => {
       this.name = params['name'] || null;
       this.category = params['category'] || null;
       this.subCategory = params['subCategory'] || null;
@@ -104,7 +120,7 @@ export class ItemFeedComponent implements OnInit {
         category: this.category,
         subCategory: this.subCategory,
         condition: this.itemCondition,
-        sort: this.sort
+        sort: this.sort,
       });
 
       this.loadItems();
@@ -122,117 +138,124 @@ export class ItemFeedComponent implements OnInit {
   loadItems(): void {
     this.loading = true;
 
-    this.itemService.getItemFeed(
-      this.name, this.category, this.subCategory,
-      this.itemCondition, this.sort,
-      this.page, this.size)
-//      .pipe(delay(3000))
+    this.itemService
+      .getItemFeed(
+        this.name,
+        this.category,
+        this.subCategory,
+        this.itemCondition,
+        this.sort,
+        this.page,
+        this.size,
+      )
+      //      .pipe(delay(3000))
       .subscribe({
         next: (response: PageResponse<ItemFeed>) => {
-          this.items = response.content.map(item => this.mapItem(item));
+          this.items = response.content.map((item) => this.mapItem(item));
           this.totalElements = response.totalElements;
           this.loading = false;
         },
         error: (error: HttpErrorResponse) => {
           console.error(error);
           this.loading = false;
-        }
+        },
       });
   }
 
   loadCategories(): void {
     this.categoryService.getCategoriesWithSub().subscribe({
       next: (response) => {
-
-        this.categories = response.map(category => ({
-          label: category.categoryLabel,
-          value: category
+        this.categories = response.map((category) => ({
+          label: this.translationService.translate(
+            `category.${category.name.toLowerCase()}`,
+          ),
+          value: category,
         }));
 
-        this.selectedCategory = this.categories
-          .find(option => option.value.name === this.category)
-          ?.value;
+        this.selectedCategory = this.categories.find(
+          (option) => option.value.name === this.category,
+        )?.value;
 
         if (this.selectedCategory) {
+          this.subCategories = this.selectedCategory.subCategories.map(
+            (sub) => ({
+              label: this.translationService.translate(
+                `subcategory.${sub.name.toLowerCase()}`,
+              ),
+              value: sub,
+            }),
+          );
 
-          this.subCategories = this.selectedCategory.subCategories.map(sub => ({
-            label: sub.subCategoryLabel,
-            value: sub
-          }));
-
-          this.selectedSubCategory = this.subCategories
-            .find(option => option.value.name === this.subCategory)
-            ?.value;
+          this.selectedSubCategory = this.subCategories.find(
+            (option) => option.value.name === this.subCategory,
+          )?.value;
         }
-
       },
       error: (error) => {
         console.error(error);
-      }
+      },
     });
   }
 
   loadItemEnums(): void {
     this.itemService.getItemEnums().subscribe({
       next: (response) => {
-
-        this.itemConditions = response.itemConditions.map(condition => ({
-          label: condition.label,
-          value: condition
+        this.itemConditions = response.itemConditions.map((condition) => ({
+          label: this.translationService.translate(
+            `enums.itemCondition.${condition.code.toLowerCase()}`,
+          ),
+          value: condition,
         }));
 
-        this.selectedCondition = this.itemConditions
-          .find(option => option.value.code === this.itemCondition)
-          ?.value;
-
+        this.selectedCondition = this.itemConditions.find(
+          (option) => option.value.code === this.itemCondition,
+        )?.value;
       },
       error: (error) => {
         console.error(error);
-      }
+      },
     });
   }
 
   loadSorts(): void {
-    this.sorts = ITEM_FEED_SORTS.map(sort => ({
-      label: sort.label,
-      value: sort.code
+    this.sorts = ITEM_FEED_SORTS.map((sort) => ({
+      label: this.translationService.translate(
+        `catalog.sort.${sort.code.toLowerCase()}`,
+      ),
+      value: sort.code,
     }));
 
-    this.selectedSort = this.sorts
-      .find(option => option.value === this.sort)
-      ?.value;
+    this.selectedSort = this.sorts.find(
+      (option) => option.value === this.sort,
+    )?.value;
   }
 
   onCategoryChange(): void {
     this.selectedSubCategory = undefined;
-    this.subCategories = this.selectedCategory?.subCategories.map(sub => ({
-      label: sub.subCategoryLabel,
-      value: sub
-    })) ?? [];
 
-    this.filterState.setCategory(
-      this.selectedCategory?.name ?? null
-    );
+    this.subCategories =
+      this.selectedCategory?.subCategories.map((sub) => ({
+        label: this.translationService.translate(
+          `subcategory.${sub.name.toLowerCase()}`,
+        ),
+        value: sub,
+      })) ?? [];
+
+    this.filterState.setCategory(this.selectedCategory?.name ?? null);
 
     this.filterState.setSubCategory(null);
   }
-
+  
   onSubCategoryChange(): void {
-    this.filterState.setSubCategory(
-      this.selectedSubCategory?.name ?? null
-    );
+    this.filterState.setSubCategory(this.selectedSubCategory?.name ?? null);
   }
 
   onConditionChange(): void {
-    this.filterState.setCondition(
-      this.selectedCondition?.code ?? null
-    );
+    this.filterState.setCondition(this.selectedCondition?.code ?? null);
   }
 
   onSortChange(): void {
-    this.filterState.setSort(
-      this.selectedSort ?? null
-    );
+    this.filterState.setSort(this.selectedSort ?? null);
   }
 
   applyFilters(): void {
@@ -281,13 +304,14 @@ export class ItemFeedComponent implements OnInit {
     return {
       id: item.id,
       name: item.name,
+      condition: item.itemCondition,
       conditionLabel: item.itemConditionLabel,
       price: {
-        dailyPrice: item.price.dailyPrice
+        dailyPrice: item.price.dailyPrice,
       },
       imageUrl: item.thumbnailStorageKey
         ? `${this.storageUrl}/${item.thumbnailStorageKey}`
-        : undefined
+        : undefined,
     };
   }
 
@@ -299,9 +323,9 @@ export class ItemFeedComponent implements OnInit {
       relativeTo: this.route,
       queryParams: {
         page,
-        size
+        size,
       },
-      queryParamsHandling: 'merge'
+      queryParamsHandling: 'merge',
     });
   }
 }

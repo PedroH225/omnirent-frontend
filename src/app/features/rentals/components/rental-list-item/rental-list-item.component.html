@@ -1,61 +1,46 @@
 <div class="list-item">
+  <img
+    class="list-image"
+    [src]="rental.itemSnapshotDto.thumbnailKey || 'assets/placeholder-img.png'"
+    [alt]="rental.itemSnapshotDto.name"
+  />
 
-    <img
-        class="list-image"
-        [src]="rental.itemSnapshotDto.thumbnailKey || 'assets/placeholder-img.png'"
-        [alt]="rental.itemSnapshotDto.name">
+  <div class="list-content">
+    <h3>
+      {{ rental.itemSnapshotDto.name }}
+    </h3>
 
+    <div class="details">
+      <span>
+        {{
+          "enums.rentalPeriod." + rental.rentalPeriod.toLowerCase() | translate
+        }}
+      </span>
 
-    <div class="list-content">
-
-        <h3>
-            {{ rental.itemSnapshotDto.name }}
-        </h3>
-
-
-        <div class="details">
-
-            <span>
-                {{ rental.rentalPeriodLabel }}
-            </span>
-
-
-            <span
-                class="status"
-                [ngClass]="rental.rentalStatus.toLowerCase()">
-                {{ rental.rentalStatusLabel }}
-            </span>
-
-        </div>
-
-
-        @if (rental.startDate && rental.endDate) {
-
-            <div class="dates">
-                {{ rental.startDate | date:'dd/MM/yyyy' }}
-                -
-                {{ rental.endDate | date:'dd/MM/yyyy' }}
-            </div>
-
-        }
-
+      <span class="status" [ngClass]="rental.rentalStatus.toLowerCase()">
+        {{
+          "enums.rentalStatus." + rental.rentalStatus.toLowerCase() | translate
+        }}
+      </span>
     </div>
 
+    @if (rental.startDate && rental.endDate) {
+      <div class="dates">
+        {{ rental.startDate | date: "dd/MM/yyyy" }}
+        -
+        {{ rental.endDate | date: "dd/MM/yyyy" }}
+      </div>
+    }
+  </div>
 
-    <div class="list-actions">
+  <div class="list-actions">
+    <span class="price"> R$ {{ rental.finalPrice | number: "1.2-2" }} </span>
 
-        <span class="price">
-            R$ {{ rental.finalPrice | number:'1.2-2' }}
-        </span>
-
-
-        <p-button
-    label="Details"
-    icon="pi pi-info-circle"
-    [text]="true"
-    [routerLink]="['/rentals', rental.id]">
-</p-button>
-
-    </div>
-
+    <p-button
+      [label]="'common.detail' | translate"
+      icon="pi pi-info-circle"
+      [text]="true"
+      [routerLink]="['/rentals', rental.id]"
+    />
+  </div>
 </div>

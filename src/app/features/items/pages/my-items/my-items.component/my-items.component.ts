@@ -7,17 +7,27 @@ import { FormsModule } from '@angular/forms';
 import { DataViewModule, DataViewPageEvent } from 'primeng/dataview';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { CommonModule } from '@angular/common';
-import { ItemManagementListComponent } from "@features/items/components/item-management-list/item-management-list.component";
-import { ItemManagementCardComponent } from "@features/items/components/item-management-card/item-management-card.component";
+import { ItemManagementListComponent } from '@features/items/components/item-management-list/item-management-list.component';
+import { ItemManagementCardComponent } from '@features/items/components/item-management-card/item-management-card.component';
 import { PageResponse } from '@shared/models/page.response.model';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
 
 @Component({
   selector: 'app-my-items.component',
-  imports: [CommonModule, SelectButtonModule, DataViewModule, FormsModule, ItemManagementListComponent, ItemManagementCardComponent],
+  imports: [
+    CommonModule,
+    SelectButtonModule,
+    DataViewModule,
+    FormsModule,
+    ItemManagementListComponent,
+    ItemManagementCardComponent,
+    TranslatePipe,
+  ],
   templateUrl: './my-items.component.html',
-  styleUrl: './my-items.component.scss'
+  styleUrl: './my-items.component.scss',
 })
 export class MyItemsComponent {
+  loading = true;
   page!: number;
   size!: number;
   totalElements!: number;
@@ -26,32 +36,35 @@ export class MyItemsComponent {
 
   options = [
     { label: 'Grid', value: 'grid' },
-    { label: 'List', value: 'list' }
+    { label: 'List', value: 'list' },
   ];
 
   storageUrl = environment.storageUrl;
 
   items: ItemDisplay[] = [];
 
-  constructor(private itemService: ItemService, private route: ActivatedRoute, private router: Router) { }
+  constructor(
+    private itemService: ItemService,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       if (params['page'] == null || params['size'] == null) {
         this.router.navigate([], {
           relativeTo: this.route,
           queryParams: {
             page: 0,
-            size: 20
+            size: 20,
           },
-          replaceUrl: true
+          replaceUrl: true,
         });
         return;
       }
 
       this.page = Number(params['page'] ?? 0);
       this.size = Number(params['size'] ?? 20);
-
 
       this.getUserItems(this.page, this.size);
     });
@@ -64,27 +77,33 @@ export class MyItemsComponent {
       relativeTo: this.route,
       queryParams: {
         page,
-        size: event.rows
+        size: event.rows,
       },
-      queryParamsHandling: 'merge'
+      queryParamsHandling: 'merge',
     });
-
   }
 
   getUserItems(page: number, size: number): void {
+    this.loading = true;
+
     this.itemService.getUserItems(page, size).subscribe({
       next: (response: PageResponse<ItemDisplay>) => {
         this.totalElements = response.totalElements;
-        this.items = response.content.map(item => ({
+
+        this.items = response.content.map((item) => ({
           ...item,
           thumbnailKey: item.thumbnailKey
             ? `${this.storageUrl}/${item.thumbnailKey}`
-            : null
+            : null,
         }));
+
+        this.loading = false;
       },
+
       error: (error) => {
-        console.log(error);
-      }
+        console.error(error);
+        this.loading = false;
+      },
     });
   }
 }

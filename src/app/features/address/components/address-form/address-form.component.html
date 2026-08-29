@@ -1,72 +1,98 @@
 <div class="address-form">
-
-    <div class="form-grid">
-
-        <div class="field">
-            <label>Street</label>
-            <input pInputText [(ngModel)]="form.street" (input)="onFieldChange('street')">
-            <app-field-error [message]="getFieldError('street')" />
-        </div>
-
-        <div class="field">
-            <label>Number</label>
-            <input pInputText [(ngModel)]="form.number" (input)="onFieldChange('number')">
-            <app-field-error [message]="getFieldError('number')" />
-
-        </div>
-
-        <div class="field">
-            <label>Complement</label>
-            <input pInputText [(ngModel)]="form.complement" (input)="onFieldChange('complement')">
-            <app-field-error [message]="getFieldError('complement')" />
-
-        </div>
-
-        <div class="field">
-            <label>District</label>
-            <input pInputText [(ngModel)]="form.district" (input)="onFieldChange('district')">
-            <app-field-error [message]="getFieldError('district')" />
-
-        </div>
-
-        <div class="field">
-            <label>City</label>
-            <input pInputText [(ngModel)]="form.city" (input)="onFieldChange('city')">
-            <app-field-error [message]="getFieldError('city')" />
-
-        </div>
-
-        <div class="field">
-            <label>State</label>
-            <input pInputText [(ngModel)]="form.state" (input)="onFieldChange('state')">
-            <app-field-error [message]="getFieldError('state')" />
-
-        </div>
-
-        <div class="field">
-            <label>Country</label>
-            <input pInputText [(ngModel)]="form.country" (input)="onFieldChange('country')">
-            <app-field-error [message]="getFieldError('country')" />
-
-        </div>
-
-        <div class="field">
-            <label>ZIP Code</label>
-            <input pInputText [(ngModel)]="form.zipCode" (input)="onFieldChange('zipCode')">
-            <app-field-error [message]="getFieldError('zipCode')" />
-
-        </div>
+  <div class="form-grid">
+    <div class="field">
+      <label>{{ "account.addresses.form.street" | translate }}</label>
+      <input
+        pInputText
+        [(ngModel)]="form.street"
+        (input)="onFieldChange('street')"
+      />
+      <app-field-error [message]="getFieldError('street')" />
     </div>
 
-    <div class="actions">
-
-        <p-button label="Cancel" severity="secondary" [outlined]="true" (click)="onCancel()">
-        </p-button>
-
-
-        <p-button label="Save" icon="pi pi-check" (click)="onSave()">
-        </p-button>
-
+    <div class="field">
+      <label>{{ "account.addresses.form.number" | translate }}</label>
+      <input
+        pInputText
+        [(ngModel)]="form.number"
+        (input)="onFieldChange('number')"
+      />
+      <app-field-error [message]="getFieldError('number')" />
     </div>
 
+    <div class="field">
+      <label>{{ "account.addresses.form.complement" | translate }}</label>
+      <input
+        pInputText
+        [(ngModel)]="form.complement"
+        (input)="onFieldChange('complement')"
+      />
+      <app-field-error [message]="getFieldError('complement')" />
+    </div>
+
+    <div class="field">
+      <label>{{ "account.addresses.form.district" | translate }}</label>
+      <input
+        pInputText
+        [(ngModel)]="form.district"
+        (input)="onFieldChange('district')"
+      />
+      <app-field-error [message]="getFieldError('district')" />
+    </div>
+
+    <div class="field">
+      <label>{{ "account.addresses.form.city" | translate }}</label>
+      <input
+        pInputText
+        [(ngModel)]="form.city"
+        (input)="onFieldChange('city')"
+      />
+      <app-field-error [message]="getFieldError('city')" />
+    </div>
+
+    <div class="field">
+      <label>{{ "account.addresses.form.state" | translate }}</label>
+      <input
+        pInputText
+        [(ngModel)]="form.state"
+        (input)="onFieldChange('state')"
+      />
+      <app-field-error [message]="getFieldError('state')" />
+    </div>
+
+    <div class="field">
+      <label>{{ "account.addresses.form.country" | translate }}</label>
+      <input
+        pInputText
+        [(ngModel)]="form.country"
+        (input)="onFieldChange('country')"
+      />
+      <app-field-error [message]="getFieldError('country')" />
+    </div>
+
+    <div class="field">
+      <label>{{ "account.addresses.form.zipCode" | translate }}</label>
+      <input
+        pInputText
+        [(ngModel)]="form.zipCode"
+        (input)="onFieldChange('zipCode')"
+      />
+      <app-field-error [message]="getFieldError('zipCode')" />
+    </div>
+  </div>
+
+  <div class="actions">
+    <p-button
+      [label]="'common.cancel' | translate"
+      severity="secondary"
+      [outlined]="true"
+      (click)="onCancel()"
+    />
+
+    <p-button
+      [label]="'common.save' | translate"
+      icon="pi pi-check"
+      (click)="onSave()"
+    />
+  </div>
 </div>

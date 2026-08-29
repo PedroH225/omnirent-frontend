@@ -1,37 +1,82 @@
-<div class="address-header">
+<div class="addresses-page">
+  <ng-container *ngIf="loading">
+    <div class="addresses-loading">
+      <i class="pi pi-spin pi-spinner"></i>
 
-    <div>
+      <span>
+        {{ "account.addresses.loading" | translate }}
+      </span>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!loading">
+    <div class="address-header">
+      <div>
         <h2>
-            My Addresses
+          {{ "account.addresses.title" | translate }}
         </h2>
 
         <p>
-            Manage your saved addresses
+          {{ "account.addresses.description" | translate }}
         </p>
+      </div>
+
+      <p-button
+        [label]="'account.addresses.add' | translate"
+        icon="pi pi-plus"
+        (click)="openCreate()"
+      />
     </div>
 
-    <p-button label="Add Address" icon="pi pi-plus" (click)="openCreate()">
-    </p-button>
+    <p-toast></p-toast>
 
-</div>
+    <p-confirmdialog></p-confirmdialog>
 
-<p-toast></p-toast>
+    <p-dialog
+      [(visible)]="displayForm"
+      [header]="'account.addresses.dialog.title' | translate"
+      [modal]="true"
+      (onHide)="onCancel()"
+    >
+      <app-address-form
+        [address]="selectedAddress"
+        [backendErrors]="backendErrors"
+        (save)="saveAddress($event)"
+        (cancel)="onCancel()"
+        (fieldChange)="clearBackendError($event)"
+      />
+    </p-dialog>
 
-<p-confirmdialog></p-confirmdialog>
-<p-dialog [(visible)]="displayForm" header="Address" [modal]="true" (onHide)="onCancel()">
+    <ng-container *ngIf="addresses.length > 0; else emptyAddresses">
+      <div class="addresses-grid">
+        <app-address-card
+          *ngFor="let address of addresses"
+          [address]="address"
+          (delete)="deleteAddress($event)"
+          (edit)="openEdit($event)"
+        />
+      </div>
+    </ng-container>
 
-    <app-address-form 
-    [address]="selectedAddress" [backendErrors]="backendErrors" 
-    (save)="saveAddress($event)" (cancel)="onCancel()"
-    (fieldChange)="clearBackendError($event)" >
-    </app-address-form>
+    <ng-template #emptyAddresses>
+      <div class="empty-addresses">
+        <i class="pi pi-map-marker"></i>
 
-</p-dialog>
+        <h3>
+          {{ "account.addresses.empty.title" | translate }}
+        </h3>
 
-<div class="addresses-grid">
+        <p>
+          {{ "account.addresses.empty.message" | translate }}
+        </p>
 
-    <app-address-card *ngFor="let address of addresses" [address]="address" 
-    (delete)="deleteAddress($event)"
-    (edit)="openEdit($event)"></app-address-card>
-
+        <p-button
+          [label]="'account.addresses.add' | translate"
+          icon="pi pi-plus"
+          [outlined]="true"
+          (click)="openCreate()"
+        />
+      </div>
+    </ng-template>
+  </ng-container>
 </div>

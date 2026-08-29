@@ -19,17 +19,19 @@
         </h3>
 
         <span class="feed-list-condition">
-            {{ item.conditionLabel }}
+            {{ "enums.itemCondition." + item.condition.toLowerCase() | translate }}
         </span>
 
         <div class="feed-list-details">
 
             <strong class="feed-list-price">
-                {{ item.price.dailyPrice | currency:'BRL':'symbol':'1.2-2' }}/day
+                {{ item.price.dailyPrice | currency:'BRL':'symbol':'1.2-2' }}/{{
+          "item.day" | translate
+        }}
             </strong>
 
             <p-button
-                label="View"
+                [label]="'common.view' | translate"
                 size="small"
                 (onClick)="onView()"
             />

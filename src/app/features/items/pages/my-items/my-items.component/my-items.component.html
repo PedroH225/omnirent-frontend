@@ -1,63 +1,74 @@
-<p-dataview [value]="items" [layout]="layout" [rows]="size" [first]="page * size" [totalRecords]="totalElements"
-    [paginator]="true" [lazy]="true" (onPage)="onPageChange($event)">
+<div class="listings-page">
+  <ng-container *ngIf="loading">
+    <div class="listings-loading">
+      <i class="pi pi-spin pi-spinner"></i>
 
+      <span>
+        {{ "account.listings.loading" | translate }}
+      </span>
+    </div>
+  </ng-container>
+
+  <p-dataview
+    *ngIf="!loading"
+    [value]="items"
+    [layout]="layout"
+    [rows]="size"
+    [first]="page * size"
+    [totalRecords]="totalElements"
+    [paginator]="totalElements > 0"
+    [lazy]="true"
+    (onPage)="onPageChange($event)"
+  >
     <ng-template #header>
+      <div class="listings-header">
+        <h2>
+          {{ "account.sidebar.listings.myListings" | translate }}
+        </h2>
 
-        <div class="flex justify-between items-center">
-
-            <h2 class="text-xl font-semibold">
-                My Listings
-            </h2>
-
-            <p-selectbutton
-                [(ngModel)]="layout"
-                [options]="options"
-                optionValue="value">
-
-                <ng-template #item let-item>
-
-                    <i
-                        class="pi"
-                        [ngClass]="{
-                            'pi-th-large': item.value === 'grid',
-                            'pi-list': item.value === 'list'
-                        }">
-                    </i>
-
-                </ng-template>
-
-            </p-selectbutton>
-
-        </div>
-
+        <p-selectbutton
+          [(ngModel)]="layout"
+          class="layout-selector"
+          [options]="options"
+          optionValue="value"
+        >
+          <ng-template #item let-item>
+            <i
+              class="pi"
+              [ngClass]="{
+                'pi-th-large': item.value === 'grid',
+                'pi-list': item.value === 'list',
+              }"
+            ></i>
+          </ng-template>
+        </p-selectbutton>
+      </div>
     </ng-template>
-
 
     <ng-template #grid let-items>
-
-        <div class="items-grid">
-
-            <app-item-management-card
-                *ngFor="let item of items"
-                [item]="item">
-            </app-item-management-card>
-
-        </div>
-
+      <div class="items-grid" *ngIf="items.length > 0; else emptyItems">
+        <app-item-management-card *ngFor="let item of items" [item]="item" />
+      </div>
     </ng-template>
-
 
     <ng-template #list let-items>
-
-        <div class="list-container">
-
-            <app-item-management-list
-                *ngFor="let item of items"
-                [item]="item">
-            </app-item-management-list>
-
-        </div>
-
+      <div class="list-container" *ngIf="items.length > 0; else emptyItems">
+        <app-item-management-list *ngFor="let item of items" [item]="item" />
+      </div>
     </ng-template>
 
-</p-dataview>
+    <ng-template #emptyItems>
+      <div class="empty-listings">
+        <i class="pi pi-box"></i>
+
+        <h3>
+          {{ "account.listings.empty.title" | translate }}
+        </h3>
+
+        <p>
+          {{ "account.listings.empty.message" | translate }}
+        </p>
+      </div>
+    </ng-template>
+  </p-dataview>
+</div>

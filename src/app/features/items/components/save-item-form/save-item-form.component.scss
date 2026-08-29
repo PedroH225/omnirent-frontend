@@ -1,185 +1,187 @@
 .item-form {
-    width: 100%;
-    margin: 0;
+  width: 100%;
+  margin: 0;
 }
 
 :host {
-    display: block;
+  display: block;
 }
 
 :host ::ng-deep {
-    .p-tabs {
-        border: 1px solid var(--p-surface-200);
-        border-radius: 1rem;
-        overflow: hidden;
-        background: var(--p-surface-0);
-    }
+  .p-tabs {
+    border: 1px solid var(--p-surface-200);
+    border-radius: 1rem;
+    overflow: hidden;
+    background: var(--p-surface-0);
+  }
 
-    .p-tablist {
-        background: var(--p-surface-50);
-        border-bottom: 1px solid var(--p-surface-200);
-        padding: 0 .5rem;
-    }
+  .p-tablist {
+    border-bottom: 1px solid var(--p-surface-0);
+    padding: 0 0.5rem;
+  }
 
-    .p-tab {
-        padding: 1rem 1.25rem;
-        font-weight: 500;
-    }
+  .p-tab {
+    background: var(--p-surface-0);
 
-    .p-tabpanels {
-        background: var(--p-surface-0);
-        padding: 2rem;
-    }
+    padding: 1rem 1.25rem;
+    font-weight: 500;
+  }
 
-    .p-inputtext,
-    .p-inputnumber,
-    .p-inputnumber-input,
-    .p-select,
-    .p-textarea {
-        width: 100%;
-    }
+  .p-tabpanels {
+    padding: 2rem;
+  }
 
-    textarea.p-textarea {
-        resize: none;
-    }
+  .p-inputtext,
+  .p-inputnumber,
+  .p-inputnumber-input,
+  .p-select,
+  .p-textarea {
+    width: 100%;
+  }
+
+  textarea.p-textarea {
+    resize: none;
+  }
 }
 
 .form-container {
-    width: 100%;
-    border: 1px solid var(--p-surface-200);
-    border-radius: 1rem;
-    background: var(--p-surface-100);
-    overflow: hidden;
+  width: 100%;
 }
 
 .form-section {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.5rem;
 }
 
 .field {
-    display: flex;
-    flex-direction: column;
-    gap: .5rem;
-    min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  min-width: 0;
 }
 
 .field-full {
-    grid-column: 1 / -1;
+  grid-column: 1 / -1;
 }
 
 .character-count {
-    margin-top: -.15rem;
-    text-align: right;
-    font-size: .8rem;
-    color: var(--p-text-muted-color);
+  margin-top: -0.15rem;
+  text-align: right;
+  font-size: 0.8rem;
+  color: var(--p-text-muted-color);
 }
 
 .tab-error-icon {
-    color: var(--p-red-500);
-    margin-left: .5rem;
-    font-size: .85rem;
+  color: var(--p-red-500);
+  margin-left: 0.5rem;
+  font-size: 0.85rem;
 }
 
 .price-preview {
-    grid-column: 1 / -1;
+  grid-column: 1 / -1;
 
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
 
-    padding: 1rem;
+  padding: 1rem;
 
-    border: 1px solid var(--p-surface-200);
-    border-radius: .75rem;
-    background: var(--p-surface-50);
+  background: var(--p-surface-100);
+  border: 1px solid var(--p-surface-200);
+  border-radius: 0.75rem;
 }
 
 .price-card {
-    display: flex;
-    flex-direction: column;
-    gap: .25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.75rem 1rem;
 
-    padding: .75rem 1rem;
+  span {
+    font-size: 0.8rem;
+    color: var(--p-text-muted-color);
+  }
 
-    border-radius: .5rem;
-
-
-    span {
-        font-size: .8rem;
-        color: var(--p-text-muted-color);
-    }
-
-    strong {
-        font-size: 1.05rem;
-        color: var(--p-text-color);
-    }
+  strong {
+    font-size: 1.05rem;
+    color: var(--p-text-color);
+  }
 }
 
 .addresses-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
 }
 
 .form-actions {
-    display: flex;
-    justify-content: flex-start;
-    padding: 1.25rem 2rem;
-    background: var(--p-surface-100);
+  display: flex;
+  justify-content: flex-start;
+  padding: 1.5rem 0 0;
+  margin-top: 1.5rem;
+  border-top: 1px solid var(--p-surface-200);
 }
 
 @media (max-width: 768px) {
-    :host ::ng-deep {
-        .p-tablist {
-            overflow-x: auto;
-            white-space: nowrap;
-        }
-
-        .p-tab {
-            padding: .85rem 1rem;
-        }
-
-        .p-tabpanels {
-            padding: 1.25rem;
-        }
+  :host ::ng-deep {
+    .p-tablist {
+      overflow-x: auto;
+      white-space: nowrap;
     }
 
-    .form-section {
-        grid-template-columns: 1fr;
-        gap: 1.25rem;
+    .p-tab {
+      padding: 0.85rem 1rem;
     }
 
-    .field-full {
-        grid-column: auto;
+    .p-tabpanels {
+      padding: 1.25rem;
     }
+  }
 
-    .price-preview {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+  .form-section {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .field-full {
+    grid-column: auto;
+  }
+
+  .price-preview {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .price-card {
+    min-width: 0;
+    overflow: hidden;
+
+    strong {
+      min-width: 0;
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
+  }
 
-    .actions {
-        margin-top: 1rem;
+  .form-actions {
+    justify-content: stretch;
 
-        p-button {
-            width: 100%;
-        }
+    p-button {
+      width: 100%;
     }
+  }
 }
 
 @media (max-width: 480px) {
-    :host ::ng-deep {
-        .p-tabpanels {
-            padding: 1rem;
-        }
+  :host ::ng-deep {
+    .p-tabpanels {
+      padding: 1rem;
     }
+  }
 
-    .price-preview {
-        grid-template-columns: 1fr;
-    }
-
-    .addresses-grid {
-        grid-template-columns: 1fr;
-    }
+  .addresses-grid {
+    grid-template-columns: 1fr;
+  }
 }

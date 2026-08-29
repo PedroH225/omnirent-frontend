@@ -64,7 +64,7 @@ export class FormValidationHelper {
         errors: FieldError[],
         field: string,
         value: number,
-        message = 'price.invalid'
+        message = 'price_invalid'
     ): boolean {
         if (value <= 0) {
             errors.push({ field, message });

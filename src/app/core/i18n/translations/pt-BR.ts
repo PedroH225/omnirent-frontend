@@ -176,6 +176,9 @@ export const ptBR = {
 
   navbar: {
     search: 'Pesquisar...',
+
+    dashboard: 'Painel',
+    logout: 'Sair',
   },
 
   home: {

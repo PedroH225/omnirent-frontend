@@ -1,4 +1,4 @@
-import { Component, Input, Signal } from '@angular/core';
+import { Component, effect, Input, Signal } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -15,6 +15,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { LocaleSelectorComponent } from '../locale-selector/locale-selector.component';
+import { TranslationService } from '@core/i18n/translation.service';
+import { LocaleService } from '@core/i18n/locale.service';
 
 type NavbarMode = 'default' | 'auth';
 
@@ -39,30 +41,39 @@ type NavbarMode = 'default' | 'auth';
 export class NavbarComponent {
   @Input() mode: NavbarMode = 'default';
 
-  displayLabel: string = 'My Account';
-
   readonly currentUser: Signal<LoggedUserModel | null>;
 
-  items: MenuItem[] = [
-    {
-      label: 'Dashboard',
-      icon: 'pi pi-user',
-      routerLink: '/account',
-    },
-    {
-      label: 'Logout',
-      icon: 'pi pi-sign-out',
-      command: () => this.logout(),
-    },
-  ];
+  items: MenuItem[] = [];
 
   constructor(
     private userService: UserService,
     private authService: AuthService,
     private router: Router,
     private readonly feedFilterState: FeedFilterStateService,
+    private translationService: TranslationService,
+    private localeService: LocaleService,
   ) {
+    effect(() => {
+      this.localeService.locale();
+
+      this.buildMenuItems();
+    });
     this.currentUser = userService.currentUser;
+  }
+
+  private buildMenuItems(): void {
+    this.items = [
+      {
+        label: this.translationService.translate('navbar.dashboard'),
+        icon: 'pi pi-user',
+        routerLink: '/account',
+      },
+      {
+        label: this.translationService.translate('navbar.logout'),
+        icon: 'pi pi-sign-out',
+        command: () => this.logout(),
+      },
+    ];
   }
 
   onSearch(title: string): void {

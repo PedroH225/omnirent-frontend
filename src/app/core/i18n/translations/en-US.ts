@@ -176,6 +176,9 @@ export const enUS = {
 
   navbar: {
     search: 'Search...',
+
+    dashboard: 'Dashboard',
+    logout: 'Logout',
   },
 
   home: {

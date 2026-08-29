@@ -20,9 +20,6 @@
             "outputPath": "dist/omnirent-frontend",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "security": {
-              "autoCsp": true
-            },
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
@@ -38,7 +35,7 @@
               "src/styles.scss",
               "node_modules/primeicons/primeicons.css"
             ],
-            "scripts": []
+            "scripts": ["src/scripts/global-shim.js"]
           },
           "configurations": {
             "production": {

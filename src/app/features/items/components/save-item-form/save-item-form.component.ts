@@ -1,5 +1,6 @@
 import {
   Component,
+  effect,
   EventEmitter,
   Input,
   Output,
@@ -33,6 +34,7 @@ import { SaveItemFormValidator } from '@features/items/validators/item-form-vali
 import { ItemImagesValidator } from '@features/items/validators/item-image-validator';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { TranslationService } from '@core/i18n/translation.service';
+import { LocaleService } from '@core/i18n/locale.service';
 
 type ItemFormMode = 'create' | 'edit';
 
@@ -92,7 +94,16 @@ export class SaveItemFormComponent {
     private categoryService: CategoryService,
     private itemService: ItemService,
     private translationService: TranslationService,
-  ) {}
+    private localeService: LocaleService,
+  ) {
+    effect(() => {
+      this.localeService.locale();
+
+      this.getCategories();
+      this.getItemEnums();
+      this.updateSubCategories();
+    });
+  }
 
   ngOnInit(): void {
     this.loadAddresses();
@@ -182,7 +193,9 @@ export class SaveItemFormComponent {
     this.itemService.getItemEnums().subscribe({
       next: (response) => {
         this.conditions = response.itemConditions.map((condition) => ({
-          label: condition.label,
+          label: this.translationService.translate(
+            `enums.itemCondition.${condition.code.toLowerCase()}`,
+          ),
           value: condition.code,
         }));
       },
@@ -196,7 +209,9 @@ export class SaveItemFormComponent {
     this.categoryService.getCategoriesWithSub().subscribe({
       next: (response) => {
         this.categories = response.map((category) => ({
-          label: category.categoryLabel,
+          label: this.translationService.translate(
+            `category.${category.name.toLowerCase()}`,
+          ),
           value: category,
         }));
 
@@ -230,7 +245,9 @@ export class SaveItemFormComponent {
   private updateSubCategories(): void {
     this.subCategories =
       this.form.category?.subCategories.map((sub) => ({
-        label: sub.subCategoryLabel,
+        label: this.translationService.translate(
+          `subcategory.${sub.name.toLowerCase()}`,
+        ),
         value: sub,
       })) ?? [];
   }
@@ -248,11 +265,7 @@ export class SaveItemFormComponent {
   onCategoryChange(): void {
     this.form.subCategory = undefined;
 
-    this.subCategories =
-      this.form.category?.subCategories.map((sub) => ({
-        label: sub.subCategoryLabel,
-        value: sub,
-      })) ?? [];
+    this.updateSubCategories();
 
     this.formChange.emit(this.form);
   }

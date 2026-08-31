@@ -1,139 +1,165 @@
 <app-catalog-bar></app-catalog-bar>
 
 <div class="hero-gallery">
-    <p-galleria [value]="images" [showThumbnails]="false" [showIndicators]="true" [showIndicatorsOnItem]="true"
-        [circular]="true" [autoPlay]="true">
-        <ng-template #item let-item>
-            <img [src]="item.itemImageSrc" class="hero-image" />
-        </ng-template>
-    </p-galleria>
+  <p-galleria
+    [value]="images"
+    [showThumbnails]="false"
+    [showIndicators]="true"
+    [showIndicatorsOnItem]="true"
+    [circular]="true"
+    [autoPlay]="true"
+  >
+    <ng-template #item let-item>
+      <img [src]="item.itemImageSrc" class="hero-image" />
+    </ng-template>
+  </p-galleria>
 </div>
 
 <section class="category-section">
+  <div class="section-header">
+    <div>
+      <h2>{{ "home.audiovisual.title" | translate }}</h2>
+      <p>{{ "home.audiovisual.description" | translate }}</p>
+    </div>
 
-    <div class="section-header">
-        <div>
-            <h2>{{ 'home.audiovisual.title' | translate }}</h2>
-            <p>{{ 'home.audiovisual.description' | translate }}</p>
+    <a (click)="viewAll('AUDIOVISUAL')">
+      {{ "common.viewAll" | translate }}
+    </a>
+  </div>
 
+  @if (audiovisualLoading) {
+    <p-carousel
+      [value]="[1, 2, 3, 4, 5]"
+      [numVisible]="5"
+      [numScroll]="1"
+      [responsiveOptions]="responsiveOptions"
+      [showIndicators]="false"
+      [prevButtonProps]="{ disabled: true }"
+      [nextButtonProps]="{ disabled: true }"
+    >
+      <ng-template #item>
+        <div class="card-wrapper">
+          <app-item-feed-card-skeleton />
         </div>
-
-        <a (click)="viewAll('AUDIOVISUAL')">
-            {{ 'common.viewAll' | translate }}
-        </a>
-    </div>
-
-    @if (audiovisualLoading) {
-
-    <div class="cards-loading">
-        @for (item of [1, 2, 3, 4, 5]; track item) {
-        <app-item-feed-card-skeleton />
-        }
-    </div>
-
-    } @else if (audiovisualCards.length > 0) {
-
-    <p-carousel [value]="audiovisualCards" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
-        <ng-template #item let-item>
-            <div class="card-wrapper">
-                <app-item-feed-card [item]="item" />
-            </div>
-        </ng-template>
+      </ng-template>
     </p-carousel>
-
-    } @else {
-
+  } @else if (audiovisualCards.length > 0) {
+    <p-carousel
+      [value]="audiovisualCards"
+      [numVisible]="5"
+      [numScroll]="1"
+      [responsiveOptions]="responsiveOptions"
+    >
+      <ng-template #item let-item>
+        <div class="card-wrapper">
+          <app-item-feed-card [item]="item" />
+        </div>
+      </ng-template>
+    </p-carousel>
+  } @else {
     <div class="category-empty">
-        <i class="pi pi-box"></i>
-        <span>{{ 'home.empty' | translate }}</span>
+      <i class="pi pi-box"></i>
+      <span>{{ "home.empty" | translate }}</span>
     </div>
-
-    }
-
+  }
 </section>
 
 <section class="category-section">
+  <div class="section-header">
+    <div>
+      <h2>{{ "home.construction.title" | translate }}</h2>
+      <p>{{ "home.construction.description" | translate }}</p>
+    </div>
 
-    <div class="section-header">
-        <div>
-            <h2>{{ 'home.construction.title' | translate }}</h2>
-            <p>{{ 'home.construction.description' | translate }}</p>
+    <a (click)="viewAll('CONSTRUCTION')">
+      {{ "common.viewAll" | translate }}
+    </a>
+  </div>
+
+  @if (constructionLoading) {
+    <p-carousel
+      [value]="[1, 2, 3, 4, 5]"
+      [numVisible]="5"
+      [numScroll]="1"
+      [responsiveOptions]="responsiveOptions"
+      [showIndicators]="false"
+      [prevButtonProps]="{ disabled: true }"
+      [nextButtonProps]="{ disabled: true }"
+    >
+      <ng-template #item>
+        <div class="card-wrapper">
+          <app-item-feed-card-skeleton />
         </div>
-
-        <a (click)="viewAll('CONSTRUCTION')">
-            {{ 'common.viewAll' | translate }}
-        </a>
-    </div>
-
-    @if (constructionLoading) {
-
-    <div class="cards-loading">
-        @for (item of [1, 2, 3, 4, 5]; track item) {
-        <app-item-feed-card-skeleton />
-        }
-    </div>
-
-    } @else if (constructionCards.length > 0) {
-
-    <p-carousel [value]="constructionCards" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
-        <ng-template #item let-item>
-            <div class="card-wrapper">
-                <app-item-feed-card [item]="item" />
-            </div>
-        </ng-template>
+      </ng-template>
     </p-carousel>
-
-    } @else {
-
+  } @else if (constructionCards.length > 0) {
+    <p-carousel
+      [value]="constructionCards"
+      [numVisible]="5"
+      [numScroll]="1"
+      [responsiveOptions]="responsiveOptions"
+    >
+      <ng-template #item let-item>
+        <div class="card-wrapper">
+          <app-item-feed-card [item]="item" />
+        </div>
+      </ng-template>
+    </p-carousel>
+  } @else {
     <div class="category-empty">
-        <i class="pi pi-box"></i>
-        <span>{{ 'home.empty' | translate }}</span>
+      <i class="pi pi-box"></i>
+      <span>{{ "home.empty" | translate }}</span>
     </div>
-
-    }
-
+  }
 </section>
 
 <section class="category-section">
+  <div class="section-header">
+    <div>
+      <h2>{{ "home.events.title" | translate }}</h2>
+      <p>{{ "home.events.description" | translate }}</p>
+    </div>
 
-    <div class="section-header">
-        <div>
-            <h2>{{ 'home.events.title' | translate }}</h2>
-            <p>{{ 'home.events.description' | translate }}</p>
+    <a (click)="viewAll('EVENTS')">
+      {{ "common.viewAll" | translate }}
+    </a>
+  </div>
+
+  @if (eventsLoading) {
+    <p-carousel
+      [value]="[1, 2, 3, 4, 5]"
+      [numVisible]="5"
+      [numScroll]="1"
+      [responsiveOptions]="responsiveOptions"
+      [showIndicators]="false"
+      [prevButtonProps]="{ disabled: true }"
+      [nextButtonProps]="{ disabled: true }"
+    >
+      <ng-template #item>
+        <div class="card-wrapper">
+          <app-item-feed-card-skeleton />
         </div>
-
-        <a (click)="viewAll('EVENTS')">
-            {{ 'common.viewAll' | translate }}
-        </a>
-    </div>
-
-    @if (eventsLoading) {
-
-    <div class="cards-loading">
-        @for (item of [1, 2, 3, 4, 5]; track item) {
-        <app-item-feed-card-skeleton />
-        }
-    </div>
-
-    } @else if (eventsCards.length > 0) {
-
-    <p-carousel [value]="eventsCards" [numVisible]="5" [numScroll]="1" [responsiveOptions]="responsiveOptions">
-        <ng-template #item let-item>
-            <div class="card-wrapper">
-                <app-item-feed-card [item]="item" />
-            </div>
-        </ng-template>
+      </ng-template>
     </p-carousel>
-
-    } @else {
-
+  } @else if (eventsCards.length > 0) {
+    <p-carousel
+      [value]="eventsCards"
+      [numVisible]="5"
+      [numScroll]="1"
+      [responsiveOptions]="responsiveOptions"
+    >
+      <ng-template #item let-item>
+        <div class="card-wrapper">
+          <app-item-feed-card [item]="item" />
+        </div>
+      </ng-template>
+    </p-carousel>
+  } @else {
     <div class="category-empty">
-        <i class="pi pi-box"></i>
-        <span>{{ 'home.empty' | translate }}</span>
+      <i class="pi pi-box"></i>
+      <span>{{ "home.empty" | translate }}</span>
     </div>
-
-    }
-
+  }
 </section>
 
 <app-time-line></app-time-line>

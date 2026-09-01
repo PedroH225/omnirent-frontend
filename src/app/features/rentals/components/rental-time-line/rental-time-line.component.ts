@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
 
 interface RentalTimelineStage {
   code: string;
@@ -8,52 +9,39 @@ interface RentalTimelineStage {
 
 @Component({
   selector: 'app-rental-timeline',
-  imports: [],
+  imports: [TranslatePipe],
   templateUrl: './rental-time-line.component.html',
-  styleUrl: './rental-time-line.component.scss'
+  styleUrl: './rental-time-line.component.scss',
 })
 export class RentalTimelineComponent {
-
   @Input() rentalStatus!: string;
 
   readonly stages: RentalTimelineStage[] = [
     {
       code: 'RENTAL',
-      label: 'Rental',
-      statuses: [
-        'CREATED',
-        'CONFIRMED'
-      ]
+      label: 'rental.timeline.rental',
+      statuses: ['CREATED', 'CONFIRMED'],
     },
     {
       code: 'PREPARATION',
-      label: 'Preparation',
-      statuses: [
-        'PREPARING',
-        'SHIPPED'
-      ]
+      label: 'rental.timeline.preparation',
+      statuses: ['PREPARING', 'SHIPPED'],
     },
     {
       code: 'IN_USE',
-      label: 'In use',
-      statuses: [
-        'IN_USE'
-      ]
+      label: 'rental.timeline.in_use',
+      statuses: ['IN_USE'],
     },
     {
       code: 'RETURN',
-      label: 'Return',
-      statuses: [
-        'RETURN_REQUESTED',
-        'RETURN_SHIPPED',
-        'RETURNED'
-      ]
-    }
+      label: 'rental.timeline.return',
+      statuses: ['RETURN_REQUESTED', 'RETURN_SHIPPED', 'RETURNED'],
+    },
   ];
 
   get currentStageIndex(): number {
-    return this.stages.findIndex(
-      stage => stage.statuses.includes(this.rentalStatus)
+    return this.stages.findIndex((stage) =>
+      stage.statuses.includes(this.rentalStatus),
     );
   }
 
@@ -69,7 +57,7 @@ export class RentalTimelineComponent {
     if (this.rentalStatus === 'RETURNED') {
       return index <= this.currentStageIndex;
     }
-    
+
     return index < this.currentStageIndex;
   }
 
@@ -85,7 +73,7 @@ export class RentalTimelineComponent {
 
       RETURN_REQUESTED: 77.78,
       RETURN_SHIPPED: 88.89,
-      RETURNED: 100
+      RETURNED: 100,
     };
 
     return progress[this.rentalStatus] ?? 0;

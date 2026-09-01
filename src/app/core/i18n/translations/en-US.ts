@@ -425,6 +425,37 @@ export const enUS = {
     },
   },
 
+  rental: {
+    header: {
+      eyebrow: 'Rental',
+      title: 'Rental',
+    },
+
+    sections: {
+      item: 'Item',
+      rental: 'Rental',
+      location: 'Pickup Address',
+      actions: 'Actions',
+    },
+
+    fields: {
+      period: 'Period',
+      finalPrice: 'Final price',
+      startDate: 'Start date',
+      endDate: 'End date',
+      renter: 'Renter',
+      owner: 'Owner',
+      notDefined: 'Not defined',
+    },
+
+    timeline: {
+      rental: 'Rental',
+      preparation: 'Preparation',
+      in_use: 'In use',
+      return: 'Return',
+    },
+  },
+
   feed: {
     title: 'Explore items',
 

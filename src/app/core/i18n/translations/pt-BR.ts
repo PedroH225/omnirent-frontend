@@ -429,6 +429,37 @@ export const ptBR = {
     },
   },
 
+  rental: {
+    header: {
+      eyebrow: 'Aluguel',
+      title: 'Aluguel',
+    },
+
+    sections: {
+      item: 'Item',
+      rental: 'Aluguel',
+      location: 'Endereço de Retirada',
+      actions: 'Ações',
+    },
+
+    fields: {
+      period: 'Período',
+      finalPrice: 'Preço final',
+      startDate: 'Data de início',
+      endDate: 'Data de término',
+      renter: 'Locatário',
+      owner: 'Proprietário',
+      notDefined: 'Não definido',
+    },
+
+    timeline: {
+      rental: 'Aluguel',
+      preparation: 'Preparação',
+      in_use: 'Em uso',
+      return: 'Devolução',
+    },
+  },
+
   feed: {
     title: 'Explorar itens',
 

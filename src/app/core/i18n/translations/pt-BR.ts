@@ -458,6 +458,57 @@ export const ptBR = {
       in_use: 'Em uso',
       return: 'Devolução',
     },
+
+    actions: {
+      confirm_rental: {
+        payment: {
+          owner: {
+            preparing: {
+              title: 'Preparando aluguel',
+              message: 'Estamos preparando a confirmação do aluguel.',
+            },
+            pending: {
+              title: 'Aguardando pagamento',
+              message:
+                'O locatário precisa concluir o pagamento para confirmar este aluguel.',
+            },
+            expired:
+              'O checkout do pagamento expirou e o aluguel foi cancelado.',
+            error: 'Não foi possível preparar o pagamento do aluguel.',
+          },
+
+          renter: {
+            preparing: {
+              title: 'Preparando pagamento',
+              message:
+                'Estamos preparando o checkout do seu pagamento. Aguarde.',
+            },
+            pending: {
+              continue: 'Continuar para o pagamento',
+              expiresIn: 'O checkout expira em',
+            },
+            expired:
+              'O checkout deste pagamento expirou e o aluguel foi cancelado.',
+            error: 'Não foi possível preparar o pagamento.',
+            tryAgain: 'Tentar novamente',
+          },
+        },
+
+        simulation: {
+          title: 'Pagamento simulado',
+          message: 'Nenhuma cobrança real será realizada.',
+          testCards: 'Cartões de teste',
+          notice:
+            'Este é um ambiente de pagamento simulado. Nunca use dados reais de cartão.',
+          visa: '4242 4242 4242 4242 — Visa',
+          mastercard: '5555 5555 5555 4444 — Mastercard',
+          expiration:
+            'Pode ser usada qualquer data de validade futura e qualquer CVC.',
+        },
+
+        paymentInfo: 'Informações do pagamento',
+      },
+    },
   },
 
   feed: {

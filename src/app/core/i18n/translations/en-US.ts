@@ -454,6 +454,55 @@ export const enUS = {
       in_use: 'In use',
       return: 'Return',
     },
+
+    actions: {
+      confirm_rental: {
+        payment: {
+          owner: {
+            preparing: {
+              title: 'Preparing rental',
+              message: "We're preparing the rental confirmation.",
+            },
+            pending: {
+              title: 'Waiting for payment',
+              message:
+                'The renter needs to complete the payment to confirm this rental.',
+            },
+            expired:
+              'The payment checkout has expired and the rental has been cancelled.',
+            error: "We couldn't prepare the rental payment.",
+          },
+
+          renter: {
+            preparing: {
+              title: 'Preparing payment',
+              message: "We're preparing your payment checkout. Please wait.",
+            },
+            pending: {
+              continue: 'Continue to payment',
+              expiresIn: 'Checkout expires in',
+            },
+            expired:
+              'This payment checkout has expired and the rental has been cancelled.',
+            error: 'Payment could not be prepared.',
+            tryAgain: 'Try again',
+          },
+        },
+
+        simulation: {
+          title: 'Simulated payment',
+          message: 'No real charges will be made.',
+          testCards: 'Test cards',
+          notice:
+            'This is a simulated payment environment. Never use real card information.',
+          visa: '4242 4242 4242 4242 — Visa',
+          mastercard: '5555 5555 5555 4444 — Mastercard',
+          expiration: 'Any future expiration date and CVC can be used.',
+        },
+
+        paymentInfo: 'Payment information',
+      },
+    },
   },
 
   feed: {

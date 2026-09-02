@@ -1,25 +1,26 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { PaymentCheckout } from '@core/payment/model/payment-checkout-model';
 import { PaymentWebSocketService } from '@core/payment/payment-websocket.service';
 import { PaymentService } from '@core/payment/payment.service';
 import { ApiException } from '@shared/models/api-exception';
-import { Button } from "primeng/button";
+import { Button } from 'primeng/button';
 import { PopoverModule } from 'primeng/popover';
 
 @Component({
   selector: 'app-confirm-rental',
-  imports: [Button, PopoverModule],
+  imports: [Button, PopoverModule, TranslatePipe],
   templateUrl: './confirm-rental.component.html',
-  styleUrl: './confirm-rental.component.scss'
+  styleUrl: './confirm-rental.component.scss',
 })
 export class ConfirmRentalComponent {
   protected readonly Math = Math;
 
   @Input() rentalId!: string;
   @Input() isOwner = false;
-  
+
   @Output() paymentExpired = new EventEmitter<string>();
   paymentCheckout: PaymentCheckout | undefined;
 
@@ -29,7 +30,10 @@ export class ConfirmRentalComponent {
 
   private paymentTimer?: ReturnType<typeof setInterval>;
 
-  constructor(private paymentService: PaymentService, private paymentWebSocketService: PaymentWebSocketService) { }
+  constructor(
+    private paymentService: PaymentService,
+    private paymentWebSocketService: PaymentWebSocketService,
+  ) {}
 
   ngOnInit() {
     this.preparePayment();
@@ -43,7 +47,6 @@ export class ConfirmRentalComponent {
   }
 
   goToPayment(): void {
-
     if (!this.paymentCheckout?.checkoutUrl) {
       return;
     }
@@ -52,34 +55,29 @@ export class ConfirmRentalComponent {
   }
 
   preparePayment(): void {
-
     if (!this.rentalId) {
       return;
     }
 
     this.paymentService.findCheckout(this.rentalId).subscribe({
-      next: response => {
+      next: (response) => {
         this.handleCheckout(response);
       },
       error: (error: HttpErrorResponse) => {
-
         const apiException = error.error as ApiException;
 
         if (apiException?.errorCode === 'PAYMENT_NOT_FOUND') {
-
           this.paymentStatus = 'PREPARING_PAYMENT';
 
-          this.paymentWebSocketService.connect(
-            this.rentalId,
-            response => this.handlePaymentEvent(response)
+          this.paymentWebSocketService.connect(this.rentalId, (response) =>
+            this.handlePaymentEvent(response),
           );
 
           return;
         }
 
         this.paymentStatus = 'ERROR';
-      }
-
+      },
     });
   }
 
@@ -92,7 +90,6 @@ export class ConfirmRentalComponent {
 
     this.paymentWebSocketService.disconnect();
   }
-
 
   private handleCheckout(checkout: PaymentCheckout): void {
     this.paymentCheckout = checkout;
@@ -110,10 +107,7 @@ export class ConfirmRentalComponent {
     const expirationTime = createdTime + 30 * 60 * 1000;
 
     const updateTimer = () => {
-      const remaining = Math.max(
-        0,
-        expirationTime - Date.now()
-      );
+      const remaining = Math.max(0, expirationTime - Date.now());
 
       this.remainingSeconds = Math.ceil(remaining / 1000);
 

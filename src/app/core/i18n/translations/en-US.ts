@@ -517,7 +517,7 @@ export const enUS = {
           },
         },
       },
-      
+
       confirm_rental: {
         payment: {
           owner: {
@@ -563,6 +563,28 @@ export const enUS = {
         },
 
         paymentInfo: 'Payment information',
+      },
+
+      prepare_item: {
+        button: 'Start preparing',
+
+        status: {
+          title: 'Preparing your rental',
+          message:
+            'The owner needs to prepare the item before it can be collected.',
+        },
+
+        messages: {
+          success: {
+            title: 'Preparation started',
+            message: 'The rental item is now being prepared.',
+          },
+
+          error: {
+            title: 'Unable to start preparation',
+            default: 'The item could not be prepared.',
+          },
+        },
       },
     },
   },

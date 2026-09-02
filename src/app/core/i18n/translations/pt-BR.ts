@@ -570,6 +570,28 @@ export const ptBR = {
 
         paymentInfo: 'Informações do pagamento',
       },
+
+      prepare_item: {
+        button: 'Iniciar preparação',
+
+        status: {
+          title: 'Preparando seu aluguel',
+          message:
+            'O proprietário precisa preparar o item antes que ele possa ser retirado.',
+        },
+
+        messages: {
+          success: {
+            title: 'Preparação iniciada',
+            message: 'O item do aluguel está sendo preparado.',
+          },
+
+          error: {
+            title: 'Não foi possível iniciar a preparação',
+            default: 'Não foi possível preparar o item.',
+          },
+        },
+      },
     },
   },
 

@@ -614,6 +614,22 @@ export const ptBR = {
           },
         },
       },
+
+      mark_in_use: {
+        delivery: {
+          title: 'Entrega estimada',
+          message: 'Seu item deve chegar por volta das',
+        },
+        button: 'Simular entrega',
+        debugNotice: 'Apenas para depuração — simula o processo de entrega.',
+        messages: {
+          error: {
+            default: 'Não foi possível marcar o aluguel como em uso.',
+            invalidRentalStatus:
+              'O aluguel não pode ser marcado como em uso no status atual.',
+          },
+        },
+      },
     },
   },
 

@@ -608,6 +608,22 @@ export const enUS = {
           },
         },
       },
+
+      mark_in_use: {
+        delivery: {
+          title: 'Estimated delivery',
+          message: 'Your item is expected to arrive around',
+        },
+        button: 'Simulate delivery',
+        debugNotice: 'Debug only — simulates the delivery process.',
+        messages: {
+          error: {
+            default: 'The rental could not be marked as in use.',
+            invalidRentalStatus:
+              'The rental cannot be marked as in use in its current status.',
+          },
+        },
+      },
     },
   },
 

@@ -1,32 +1,34 @@
 @if (getEstimatedDelivery(); as estimatedDelivery) {
-    <div class="delivery-debug">
+  <div class="delivery-debug">
+    <div class="delivery-estimate">
+      <i class="pi pi-truck"></i>
 
-        <div class="delivery-estimate">
-            <i class="pi pi-truck"></i>
+      <div>
+        <strong>
+          {{ "rental.actions.mark_in_use.delivery.title" | translate }}
+        </strong>
 
-            <div>
-                <strong>Estimated delivery</strong>
-                <span>
-                    Your item is expected to arrive around
-                    {{ estimatedDelivery | date:'HH:mm' }}.
-                </span>
-            </div>
-        </div>
-
-        <div class="debug-action">
-            <p-button
-                label="Simulate delivery"
-                icon="pi pi-bolt"
-                severity="secondary"
-                [outlined]="true"
-                size="small"
-                styleClass="debug-delivery-button"
-                (onClick)="simulateDelivery()" />
-
-            <small class="debug-notice">
-                Debug only — simulates the delivery process.
-            </small>
-        </div>
-
+        <span>
+          {{ "rental.actions.mark_in_use.delivery.message" | translate }}
+          {{ estimatedDelivery | date: "HH:mm" }}.
+        </span>
+      </div>
     </div>
+
+    <div class="debug-action">
+      <p-button
+        [label]="'rental.actions.mark_in_use.button' | translate"
+        icon="pi pi-bolt"
+        severity="secondary"
+        [outlined]="true"
+        size="small"
+        styleClass="debug-delivery-button"
+        (onClick)="simulateDelivery()"
+      />
+
+      <small class="debug-notice">
+        {{ "rental.actions.mark_in_use.debugNotice" | translate }}
+      </small>
+    </div>
+  </div>
 }

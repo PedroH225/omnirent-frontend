@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { RentalService } from '@core/rental/rental.service';
 import { RentalDisplayModel } from '@features/rentals/model/rental-display-model';
 import { RentalOperationalModel } from '@features/rentals/model/rental-operational-model ';
@@ -8,7 +9,7 @@ import { Button } from "primeng/button";
 
 @Component({
   selector: 'app-mark-in-use',
-  imports: [CommonModule, Button],
+  imports: [CommonModule, Button, TranslatePipe],
   templateUrl: './mark-in-use.component.html',
   styleUrl: './mark-in-use.component.scss'
 })

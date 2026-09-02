@@ -672,6 +672,28 @@ export const ptBR = {
           },
         },
       },
+
+      mark_returned: {
+        status: {
+          title: 'Devolução a caminho',
+          owner:
+            'O locatário enviou o item de volta. Confirme quando recebê-lo.',
+          renter:
+            'Sua devolução foi enviada. O proprietário confirmará quando o item chegar.',
+          estimatedArrival: 'Chegada estimada:',
+        },
+        button: 'Confirmar recebimento',
+        messages: {
+          success: {
+            title: 'Devolução confirmada',
+            message: 'O item foi marcado como devolvido.',
+          },
+          error: {
+            title: 'Falha na confirmação',
+            default: 'Não foi possível confirmar a devolução.',
+          },
+        },
+      },
     },
   },
 

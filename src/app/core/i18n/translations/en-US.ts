@@ -666,6 +666,28 @@ export const enUS = {
           },
         },
       },
+
+      mark_returned: {
+        status: {
+          title: 'Return on the way',
+          owner:
+            'The renter has shipped the item back. Confirm when you receive it.',
+          renter:
+            'Your return has been shipped. The owner will confirm when it arrives.',
+          estimatedArrival: 'Estimated arrival:',
+        },
+        button: 'Confirm return received',
+        messages: {
+          success: {
+            title: 'Return confirmed',
+            message: 'The item has been marked as returned.',
+          },
+          error: {
+            title: 'Confirmation failed',
+            default: 'The return could not be confirmed.',
+          },
+        },
+      },
     },
   },
 

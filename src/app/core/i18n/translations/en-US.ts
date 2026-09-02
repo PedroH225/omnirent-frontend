@@ -586,6 +586,28 @@ export const enUS = {
           },
         },
       },
+
+      ship_item: {
+        button: 'Mark as shipped',
+
+        status: {
+          message: 'The owner is preparing your item for shipment.',
+        },
+
+        messages: {
+          success: {
+            title: 'Item shipped',
+            message: 'The item has been marked as shipped successfully.',
+          },
+
+          error: {
+            title: 'Shipping failed',
+            default: 'The item could not be marked as shipped.',
+            invalidRentalStatus:
+              'The item cannot be shipped in its current rental status.',
+          },
+        },
+      },
     },
   },
 

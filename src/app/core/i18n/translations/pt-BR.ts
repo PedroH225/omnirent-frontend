@@ -592,6 +592,28 @@ export const ptBR = {
           },
         },
       },
+
+      ship_item: {
+        button: 'Marcar como enviado',
+
+        status: {
+          message: 'O proprietário está preparando seu item para envio.',
+        },
+
+        messages: {
+          success: {
+            title: 'Item enviado',
+            message: 'O item foi marcado como enviado com sucesso.',
+          },
+
+          error: {
+            title: 'Falha ao enviar',
+            default: 'Não foi possível marcar o item como enviado.',
+            invalidRentalStatus:
+              'O item não pode ser enviado no status atual do aluguel.',
+          },
+        },
+      },
     },
   },
 

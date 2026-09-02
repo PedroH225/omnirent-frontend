@@ -650,6 +650,28 @@ export const ptBR = {
           },
         },
       },
+
+      ship_return: {
+        status: {
+          title: 'Devolução solicitada',
+          owner:
+            'O locatário solicitou a devolução do item. Aguardando o envio de volta.',
+          renter:
+            'Sua solicitação de devolução foi recebida. Envie o item de volta quando estiver pronto.',
+          ownerWaiting: 'Aguardando o locatário enviar o item de volta.',
+        },
+        button: 'Enviar devolução',
+        messages: {
+          success: {
+            title: 'Devolução enviada',
+            message: 'A devolução foi enviada com sucesso.',
+          },
+          error: {
+            title: 'Falha na devolução',
+            default: 'Não foi possível enviar a devolução. Tente novamente.',
+          },
+        },
+      },
     },
   },
 

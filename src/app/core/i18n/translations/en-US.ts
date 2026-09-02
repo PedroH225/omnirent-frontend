@@ -644,6 +644,28 @@ export const enUS = {
           },
         },
       },
+
+      ship_return: {
+        status: {
+          title: 'Return requested',
+          owner:
+            'The renter has requested to return the item. It is waiting to be shipped back.',
+          renter:
+            'Your return request has been received. Ship the item back when you’re ready.',
+          ownerWaiting: 'Waiting for the renter to ship the item back.',
+        },
+        button: 'Ship return',
+        messages: {
+          success: {
+            title: 'Return shipped',
+            message: 'The return has been shipped successfully.',
+          },
+          error: {
+            title: 'Return failed',
+            default: 'The return could not be shipped. Please try again.',
+          },
+        },
+      },
     },
   },
 

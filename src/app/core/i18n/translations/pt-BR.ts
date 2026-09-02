@@ -630,6 +630,26 @@ export const ptBR = {
           },
         },
       },
+
+      request_return: {
+        status: {
+          title: 'Aproveite seu aluguel',
+          owner: 'Seu item está sendo utilizado pelo locatário.',
+          renter: 'Seu aluguel está em uso. Aproveite!',
+          ownerWaiting: 'O locatário pode solicitar a devolução do item.',
+        },
+        button: 'Solicitar devolução',
+        messages: {
+          success: {
+            title: 'Devolução solicitada',
+            message: 'Sua solicitação de devolução foi enviada com sucesso.',
+          },
+          error: {
+            title: 'Falha ao solicitar devolução',
+            default: 'Não foi possível solicitar a devolução do item.',
+          },
+        },
+      },
     },
   },
 

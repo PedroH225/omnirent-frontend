@@ -624,6 +624,26 @@ export const enUS = {
           },
         },
       },
+
+      request_return: {
+        status: {
+          title: 'Enjoy your rental',
+          owner: 'Your item is currently being used by the renter.',
+          renter: 'Your rental is now in use. Enjoy!',
+          ownerWaiting: 'The renter can request the return of the item.',
+        },
+        button: 'Request return',
+        messages: {
+          success: {
+            title: 'Return requested',
+            message: 'Your return request has been submitted successfully.',
+          },
+          error: {
+            title: 'Return request failed',
+            default: 'The item return could not be requested.',
+          },
+        },
+      },
     },
   },
 

@@ -460,6 +460,68 @@ export const ptBR = {
     },
 
     actions: {
+      cancel_rental: {
+        button: 'Cancelar aluguel',
+
+        confirmation: {
+          confirmed: {
+            owner: {
+              header: 'Confirmar cancelamento do aluguel',
+              message:
+                'O cancelamento deste aluguel confirmado iniciará um reembolso ao locatário. O reembolso pode levar até 48 horas para ser processado. Deseja continuar?',
+            },
+
+            renter: {
+              header: 'Confirmar cancelamento do aluguel',
+              message:
+                'O cancelamento deste aluguel confirmado iniciará um reembolso. O reembolso pode levar até 48 horas para ser processado. Deseja continuar?',
+            },
+
+            accept: 'Cancelar aluguel',
+            reject: 'Manter aluguel',
+          },
+
+          pending: {
+            owner: {
+              header: 'Cancelar aluguel',
+              message:
+                'Tem certeza de que deseja cancelar este aluguel? O locatário não poderá mais prosseguir com o aluguel.',
+            },
+
+            renter: {
+              header: 'Cancelar aluguel',
+              message: 'Tem certeza de que deseja cancelar este aluguel?',
+            },
+
+            accept: 'Cancelar',
+            reject: 'Manter aluguel',
+          },
+        },
+
+        messages: {
+          success: {
+            title: 'Aluguel cancelado',
+
+            owner: {
+              cancelled: 'O aluguel foi cancelado com sucesso.',
+              refunded:
+                'O aluguel foi cancelado. Um reembolso será processado para o locatário em até 48 horas.',
+            },
+
+            renter: {
+              cancelled: 'Seu aluguel foi cancelado com sucesso.',
+              refunded:
+                'O aluguel foi cancelado. Seu reembolso será processado em até 48 horas.',
+            },
+          },
+
+          error: {
+            title: 'Falha ao cancelar',
+            default: 'Não foi possível cancelar o aluguel.',
+          },
+        },
+      },
+
       confirm_rental: {
         payment: {
           owner: {

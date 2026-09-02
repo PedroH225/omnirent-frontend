@@ -1,5 +1,11 @@
 <div class="cancel-button">
-    <p-button label="Cancel rental" icon="pi pi-times" severity="danger" [outlined]="true" (onClick)="cancelRental()" />
+  <p-button
+    [label]="'rental.actions.cancel_rental.button' | translate"
+    icon="pi pi-times"
+    severity="danger"
+    [outlined]="true"
+    (onClick)="cancelRental()"
+  />
 </div>
 
 <p-confirmdialog />

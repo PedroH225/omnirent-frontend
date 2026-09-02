@@ -456,6 +456,68 @@ export const enUS = {
     },
 
     actions: {
+      cancel_rental: {
+        button: 'Cancel rental',
+
+        confirmation: {
+          confirmed: {
+            owner: {
+              header: 'Confirm rental cancellation',
+              message:
+                'Cancelling this confirmed rental will initiate a refund to the renter. The refund may take up to 48 hours to be processed. Do you want to continue?',
+            },
+
+            renter: {
+              header: 'Confirm rental cancellation',
+              message:
+                'Cancelling this confirmed rental will initiate a refund. The refund may take up to 48 hours to be processed. Do you want to continue?',
+            },
+
+            accept: 'Cancel rental',
+            reject: 'Keep rental',
+          },
+
+          pending: {
+            owner: {
+              header: 'Cancel rental',
+              message:
+                'Are you sure you want to cancel this rental? The renter will no longer be able to proceed with the rental.',
+            },
+
+            renter: {
+              header: 'Cancel rental',
+              message: 'Are you sure you want to cancel this rental?',
+            },
+
+            accept: 'Cancel',
+            reject: 'Keep rental',
+          },
+        },
+
+        messages: {
+          success: {
+            title: 'Rental cancelled',
+
+            owner: {
+              cancelled: 'The rental was cancelled successfully.',
+              refunded:
+                'The rental was cancelled. A refund will be processed for the renter within 48 hours.',
+            },
+
+            renter: {
+              cancelled: 'Your rental was cancelled successfully.',
+              refunded:
+                'The rental was cancelled. Your refund will be processed within 48 hours.',
+            },
+          },
+
+          error: {
+            title: 'Cancellation failed',
+            default: 'The rental could not be cancelled.',
+          },
+        },
+      },
+      
       confirm_rental: {
         payment: {
           owner: {

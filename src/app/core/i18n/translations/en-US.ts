@@ -706,6 +706,12 @@ export const enUS = {
           },
         },
       },
+
+      returned: {
+        title: 'Rental completed',
+        message:
+          'The item has been returned successfully. Thank you for using OmniRent.',
+      },
     },
   },
 

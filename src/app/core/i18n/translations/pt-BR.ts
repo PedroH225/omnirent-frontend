@@ -714,6 +714,12 @@ export const ptBR = {
           },
         },
       },
+
+      returned: {
+        title: 'Aluguel concluído',
+        message:
+          'O item foi devolvido com sucesso. Obrigado por usar o OmniRent.',
+      },
     },
   },
 

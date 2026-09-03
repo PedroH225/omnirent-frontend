@@ -5,15 +5,16 @@ import { PaymentService } from '@core/payment/payment.service';
 import { ApiException } from '@shared/models/api-exception';
 import { Button } from 'primeng/button';
 import { MessageService } from 'primeng/api';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
+import { TranslationService } from '@core/i18n/translation.service';
 
 @Component({
   selector: 'app-late-rental',
-  imports: [Button],
+  imports: [Button, TranslatePipe],
   templateUrl: './late-rental.component.html',
-  styleUrl: './late-rental.component.scss'
+  styleUrl: './late-rental.component.scss',
 })
 export class LateRentalComponent {
-
   @Input() rentalId!: string;
   @Input() isOwner = false;
 
@@ -25,8 +26,9 @@ export class LateRentalComponent {
 
   constructor(
     private paymentService: PaymentService,
-    private messageService: MessageService
-  ) { }
+    private messageService: MessageService,
+    private translationService: TranslationService,
+  ) {}
 
   ngOnInit(): void {
     this.preparePayment();
@@ -38,7 +40,7 @@ export class LateRentalComponent {
     }
 
     this.paymentService.findCheckout(this.rentalId).subscribe({
-      next: response => {
+      next: (response) => {
         this.paymentCheckout = response;
       },
 
@@ -54,10 +56,14 @@ export class LateRentalComponent {
 
         this.messageService.add({
           severity: 'error',
-          summary: 'Payment error',
-          detail: 'The renewal payment could not be prepared.'
+          summary: this.translationService.translate(
+            'rental.actions.late_rental.messages.error.title',
+          ),
+          detail: this.translationService.translate(
+            'rental.actions.late_rental.messages.error.renewalPayment',
+          ),
         });
-      }
+      },
     });
   }
 

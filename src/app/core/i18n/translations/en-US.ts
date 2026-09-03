@@ -688,6 +688,24 @@ export const enUS = {
           },
         },
       },
+
+      late_rental: {
+        status: {
+          title: 'Rental overdue',
+          owner:
+            'The rental period has ended and the item has not been returned yet.',
+          renter:
+            'The rental period has ended. Renew your rental to continue using the item.',
+          paymentUnavailable: 'Renewal payment is currently unavailable.',
+        },
+        button: 'Renew rental',
+        messages: {
+          error: {
+            title: 'Payment error',
+            renewalPayment: 'The renewal payment could not be prepared.',
+          },
+        },
+      },
     },
   },
 

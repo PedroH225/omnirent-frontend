@@ -694,6 +694,26 @@ export const ptBR = {
           },
         },
       },
+
+      late_rental: {
+        status: {
+          title: 'Aluguel atrasado',
+          owner:
+            'O período do aluguel terminou e o item ainda não foi devolvido.',
+          renter:
+            'O período do aluguel terminou. Renove seu aluguel para continuar usando o item.',
+          paymentUnavailable:
+            'O pagamento da renovação está indisponível no momento.',
+        },
+        button: 'Renovar aluguel',
+        messages: {
+          error: {
+            title: 'Erro no pagamento',
+            renewalPayment:
+              'Não foi possível preparar o pagamento da renovação.',
+          },
+        },
+      },
     },
   },
 

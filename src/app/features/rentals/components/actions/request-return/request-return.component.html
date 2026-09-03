@@ -19,7 +19,7 @@
 </div>
 
 <div class="return-action">
-  @if (!isOwner) {
+  @if (isOwner) {
     <p-button
       [label]="'rental.actions.request_return.button' | translate"
       icon="pi pi-undo"

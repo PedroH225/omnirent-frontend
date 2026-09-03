@@ -7,6 +7,7 @@ import { Button } from 'primeng/button';
 import { MessageService } from 'primeng/api';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { TranslationService } from '@core/i18n/translation.service';
+import { PaymentWebSocketService } from '@core/payment/payment-websocket.service';
 
 @Component({
   selector: 'app-late-rental',
@@ -15,6 +16,8 @@ import { TranslationService } from '@core/i18n/translation.service';
   styleUrl: './late-rental.component.scss',
 })
 export class LateRentalComponent {
+  paymentStatus = '';
+
   @Input() rentalId!: string;
   @Input() isOwner = false;
 
@@ -28,9 +31,21 @@ export class LateRentalComponent {
     private paymentService: PaymentService,
     private messageService: MessageService,
     private translationService: TranslationService,
+    private paymentWebSocketService: PaymentWebSocketService,
   ) {}
 
   ngOnInit(): void {
+    this.paymentWebSocketService.connectPaymentUpdate(this.rentalId, () =>
+      this.handlePaymentUpdate(),
+    );
+
+    const success = new URLSearchParams(window.location.search).get('success');
+
+    if (success === 'true') {
+      this.paymentStatus = 'PROCESSING_PAYMENT';
+      return;
+    }
+
     this.preparePayment();
   }
 
@@ -73,5 +88,9 @@ export class LateRentalComponent {
     }
 
     window.location.href = this.paymentCheckout.checkoutUrl;
+  }
+
+  private handlePaymentUpdate() {    
+    this.rentalRenewed.emit();
   }
 }

@@ -182,7 +182,9 @@
               <app-confirm-rental
                 [rentalId]="r.id"
                 [isOwner]="isOwner()"
+                (paymentConfirmed)="onRentalStatusChanged($event)"
                 (paymentExpired)="onRentalStatusChanged($event)"
+                (canCancel)="handleCanCancel($event)"
               >
               </app-confirm-rental>
             </div>
@@ -265,7 +267,7 @@
               <app-late-rental
                 [rentalId]="r.id"
                 [isOwner]="isOwner()"
-                (returnShipped)="onRentalRenew()"
+                (rentalRenewed)="onRentalRenew()"
               >
               </app-late-rental>
             </div>
@@ -276,6 +278,7 @@
               <app-cancel-rental
                 [rentalId]="r.id"
                 [rentalStatus]="r.rentalStatus"
+                [canCancel]="canCancel";
                 [isOwner]="isOwner()"
                 (rentalCancelled)="onRentalStatusChanged($event)"
               >

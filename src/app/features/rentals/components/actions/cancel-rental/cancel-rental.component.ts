@@ -16,6 +16,7 @@ import { Toast } from "primeng/toast";
   imports: [Button, ConfirmDialog, TranslatePipe],
 })
 export class CancelRentalComponent {
+  @Input() canCancel: boolean = true;
   @Input() rentalId!: string;
   @Input() rentalStatus!: string;
   @Input() isOwner = false;

@@ -47,6 +47,7 @@ import { TranslationService } from '@core/i18n/translation.service';
   styleUrl: './rental-detail.component.scss',
 })
 export class RentalDetailComponent {
+  canCancel = true;
   storageUrl = environment.storageUrl;
 
   rental: RentalDetailModel | null = null;
@@ -55,18 +56,14 @@ export class RentalDetailComponent {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
     private rentalService: RentalService,
     private userService: UserService,
-    private messageService: MessageService,
     private translationService: TranslationService,
   ) {}
 
   ngOnInit(): void {
     this.loadRental();
     this.getRentalEnums();
-
-    this.checkPaymentResult();
   }
 
   private getRentalEnums() {
@@ -129,32 +126,6 @@ export class RentalDetailComponent {
       return;
     }
     this.reloadOperationalData();
-
-    this.messageService.add({
-      severity: 'success',
-      summary: 'Renew',
-      detail: 'Rental renewed successfully.',
-    });
-  }
-
-  private checkPaymentResult(): void {
-    const success = this.route.snapshot.queryParamMap.get('success');
-
-    if (success === 'true') {
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Payment',
-        detail: 'Payment completed successfully.',
-      });
-    }
-
-    if (success === 'false') {
-      this.messageService.add({
-        severity: 'info',
-        summary: 'Payment cancelled',
-        detail: 'The payment was cancelled.',
-      });
-    }
   }
 
   isOwner(): boolean {
@@ -178,6 +149,10 @@ export class RentalDetailComponent {
       this.rentalStatus.find((status) => status.code === rental.rentalStatus)
         ?.code ?? rental.rentalStatus,
     );
+  }
+
+  handleCanCancel($event: boolean) {
+    this.canCancel = $event;
   }
 
   buildStorageUrl(): string {

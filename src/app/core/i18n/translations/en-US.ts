@@ -540,6 +540,15 @@ export const enUS = {
               title: 'Preparing payment',
               message: "We're preparing your payment checkout. Please wait.",
             },
+            processing: {
+              title: 'Processing payment',
+              message:
+                'Your payment was received and is being processed. Please wait for confirmation.',
+            },
+            success: {
+              title: 'Payment',
+              message: 'Payment completed successfully.',
+            },
             pending: {
               continue: 'Continue to payment',
               expiresIn: 'Checkout expires in',
@@ -697,6 +706,14 @@ export const enUS = {
           renter:
             'The rental period has ended. Renew your rental to continue using the item.',
           paymentUnavailable: 'Renewal payment is currently unavailable.',
+        },
+        paymentProcessing: {
+          title: 'Payment processing',
+          message: 'Your payment is being processed. Please wait a moment.',
+        },
+        renew: {
+          title: 'Renew',
+          message: 'Rental renewed successfully.',
         },
         button: 'Renew rental',
         messages: {

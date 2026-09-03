@@ -6,6 +6,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Button } from 'primeng/button';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { TranslationService } from '@core/i18n/translation.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-prepare-item',
@@ -23,7 +24,13 @@ export class PrepareItemComponent {
     private rentalService: RentalService,
     private messageService: MessageService,
     private translationService: TranslationService,
+    private router: Router,
+    private route: ActivatedRoute,
   ) {}
+
+  ngOnInit() {
+    this.notifyPaymentSuccess();
+  }
 
   startPreparing(): void {
     if (!this.rentalId || !this.isOwner) {
@@ -58,6 +65,27 @@ export class PrepareItemComponent {
             ),
         });
       },
+    });
+  }
+
+  private notifyPaymentSuccess() {
+    const success = this.route.snapshot.queryParamMap.get('success');
+
+    if (success === 'true') {
+      this.messageService.add({
+        severity: 'success',
+        summary: this.translationService.translate(
+          'rental.actions.confirm_rental.payment.renter.success.title',
+        ),
+        detail: this.translationService.translate(
+          'rental.actions.confirm_rental.payment.renter.success.message',
+        ),
+      });
+    }
+
+    this.router.navigate([], {
+      queryParams: {},
+      replaceUrl: true,
     });
   }
 }

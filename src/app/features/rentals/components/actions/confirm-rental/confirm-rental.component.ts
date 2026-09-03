@@ -22,6 +22,7 @@ export class ConfirmRentalComponent {
   @Input() isOwner = false;
 
   @Output() paymentExpired = new EventEmitter<string>();
+  @Output() paymentConfirmed = new EventEmitter<string>();
   paymentCheckout: PaymentCheckout | undefined;
 
   paymentStatus: string = 'PREPARING_PAYMENT';
@@ -36,6 +37,17 @@ export class ConfirmRentalComponent {
   ) {}
 
   ngOnInit() {
+    this.paymentWebSocketService.connectPaymentUpdate(this.rentalId, () =>
+      this.handlePaymentUpdate(),
+    );
+
+    const success = new URLSearchParams(window.location.search).get('success');
+
+    if (success === 'true') {
+      this.paymentStatus = 'PROCESSING_PAYMENT';
+      return;
+    }
+
     this.preparePayment();
   }
 
@@ -79,6 +91,10 @@ export class ConfirmRentalComponent {
         this.paymentStatus = 'ERROR';
       },
     });
+  }
+
+  private handlePaymentUpdate() {
+    this.paymentConfirmed.emit('CONFIRMED');
   }
 
   private handlePaymentEvent(event: PaymentCheckout): void {

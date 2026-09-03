@@ -540,6 +540,11 @@ export const enUS = {
               title: 'Preparing payment',
               message: "We're preparing your payment checkout. Please wait.",
             },
+            processing: {
+              title: 'Processing payment',
+              message:
+                'Your payment was received and is being processed. Please wait for confirmation.',
+            },
             pending: {
               continue: 'Continue to payment',
               expiresIn: 'Checkout expires in',

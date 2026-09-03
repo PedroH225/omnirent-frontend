@@ -549,6 +549,11 @@ export const ptBR = {
               continue: 'Continuar para o pagamento',
               expiresIn: 'O checkout expira em',
             },
+            processing: {
+              title: 'Processando pagamento',
+              message:
+                'Seu pagamento foi recebido e está sendo processado. Aguarde a confirmação.',
+            },
             expired:
               'O checkout deste pagamento expirou e o aluguel foi cancelado.',
             error: 'Não foi possível preparar o pagamento.',

@@ -182,6 +182,7 @@
               <app-confirm-rental
                 [rentalId]="r.id"
                 [isOwner]="isOwner()"
+                (paymentConfirmed)="onRentalStatusChanged($event)"
                 (paymentExpired)="onRentalStatusChanged($event)"
               >
               </app-confirm-rental>

@@ -710,6 +710,10 @@ export const ptBR = {
           paymentUnavailable:
             'O pagamento da renovação está indisponível no momento.',
         },
+        paymentProcessing: {
+          title: 'Pagamento em processamento',
+          message: 'Seu pagamento está sendo processado. Aguarde um momento.',
+        },
         button: 'Renovar aluguel',
         messages: {
           error: {

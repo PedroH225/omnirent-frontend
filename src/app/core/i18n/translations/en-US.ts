@@ -703,6 +703,10 @@ export const enUS = {
             'The rental period has ended. Renew your rental to continue using the item.',
           paymentUnavailable: 'Renewal payment is currently unavailable.',
         },
+        paymentProcessing: {
+          title: 'Payment processing',
+          message: 'Your payment is being processed. Please wait a moment.',
+        },
         button: 'Renew rental',
         messages: {
           error: {

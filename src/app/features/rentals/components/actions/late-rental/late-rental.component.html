@@ -28,7 +28,25 @@
       </div>
     </div>
 
-    @if (paymentCheckout?.checkoutUrl) {
+    @if (paymentStatus === "PROCESSING_PAYMENT") {
+      <div class="payment-processing">
+        <i class="pi pi-spin pi-spinner"></i>
+
+        <div>
+          <strong>
+            {{
+              "rental.actions.late_rental.paymentProcessing.title" | translate
+            }}
+          </strong>
+
+          <span>
+            {{
+              "rental.actions.late_rental.paymentProcessing.message" | translate
+            }}
+          </span>
+        </div>
+      </div>
+    } @else if (paymentCheckout?.checkoutUrl) {
       <p-button
         [label]="'rental.actions.late_rental.button' | translate"
         icon="pi pi-credit-card"

@@ -10,6 +10,7 @@ import { providePrimeNG } from 'primeng/config';
 import Lara from '@primeng/themes/lara';
 import { definePreset } from '@primeng/themes';
 import { localeInterceptor } from '@core/i18n/locale.interceptor';
+import { timezoneInterceptor } from '@core/i18n/timezone.interceptor';
 
 const OmniRentTheme = definePreset(Lara, {
   semantic: {
@@ -106,6 +107,7 @@ export const appConfig: ApplicationConfig = {
       withInterceptors([
         authInterceptor,
         localeInterceptor,
+        timezoneInterceptor,
         errorInterceptor
       ])
     )

@@ -549,6 +549,10 @@ export const ptBR = {
               continue: 'Continuar para o pagamento',
               expiresIn: 'O checkout expira em',
             },
+            success: {
+              title: 'Pagamento',
+              message: 'Pagamento concluído com sucesso.',
+            },
             processing: {
               title: 'Processando pagamento',
               message:
@@ -709,6 +713,10 @@ export const ptBR = {
             'O período do aluguel terminou. Renove seu aluguel para continuar usando o item.',
           paymentUnavailable:
             'O pagamento da renovação está indisponível no momento.',
+        },
+        renew: {
+          title: 'Renovação',
+          message: 'Aluguel renovado com sucesso.',
         },
         paymentProcessing: {
           title: 'Pagamento em processamento',

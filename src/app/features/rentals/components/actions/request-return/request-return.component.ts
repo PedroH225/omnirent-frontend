@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { TranslationService } from '@core/i18n/translation.service';
 import { RentalService } from '@core/rental/rental.service';
@@ -24,13 +24,11 @@ export class RequestReturnComponent {
     private messageService: MessageService,
     private translationService: TranslationService,
     private router: Router,
+    private route: ActivatedRoute,
   ) {}
 
   ngOnInit() {
-    this.router.navigate([], {
-      queryParams: {},
-      replaceUrl: true,
-    });
+    this.notifyPaymentSuccess();
   }
 
   requestReturn(): void {
@@ -65,6 +63,27 @@ export class RequestReturnComponent {
           ),
         });
       },
+    });
+  }
+
+  private notifyPaymentSuccess() {
+    const success = this.route.snapshot.queryParamMap.get('success');
+
+    if (success === 'true') {
+      this.messageService.add({
+        severity: 'success',
+        summary: this.translationService.translate(
+          'rental.actions.late_rental.renew.title',
+        ),
+        detail: this.translationService.translate(
+          'rental.actions.late_rental.renew.message',
+        ),
+      });
+    }
+
+    this.router.navigate([], {
+      queryParams: {},
+      replaceUrl: true,
     });
   }
 }

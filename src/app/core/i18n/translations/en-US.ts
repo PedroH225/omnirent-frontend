@@ -545,6 +545,10 @@ export const enUS = {
               message:
                 'Your payment was received and is being processed. Please wait for confirmation.',
             },
+            success: {
+              title: 'Payment',
+              message: 'Payment completed successfully.',
+            },
             pending: {
               continue: 'Continue to payment',
               expiresIn: 'Checkout expires in',
@@ -706,6 +710,10 @@ export const enUS = {
         paymentProcessing: {
           title: 'Payment processing',
           message: 'Your payment is being processed. Please wait a moment.',
+        },
+        renew: {
+          title: 'Renew',
+          message: 'Rental renewed successfully.',
         },
         button: 'Renew rental',
         messages: {

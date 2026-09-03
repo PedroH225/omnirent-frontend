@@ -1,11 +1,11 @@
 .item-detail {
-    width: 100%;
-    max-width: 1400px;
-    min-height: 100%;
-    margin: 0 auto;
-    padding: 2rem;
-    box-sizing: border-box;
-    background: var(--p-surface-100);
+  width: 100%;
+  max-width: 1400px;
+  min-height: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  box-sizing: border-box;
+  background: var(--p-surface-100);
 }
 
 .item-header,
@@ -13,350 +13,405 @@
 .item-description,
 .item-information,
 .item-address {
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .item-information {
-    .details-grid {
-        max-width: 800px;
-    }
+  .details-grid {
+    max-width: 800px;
+  }
 }
 
 .item-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem;
 
-    h1 {
-        margin: 0;
-        font-size: 2.5rem;
-        line-height: 1.2;
-        font-weight: 700;
-        letter-spacing: -0.025em;
-        color: var(--p-text-color);
-    }
+  h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    line-height: 1.2;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    color: var(--p-text-color);
+  }
 
-    p {
-        margin: 0.5rem 0 0;
-        font-size: 1rem;
-        line-height: 1.5;
-        color: var(--p-text-muted-color);
-    }
+  p {
+    margin: 0.5rem 0 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--p-text-muted-color);
+  }
 }
 
 .item-actions {
-    ::ng-deep .p-button {
-        width: 2.75rem;
-        height: 2.75rem;
-    }
+  ::ng-deep .p-button {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
 
-    ::ng-deep .p-button .pi {
-        font-size: 1.5rem;
-    }
+  ::ng-deep .p-button .pi {
+    font-size: 1.5rem;
+  }
 }
 
 .item-gallery {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 
-    ::ng-deep {
-        .p-galleria-thumbnail-items {
-            justify-content: center;
-            gap: .25rem;
-        }
-
-        .p-galleria-thumbnail-item {
-            flex: 0 0 auto;
-        }
+  ::ng-deep {
+    .p-galleria-thumbnail-items {
+      justify-content: center;
+      gap: 0.25rem;
     }
+
+    .p-galleria-thumbnail-item {
+      flex: 0 0 auto;
+    }
+  }
 }
 
 .gallery-image {
-    width: 100%;
-    height: 520px;
-    object-fit: contain;
-    border-radius: 12px;
-    display: block;
+  width: 100%;
+  height: 520px;
+  object-fit: contain;
+  border-radius: 12px;
+  display: block;
 }
 
 .gallery-thumbnail {
-    width: 90px;
-    height: 70px;
-    object-fit: cover;
-    border-radius: 6px;
-    display: block;
+  width: 90px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
 }
 
 .item-description,
 .item-information,
 .item-address {
-    padding: 2rem 0;
-    border-bottom: 1px solid var(--p-surface-border);
+  padding: 2rem 0;
+  border-bottom: 1px solid var(--p-surface-border);
 
-    h2 {
-        margin: 0 0 1.5rem;
-        font-size: 1.5rem;
-        line-height: 1.4;
-        font-weight: 600;
-        letter-spacing: -0.01em;
-        color: var(--p-primary-color);
-    }
+  h2 {
+    margin: 0 0 1.5rem;
+    font-size: 1.5rem;
+    line-height: 1.4;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--p-primary-color);
+  }
 }
 
 /* Rental / Pricing */
 
 .item-pricing {
-    width: 100%;
-    max-width: none;
-    margin: 0;
-    padding: 1.5rem 0;
-    box-sizing: border-box;
-    border-bottom: 1px solid var(--p-surface-border);
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 1.5rem 0;
+  box-sizing: border-box;
+  border-bottom: 1px solid var(--p-surface-border);
 }
 
 .rent-panel {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 
-    display: flex;
-    flex-direction: column;
-    gap: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.rent-action {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.rent-button-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.login-required {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+
+  width: 250px;
+  max-width: calc(100vw - 2rem);
+
+  padding: 0.6rem 0.8rem;
+  box-sizing: border-box;
+
+  border-radius: 6px;
+  background: var(--p-yellow-100);
+  color: var(--p-yellow-900);
+
+  font-size: 0.8rem;
+  line-height: 1.4;
+  text-align: center;
+
+  white-space: normal;
+  overflow-wrap: anywhere;
+
+  z-index: 10;
 }
 
 .selected-price {
-    display: flex;
-    align-items: baseline;
-    gap: .5rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
 }
 
 .selected-price .price {
-    color: var(--p-primary-500);
-    font-size: 2.2rem;
-    font-weight: 700;
-    line-height: 1;
+  color: var(--p-primary-500);
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1;
 }
 
 .selected-price .period {
-    color: var(--p-text-muted-color);
-    font-size: 1rem;
+  color: var(--p-text-muted-color);
+  font-size: 1rem;
 }
 
 .rental-label {
-    color: var(--p-text-color);
-    font-size: 1rem;
-    font-weight: 600;
+  color: var(--p-text-color);
+  font-size: 1rem;
+  font-weight: 600;
 }
 
 .period-options {
-    display: flex;
-    gap: .75rem;
-    flex-wrap: wrap;
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .period-card {
-    width: 150px;
-    min-height: 52px;
-    padding: .75rem 1rem;
+  width: 150px;
+  min-height: 52px;
+  padding: 0.75rem 1rem;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    border: 1px solid var(--p-surface-300);
-    border-radius: 10px;
+  border: 1px solid var(--p-surface-300);
+  border-radius: 10px;
 
-    background: var(--p-surface-0);
-    color: var(--p-text-color);
+  background: var(--p-surface-0);
+  color: var(--p-text-color);
 
-    font: inherit;
-    font-weight: 500;
+  font: inherit;
+  font-weight: 500;
 
-    cursor: pointer;
+  cursor: pointer;
 
-    transition:
-        border-color .2s ease,
-        background-color .2s ease,
-        color .2s ease,
-        box-shadow .2s ease;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .period-card:hover {
-    border-color: var(--p-primary-400);
-    background: var(--p-primary-50);
+  border-color: var(--p-primary-400);
+  background: var(--p-primary-50);
 }
 
 .period-card.selected {
-    border-color: var(--p-primary-500);
-    background: var(--p-primary-50);
-    color: var(--p-primary-700);
-    box-shadow: 0 0 0 1px var(--p-primary-500);
+  border-color: var(--p-primary-500);
+  background: var(--p-primary-50);
+  color: var(--p-primary-700);
+  box-shadow: 0 0 0 1px var(--p-primary-500);
 }
 
 .item-description {
-    p {
-        margin: 0;
-        max-width: 1000px;
-        font-size: 1rem;
-        line-height: 1.8;
-        color: var(--p-text-color);
-        white-space: pre-line;
-    }
+  p {
+    margin: 0;
+    max-width: 1000px;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--p-text-color);
+    white-space: pre-line;
+  }
 }
 
 .details-grid {
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 
-    border: 1px solid var(--p-surface-border);
-    border-radius: 8px;
-    overflow: hidden;
+  border: 1px solid var(--p-surface-border);
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .detail-row {
-    display: grid;
-    grid-template-columns: 220px 1fr;
+  display: grid;
+  grid-template-columns: 220px 1fr;
 
-    min-height: 3.25rem;
+  min-height: 3.25rem;
 
-    border-bottom: 1px solid var(--p-surface-border);
+  border-bottom: 1px solid var(--p-surface-border);
 
-    &:last-child {
-        border-bottom: none;
-    }
+  &:last-child {
+    border-bottom: none;
+  }
 
-    &:nth-child(odd) {
-        background: var(--p-surface-50);
-    }
+  &:nth-child(odd) {
+    background: var(--p-surface-50);
+  }
 
-    span,
-    strong {
-        display: flex;
-        align-items: center;
-        padding: .75rem 1rem;
-    }
+  span,
+  strong {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+  }
 
-    span {
-        color: var(--p-text-muted-color);
-        font-size: .95rem;
-        font-weight: 500;
-    }
+  span {
+    color: var(--p-text-muted-color);
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
 
-    strong {
-        color: var(--p-text-color);
-        font-size: .95rem;
-        font-weight: 500;
-    }
+  strong {
+    color: var(--p-text-color);
+    font-size: 0.95rem;
+    font-weight: 500;
+  }
 }
 
 .item-address {
-    border-bottom: none;
+  border-bottom: none;
 
-    p {
-        margin: .35rem 0;
-        font-size: 1rem;
-        line-height: 1.5;
-        color: var(--p-text-color-secondary);
-    }
+  p {
+    margin: 0.35rem 0;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--p-text-color-secondary);
+  }
+}
+
+.item-loading {
+  min-height: 500px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+
+  color: var(--text-color-secondary);
+  font-size: 0.9rem;
+  opacity: 0.7;
+
+  i {
+    font-size: 1.5rem;
+    opacity: 0.65;
+  }
 }
 
 @media (max-width: 768px) {
+  .item-detail {
+    padding: 1rem;
+  }
 
-    .item-detail {
-        padding: 1rem;
+  .item-header {
+    h1 {
+      font-size: 1.85rem;
+    }
+  }
+
+  .gallery-image {
+    height: 340px;
+  }
+
+  .gallery-thumbnail {
+    width: 64px;
+    height: 48px;
+  }
+
+  .item-description,
+  .item-information,
+  .item-address {
+    padding: 1.5rem 0;
+  }
+
+  .item-pricing {
+    padding: 1.5rem 0;
+  }
+
+  .detail-row {
+    grid-template-columns: 40% 60%;
+
+    &:nth-last-child(-n + 2) {
+      border-bottom: 1px solid var(--p-surface-border);
     }
 
-    .item-header {
-        h1 {
-            font-size: 1.85rem;
-        }
+    &:last-child {
+      border-bottom: none;
     }
-
-    .gallery-image {
-        height: 340px;
-    }
-
-    .gallery-thumbnail {
-        width: 64px;
-        height: 48px;
-    }
-
-    .item-description,
-    .item-information,
-    .item-address {
-        padding: 1.5rem 0;
-    }
-
-    .item-pricing {
-        padding: 1.5rem 0;
-    }
-
-
-
-    .detail-row {
-        grid-template-columns: 40% 60%;
-
-        &:nth-last-child(-n + 2) {
-            border-bottom: 1px solid var(--p-surface-border);
-        }
-
-        &:last-child {
-            border-bottom: none;
-        }
-    }
+  }
 }
 
 @media (max-width: 700px) {
-    .period-options {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-    }
+  .period-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-    .period-card {
-        width: auto;
-    }
+  .period-card {
+    width: auto;
+  }
 
-    .selected-price .price {
-        font-size: 1.8rem;
-    }
+  .selected-price .price {
+    font-size: 1.8rem;
+  }
 }
 
 @media (max-width: 480px) {
-
-    .item-header {
-        h1 {
-            font-size: 1.6rem;
-        }
+  .item-header {
+    h1 {
+      font-size: 1.6rem;
     }
+  }
 
-    .gallery-image {
-        height: 260px;
-    }
+  .gallery-image {
+    height: 260px;
+  }
 
-    .gallery-thumbnail {
-        width: 56px;
-        height: 42px;
-    }
+  .gallery-thumbnail {
+    width: 56px;
+    height: 42px;
+  }
 
-    .item-gallery {
-        ::ng-deep .p-galleria-thumbnail-items {
-            gap: .25rem;
-        }
+  .item-gallery {
+    ::ng-deep .p-galleria-thumbnail-items {
+      gap: 0.25rem;
     }
+  }
 
-    .detail-row {
-        grid-template-columns: 45% 55%;
-    }
+  .detail-row {
+    grid-template-columns: 45% 55%;
+  }
 
-    .detail-row span,
-    .detail-row strong {
-        padding: .65rem .75rem;
-        font-size: .9rem;
-    }
+  .detail-row span,
+  .detail-row strong {
+    padding: 0.65rem 0.75rem;
+    font-size: 0.9rem;
+  }
 
-    .item-pricing {
-        padding: 1.25rem 0;
-    }
+  .item-pricing {
+    padding: 1.25rem 0;
+  }
+
+  .login-required {
+    width: 150px;
+    max-width: calc(100vw - 2rem);
+  }
 }

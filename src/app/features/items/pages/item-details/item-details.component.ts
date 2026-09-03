@@ -32,6 +32,8 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { LocaleService } from '@core/i18n/locale.service';
 import { TranslationService } from '@core/i18n/translation.service';
+import { UserResponseModel } from '@core/user/model/user-response-model';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-item-detail',
@@ -46,6 +48,7 @@ import { TranslationService } from '@core/i18n/translation.service';
     Menu,
     ConfirmDialog,
     TranslatePipe,
+    TooltipModule,
   ],
   providers: [ConfirmationService],
   templateUrl: './item-details.component.html',
@@ -99,6 +102,8 @@ export class ItemDetailComponent implements OnInit {
 
   isLoading = true;
   isOwner = false;
+  anonymous = true;
+  showLoginMessage = false;
 
   constructor(
     private itemService: ItemService,
@@ -127,6 +132,9 @@ export class ItemDetailComponent implements OnInit {
     }
 
     this.loadItem(itemId);
+    if (this.anonymous) {
+      this.toggleLoginMessage();
+    }
   }
 
   private updateItemMenu(): void {
@@ -161,16 +169,24 @@ export class ItemDetailComponent implements OnInit {
       next: (item) => {
         this.item = item;
 
-        this.isOwner = this.userService.currentUser()?.id === item.owner.id;
+        this.checkUser(item.owner);
         this.loadGallery();
-        this.isLoading = false;
         this.updateItemMenu();
         this.updateSelectedPrice();
+        this.isLoading = false;
       },
       error: () => {
         this.isLoading = false;
       },
     });
+  }
+
+  private checkUser(owner: UserResponseModel) {
+    if (!this.userService.currentUser()) {
+      return;
+    }
+    this.anonymous = false;
+    this.isOwner = this.userService.currentUser()?.id == owner.id;
   }
 
   private loadGallery(): void {
@@ -476,5 +492,15 @@ export class ItemDetailComponent implements OnInit {
         'item.edit.dialog.reviewFields',
       ),
     });
+  }
+
+  toggleLoginMessage() {
+    this.showLoginMessage = !this.showLoginMessage;
+
+    if (this.showLoginMessage) {
+      setTimeout(() => {
+        this.showLoginMessage = false;
+      }, 5000);
+    }
   }
 }

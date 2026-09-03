@@ -264,6 +264,7 @@ export const enUS = {
     loading: 'Loading...',
     rentNow: 'Rent now',
     rentalPeriod: 'Rental period',
+    rentLoginRequired: 'Log in to your account to rent this item.',
 
     description: {
       title: 'Description',

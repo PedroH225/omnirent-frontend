@@ -6,6 +6,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { Button } from 'primeng/button';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { TranslationService } from '@core/i18n/translation.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-prepare-item',
@@ -23,7 +24,15 @@ export class PrepareItemComponent {
     private rentalService: RentalService,
     private messageService: MessageService,
     private translationService: TranslationService,
+    private router: Router,
   ) {}
+
+  ngOnInit() {
+    this.router.navigate([], {
+      queryParams: {},
+      replaceUrl: true,
+    });
+  }
 
   startPreparing(): void {
     if (!this.rentalId || !this.isOwner) {

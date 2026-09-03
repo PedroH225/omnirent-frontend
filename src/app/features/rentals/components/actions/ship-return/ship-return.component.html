@@ -1,40 +1,41 @@
 <div class="return-action">
+  <div class="return-status">
+    <i class="pi pi-refresh"></i>
 
-    <div class="return-status">
-        <i class="pi pi-refresh"></i>
+    <div>
+      <strong>
+        {{ "rental.actions.ship_return.status.title" | translate }}
+      </strong>
 
-        <div>
-            <strong>Return requested</strong>
-
-            @if (isOwner) {
-                <span>
-                    The renter has requested to return the item. It is waiting to be shipped back.
-                </span>
-            } @else {
-                <span>
-                    Your return request has been received. Ship the item back when you're ready.
-                </span>
-            }
-        </div>
+      @if (isOwner) {
+        <span>
+          {{ "rental.actions.ship_return.status.owner" | translate }}
+        </span>
+      } @else {
+        <span>
+          {{ "rental.actions.ship_return.status.renter" | translate }}
+        </span>
+      }
     </div>
+  </div>
 
-    <div class="ship-return">
-        @if (!isOwner) {
-            <p-button
-                label="Ship return"
-                icon="pi pi-send"
-                severity="secondary"
-                [outlined]="true"
-                (onClick)="shipReturn()" />
-        } @else {
-            <div class="return-status">
-                <i class="pi pi-truck"></i>
+  <div class="ship-return">
+    @if (!isOwner) {
+      <p-button
+        [label]="'rental.actions.ship_return.button' | translate"
+        icon="pi pi-send"
+        severity="secondary"
+        [outlined]="true"
+        (onClick)="shipReturn()"
+      />
+    } @else {
+      <div class="return-status">
+        <i class="pi pi-truck"></i>
 
-                <span>
-                    Waiting for the renter to ship the item back.
-                </span>
-            </div>
-        }
-    </div>
-
+        <span>
+          {{ "rental.actions.ship_return.status.ownerWaiting" | translate }}
+        </span>
+      </div>
+    }
+  </div>
 </div>

@@ -1,17 +1,18 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
+import { TranslationService } from '@core/i18n/translation.service';
 import { RentalService } from '@core/rental/rental.service';
 import { MessageService } from 'primeng/api';
-import { Button } from "primeng/button";
+import { Button } from 'primeng/button';
 
 @Component({
   selector: 'app-ship-return',
-  imports: [Button],
+  imports: [Button, TranslatePipe],
   templateUrl: './ship-return.component.html',
-  styleUrl: './ship-return.component.scss'
+  styleUrl: './ship-return.component.scss',
 })
 export class ShipReturnComponent {
-
   @Input() rentalId!: string;
   @Input() isOwner!: boolean;
 
@@ -19,8 +20,9 @@ export class ShipReturnComponent {
 
   constructor(
     private rentalService: RentalService,
-    private messageService: MessageService
-  ) { }
+    private messageService: MessageService,
+    private translationService: TranslationService,
+  ) {}
 
   shipReturn(): void {
     if (!this.rentalId || this.isOwner) {
@@ -31,8 +33,12 @@ export class ShipReturnComponent {
       next: () => {
         this.messageService.add({
           severity: 'success',
-          summary: 'Return shipped',
-          detail: 'The return has been shipped successfully.'
+          summary: this.translationService.translate(
+            'rental.actions.ship_return.messages.success.title',
+          ),
+          detail: this.translationService.translate(
+            'rental.actions.ship_return.messages.success.message',
+          ),
         });
 
         this.returnShipped.emit('RETURN_SHIPPED');
@@ -43,10 +49,14 @@ export class ShipReturnComponent {
 
         this.messageService.add({
           severity: 'error',
-          summary: 'Return failed',
-          detail: 'The return could not be shipped. Please try again.'
+          summary: this.translationService.translate(
+            'rental.actions.ship_return.messages.error.title',
+          ),
+          detail: this.translationService.translate(
+            'rental.actions.ship_return.messages.error.default',
+          ),
         });
-      }
+      },
     });
   }
 }

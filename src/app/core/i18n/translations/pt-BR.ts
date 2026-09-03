@@ -429,6 +429,300 @@ export const ptBR = {
     },
   },
 
+  rental: {
+    header: {
+      eyebrow: 'Aluguel',
+      title: 'Aluguel',
+    },
+
+    sections: {
+      item: 'Item',
+      rental: 'Aluguel',
+      location: 'Endereço de Retirada',
+      actions: 'Ações',
+    },
+
+    fields: {
+      period: 'Período',
+      finalPrice: 'Preço final',
+      startDate: 'Data de início',
+      endDate: 'Data de término',
+      renter: 'Locatário',
+      owner: 'Proprietário',
+      notDefined: 'Não definido',
+    },
+
+    timeline: {
+      rental: 'Aluguel',
+      preparation: 'Preparação',
+      in_use: 'Em uso',
+      return: 'Devolução',
+    },
+
+    actions: {
+      cancel_rental: {
+        button: 'Cancelar aluguel',
+
+        confirmation: {
+          confirmed: {
+            owner: {
+              header: 'Confirmar cancelamento do aluguel',
+              message:
+                'O cancelamento deste aluguel confirmado iniciará um reembolso ao locatário. O reembolso pode levar até 48 horas para ser processado. Deseja continuar?',
+            },
+
+            renter: {
+              header: 'Confirmar cancelamento do aluguel',
+              message:
+                'O cancelamento deste aluguel confirmado iniciará um reembolso. O reembolso pode levar até 48 horas para ser processado. Deseja continuar?',
+            },
+
+            accept: 'Cancelar aluguel',
+            reject: 'Manter aluguel',
+          },
+
+          pending: {
+            owner: {
+              header: 'Cancelar aluguel',
+              message:
+                'Tem certeza de que deseja cancelar este aluguel? O locatário não poderá mais prosseguir com o aluguel.',
+            },
+
+            renter: {
+              header: 'Cancelar aluguel',
+              message: 'Tem certeza de que deseja cancelar este aluguel?',
+            },
+
+            accept: 'Cancelar',
+            reject: 'Manter aluguel',
+          },
+        },
+
+        messages: {
+          success: {
+            title: 'Aluguel cancelado',
+
+            owner: {
+              cancelled: 'O aluguel foi cancelado com sucesso.',
+              refunded:
+                'O aluguel foi cancelado. Um reembolso será processado para o locatário em até 48 horas.',
+            },
+
+            renter: {
+              cancelled: 'Seu aluguel foi cancelado com sucesso.',
+              refunded:
+                'O aluguel foi cancelado. Seu reembolso será processado em até 48 horas.',
+            },
+          },
+
+          error: {
+            title: 'Falha ao cancelar',
+            default: 'Não foi possível cancelar o aluguel.',
+          },
+        },
+      },
+
+      confirm_rental: {
+        payment: {
+          owner: {
+            preparing: {
+              title: 'Preparando aluguel',
+              message: 'Estamos preparando a confirmação do aluguel.',
+            },
+            pending: {
+              title: 'Aguardando pagamento',
+              message:
+                'O locatário precisa concluir o pagamento para confirmar este aluguel.',
+            },
+            expired:
+              'O checkout do pagamento expirou e o aluguel foi cancelado.',
+            error: 'Não foi possível preparar o pagamento do aluguel.',
+          },
+
+          renter: {
+            preparing: {
+              title: 'Preparando pagamento',
+              message:
+                'Estamos preparando o checkout do seu pagamento. Aguarde.',
+            },
+            pending: {
+              continue: 'Continuar para o pagamento',
+              expiresIn: 'O checkout expira em',
+            },
+            expired:
+              'O checkout deste pagamento expirou e o aluguel foi cancelado.',
+            error: 'Não foi possível preparar o pagamento.',
+            tryAgain: 'Tentar novamente',
+          },
+        },
+
+        simulation: {
+          title: 'Pagamento simulado',
+          message: 'Nenhuma cobrança real será realizada.',
+          testCards: 'Cartões de teste',
+          notice:
+            'Este é um ambiente de pagamento simulado. Nunca use dados reais de cartão.',
+          visa: '4242 4242 4242 4242 — Visa',
+          mastercard: '5555 5555 5555 4444 — Mastercard',
+          expiration:
+            'Pode ser usada qualquer data de validade futura e qualquer CVC.',
+        },
+
+        paymentInfo: 'Informações do pagamento',
+      },
+
+      prepare_item: {
+        button: 'Iniciar preparação',
+
+        status: {
+          title: 'Preparando seu aluguel',
+          message:
+            'O proprietário precisa preparar o item antes que ele possa ser retirado.',
+        },
+
+        messages: {
+          success: {
+            title: 'Preparação iniciada',
+            message: 'O item do aluguel está sendo preparado.',
+          },
+
+          error: {
+            title: 'Não foi possível iniciar a preparação',
+            default: 'Não foi possível preparar o item.',
+          },
+        },
+      },
+
+      ship_item: {
+        button: 'Marcar como enviado',
+
+        status: {
+          message: 'O proprietário está preparando seu item para envio.',
+        },
+
+        messages: {
+          success: {
+            title: 'Item enviado',
+            message: 'O item foi marcado como enviado com sucesso.',
+          },
+
+          error: {
+            title: 'Falha ao enviar',
+            default: 'Não foi possível marcar o item como enviado.',
+            invalidRentalStatus:
+              'O item não pode ser enviado no status atual do aluguel.',
+          },
+        },
+      },
+
+      mark_in_use: {
+        delivery: {
+          title: 'Entrega estimada',
+          message: 'Seu item deve chegar por volta das',
+        },
+        button: 'Simular entrega',
+        debugNotice: 'Apenas para depuração — simula o processo de entrega.',
+        messages: {
+          error: {
+            default: 'Não foi possível marcar o aluguel como em uso.',
+            invalidRentalStatus:
+              'O aluguel não pode ser marcado como em uso no status atual.',
+          },
+        },
+      },
+
+      request_return: {
+        status: {
+          title: 'Aproveite seu aluguel',
+          owner: 'Seu item está sendo utilizado pelo locatário.',
+          renter: 'Seu aluguel está em uso. Aproveite!',
+          ownerWaiting: 'O locatário pode solicitar a devolução do item.',
+        },
+        button: 'Solicitar devolução',
+        messages: {
+          success: {
+            title: 'Devolução solicitada',
+            message: 'Sua solicitação de devolução foi enviada com sucesso.',
+          },
+          error: {
+            title: 'Falha ao solicitar devolução',
+            default: 'Não foi possível solicitar a devolução do item.',
+          },
+        },
+      },
+
+      ship_return: {
+        status: {
+          title: 'Devolução solicitada',
+          owner:
+            'O locatário solicitou a devolução do item. Aguardando o envio de volta.',
+          renter:
+            'Sua solicitação de devolução foi recebida. Envie o item de volta quando estiver pronto.',
+          ownerWaiting: 'Aguardando o locatário enviar o item de volta.',
+        },
+        button: 'Enviar devolução',
+        messages: {
+          success: {
+            title: 'Devolução enviada',
+            message: 'A devolução foi enviada com sucesso.',
+          },
+          error: {
+            title: 'Falha na devolução',
+            default: 'Não foi possível enviar a devolução. Tente novamente.',
+          },
+        },
+      },
+
+      mark_returned: {
+        status: {
+          title: 'Devolução a caminho',
+          owner:
+            'O locatário enviou o item de volta. Confirme quando recebê-lo.',
+          renter:
+            'Sua devolução foi enviada. O proprietário confirmará quando o item chegar.',
+          estimatedArrival: 'Chegada estimada:',
+        },
+        button: 'Confirmar recebimento',
+        messages: {
+          success: {
+            title: 'Devolução confirmada',
+            message: 'O item foi marcado como devolvido.',
+          },
+          error: {
+            title: 'Falha na confirmação',
+            default: 'Não foi possível confirmar a devolução.',
+          },
+        },
+      },
+
+      late_rental: {
+        status: {
+          title: 'Aluguel atrasado',
+          owner:
+            'O período do aluguel terminou e o item ainda não foi devolvido.',
+          renter:
+            'O período do aluguel terminou. Renove seu aluguel para continuar usando o item.',
+          paymentUnavailable:
+            'O pagamento da renovação está indisponível no momento.',
+        },
+        button: 'Renovar aluguel',
+        messages: {
+          error: {
+            title: 'Erro no pagamento',
+            renewalPayment:
+              'Não foi possível preparar o pagamento da renovação.',
+          },
+        },
+      },
+
+      returned: {
+        title: 'Aluguel concluído',
+        message:
+          'O item foi devolvido com sucesso. Obrigado por usar o OmniRent.',
+      },
+    },
+  },
+
   feed: {
     title: 'Explorar itens',
 

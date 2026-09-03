@@ -1,36 +1,40 @@
 <div class="return-receipt">
+  <i class="pi pi-truck"></i>
 
-    <i class="pi pi-truck"></i>
+  <div>
+    <strong>
+      {{ "rental.actions.mark_returned.status.title" | translate }}
+    </strong>
 
-    <div>
-        <strong>Return on the way</strong>
+    @if (isOwner) {
+      <span>
+        {{ "rental.actions.mark_returned.status.owner" | translate }}
+      </span>
+    } @else {
+      <span>
+        {{ "rental.actions.mark_returned.status.renter" | translate }}
+      </span>
+    }
 
-        @if (isOwner) {
-        <span>
-            The renter has shipped the item back. Confirm when you receive it.
-        </span>
-        } @else {
-        <span>
-            Your return has been shipped. The owner will confirm when it arrives.
-        </span>
-        }
-
-        @if (getEstimatedReturn(); as estimatedReturn) {
-        <span class="return-estimate">
-            Estimated arrival:
-            {{ estimatedReturn | date:'dd/MM HH:mm' }}
-        </span>
-        }
-    </div>
-
+    @if (getEstimatedReturn(); as estimatedReturn) {
+      <span class="return-estimate">
+        {{ "rental.actions.mark_returned.status.estimatedArrival" | translate }}
+        {{ estimatedReturn | date: "dd/MM HH:mm" }}
+      </span>
+    }
+  </div>
 </div>
 
 <div class="action">
-    @if (isOwner) {
-    <p-button label="Confirm return received" icon="pi pi-check" styleClass="confirm-return-button"
-        (onClick)="confirmReturn()" />
-    } 
-    <!-- @else {
+  @if (isOwner) {
+    <p-button
+      [label]="'rental.actions.mark_returned.button' | translate"
+      icon="pi pi-check"
+      styleClass="confirm-return-button"
+      (onClick)="confirmReturn()"
+    />
+  }
+  <!-- @else {
 
     <p-button label="Simulate return" icon="pi pi-bolt" severity="secondary" [outlined]="true" size="small"
         styleClass="debug-return-button" (onClick)="simulateReturn()" />

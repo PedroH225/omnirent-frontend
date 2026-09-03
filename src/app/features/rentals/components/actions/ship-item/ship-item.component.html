@@ -1,11 +1,11 @@
 @if (isOwner) {
     <p-button
-        label="Mark as shipped"
+        [label]="'rental.actions.ship_item.button' | translate"
         icon="pi pi-send"
         (onClick)="startPreparing()">
     </p-button>
 } @else {
     <span class="shipping-status">
-        The owner is preparing your item for shipment.
+        {{ 'rental.actions.ship_item.status.message' | translate }}
     </span>
 }

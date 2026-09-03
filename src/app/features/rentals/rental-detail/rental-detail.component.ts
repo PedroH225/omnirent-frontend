@@ -4,30 +4,47 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RentalService } from '@core/rental/rental.service';
 import { CommonModule } from '@angular/common';
 import { environment } from '../../../../environments/environment';
-import { ConfirmRentalComponent } from "../components/actions/confirm-rental/confirm-rental.component";
+import { ConfirmRentalComponent } from '../components/actions/confirm-rental/confirm-rental.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { Toast } from "primeng/toast";
+import { Toast } from 'primeng/toast';
 import { UserService } from '@core/user/user.service';
-import { CancelRentalComponent } from "../components/actions/cancel-rental/cancel-rental.component";
+import { CancelRentalComponent } from '../components/actions/cancel-rental/cancel-rental.component';
 import { EnumOption } from '@shared/models/EnumOption';
-import { PrepareItemComponent } from "../components/actions/prepare-item/prepare-item.component";
-import { RentalTimelineComponent } from "../components/rental-time-line/rental-time-line.component";
-import { ShipItemComponent } from "../components/actions/ship-item/ship-item.component";
+import { PrepareItemComponent } from '../components/actions/prepare-item/prepare-item.component';
+import { RentalTimelineComponent } from '../components/rental-time-line/rental-time-line.component';
+import { ShipItemComponent } from '../components/actions/ship-item/ship-item.component';
 import { HttpErrorResponse } from '@angular/common/http';
-import { MarkInUseComponent } from "../components/actions/mark-in-use/mark-in-use.component";
+import { MarkInUseComponent } from '../components/actions/mark-in-use/mark-in-use.component';
 import { RentalDisplayModel } from '../model/rental-display-model';
-import { RequestReturnComponent } from "../components/actions/request-return/request-return.component";
-import { ShipReturnComponent } from "../components/actions/ship-return/ship-return.component";
-import { MarkReturnedComponent } from "../components/actions/mark-returned/mark-returned.component";
-import { ReturnedComponent } from "../components/actions/returned/returned.component";
-import { LateRentalComponent } from "../components/actions/late-rental/late-rental.component";
+import { RequestReturnComponent } from '../components/actions/request-return/request-return.component';
+import { ShipReturnComponent } from '../components/actions/ship-return/ship-return.component';
+import { MarkReturnedComponent } from '../components/actions/mark-returned/mark-returned.component';
+import { ReturnedComponent } from '../components/actions/returned/returned.component';
+import { LateRentalComponent } from '../components/actions/late-rental/late-rental.component';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
+import { TranslationService } from '@core/i18n/translation.service';
 
 @Component({
   selector: 'app-rental-detail',
-  imports: [CommonModule, ConfirmRentalComponent, Toast, CancelRentalComponent, PrepareItemComponent, RentalTimelineComponent, ShipItemComponent, MarkInUseComponent, RequestReturnComponent, ShipReturnComponent, MarkReturnedComponent, ReturnedComponent, LateRentalComponent],
+  imports: [
+    CommonModule,
+    ConfirmRentalComponent,
+    Toast,
+    CancelRentalComponent,
+    PrepareItemComponent,
+    RentalTimelineComponent,
+    ShipItemComponent,
+    MarkInUseComponent,
+    RequestReturnComponent,
+    ShipReturnComponent,
+    MarkReturnedComponent,
+    ReturnedComponent,
+    LateRentalComponent,
+    TranslatePipe,
+  ],
   providers: [ConfirmationService],
   templateUrl: './rental-detail.component.html',
-  styleUrl: './rental-detail.component.scss'
+  styleUrl: './rental-detail.component.scss',
 })
 export class RentalDetailComponent {
   storageUrl = environment.storageUrl;
@@ -42,7 +59,8 @@ export class RentalDetailComponent {
     private rentalService: RentalService,
     private userService: UserService,
     private messageService: MessageService,
-  ) { }
+    private translationService: TranslationService,
+  ) {}
 
   ngOnInit(): void {
     this.loadRental();
@@ -58,8 +76,8 @@ export class RentalDetailComponent {
       },
       error: (error) => {
         console.error(error);
-      }
-    })
+      },
+    });
   }
 
   private loadRental(): void {
@@ -70,9 +88,9 @@ export class RentalDetailComponent {
     }
 
     this.rentalService.getRentalDetail(rentalId).subscribe({
-      next: rental => {
+      next: (rental) => {
         this.rental = rental;
-      }
+      },
     });
   }
 
@@ -92,7 +110,7 @@ export class RentalDetailComponent {
       },
       error: (error: HttpErrorResponse) => {
         console.error(error);
-      }
+      },
     });
   }
 
@@ -115,7 +133,7 @@ export class RentalDetailComponent {
     this.messageService.add({
       severity: 'success',
       summary: 'Renew',
-      detail: 'Rental renewed successfully.'
+      detail: 'Rental renewed successfully.',
     });
   }
 
@@ -126,7 +144,7 @@ export class RentalDetailComponent {
       this.messageService.add({
         severity: 'success',
         summary: 'Payment',
-        detail: 'Payment completed successfully.'
+        detail: 'Payment completed successfully.',
       });
     }
 
@@ -134,7 +152,7 @@ export class RentalDetailComponent {
       this.messageService.add({
         severity: 'info',
         summary: 'Payment cancelled',
-        detail: 'The payment was cancelled.'
+        detail: 'The payment was cancelled.',
       });
     }
   }
@@ -156,12 +174,13 @@ export class RentalDetailComponent {
       return '';
     }
 
-    return this.rentalStatus.find(
-      status => status.code === rental.rentalStatus
-    )?.label ?? rental.rentalStatus;
+    return this.translationService.translate(
+      this.rentalStatus.find((status) => status.code === rental.rentalStatus)
+        ?.code ?? rental.rentalStatus,
+    );
   }
 
   buildStorageUrl(): string {
-    return `${this.storageUrl}/${this.rental?.item.thumbnailKey}`
+    return `${this.storageUrl}/${this.rental?.item.thumbnailKey}`;
   }
 }

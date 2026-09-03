@@ -2,17 +2,18 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RentalService } from '@core/rental/rental.service';
 import { MessageService } from 'primeng/api';
-import { ConfirmDialog } from "primeng/confirmdialog";
-import { Button } from "primeng/button";
+import { ConfirmDialog } from 'primeng/confirmdialog';
+import { Button } from 'primeng/button';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
+import { TranslationService } from '@core/i18n/translation.service';
 
 @Component({
   selector: 'app-prepare-item',
-  imports: [ConfirmDialog, Button],
+  imports: [ConfirmDialog, Button, TranslatePipe],
   templateUrl: './prepare-item.component.html',
-  styleUrl: './prepare-item.component.scss'
+  styleUrl: './prepare-item.component.scss',
 })
 export class PrepareItemComponent {
-
   @Input() rentalId!: string;
   @Input() isOwner = false;
 
@@ -20,8 +21,9 @@ export class PrepareItemComponent {
 
   constructor(
     private rentalService: RentalService,
-    private messageService: MessageService
-  ) { }
+    private messageService: MessageService,
+    private translationService: TranslationService,
+  ) {}
 
   startPreparing(): void {
     if (!this.rentalId || !this.isOwner) {
@@ -32,8 +34,12 @@ export class PrepareItemComponent {
       next: () => {
         this.messageService.add({
           severity: 'success',
-          summary: 'Preparation started',
-          detail: 'The rental item is now being prepared.'
+          summary: this.translationService.translate(
+            'rental.actions.prepare_item.messages.success.title',
+          ),
+          detail: this.translationService.translate(
+            'rental.actions.prepare_item.messages.success.message',
+          ),
         });
 
         this.startedPreparing.emit('PREPARING');
@@ -42,10 +48,16 @@ export class PrepareItemComponent {
       error: (error: HttpErrorResponse) => {
         this.messageService.add({
           severity: 'error',
-          summary: 'Unable to start preparation',
-          detail: error.error?.message ?? 'The item could not be prepared.'
+          summary: this.translationService.translate(
+            'rental.actions.prepare_item.messages.error.title',
+          ),
+          detail:
+            error.error?.message ??
+            this.translationService.translate(
+              'rental.actions.prepare_item.messages.error.default',
+            ),
         });
-      }
+      },
     });
   }
 }

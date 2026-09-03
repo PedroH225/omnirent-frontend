@@ -1,154 +1,206 @@
 <div class="payment-action">
-
-    @if (isOwner) {
-
-    @if (paymentStatus === 'PREPARING_PAYMENT') {
-    <div class="payment-status">
-
+  @if (isOwner) {
+    @if (paymentStatus === "PREPARING_PAYMENT") {
+      <div class="payment-status">
         <i class="pi pi-spin pi-spinner"></i>
 
         <div class="payment-status-content">
-            <strong>Preparing rental</strong>
+          <strong>
+            {{
+              "rental.actions.confirm_rental.payment.owner.preparing.title"
+                | translate
+            }}
+          </strong>
 
-            <span>
-                We're preparing the rental confirmation.
-            </span>
+          <span>
+            {{
+              "rental.actions.confirm_rental.payment.owner.preparing.message"
+                | translate
+            }}
+          </span>
         </div>
-
-    </div>
+      </div>
     }
 
-    @if (paymentStatus === 'PENDING') {
-    <div class="payment-status">
-
+    @if (paymentStatus === "PENDING") {
+      <div class="payment-status">
         <i class="pi pi-spin pi-spinner"></i>
 
         <div class="payment-status-content">
-            <strong>Waiting for payment</strong>
+          <strong>
+            {{
+              "rental.actions.confirm_rental.payment.owner.pending.title"
+                | translate
+            }}
+          </strong>
 
-            <span>
-                The renter needs to complete the payment to confirm this rental.
-            </span>
+          <span>
+            {{
+              "rental.actions.confirm_rental.payment.owner.pending.message"
+                | translate
+            }}
+          </span>
         </div>
-
-    </div>
+      </div>
     }
 
-    @if (paymentStatus === 'EXPIRED') {
-    <div class="payment-expired">
-
+    @if (paymentStatus === "EXPIRED") {
+      <div class="payment-expired">
         <i class="pi pi-clock"></i>
 
         <span>
-            The payment checkout has expired and the rental has been cancelled.
+          {{
+            "rental.actions.confirm_rental.payment.owner.expired" | translate
+          }}
         </span>
-
-    </div>
+      </div>
     }
 
-    @if (paymentStatus === 'ERROR') {
-    <div class="payment-error">
+    @if (paymentStatus === "ERROR") {
+      <div class="payment-error">
         <span>
-            We couldn't prepare the rental payment.
+          {{ "rental.actions.confirm_rental.payment.owner.error" | translate }}
         </span>
-    </div>
+      </div>
     }
-
-    } @else {
-
-    @if (paymentStatus === 'PREPARING_PAYMENT') {
-    <div class="payment-status">
-
+  } @else {
+    @if (paymentStatus === "PREPARING_PAYMENT") {
+      <div class="payment-status">
         <i class="pi pi-spin pi-spinner"></i>
 
         <div class="payment-status-content">
-            <strong>Preparing payment</strong>
+          <strong>
+            {{
+              "rental.actions.confirm_rental.payment.renter.preparing.title"
+                | translate
+            }}
+          </strong>
 
-            <span>
-                We're preparing your payment checkout. Please wait.
-            </span>
+          <span>
+            {{
+              "rental.actions.confirm_rental.payment.renter.preparing.message"
+                | translate
+            }}
+          </span>
         </div>
-
-    </div>
+      </div>
     }
 
-    @if (paymentStatus === 'PENDING') {
-
-    <div class="payment-ready">
-
+    @if (paymentStatus === "PENDING") {
+      <div class="payment-ready">
         <div class="payment-button-row">
-            <p-button label="Continue to payment" icon="pi pi-credit-card" styleClass="payment-button"
-                (onClick)="goToPayment()" />
+          <p-button
+            [label]="
+              'rental.actions.confirm_rental.payment.renter.pending.continue'
+                | translate
+            "
+            icon="pi pi-credit-card"
+            styleClass="payment-button"
+            (onClick)="goToPayment()"
+          />
 
-            <button type="button" class="payment-info" (click)="paymentInfo.toggle($event)">
-                <i class="pi pi-info-circle"></i>
-            </button>
+          <button
+            type="button"
+            class="payment-info"
+            (click)="paymentInfo.toggle($event)"
+            [attr.aria-label]="
+              'rental.actions.confirm_rental.paymentInfo' | translate
+            "
+          >
+            <i class="pi pi-info-circle"></i>
+          </button>
         </div>
 
         <span class="payment-expiration">
-            Checkout expires in
-            {{ Math.floor(remainingSeconds / 60) }}:{{
-            (remainingSeconds % 60).toString().padStart(2, '0')
-            }}
+          {{
+            "rental.actions.confirm_rental.payment.renter.pending.expiresIn"
+              | translate
+          }}
+          {{ Math.floor(remainingSeconds / 60) }}:{{
+            (remainingSeconds % 60).toString().padStart(2, "0")
+          }}
         </span>
 
         <p-popover #paymentInfo>
-            <div class="payment-info-content">
-                <strong>Test cards</strong>
+          <div class="payment-info-content">
+            <strong>
+              {{
+                "rental.actions.confirm_rental.simulation.testCards" | translate
+              }}
+            </strong>
 
-                <p>
-                    This is a simulated payment environment.
-                    Never use real card information.
-                </p>
+            <p>
+              {{
+                "rental.actions.confirm_rental.simulation.notice" | translate
+              }}
+            </p>
 
-                <ul>
-                    <li>4242 4242 4242 4242 — Visa</li>
-                    <li>5555 5555 5555 4444 — Mastercard</li>
-                </ul>
+            <ul>
+              <li>
+                {{
+                  "rental.actions.confirm_rental.simulation.visa" | translate
+                }}
+              </li>
+              <li>
+                {{
+                  "rental.actions.confirm_rental.simulation.mastercard"
+                    | translate
+                }}
+              </li>
+            </ul>
 
-                <small>
-                    Any future expiration date and CVC can be used.
-                </small>
-            </div>
+            <small>
+              {{
+                "rental.actions.confirm_rental.simulation.expiration"
+                  | translate
+              }}
+            </small>
+          </div>
         </p-popover>
+      </div>
 
-    </div>
-
-    <div class="simulation-notice">
+      <div class="simulation-notice">
         <i class="pi pi-info-circle"></i>
 
         <div>
-            <strong>Simulated payment</strong>
-            <span>No real charges will be made.</span>
-        </div>
-    </div>
+          <strong>
+            {{ "rental.actions.confirm_rental.simulation.title" | translate }}
+          </strong>
 
+          <span>
+            {{ "rental.actions.confirm_rental.simulation.message" | translate }}
+          </span>
+        </div>
+      </div>
     }
 
-    @if (paymentStatus === 'ERROR') {
-    <div class="payment-error">
-
+    @if (paymentStatus === "ERROR") {
+      <div class="payment-error">
         <span>
-            Payment could not be prepared.
+          {{ "rental.actions.confirm_rental.payment.renter.error" | translate }}
         </span>
 
-        <p-button label="Try again" severity="secondary" size="small" (onClick)="preparePayment()" />
-
-    </div>
+        <p-button
+          [label]="
+            'rental.actions.confirm_rental.payment.renter.tryAgain' | translate
+          "
+          severity="secondary"
+          size="small"
+          (onClick)="preparePayment()"
+        />
+      </div>
     }
 
-    @if (paymentStatus === 'EXPIRED') {
-    <div class="payment-expired">
-
+    @if (paymentStatus === "EXPIRED") {
+      <div class="payment-expired">
         <i class="pi pi-clock"></i>
 
         <span>
-            This payment checkout has expired and the rental has been cancelled.
+          {{
+            "rental.actions.confirm_rental.payment.renter.expired" | translate
+          }}
         </span>
-
-    </div>
+      </div>
     }
-
-    }
-
+  }
 </div>

@@ -425,6 +425,296 @@ export const enUS = {
     },
   },
 
+  rental: {
+    header: {
+      eyebrow: 'Rental',
+      title: 'Rental',
+    },
+
+    sections: {
+      item: 'Item',
+      rental: 'Rental',
+      location: 'Pickup Address',
+      actions: 'Actions',
+    },
+
+    fields: {
+      period: 'Period',
+      finalPrice: 'Final price',
+      startDate: 'Start date',
+      endDate: 'End date',
+      renter: 'Renter',
+      owner: 'Owner',
+      notDefined: 'Not defined',
+    },
+
+    timeline: {
+      rental: 'Rental',
+      preparation: 'Preparation',
+      in_use: 'In use',
+      return: 'Return',
+    },
+
+    actions: {
+      cancel_rental: {
+        button: 'Cancel rental',
+
+        confirmation: {
+          confirmed: {
+            owner: {
+              header: 'Confirm rental cancellation',
+              message:
+                'Cancelling this confirmed rental will initiate a refund to the renter. The refund may take up to 48 hours to be processed. Do you want to continue?',
+            },
+
+            renter: {
+              header: 'Confirm rental cancellation',
+              message:
+                'Cancelling this confirmed rental will initiate a refund. The refund may take up to 48 hours to be processed. Do you want to continue?',
+            },
+
+            accept: 'Cancel rental',
+            reject: 'Keep rental',
+          },
+
+          pending: {
+            owner: {
+              header: 'Cancel rental',
+              message:
+                'Are you sure you want to cancel this rental? The renter will no longer be able to proceed with the rental.',
+            },
+
+            renter: {
+              header: 'Cancel rental',
+              message: 'Are you sure you want to cancel this rental?',
+            },
+
+            accept: 'Cancel',
+            reject: 'Keep rental',
+          },
+        },
+
+        messages: {
+          success: {
+            title: 'Rental cancelled',
+
+            owner: {
+              cancelled: 'The rental was cancelled successfully.',
+              refunded:
+                'The rental was cancelled. A refund will be processed for the renter within 48 hours.',
+            },
+
+            renter: {
+              cancelled: 'Your rental was cancelled successfully.',
+              refunded:
+                'The rental was cancelled. Your refund will be processed within 48 hours.',
+            },
+          },
+
+          error: {
+            title: 'Cancellation failed',
+            default: 'The rental could not be cancelled.',
+          },
+        },
+      },
+
+      confirm_rental: {
+        payment: {
+          owner: {
+            preparing: {
+              title: 'Preparing rental',
+              message: "We're preparing the rental confirmation.",
+            },
+            pending: {
+              title: 'Waiting for payment',
+              message:
+                'The renter needs to complete the payment to confirm this rental.',
+            },
+            expired:
+              'The payment checkout has expired and the rental has been cancelled.',
+            error: "We couldn't prepare the rental payment.",
+          },
+
+          renter: {
+            preparing: {
+              title: 'Preparing payment',
+              message: "We're preparing your payment checkout. Please wait.",
+            },
+            pending: {
+              continue: 'Continue to payment',
+              expiresIn: 'Checkout expires in',
+            },
+            expired:
+              'This payment checkout has expired and the rental has been cancelled.',
+            error: 'Payment could not be prepared.',
+            tryAgain: 'Try again',
+          },
+        },
+
+        simulation: {
+          title: 'Simulated payment',
+          message: 'No real charges will be made.',
+          testCards: 'Test cards',
+          notice:
+            'This is a simulated payment environment. Never use real card information.',
+          visa: '4242 4242 4242 4242 — Visa',
+          mastercard: '5555 5555 5555 4444 — Mastercard',
+          expiration: 'Any future expiration date and CVC can be used.',
+        },
+
+        paymentInfo: 'Payment information',
+      },
+
+      prepare_item: {
+        button: 'Start preparing',
+
+        status: {
+          title: 'Preparing your rental',
+          message:
+            'The owner needs to prepare the item before it can be collected.',
+        },
+
+        messages: {
+          success: {
+            title: 'Preparation started',
+            message: 'The rental item is now being prepared.',
+          },
+
+          error: {
+            title: 'Unable to start preparation',
+            default: 'The item could not be prepared.',
+          },
+        },
+      },
+
+      ship_item: {
+        button: 'Mark as shipped',
+
+        status: {
+          message: 'The owner is preparing your item for shipment.',
+        },
+
+        messages: {
+          success: {
+            title: 'Item shipped',
+            message: 'The item has been marked as shipped successfully.',
+          },
+
+          error: {
+            title: 'Shipping failed',
+            default: 'The item could not be marked as shipped.',
+            invalidRentalStatus:
+              'The item cannot be shipped in its current rental status.',
+          },
+        },
+      },
+
+      mark_in_use: {
+        delivery: {
+          title: 'Estimated delivery',
+          message: 'Your item is expected to arrive around',
+        },
+        button: 'Simulate delivery',
+        debugNotice: 'Debug only — simulates the delivery process.',
+        messages: {
+          error: {
+            default: 'The rental could not be marked as in use.',
+            invalidRentalStatus:
+              'The rental cannot be marked as in use in its current status.',
+          },
+        },
+      },
+
+      request_return: {
+        status: {
+          title: 'Enjoy your rental',
+          owner: 'Your item is currently being used by the renter.',
+          renter: 'Your rental is now in use. Enjoy!',
+          ownerWaiting: 'The renter can request the return of the item.',
+        },
+        button: 'Request return',
+        messages: {
+          success: {
+            title: 'Return requested',
+            message: 'Your return request has been submitted successfully.',
+          },
+          error: {
+            title: 'Return request failed',
+            default: 'The item return could not be requested.',
+          },
+        },
+      },
+
+      ship_return: {
+        status: {
+          title: 'Return requested',
+          owner:
+            'The renter has requested to return the item. It is waiting to be shipped back.',
+          renter:
+            'Your return request has been received. Ship the item back when you’re ready.',
+          ownerWaiting: 'Waiting for the renter to ship the item back.',
+        },
+        button: 'Ship return',
+        messages: {
+          success: {
+            title: 'Return shipped',
+            message: 'The return has been shipped successfully.',
+          },
+          error: {
+            title: 'Return failed',
+            default: 'The return could not be shipped. Please try again.',
+          },
+        },
+      },
+
+      mark_returned: {
+        status: {
+          title: 'Return on the way',
+          owner:
+            'The renter has shipped the item back. Confirm when you receive it.',
+          renter:
+            'Your return has been shipped. The owner will confirm when it arrives.',
+          estimatedArrival: 'Estimated arrival:',
+        },
+        button: 'Confirm return received',
+        messages: {
+          success: {
+            title: 'Return confirmed',
+            message: 'The item has been marked as returned.',
+          },
+          error: {
+            title: 'Confirmation failed',
+            default: 'The return could not be confirmed.',
+          },
+        },
+      },
+
+      late_rental: {
+        status: {
+          title: 'Rental overdue',
+          owner:
+            'The rental period has ended and the item has not been returned yet.',
+          renter:
+            'The rental period has ended. Renew your rental to continue using the item.',
+          paymentUnavailable: 'Renewal payment is currently unavailable.',
+        },
+        button: 'Renew rental',
+        messages: {
+          error: {
+            title: 'Payment error',
+            renewalPayment: 'The renewal payment could not be prepared.',
+          },
+        },
+      },
+
+      returned: {
+        title: 'Rental completed',
+        message:
+          'The item has been returned successfully. Thank you for using OmniRent.',
+      },
+    },
+  },
+
   feed: {
     title: 'Explore items',
 

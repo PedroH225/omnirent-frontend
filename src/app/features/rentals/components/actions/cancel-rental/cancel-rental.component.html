@@ -4,6 +4,7 @@
     icon="pi pi-times"
     severity="danger"
     [outlined]="true"
+    [disabled]="!canCancel"
     (onClick)="cancelRental()"
   />
 </div>

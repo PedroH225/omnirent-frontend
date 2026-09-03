@@ -184,6 +184,7 @@
                 [isOwner]="isOwner()"
                 (paymentConfirmed)="onRentalStatusChanged($event)"
                 (paymentExpired)="onRentalStatusChanged($event)"
+                (canCancel)="handleCanCancel($event)"
               >
               </app-confirm-rental>
             </div>
@@ -277,6 +278,7 @@
               <app-cancel-rental
                 [rentalId]="r.id"
                 [rentalStatus]="r.rentalStatus"
+                [canCancel]="canCancel";
                 [isOwner]="isOwner()"
                 (rentalCancelled)="onRentalStatusChanged($event)"
               >

@@ -47,6 +47,7 @@ import { TranslationService } from '@core/i18n/translation.service';
   styleUrl: './rental-detail.component.scss',
 })
 export class RentalDetailComponent {
+  canCancel = true;
   storageUrl = environment.storageUrl;
 
   rental: RentalDetailModel | null = null;
@@ -148,6 +149,10 @@ export class RentalDetailComponent {
       this.rentalStatus.find((status) => status.code === rental.rentalStatus)
         ?.code ?? rental.rentalStatus,
     );
+  }
+
+  handleCanCancel($event: boolean) {
+    this.canCancel = $event;
   }
 
   buildStorageUrl(): string {

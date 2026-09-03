@@ -23,6 +23,8 @@ export class ConfirmRentalComponent {
 
   @Output() paymentExpired = new EventEmitter<string>();
   @Output() paymentConfirmed = new EventEmitter<string>();
+  @Output() canCancel = new EventEmitter<boolean>();
+
   paymentCheckout: PaymentCheckout | undefined;
 
   paymentStatus: string = 'PREPARING_PAYMENT';
@@ -45,6 +47,7 @@ export class ConfirmRentalComponent {
 
     if (success === 'true') {
       this.paymentStatus = 'PROCESSING_PAYMENT';
+      this.canCancel.emit(false);
       return;
     }
 
@@ -94,6 +97,7 @@ export class ConfirmRentalComponent {
   }
 
   private handlePaymentUpdate() {
+    this.canCancel.emit(true);
     this.paymentConfirmed.emit('CONFIRMED');
   }
 

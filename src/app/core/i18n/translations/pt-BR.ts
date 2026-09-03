@@ -266,6 +266,7 @@ export const ptBR = {
     loading: 'Carregando...',
     rentNow: 'Alugar agora',
     rentalPeriod: 'Período de aluguel',
+    rentLoginRequired: 'Entre na sua conta para poder alugar este item.',
 
     description: {
       title: 'Descrição',

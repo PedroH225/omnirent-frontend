@@ -1,5 +1,11 @@
 @if (isLoading) {
-  <p>{{ "item.loading" | translate }}</p>
+  <div class="item-loading">
+    <i class="pi pi-spin pi-spinner"></i>
+
+    <span>
+      {{ "item.loading" | translate }}
+    </span>
+  </div>
 }
 
 @if (item && !isLoading) {
@@ -35,11 +41,23 @@
       }
 
       @if (!isOwner) {
-        <p-button
-          [label]="'item.rentNow' | translate"
-          [disabled]="item.itemStatus !== 'AVAILABLE'"
-          (onClick)="rentItem()"
-        />
+        <div class="rent-action">
+          <div
+            class="rent-button-wrapper"
+          >
+            <p-button
+              [label]="'item.rentNow' | translate"
+              [disabled]="item.itemStatus !== 'AVAILABLE' || anonymous"
+              (onClick)="rentItem()"
+            />
+
+            @if (anonymous && showLoginMessage) {
+              <div class="login-required">
+                {{ "item.rentLoginRequired" | translate }}
+              </div>
+            }
+          </div>
+        </div>
       }
     </header>
 
@@ -183,25 +201,27 @@
     </section>
   </div>
 
-  <p-dialog
-    [header]="'item.edit.title' | translate"
-    [(visible)]="editDialogVisible"
-    [modal]="true"
-    [draggable]="false"
-    [resizable]="false"
-    [style]="{ width: '900px' }"
-    (onHide)="closeEditDialog()"
-  >
-    <app-save-item-form
-      mode="edit"
-      [item]="item"
-      [backendErrors]="backendErrors"
-      (formChange)="onFormChange($event)"
-      (save)="onFormSubmit()"
-      (validationError)="showValidationError()"
+  @if (isOwner) {
+    <p-dialog
+      [header]="'item.edit.title' | translate"
+      [(visible)]="editDialogVisible"
+      [modal]="true"
+      [draggable]="false"
+      [resizable]="false"
+      [style]="{ width: '900px' }"
+      (onHide)="closeEditDialog()"
     >
-    </app-save-item-form>
-  </p-dialog>
+      <app-save-item-form
+        mode="edit"
+        [item]="item"
+        [backendErrors]="backendErrors"
+        (formChange)="onFormChange($event)"
+        (save)="onFormSubmit()"
+        (validationError)="showValidationError()"
+      >
+      </app-save-item-form>
+    </p-dialog>
+  }
 }
 
 <p-confirmdialog [draggable]="false" />

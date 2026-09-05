@@ -1,8 +1,11 @@
 {
   "name": "omnirent-frontend",
+  "main": "./worker/src/index.js",
   "compatibility_date": "2026-08-29",
   "assets": {
     "directory": "./dist/omnirent-frontend/browser",
-    "not_found_handling": "single-page-application"
+    "binding": "ASSETS",
+    "not_found_handling": "single-page-application",
+    "run_worker_first": ["/api/*"]
   }
 }

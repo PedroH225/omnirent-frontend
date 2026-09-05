@@ -4,7 +4,11 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 
 import { routes } from './app.routes';
 import { authInterceptor } from './core/auth/auth.interceptor';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import {
+  provideHttpClient,
+  withInterceptors,
+  withXsrfConfiguration,
+} from '@angular/common/http';
 import { errorInterceptor } from './core/http/error-interceptor';
 import { providePrimeNG } from 'primeng/config';
 import Lara from '@primeng/themes/lara';
@@ -25,7 +29,7 @@ const OmniRentTheme = definePreset(Lara, {
       700: '#1d56b3',
       800: '#1b4892',
       900: '#1a3d77',
-      950: '#11284f'
+      950: '#11284f',
     },
 
     colorScheme: {
@@ -42,13 +46,13 @@ const OmniRentTheme = definePreset(Lara, {
           700: '#334155',
           800: '#1e293b',
           900: '#0f172a',
-          950: '#020617'
+          950: '#020617',
         },
 
         text: {
           color: '#1e293b',
-          mutedColor: '#64748b'
-        }
+          mutedColor: '#64748b',
+        },
       },
 
       dark: {
@@ -64,7 +68,7 @@ const OmniRentTheme = definePreset(Lara, {
           700: '#e2e8f0',
           800: '#f1f5f9',
           900: '#f8fafc',
-          950: '#ffffff'
+          950: '#ffffff',
         },
 
         red: {
@@ -78,16 +82,16 @@ const OmniRentTheme = definePreset(Lara, {
           700: '#b91c1c',
           800: '#991b1b',
           900: '#7f1d1d',
-          950: '#450a0a'
+          950: '#450a0a',
         },
 
         text: {
           color: '#f8fafc',
-          mutedColor: '#94a3b8'
-        }
-      }
-    }
-  }
+          mutedColor: '#94a3b8',
+        },
+      },
+    },
+  },
 });
 
 export const appConfig: ApplicationConfig = {
@@ -98,18 +102,22 @@ export const appConfig: ApplicationConfig = {
       theme: {
         preset: OmniRentTheme,
         options: {
-          darkModeSelector: false
-        }
-      }
+          darkModeSelector: false,
+        },
+      },
     }),
     provideAnimationsAsync(),
     provideHttpClient(
+      withXsrfConfiguration({
+        cookieName: 'XSRF-TOKEN',
+        headerName: 'X-XSRF-TOKEN',
+      }),
       withInterceptors([
         authInterceptor,
         localeInterceptor,
         timezoneInterceptor,
-        errorInterceptor
-      ])
-    )
-  ]
+        errorInterceptor,
+      ]),
+    ),
+  ],
 };

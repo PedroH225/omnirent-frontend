@@ -9,16 +9,6 @@ const router = inject(Router);
     return next(req).pipe(
         catchError((error: HttpErrorResponse) => {
             const apiError = error.error as ApiException;
-
-            switch (apiError?.errorCode) {
-                case "INVALID_TOKEN":
-                case "AUTHENTICATION_REQUIRED":
-                    router.navigate(['/auth/login']);
-                    localStorage.removeItem("token");
-                    break;
-                default:
-                    break;
-            }
             return throwError(() => error);
         })
     );

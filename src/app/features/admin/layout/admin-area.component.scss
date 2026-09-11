@@ -1,0 +1,26 @@
+.admin-layout {
+  display: grid;
+  grid-template-columns: 18rem minmax(0, 1fr);
+  gap: 2rem;
+
+  max-width: 1800px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+
+  align-items: start;
+}
+
+.admin-content {
+  min-width: 0;
+}
+
+@media (max-width: 768px) {
+  .admin-layout {
+    display: block;
+
+    margin: 1rem auto;
+    margin-top: 0.25rem;
+
+    padding: 0 1rem;
+  }
+}

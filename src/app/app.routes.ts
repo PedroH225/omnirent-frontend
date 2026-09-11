@@ -15,74 +15,85 @@ import { RegisterComponent } from '@features/auth/pages/register/register.compon
 import { AuthAreaComponent } from '@features/auth/layouts/auth-area/auth-area.component';
 import { RentalDetailComponent } from '@features/rentals/rental-detail/rental-detail.component';
 import { ItemFeedComponent } from '@features/items/pages/item-feed/item-feed.component';
+import { AdminAreaComponent } from '@features/admin/layout/admin-area.component';
+import { AdminDashboardComponent } from '@features/admin/components/admin-dashboard/admin-dashboard.component';
 
 export const routes: Routes = [
-    {
+  {
+    path: '',
+    component: MainLayoutComponent,
+    children: [
+      {
         path: '',
-        component: MainLayoutComponent,
+        component: HomeComponent,
+      },
+      {
+        path: 'feed',
+        component: ItemFeedComponent,
+      },
+      {
+        path: 'items/:id',
+        component: ItemDetailComponent,
+      },
+      {
+        path: 'rentals/:id',
+        component: RentalDetailComponent,
+      },
+      {
+        path: 'admin',
+        component: AdminAreaComponent,
         children: [
-            {
-                path: '',
-                component: HomeComponent
-            },
-            {
-                path: 'feed',
-                component: ItemFeedComponent
-            },
-            {
-                path: 'items/:id',
-                component: ItemDetailComponent
-            },
-            {
-                path: 'rentals/:id',
-                component: RentalDetailComponent
-            },
-            {
-                path: 'account',
-                canActivate: [authGuard],
-                component: UserLayoutComponent,
-                children: [
-                    {
-                        path: '',
-                        component: DashboardComponent
-                    },
-                    {
-                        path: 'my-items',
-                        component: MyItemsComponent
-                    },
-                    {
-                        path: 'renting',
-                        component: RentingComponent
-                    },
-                    {
-                        path: 'renting-out',
-                        component: RentingOutComponent
-                    },
-                    {
-                        path: 'create-item',
-                        component: CreateItemComponent
-                    },
-                    {
-                        path: 'addresses',
-                        component: UserAddressComponent
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        path: 'auth',
-        component: AuthAreaComponent,
+          {
+            path: '',
+            component: AdminDashboardComponent,
+          },
+        ],
+      },
+      {
+        path: 'account',
+        canActivate: [authGuard],
+        component: UserLayoutComponent,
         children: [
-            {
-                path: 'login',
-                component: LoginComponent
-            },
-            {
-                path: 'register',
-                component: RegisterComponent
-            }
-        ]
-    }
+          {
+            path: '',
+            component: DashboardComponent,
+          },
+          {
+            path: 'my-items',
+            component: MyItemsComponent,
+          },
+          {
+            path: 'renting',
+            component: RentingComponent,
+          },
+          {
+            path: 'renting-out',
+            component: RentingOutComponent,
+          },
+          {
+            path: 'create-item',
+            component: CreateItemComponent,
+          },
+          {
+            path: 'addresses',
+            component: UserAddressComponent,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    path: 'auth',
+    component: AuthAreaComponent,
+    children: [
+      {
+        path: 'login',
+        component: LoginComponent,
+      },
+      {
+        path: 'register',
+        component: RegisterComponent,
+      },
+    ],
+  },
 ];
-

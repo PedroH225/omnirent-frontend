@@ -920,4 +920,27 @@ export const ptBR = {
       },
     },
   },
+  admin: {
+    sidebar: {
+      title: 'Administração',
+      openMenu: 'Abrir menu',
+
+      users: {
+        title: 'Usuários',
+        manage: 'Gerenciar usuários',
+        banned: 'Usuários banidos',
+      },
+
+      items: {
+        title: 'Itens',
+        review: 'Avaliar itens',
+        blocked: 'Itens bloqueados',
+      },
+    },
+
+    dashboard: {
+      title: 'Painel administrativo',
+      description: 'Gerencie usuários e itens da plataforma.',
+    },
+  },
 } as const;

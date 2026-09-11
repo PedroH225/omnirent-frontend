@@ -912,4 +912,27 @@ export const enUS = {
       },
     },
   },
+  admin: {
+    sidebar: {
+      title: 'Administration',
+      openMenu: 'Open menu',
+
+      users: {
+        title: 'Users',
+        manage: 'Manage users',
+        banned: 'Banned users',
+      },
+
+      items: {
+        title: 'Items',
+        review: 'Review items',
+        blocked: 'Blocked items',
+      },
+    },
+
+    dashboard: {
+      title: 'Admin dashboard',
+      description: 'Manage users and items on the platform.',
+    },
+  },
 } as const;

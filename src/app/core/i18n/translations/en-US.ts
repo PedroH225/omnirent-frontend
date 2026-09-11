@@ -773,6 +773,7 @@ export const enUS = {
       openMenu: 'Open menu',
 
       dashboard: 'Dashboard',
+      admin: 'Administration',
 
       listings: {
         title: 'Listings',

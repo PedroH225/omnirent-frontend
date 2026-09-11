@@ -781,6 +781,7 @@ export const ptBR = {
       openMenu: 'Abrir menu',
 
       dashboard: 'Painel',
+      admin: 'Administração',
 
       listings: {
         title: 'Anúncios',

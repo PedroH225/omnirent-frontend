@@ -6,6 +6,7 @@ import { DrawerModule } from 'primeng/drawer';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { LocaleService } from '@core/i18n/locale.service';
 import { TranslationService } from '@core/i18n/translation.service';
+import { UserService } from '@core/user/user.service';
 
 @Component({
   selector: 'app-user-sidebar',
@@ -21,6 +22,7 @@ export class UserSidebarComponent {
   constructor(
     private readonly localeService: LocaleService,
     private readonly translationService: TranslationService,
+    private readonly userService: UserService,
   ) {
     effect(() => {
       this.localeService.locale();
@@ -126,5 +128,21 @@ export class UserSidebarComponent {
         routerLink: '/account/favorites',
       },
     ];
+
+    this.handleAuthorities();
+  }
+
+  private handleAuthorities(): void {
+    const isAdmin = this.userService
+      .currentUser()
+      ?.authorities.some((authority) => authority === 'ROLE_ADMIN');
+
+    if (isAdmin) {
+      this.items.push({
+        label: this.translationService.translate('account.sidebar.admin'),
+        icon: 'pi pi-shield',
+        routerLink: '/admin',
+      });
+    }
   }
 }

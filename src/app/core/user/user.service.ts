@@ -28,6 +28,7 @@ export class UserService {
         this._currentUser.set(user);
         this.localeService.setLocale(user.locale);
         this.authStateService.setAuthenticated();
+        this.authStateService.setPermissions(user.authorities);
       }),
       map(() => void 0),
       catchError((error) => {

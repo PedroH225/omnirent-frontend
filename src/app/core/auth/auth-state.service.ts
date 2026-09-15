@@ -1,21 +1,28 @@
 import { Injectable, signal } from '@angular/core';
 
-export type AuthState =
-  | 'unknown'
-  | 'authenticated'
-  | 'unauthenticated';
+export type AuthState = 'unknown' | 'authenticated' | 'unauthenticated';
+export enum Role {
+  USER = 'ROLE_USER',
+  ADMIN = 'ROLE_ADMIN',
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthStateService {
-
   private _state = signal<AuthState>('unknown');
+  private _roles: Role[] = [];
 
   readonly state = this._state.asReadonly();
 
   setAuthenticated(): void {
     this._state.set('authenticated');
+  }
+
+  setPermissions(authorities: string[]) {
+    this._roles = authorities.filter((authority): authority is Role =>
+      Object.values(Role).includes(authority as Role),
+    );
   }
 
   setUnauthenticated(): void {
@@ -24,5 +31,9 @@ export class AuthStateService {
 
   isAuthenticated(): boolean {
     return this._state() === 'authenticated';
+  }
+
+  hasPermission(requiredRoles: Role[]): boolean {
+    return requiredRoles.some((role) => this._roles.includes(role));
   }
 }

@@ -7,6 +7,7 @@ import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { LocaleService } from '@core/i18n/locale.service';
 import { TranslationService } from '@core/i18n/translation.service';
 import { UserService } from '@core/user/user.service';
+import { AuthStateService, Role } from '@core/auth/auth-state.service';
 
 @Component({
   selector: 'app-user-sidebar',
@@ -23,6 +24,7 @@ export class UserSidebarComponent {
     private readonly localeService: LocaleService,
     private readonly translationService: TranslationService,
     private readonly userService: UserService,
+    private readonly authStateService: AuthStateService,
   ) {
     effect(() => {
       this.localeService.locale();
@@ -133,11 +135,9 @@ export class UserSidebarComponent {
   }
 
   private handleAuthorities(): void {
-    const isAdmin = this.userService
-      .currentUser()
-      ?.authorities.some((authority) => authority === 'ROLE_ADMIN');
-
-    if (isAdmin) {
+    const hasPermission = this.authStateService.hasPermission([Role.ADMIN]);
+    
+    if (hasPermission) {
       this.items.push({
         label: this.translationService.translate('account.sidebar.admin'),
         icon: 'pi pi-shield',

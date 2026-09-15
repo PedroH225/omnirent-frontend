@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+import { ResolveStart, Routes } from '@angular/router';
 import { MainLayoutComponent } from '@layout/main-layout/main-layout.component';
 import { authGuard } from '@core/auth/auth.guard';
 import { LoginComponent } from '@features/auth/pages/login/login.component';
@@ -17,6 +17,8 @@ import { RentalDetailComponent } from '@features/rentals/rental-detail/rental-de
 import { ItemFeedComponent } from '@features/items/pages/item-feed/item-feed.component';
 import { AdminAreaComponent } from '@features/admin/layout/admin-area.component';
 import { AdminDashboardComponent } from '@features/admin/components/admin-dashboard/admin-dashboard.component';
+import { permissionGuard } from '@core/auth/permission-guard';
+import { Role } from '@core/auth/auth-state.service';
 
 export const routes: Routes = [
   {
@@ -42,6 +44,10 @@ export const routes: Routes = [
       {
         path: 'admin',
         component: AdminAreaComponent,
+        canActivate: [authGuard, permissionGuard],
+        data: {
+          roles : [Role.ADMIN],
+        },
         children: [
           {
             path: '',

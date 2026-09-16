@@ -1,24 +1,28 @@
 <section class="users-management">
   <header class="page-header">
-    <h1>Gerenciamento de usuários</h1>
-    <p>Consulte, filtre, bana e desbana usuários da plataforma.</p>
+    <h1>{{ "admin.usersManagement.title" | translate }}</h1>
+    <p>{{ "admin.usersManagement.description" | translate }}</p>
   </header>
 
   <div class="filters">
     <div class="filter-field">
-      <label for="username">Username</label>
+      <label for="username">
+        {{ "admin.usersManagement.username" | translate }}
+      </label>
 
       <input
         id="username"
         pInputText
         [(ngModel)]="username"
-        placeholder="Buscar por username"
+        [placeholder]="'admin.usersManagement.usernamePlaceholder' | translate"
         (keyup.enter)="search()"
       />
     </div>
 
     <div class="filter-field">
-      <label for="status">Status</label>
+      <label for="status">
+        {{ "admin.usersManagement.status" | translate }}
+      </label>
 
       <p-select
         inputId="status"
@@ -26,15 +30,19 @@
         [(ngModel)]="status"
         optionLabel="label"
         optionValue="value"
-        placeholder="Todos"
+        [placeholder]="'admin.usersManagement.all' | translate"
       />
     </div>
 
     <div class="filter-actions">
-      <p-button label="Buscar" icon="pi pi-search" (onClick)="search()" />
+      <p-button
+        [label]="'admin.usersManagement.search' | translate"
+        icon="pi pi-search"
+        (onClick)="search()"
+      />
 
       <p-button
-        label="Limpar"
+        [label]="'admin.usersManagement.clear' | translate"
         icon="pi pi-filter-slash"
         severity="secondary"
         [outlined]="true"
@@ -56,9 +64,9 @@
   >
     <ng-template pTemplate="header">
       <tr>
-        <th>Username</th>
-        <th>Status</th>
-        <th>Ações</th>
+        <th>{{ "admin.usersManagement.username" | translate }}</th>
+        <th>{{ "admin.usersManagement.status" | translate }}</th>
+        <th>{{ "admin.usersManagement.actions" | translate }}</th>
       </tr>
     </ng-template>
 
@@ -68,14 +76,21 @@
 
         <td>
           <p-tag
-            [value]="user.userStatus"
+            [value]="
+              'enums.userStatus.' + user.userStatus.toLowerCase() | translate
+            "
             [severity]="getStatusSeverity(user.userStatus)"
           />
         </td>
 
         <td>
           <p-button
-            [label]="getActionLabel(user)"
+            [label]="
+              (user.userStatus === 'BANNED'
+                ? 'admin.usersManagement.unban'
+                : 'admin.usersManagement.ban'
+              ) | translate
+            "
             [icon]="getActionIcon(user)"
             [severity]="user.userStatus === 'BANNED' ? 'success' : 'danger'"
             [outlined]="true"
@@ -87,7 +102,9 @@
 
     <ng-template pTemplate="emptymessage">
       <tr>
-        <td colspan="3">Nenhum usuário encontrado.</td>
+        <td colspan="3">
+          {{ "admin.usersManagement.empty" | translate }}
+        </td>
       </tr>
     </ng-template>
   </p-table>

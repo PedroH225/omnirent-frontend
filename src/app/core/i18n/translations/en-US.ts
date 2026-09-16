@@ -935,5 +935,25 @@ export const enUS = {
       title: 'Admin dashboard',
       description: 'Manage users and items on the platform.',
     },
+
+    usersManagement: {
+      title: 'User management',
+      description: 'Search, filter, ban, and unban platform users.',
+
+      username: 'Username',
+      usernamePlaceholder: 'Search by username',
+
+      status: 'Status',
+      all: 'All',
+
+      search: 'Search',
+      clear: 'Clear',
+
+      actions: 'Actions',
+      ban: 'Ban',
+      unban: 'Unban',
+
+      empty: 'No users found.',
+    },
   },
 } as const;

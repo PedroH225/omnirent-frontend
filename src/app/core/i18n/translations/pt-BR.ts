@@ -943,5 +943,25 @@ export const ptBR = {
       title: 'Painel administrativo',
       description: 'Gerencie usuários e itens da plataforma.',
     },
+
+    usersManagement: {
+      title: 'Gerenciamento de usuários',
+      description: 'Consulte, filtre, bana e desbana usuários da plataforma.',
+
+      username: 'Username',
+      usernamePlaceholder: 'Buscar por username',
+
+      status: 'Status',
+      all: 'Todos',
+
+      search: 'Buscar',
+      clear: 'Limpar',
+
+      actions: 'Ações',
+      ban: 'Banir',
+      unban: 'Desbanir',
+
+      empty: 'Nenhum usuário encontrado.',
+    },
   },
 } as const;

@@ -14,6 +14,7 @@ import { UserSummary } from '@core/user/model/user-summary-model';
 import { PageResponse } from '@shared/models/page.response.model';
 import { TranslationService } from '@core/i18n/translation.service';
 import { LocaleService } from '@core/i18n/locale.service';
+import { TranslatePipe } from '@core/i18n/translation-pipe';
 
 export enum UserStatus {
   ACTIVE = 'ACTIVE',
@@ -32,6 +33,7 @@ export enum UserStatus {
     InputTextModule,
     SelectModule,
     TagModule,
+    TranslatePipe,
   ],
   templateUrl: './users-management.component.html',
   styleUrl: './users-management.component.scss',
@@ -191,10 +193,6 @@ export class UsersManagementComponent implements OnInit {
 
   toggleBan(user: UserSummary): void {
     // chamada para banir/desbanir
-  }
-
-  getActionLabel(user: UserSummary): string {
-    return user.userStatus === UserStatus.BANNED ? 'Desbanir' : 'Banir';
   }
 
   getActionIcon(user: UserSummary): string {

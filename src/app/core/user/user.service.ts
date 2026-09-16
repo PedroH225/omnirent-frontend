@@ -15,7 +15,6 @@ import { LocaleService } from '@core/i18n/locale.service';
 import { AuthStateService } from '@core/auth/auth-state.service';
 import { UserSummary } from './model/user-summary-model';
 import { PageResponse } from '@shared/models/page.response.model';
-import { EnumOption } from '@shared/models/EnumOption';
 import { UserEnumsResponse } from './model/user-enums-model';
 import { CacheDuration, CacheService } from '@core/cache/cache.service';
 
@@ -76,6 +75,13 @@ export class UserService {
     return this.http.get<PageResponse<UserSummary>>(
       `${this.apiUrl}/admin/users`,
       { params },
+    );
+  }
+
+  toggleUserBan(userId: string): Observable<void> {
+    return this.http.patch<void>(
+      `${this.apiUrl}/admin/users/status/${userId}`,
+      {},
     );
   }
 

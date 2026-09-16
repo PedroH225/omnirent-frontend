@@ -1,4 +1,4 @@
-import { Component, effect, OnInit } from '@angular/core';
+import { Component, effect, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,6 +15,10 @@ import { PageResponse } from '@shared/models/page.response.model';
 import { TranslationService } from '@core/i18n/translation.service';
 import { LocaleService } from '@core/i18n/locale.service';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { LoggedUserModel } from '@core/user/model/logged-user-model';
 
 export enum UserStatus {
   ACTIVE = 'ACTIVE',
@@ -34,7 +38,10 @@ export enum UserStatus {
     SelectModule,
     TagModule,
     TranslatePipe,
+    ConfirmDialogModule,
+    ToastModule,
   ],
+  providers: [ConfirmationService, MessageService],
   templateUrl: './users-management.component.html',
   styleUrl: './users-management.component.scss',
 })
@@ -59,6 +66,8 @@ export class UsersManagementComponent implements OnInit {
     private readonly router: Router,
     private readonly translationService: TranslationService,
     private readonly localeService: LocaleService,
+    private readonly messageService: MessageService,
+    private readonly confirmationService: ConfirmationService,
   ) {
     effect(() => {
       this.localeService.locale();
@@ -112,6 +121,8 @@ export class UsersManagementComponent implements OnInit {
       next: (response: PageResponse<UserSummary>) => {
         this.users = response.content;
         this.totalElements = response.totalElements;
+        this.removeCurrentUser();
+
         this.loading = false;
       },
 
@@ -192,7 +203,77 @@ export class UsersManagementComponent implements OnInit {
   }
 
   toggleBan(user: UserSummary): void {
-    // chamada para banir/desbanir
+    const isBanned = user.userStatus === 'BANNED';
+
+    this.confirmationService.confirm({
+      header: this.translationService.translate(
+        isBanned
+          ? 'admin.usersManagement.confirmUnban.title'
+          : 'admin.usersManagement.confirmBan.title',
+      ),
+
+      message: this.translationService.translate(
+        isBanned
+          ? 'admin.usersManagement.confirmUnban.message'
+          : 'admin.usersManagement.confirmBan.message',
+        { username: user.username },
+      ),
+
+      icon: 'pi pi-exclamation-triangle',
+
+      acceptLabel: this.translationService.translate(
+        isBanned ? 'admin.usersManagement.unban' : 'admin.usersManagement.ban',
+      ),
+
+      rejectLabel: this.translationService.translate('common.cancel'),
+
+      acceptButtonStyleClass: isBanned ? 'p-button-success' : 'p-button-danger',
+
+      rejectButtonStyleClass: 'p-button-secondary p-button-outlined',
+
+      accept: () => {
+        this.executeToggleBan(user, isBanned);
+      },
+    });
+  }
+
+  private executeToggleBan(user: UserSummary, wasBanned: boolean): void {
+    this.userService.toggleUserBan(user.id).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
+          summary: this.translationService.translate('common.messages.success'),
+          detail: this.translationService.translate(
+            wasBanned
+              ? 'admin.usersManagement.unbanSuccess'
+              : 'admin.usersManagement.banSuccess',
+            { username: user.username },
+          ),
+        });
+
+        this.users = this.users.filter(
+          (currentUser) => currentUser.id !== user.id,
+        );
+
+        this.totalElements--;
+      },
+
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
+          summary: this.translationService.translate('common.messages.error'),
+          detail: this.translationService.translate(
+            'admin.usersManagement.statusChangeError',
+          ),
+        });
+      },
+    });
+  }
+
+  private removeCurrentUser() {
+    const currentUserId = this.userService.currentUser()?.id;
+
+    this.users = this.users.filter((user) => user.id !== currentUserId);
   }
 
   getActionIcon(user: UserSummary): string {

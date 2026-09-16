@@ -13,7 +13,8 @@ export const ptBR = {
 
     messages: {
       success: 'Sucesso',
-
+      error: 'Erro',
+      
       validationError: {
         title: 'Falha na validação',
         message: 'Revise os campos destacados e tente novamente.',
@@ -962,6 +963,21 @@ export const ptBR = {
       unban: 'Desbanir',
 
       empty: 'Nenhum usuário encontrado.',
+
+      confirmBan: {
+        title: 'Banir usuário',
+        message: 'Tem certeza de que deseja banir o usuário {{username}}?',
+      },
+
+      confirmUnban: {
+        title: 'Desbanir usuário',
+        message: 'Tem certeza de que deseja desbanir o usuário {{username}}?',
+      },
+
+      banSuccess: 'O usuário {{username}} foi banido com sucesso.',
+      unbanSuccess: 'O usuário {{username}} foi desbanido com sucesso.',
+
+      statusChangeError: 'Não foi possível alterar o status do usuário.',
     },
   },
 } as const;

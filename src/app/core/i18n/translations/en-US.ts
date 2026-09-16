@@ -13,6 +13,7 @@ export const enUS = {
 
     messages: {
       success: 'Success',
+      error: 'Error',
 
       validationError: {
         title: 'Validation failed',
@@ -954,6 +955,21 @@ export const enUS = {
       unban: 'Unban',
 
       empty: 'No users found.',
+
+      confirmBan: {
+        title: 'Ban user',
+        message: 'Are you sure you want to ban user {{username}}?',
+      },
+
+      confirmUnban: {
+        title: 'Unban user',
+        message: 'Are you sure you want to unban user {{username}}?',
+      },
+
+      banSuccess: 'User {{username}} was successfully banned.',
+      unbanSuccess: 'User {{username}} was successfully unbanned.',
+
+      statusChangeError: 'Unable to change the user status.',
     },
   },
 } as const;

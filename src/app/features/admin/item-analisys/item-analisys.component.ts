@@ -65,7 +65,7 @@ export class ItemAnalisysComponent implements OnInit {
           relativeTo: this.route,
           queryParams: {
             page: 0,
-            size: 20,
+            size: 10,
           },
           queryParamsHandling: 'merge',
           replaceUrl: true,

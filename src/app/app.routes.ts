@@ -19,6 +19,7 @@ import { AdminAreaComponent } from '@features/admin/layout/admin-area.component'
 import { AdminDashboardComponent } from '@features/admin/components/admin-dashboard/admin-dashboard.component';
 import { permissionGuard } from '@core/auth/permission-guard';
 import { Role } from '@core/auth/auth-state.service';
+import { UsersManagementComponent } from '@features/admin/components/users-management/users-management.component';
 
 export const routes: Routes = [
   {
@@ -53,6 +54,10 @@ export const routes: Routes = [
             path: '',
             component: AdminDashboardComponent,
           },
+          {
+            path: 'users',
+            component: UsersManagementComponent,
+          }
         ],
       },
       {

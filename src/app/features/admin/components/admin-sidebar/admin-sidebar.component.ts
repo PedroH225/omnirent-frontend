@@ -49,13 +49,6 @@ export class AdminSidebarComponent {
             icon: 'pi pi-user-edit',
             routerLink: '/admin/users',
           },
-          {
-            label: this.translationService.translate(
-              'admin.sidebar.users.banned',
-            ),
-            icon: 'pi pi-ban',
-            routerLink: '/admin/users/banned',
-          },
         ],
       },
       {

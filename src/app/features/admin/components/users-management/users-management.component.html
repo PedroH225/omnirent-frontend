@@ -1,0 +1,94 @@
+<section class="users-management">
+  <header class="page-header">
+    <h1>Gerenciamento de usuários</h1>
+    <p>Consulte, filtre, bana e desbana usuários da plataforma.</p>
+  </header>
+
+  <div class="filters">
+    <div class="filter-field">
+      <label for="username">Username</label>
+
+      <input
+        id="username"
+        pInputText
+        [(ngModel)]="username"
+        placeholder="Buscar por username"
+        (keyup.enter)="search()"
+      />
+    </div>
+
+    <div class="filter-field">
+      <label for="status">Status</label>
+
+      <p-select
+        inputId="status"
+        [options]="statusOptions"
+        [(ngModel)]="status"
+        optionLabel="label"
+        optionValue="value"
+        placeholder="Todos"
+      />
+    </div>
+
+    <div class="filter-actions">
+      <p-button label="Buscar" icon="pi pi-search" (onClick)="search()" />
+
+      <p-button
+        label="Limpar"
+        icon="pi pi-filter-slash"
+        severity="secondary"
+        [outlined]="true"
+        (onClick)="clearFilters()"
+      />
+    </div>
+  </div>
+
+  <p-table
+    [value]="users"
+    [lazy]="true"
+    [paginator]="true"
+    [first]="page * size"
+    [rows]="size"
+    [totalRecords]="totalElements"
+    [loading]="loading"
+    [rowsPerPageOptions]="[10, 20, 50]"
+    (onPage)="onPageChange($event)"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Username</th>
+        <th>Status</th>
+        <th>Ações</th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-user>
+      <tr>
+        <td>{{ user.username }}</td>
+
+        <td>
+          <p-tag
+            [value]="user.userStatus"
+            [severity]="getStatusSeverity(user.userStatus)"
+          />
+        </td>
+
+        <td>
+          <p-button
+            [label]="getActionLabel(user)"
+            [icon]="getActionIcon(user)"
+            [severity]="user.userStatus === 'BANNED' ? 'success' : 'danger'"
+            [outlined]="true"
+            (onClick)="toggleBan(user)"
+          />
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="3">Nenhum usuário encontrado.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</section>

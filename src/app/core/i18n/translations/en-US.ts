@@ -971,5 +971,24 @@ export const enUS = {
 
       statusChangeError: 'Unable to change the user status.',
     },
+
+    itemsReview: {
+      title: 'Item review',
+      description:
+        'Review submitted listings before making them available on the platform.',
+
+      owner: 'Owner',
+      brand: 'Brand',
+      model: 'Model',
+      condition: 'Condition',
+      price: 'Base price',
+      category: 'Category',
+      location: 'Location',
+
+      approve: 'Approve',
+      reject: 'Reject',
+
+      empty: 'No items awaiting review.',
+    },
   },
 } as const;

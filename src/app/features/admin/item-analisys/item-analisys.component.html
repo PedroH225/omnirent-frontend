@@ -1,0 +1,145 @@
+<section class="items-review">
+  <header class="page-header">
+    <h1>{{ "admin.itemsReview.title" | translate }}</h1>
+
+    <p>
+      {{ "admin.itemsReview.description" | translate }}
+    </p>
+  </header>
+
+  <p-dataView
+    [value]="items"
+    [lazy]="true"
+    [paginator]="true"
+    [first]="page * size"
+    [rows]="size"
+    [totalRecords]="totalElements"
+    [loading]="loading"
+    [rowsPerPageOptions]="[10, 20, 50]"
+    (onPage)="onPageChange($event)"
+  >
+    <ng-template #list let-items>
+      <div class="review-list">
+        @for (item of items; track item.id) {
+          <article class="review-item">
+            <div class="item-image">
+              @if (getImageUrl(item); as imageUrl) {
+                <img [src]="imageUrl" [alt]="item.name" />
+              } @else {
+                <div class="image-placeholder">
+                  <i class="pi pi-image"></i>
+                </div>
+              }
+            </div>
+
+            <div class="item-content">
+              <div class="item-header">
+                <div>
+                  <h2>{{ item.name }}</h2>
+
+                  <span class="item-owner">
+                    {{ "admin.itemsReview.owner" | translate }}:
+                    {{ item.owner.username }}
+                  </span>
+                </div>
+
+                <p-tag
+                  [value]="getStatusLabel(item.itemStatus)"
+                  severity="warn"
+                />
+              </div>
+
+              <p class="description">
+                {{ item.description }}
+              </p>
+
+              <div class="item-details">
+                <div>
+                  <span class="detail-label">
+                    {{ "admin.itemsReview.brand" | translate }}
+                  </span>
+
+                  <span>{{ item.brand }}</span>
+                </div>
+
+                <div>
+                  <span class="detail-label">
+                    {{ "admin.itemsReview.model" | translate }}
+                  </span>
+
+                  <span>{{ item.model }}</span>
+                </div>
+
+                <div>
+                  <span class="detail-label">
+                    {{ "admin.itemsReview.condition" | translate }}
+                  </span>
+
+                  <span>
+                    {{ getConditionLabel(item.itemCondition) }}
+                  </span>
+                </div>
+
+                <div>
+                  <span class="detail-label">
+                    {{ "admin.itemsReview.price" | translate }}
+                  </span>
+
+                  <span>
+                    {{ item.basePrice | currency: "BRL" }}
+                  </span>
+                </div>
+
+                <div>
+                  <span class="detail-label">
+                    {{ "admin.itemsReview.category" | translate }}
+                  </span>
+
+                  <span>
+                    {{ item.subCategory.category }}
+                    /
+                    {{ item.subCategory.name }}
+                  </span>
+                </div>
+
+                <div>
+                  <span class="detail-label">
+                    {{ "admin.itemsReview.location" | translate }}
+                  </span>
+
+                  <span>
+                    {{ item.pickupAddress.city }},
+                    {{ item.pickupAddress.state }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="item-actions">
+                <p-button
+                  [label]="'admin.itemsReview.reject' | translate"
+                  icon="pi pi-times"
+                  severity="danger"
+                  [outlined]="true"
+                  (onClick)="rejectItem(item)"
+                />
+
+                <p-button
+                  [label]="'admin.itemsReview.approve' | translate"
+                  icon="pi pi-check"
+                  severity="success"
+                  (onClick)="approveItem(item)"
+                />
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      <div class="empty-message">
+        {{ "admin.itemsReview.empty" | translate }}
+      </div>
+    </ng-template>
+  </p-dataView>
+</section>

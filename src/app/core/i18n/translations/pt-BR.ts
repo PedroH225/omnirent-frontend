@@ -14,7 +14,7 @@ export const ptBR = {
     messages: {
       success: 'Sucesso',
       error: 'Erro',
-      
+
       validationError: {
         title: 'Falha na validação',
         message: 'Revise os campos destacados e tente novamente.',
@@ -978,6 +978,25 @@ export const ptBR = {
       unbanSuccess: 'O usuário {{username}} foi desbanido com sucesso.',
 
       statusChangeError: 'Não foi possível alterar o status do usuário.',
+    },
+
+    itemsReview: {
+      title: 'Análise de itens',
+      description:
+        'Analise os anúncios enviados antes de disponibilizá-los na plataforma.',
+
+      owner: 'Proprietário',
+      brand: 'Marca',
+      model: 'Modelo',
+      condition: 'Condição',
+      price: 'Preço base',
+      category: 'Categoria',
+      location: 'Localização',
+
+      approve: 'Aprovar',
+      reject: 'Rejeitar',
+
+      empty: 'Nenhum item aguardando análise.',
     },
   },
 } as const;

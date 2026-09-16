@@ -20,6 +20,7 @@ import { AdminDashboardComponent } from '@features/admin/components/admin-dashbo
 import { permissionGuard } from '@core/auth/permission-guard';
 import { Role } from '@core/auth/auth-state.service';
 import { UsersManagementComponent } from '@features/admin/components/users-management/users-management.component';
+import { ItemAnalisysComponent } from '@features/admin/item-analisys/item-analisys.component';
 
 export const routes: Routes = [
   {
@@ -47,7 +48,7 @@ export const routes: Routes = [
         component: AdminAreaComponent,
         canActivate: [authGuard, permissionGuard],
         data: {
-          roles : [Role.ADMIN],
+          roles: [Role.ADMIN],
         },
         children: [
           {
@@ -57,7 +58,11 @@ export const routes: Routes = [
           {
             path: 'users',
             component: UsersManagementComponent,
-          }
+          },
+          {
+            path: 'items/review',
+            component: ItemAnalisysComponent,
+          },
         ],
       },
       {

@@ -13,6 +13,7 @@ import { ItemDetailModel } from './model/item-detail-model';
 import { UpdateItemRequestModel } from '@features/items/model/item-update-request-model';
 import { ItemUpdatedModel } from './model/item-updated-model';
 import { CacheDuration, CacheService } from '@core/cache/cache.service';
+import { ItemAnalisysModel } from './model/item-analisys-model';
 
 @Injectable({
   providedIn: 'root',
@@ -75,7 +76,7 @@ export class ItemService {
       const cached = this.cacheService.get<ItemEnumsResponse>('item-enums');
 
       if (cached) {
-        this.itemEnums$ = of(cached);        
+        this.itemEnums$ = of(cached);
       } else {
         this.itemEnums$ = this.http
           .get<ItemEnumsResponse>(this.apiUrl + '/item/enums')
@@ -145,6 +146,18 @@ export class ItemService {
 
     return this.http.get<PageResponse<ItemDisplay>>(
       this.apiUrl + '/item/find/user/me',
+      { params },
+    );
+  }
+
+  getUnderAnalisys(
+    page = 0,
+    size = 20,
+  ): Observable<PageResponse<ItemAnalisysModel>> {
+    const params = new HttpParams().set('page', page).set('size', size);
+
+    return this.http.get<PageResponse<ItemAnalisysModel>>(
+      `${this.apiUrl}/admin/items/analisys`,
       { params },
     );
   }

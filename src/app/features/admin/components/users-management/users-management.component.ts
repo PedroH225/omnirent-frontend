@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,6 +12,8 @@ import { TagModule } from 'primeng/tag';
 import { UserService } from '@core/user/user.service';
 import { UserSummary } from '@core/user/model/user-summary-model';
 import { PageResponse } from '@shared/models/page.response.model';
+import { TranslationService } from '@core/i18n/translation.service';
+import { LocaleService } from '@core/i18n/locale.service';
 
 export enum UserStatus {
   ACTIVE = 'ACTIVE',
@@ -46,20 +48,26 @@ export class UsersManagementComponent implements OnInit {
 
   users: UserSummary[] = [];
 
-  readonly statusOptions = [
-    { label: 'Todos', value: null },
-    { label: 'Ativos', value: UserStatus.ACTIVE },
-    { label: 'Inativos', value: UserStatus.INACTIVE },
-    { label: 'Banidos', value: UserStatus.BANNED },
-  ];
+  private userStatusCodes: string[] = [];
+  statusOptions: { label: string; value: string | null }[] = [];
 
   constructor(
     private readonly userService: UserService,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
-  ) {}
+    private readonly translationService: TranslationService,
+    private readonly localeService: LocaleService,
+  ) {
+    effect(() => {
+      this.localeService.locale();
+
+      this.mapStatusOptions();
+    });
+  }
 
   ngOnInit(): void {
+    this.loadEnums();
+
     this.route.queryParams.subscribe((params) => {
       if (params['page'] == null || params['size'] == null) {
         this.router.navigate([], {
@@ -110,6 +118,33 @@ export class UsersManagementComponent implements OnInit {
         this.loading = false;
       },
     });
+  }
+
+  private loadEnums(): void {
+    this.userService.getEnums().subscribe({
+      next: (response) => {
+        this.userStatusCodes = response.userStatuses.map(
+          (status) => status.code,
+        );
+
+        this.mapStatusOptions();
+      },
+    });
+  }
+
+  private mapStatusOptions(): void {
+    this.statusOptions = [
+      {
+        label: this.translationService.translate('common.all'),
+        value: null,
+      },
+      ...this.userStatusCodes.map((code) => ({
+        label: this.translationService.translate(
+          `enums.userStatus.${code.toLowerCase()}`,
+        ),
+        value: code,
+      })),
+    ];
   }
 
   search(): void {

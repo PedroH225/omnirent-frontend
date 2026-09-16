@@ -9,6 +9,7 @@ export const enUS = {
     save: 'Save',
     create: 'Create',
     signIn: 'Sign in',
+    all: 'All',
 
     messages: {
       success: 'Success',

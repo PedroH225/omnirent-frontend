@@ -9,6 +9,7 @@ export const ptBR = {
     save: 'Salvar',
     create: 'Criar',
     signIn: 'Entrar',
+    all: 'Todos',
 
     messages: {
       success: 'Sucesso',

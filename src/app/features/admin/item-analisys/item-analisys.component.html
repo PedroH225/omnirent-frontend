@@ -22,13 +22,27 @@
       <div class="review-list">
         @for (item of items; track item.id) {
           <article class="review-item">
-            <div class="item-image">
+            <div
+              [class.clickable]="item.images.length > 0"
+              class="item-image"
+              role="button"
+              tabindex="0"
+              (click)="item.images.length > 0 && openGallery(item)"
+              (keydown.enter)="openGallery(item)"
+            >
               @if (getImageUrl(item); as imageUrl) {
-                <img [src]="imageUrl" [alt]="item.name" />
-              } @else {
-                <div class="image-placeholder">
-                  <i class="pi pi-image"></i>
-                </div>
+                <img
+                  [src]="imageUrl"
+                  [alt]="item.name"
+                  (error)="onImageError($event)"
+                />
+
+                @if (item.images.length > 1) {
+                  <span class="image-count">
+                    <i class="pi pi-images"></i>
+                    {{ item.images.length }}
+                  </span>
+                }
               }
             </div>
 
@@ -143,3 +157,33 @@
     </ng-template>
   </p-dataView>
 </section>
+
+<p-galleria
+  [(activeIndex)]="activeIndex"
+  [(visible)]="galleryVisible"
+  [value]="selectedImages"
+  [fullScreen]="true"
+  [showItemNavigators]="true"
+  [showThumbnails]="true"
+  [showThumbnailNavigators]="false"
+  [circular]="true"
+  [numVisible]="5"
+>
+  <ng-template #item let-image>
+    <img
+      [src]="getImageStorageUrl(image.storageKey)"
+      class="gallery-image"
+      alt=""
+      (error)="onImageError($event)"
+    />
+  </ng-template>
+
+  <ng-template #thumbnail let-image>
+    <img
+      [src]="getImageStorageUrl(image.storageKey)"
+      class="gallery-thumbnail"
+      alt=""
+      (error)="onImageError($event)"
+    />
+  </ng-template>
+</p-galleria>

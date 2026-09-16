@@ -11,6 +11,8 @@ import { Button, ButtonModule } from 'primeng/button';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { TagModule } from 'primeng/tag';
 import { CommonModule } from '@angular/common';
+import { ItemImageModel } from '@core/item/model/Item-image-model';
+import { GalleriaModule } from 'primeng/galleria';
 
 @Component({
   selector: 'app-item-analisys',
@@ -21,6 +23,7 @@ import { CommonModule } from '@angular/common';
     ButtonModule,
     TagModule,
     TranslatePipe,
+    GalleriaModule,
   ],
   templateUrl: './item-analisys.component.html',
   styleUrl: './item-analisys.component.scss',
@@ -38,6 +41,11 @@ export class ItemAnalisysComponent implements OnInit {
 
   conditionLabels: Record<string, string> = {};
   statusLabels: Record<string, string> = {};
+
+  activeIndex = 0;
+  galleryVisible = false;
+  selectedImages: ItemImageModel[] = [];
+  readonly defaultImage = 'assets/placeholder-img.png';
 
   private itemConditionCodes: string[] = [];
   private itemStatusCodes: string[] = [];
@@ -147,12 +155,22 @@ export class ItemAnalisysComponent implements OnInit {
     });
   }
 
-  getImageUrl(item: ItemAnalisysModel): string | null {
+  getImageUrl(item: ItemAnalisysModel): string {
     const image = item.images
       .slice()
       .sort((a, b) => a.displayOrder - b.displayOrder)[0];
 
-    return image ? `${this.storageUrl}/${image.storageKey}` : null;
+    return image ? `${this.storageUrl}/${image.storageKey}` : this.defaultImage;
+  }
+
+  onImageError(event: Event): void {
+    const img = event.target as HTMLImageElement;
+
+    if (img.src.endsWith(this.defaultImage)) {
+      return;
+    }
+
+    img.src = this.defaultImage;
   }
 
   getConditionLabel(condition: string): string {
@@ -161,6 +179,23 @@ export class ItemAnalisysComponent implements OnInit {
 
   getStatusLabel(status: string): string {
     return this.statusLabels[status] ?? status;
+  }
+
+  openGallery(item: ItemAnalisysModel): void {
+    if (!item.images?.length) {
+      return;
+    }
+
+    this.selectedImages = [...item.images].sort(
+      (a, b) => a.displayOrder - b.displayOrder,
+    );
+
+    this.activeIndex = 0;
+    this.galleryVisible = true;
+  }
+
+  getImageStorageUrl(storageKey?: string | null): string {
+    return storageKey ? `${this.storageUrl}/${storageKey}` : this.defaultImage;
   }
 
   approveItem(item: ItemAnalisysModel): void {

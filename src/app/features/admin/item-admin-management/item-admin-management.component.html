@@ -77,15 +77,11 @@
         </th>
 
         <th>
-          {{ "admin.itemsManagement.condition" | translate }}
-        </th>
-
-        <th>
-          {{ "admin.itemsManagement.price" | translate }}
-        </th>
-
-        <th>
           {{ "admin.itemsManagement.status" | translate }}
+        </th>
+
+        <th>
+          {{ "admin.itemsManagement.createdAt" | translate }}
         </th>
 
         <th class="desktop-actions">
@@ -124,18 +120,14 @@
         </td>
 
         <td>
-          {{ getConditionLabel(item.itemCondition) }}
-        </td>
-
-        <td>
-          {{ item.basePrice | currency: "BRL" }}
-        </td>
-
-        <td>
           <p-tag
             [value]="getStatusLabel(item.itemStatus)"
             [severity]="getStatusSeverity(item.itemStatus)"
           />
+        </td>
+
+        <td>
+          {{ item.createdAt | date: "dd/MM/yyyy" }}
         </td>
 
         <td class="actions-column desktop-actions">

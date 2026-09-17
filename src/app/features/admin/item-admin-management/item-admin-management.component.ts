@@ -36,10 +36,7 @@ import { environment } from '../../../../environments/environment';
     ConfirmDialogModule,
     TranslatePipe,
   ],
-  providers: [
-    ConfirmationService,
-    MessageService,
-  ],
+  providers: [ConfirmationService, MessageService],
   templateUrl: './item-admin-management.component.html',
   styleUrl: './item-admin-management.component.scss',
 })
@@ -150,21 +147,19 @@ export class ItemAdminManagementComponent implements OnInit {
   ): void {
     this.loading = true;
 
-    this.itemService
-      .searchItems(name, status, page, size)
-      .subscribe({
-        next: (response: PageResponse<ItemDisplay>) => {
-          this.items = response.content;
-          this.totalElements = response.totalElements;
+    this.itemService.searchItems(name, status, page, size).subscribe({
+      next: (response: PageResponse<ItemDisplay>) => {
+        this.items = response.content;
+        this.totalElements = response.totalElements;
 
-          this.loading = false;
-        },
+        this.loading = false;
+      },
 
-        error: (error) => {
-          console.error(error);
-          this.loading = false;
-        },
-      });
+      error: (error) => {
+        console.error(error);
+        this.loading = false;
+      },
+    });
   }
 
   search(): void {
@@ -197,9 +192,7 @@ export class ItemAdminManagementComponent implements OnInit {
   }
 
   onPageChange(event: TablePageEvent): void {
-    const page = Math.floor(
-      (event.first ?? 0) / (event.rows ?? this.size),
-    );
+    const page = Math.floor((event.first ?? 0) / (event.rows ?? this.size));
 
     this.router.navigate([], {
       relativeTo: this.route,
@@ -238,16 +231,13 @@ export class ItemAdminManagementComponent implements OnInit {
           : 'admin.itemsManagement.block',
       ),
 
-      rejectLabel: this.translationService.translate(
-        'common.cancel',
-      ),
+      rejectLabel: this.translationService.translate('common.cancel'),
 
       acceptButtonStyleClass: isBlocked
         ? 'p-button-success'
         : 'p-button-danger',
 
-      rejectButtonStyleClass:
-        'p-button-secondary p-button-outlined',
+      rejectButtonStyleClass: 'p-button-secondary p-button-outlined',
 
       accept: () => {
         this.executeToggleBlock(item, isBlocked);
@@ -255,52 +245,46 @@ export class ItemAdminManagementComponent implements OnInit {
     });
   }
 
-  private executeToggleBlock(
-    item: ItemDisplay,
-    wasBlocked: boolean,
-  ): void {
-    // this.itemService
-    //   .toggleItemBlocking(item.id)
-    //   .subscribe({
-    //     next: () => {
-    //       this.messageService.add({
-    //         severity: 'success',
+  private executeToggleBlock(item: ItemDisplay, wasBlocked: boolean): void {
+    this.itemService.toggleItemBlocking(item.id).subscribe({
+      next: () => {
+        this.messageService.add({
+          severity: 'success',
 
-    //         summary: this.translationService.translate(
-    //           'common.messages.success',
-    //         ),
+          summary: this.translationService.translate('common.messages.success'),
 
-    //         detail: this.translationService.translate(
-    //           wasBlocked
-    //             ? 'admin.itemsManagement.unblockSuccess'
-    //             : 'admin.itemsManagement.blockSuccess',
-    //           {
-    //             item: item.name,
-    //           },
-    //         ),
-    //       });
+          detail: this.translationService.translate(
+            wasBlocked
+              ? 'admin.itemsManagement.unblockSuccess'
+              : 'admin.itemsManagement.blockSuccess',
+            {
+              item: item.name,
+            },
+          ),
+        });
 
-    //       this.items = this.items.filter(
-    //         (currentItem) => currentItem.id !== item.id,
-    //       );
+        this.items = this.items.map((currentItem) =>
+          currentItem.id === item.id
+            ? {
+                ...currentItem,
+                itemStatus: wasBlocked ? 'UNAVAILABLE' : 'BLOCKED',
+              }
+            : currentItem,
+        );
+      },
 
-    //       this.totalElements--;
-    //     },
+      error: () => {
+        this.messageService.add({
+          severity: 'error',
 
-    //     error: () => {
-    //       this.messageService.add({
-    //         severity: 'error',
+          summary: this.translationService.translate('common.messages.error'),
 
-    //         summary: this.translationService.translate(
-    //           'common.messages.error',
-    //         ),
-
-    //         detail: this.translationService.translate(
-    //           'admin.itemsManagement.statusChangeError',
-    //         ),
-    //       });
-    //     },
-    //   });
+          detail: this.translationService.translate(
+            'admin.itemsManagement.statusChangeError',
+          ),
+        });
+      },
+    });
   }
 
   getThumbnailUrl(item: ItemDisplay): string {
@@ -332,9 +316,7 @@ export class ItemAdminManagementComponent implements OnInit {
   }
 
   getActionIcon(item: ItemDisplay): string {
-    return item.itemStatus === 'BLOCKED'
-      ? 'pi pi-lock-open'
-      : 'pi pi-ban';
+    return item.itemStatus === 'BLOCKED' ? 'pi pi-lock-open' : 'pi pi-ban';
   }
 
   getStatusSeverity(

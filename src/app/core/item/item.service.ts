@@ -213,7 +213,7 @@ export class ItemService {
     }
 
     if (status) {
-      params = params.set('itemStatus', status);
+      params = params.set('status', status);
     }
 
     return this.http.get<PageResponse<ItemDisplay>>(
@@ -237,6 +237,10 @@ export class ItemService {
       `${this.apiUrl}/admin/items/reject/${itemId}`,
       rejectRequest,
     );
+  }
+
+  toggleItemBlocking(itemId: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/admin/items/status/${itemId}`, {});
   }
 
   private buildImagesFormData(images: ItemImageForm[]): FormData {

@@ -64,10 +64,10 @@ export class AdminSidebarComponent {
           },
           {
             label: this.translationService.translate(
-              'admin.sidebar.items.blocked',
+              'admin.sidebar.items.manage',
             ),
-            icon: 'pi pi-lock',
-            routerLink: '/admin/items/blocked',
+            icon: 'pi pi-objects-column',
+            routerLink: '/admin/items',
           },
         ],
       },

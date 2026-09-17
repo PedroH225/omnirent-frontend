@@ -995,7 +995,7 @@ export const ptBR = {
       items: {
         title: 'Itens',
         review: 'Avaliar itens',
-        blocked: 'Itens bloqueados',
+        manage: 'Gerenciar itens',
       },
     },
 
@@ -1081,6 +1081,46 @@ export const ptBR = {
         'O item {{item}} foi rejeitado e o usuário {{username}} foi banido com sucesso.',
 
       empty: 'Nenhum item aguardando análise.',
+    },
+
+    itemsManagement: {
+      title: 'Gerenciamento de itens',
+      description:
+        'Consulte, filtre, bloqueie e desbloqueie itens da plataforma.',
+
+      item: 'Item',
+      name: 'Título',
+      namePlaceholder: 'Buscar por título',
+
+      status: 'Status',
+      condition: 'Condição',
+      price: 'Preço',
+      createdAt: 'Criado em',
+      actions: 'Ações',
+
+      search: 'Buscar',
+      clear: 'Limpar',
+
+      block: 'Bloquear',
+      unblock: 'Desbloquear',
+
+      empty: 'Nenhum item encontrado.',
+
+      confirmBlock: {
+        title: 'Bloquear item',
+        message: 'Tem certeza de que deseja bloquear o item {{item}}?',
+      },
+
+      confirmUnblock: {
+        title: 'Desbloquear item',
+        message: 'Tem certeza de que deseja desbloquear o item {{item}}?',
+      },
+
+      blockSuccess: 'O item {{item}} foi bloqueado com sucesso.',
+
+      unblockSuccess: 'O item {{item}} foi desbloqueado com sucesso.',
+
+      statusChangeError: 'Não foi possível alterar o status do item.',
     },
   },
 } as const;

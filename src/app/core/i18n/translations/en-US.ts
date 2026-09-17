@@ -988,7 +988,7 @@ export const enUS = {
       items: {
         title: 'Items',
         review: 'Review items',
-        blocked: 'Blocked items',
+        manage: 'Manage items',
       },
     },
 
@@ -1074,6 +1074,45 @@ export const enUS = {
         'Item {{item}} was rejected and user {{username}} was successfully banned.',
 
       empty: 'No items awaiting review.',
+    },
+
+    itemsManagement: {
+      title: 'Item management',
+      description: 'Search, filter, block, and unblock platform items.',
+
+      item: 'Item',
+      name: 'Title',
+      namePlaceholder: 'Search by title',
+
+      status: 'Status',
+      condition: 'Condition',
+      price: 'Price',
+      createdAt: 'Created at',
+      actions: 'Actions',
+
+      search: 'Search',
+      clear: 'Clear',
+
+      block: 'Block',
+      unblock: 'Unblock',
+
+      empty: 'No items found.',
+
+      confirmBlock: {
+        title: 'Block item',
+        message: 'Are you sure you want to block item {{item}}?',
+      },
+
+      confirmUnblock: {
+        title: 'Unblock item',
+        message: 'Are you sure you want to unblock item {{item}}?',
+      },
+
+      blockSuccess: 'Item {{item}} was successfully blocked.',
+
+      unblockSuccess: 'Item {{item}} was successfully unblocked.',
+
+      statusChangeError: 'Unable to change the item status.',
     },
   },
 } as const;

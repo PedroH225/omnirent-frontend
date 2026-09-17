@@ -18,7 +18,6 @@ import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
-import { LoggedUserModel } from '@core/user/model/logged-user-model';
 
 export enum UserStatus {
   ACTIVE = 'ACTIVE',

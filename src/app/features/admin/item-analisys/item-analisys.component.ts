@@ -13,6 +13,10 @@ import { TagModule } from 'primeng/tag';
 import { CommonModule } from '@angular/common';
 import { ItemImageModel } from '@core/item/model/Item-image-model';
 import { GalleriaModule } from 'primeng/galleria';
+import { forkJoin } from 'rxjs';
+import { EnumOption } from '@shared/models/EnumOption';
+import { Select } from 'primeng/select';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-item-analisys',
@@ -24,6 +28,8 @@ import { GalleriaModule } from 'primeng/galleria';
     TagModule,
     TranslatePipe,
     GalleriaModule,
+    Select,
+    FormsModule,
   ],
   templateUrl: './item-analisys.component.html',
   styleUrl: './item-analisys.component.scss',
@@ -49,6 +55,9 @@ export class ItemAnalisysComponent implements OnInit {
 
   private itemConditionCodes: string[] = [];
   private itemStatusCodes: string[] = [];
+
+  rejectionReasonOptions: EnumOption[] = [];
+  selectedRejectionReasons: Record<string, EnumOption | null> = {};
 
   constructor(
     private readonly itemService: ItemService,
@@ -90,15 +99,18 @@ export class ItemAnalisysComponent implements OnInit {
   }
 
   private loadEnums(): void {
-    this.itemService.getItemEnums().subscribe({
-      next: (response) => {
-        this.itemConditionCodes = response.itemConditions.map(
+    forkJoin({
+      enums: this.itemService.getItemEnums(),
+      rejectReasons: this.itemService.getItemRejectReasons(),
+    }).subscribe({
+      next: ({ enums, rejectReasons }) => {
+        this.itemConditionCodes = enums.itemConditions.map(
           (condition) => condition.code,
         );
 
-        this.itemStatusCodes = response.itemStatuses.map(
-          (status) => status.code,
-        );
+        this.itemStatusCodes = enums.itemStatuses.map((status) => status.code);
+
+        this.rejectionReasonOptions = rejectReasons;
 
         this.mapEnumLabels();
       },
@@ -123,6 +135,13 @@ export class ItemAnalisysComponent implements OnInit {
         ),
       ]),
     );
+
+    this.rejectionReasonOptions = this.rejectionReasonOptions.map((reason) => ({
+      ...reason,
+      label: this.translationService.translate(
+        `enums.itemRejectionReasons.${reason.code.toLowerCase()}`,
+      ),
+    }));
   }
 
   getItems(page: number, size: number): void {

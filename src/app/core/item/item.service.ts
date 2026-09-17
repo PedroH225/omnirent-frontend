@@ -14,6 +14,7 @@ import { UpdateItemRequestModel } from '@features/items/model/item-update-reques
 import { ItemUpdatedModel } from './model/item-updated-model';
 import { CacheDuration, CacheService } from '@core/cache/cache.service';
 import { ItemAnalisysModel } from './model/item-analisys-model';
+import { EnumOption } from '@shared/models/EnumOption';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +24,9 @@ export class ItemService {
 
   private itemEnums$?: Observable<ItemEnumsResponse>;
   private readonly ITEM_ENUMS_CACHE_KEY = 'item-enums';
+
+  private rejectionReasons$?: Observable<EnumOption[]>;
+  private readonly ITEM_REJECTION_REASONS_CACHE_KEY = 'item-rejection-reasons';
 
   constructor(
     private http: HttpClient,
@@ -73,7 +77,9 @@ export class ItemService {
 
   getItemEnums(): Observable<ItemEnumsResponse> {
     if (!this.itemEnums$) {
-      const cached = this.cacheService.get<ItemEnumsResponse>('item-enums');
+      const cached = this.cacheService.get<ItemEnumsResponse>(
+        this.ITEM_ENUMS_CACHE_KEY,
+      );
 
       if (cached) {
         this.itemEnums$ = of(cached);
@@ -82,7 +88,11 @@ export class ItemService {
           .get<ItemEnumsResponse>(this.apiUrl + '/item/enums')
           .pipe(
             tap((response) => {
-              this.cacheService.set('item-enums', response, CacheDuration.LONG);
+              this.cacheService.set(
+                this.ITEM_ENUMS_CACHE_KEY,
+                response,
+                CacheDuration.LONG,
+              );
             }),
             shareReplay(1),
           );
@@ -90,6 +100,33 @@ export class ItemService {
     }
 
     return this.itemEnums$;
+  }
+
+  getItemRejectReasons(): Observable<EnumOption[]> {
+    if (!this.rejectionReasons$) {
+      const cached = this.cacheService.get<EnumOption[]>(
+        this.ITEM_REJECTION_REASONS_CACHE_KEY,
+      );
+
+      if (cached) {
+        this.rejectionReasons$ = of(cached);
+      } else {
+        this.rejectionReasons$ = this.http
+          .get<EnumOption[]>(`${this.apiUrl}/admin/items/enums`)
+          .pipe(
+            tap((response) => {
+              this.cacheService.set(
+                this.ITEM_REJECTION_REASONS_CACHE_KEY,
+                response,
+                CacheDuration.LONG,
+              );
+            }),
+            shareReplay(1),
+          );
+      }
+    }
+
+    return this.rejectionReasons$;
   }
 
   getItemFeedHome(category: string): Observable<PageResponse<ItemFeed>> {

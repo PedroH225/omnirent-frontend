@@ -75,6 +75,34 @@ export const enUS = {
       inactive: 'Inactive',
       banned: 'Banned',
     },
+
+    itemRejectionReasons: {
+      invalid_title: 'The item title does not meet the platform guidelines.',
+
+      invalid_description:
+        'The item description is incomplete or inappropriate.',
+
+      invalid_category:
+        'The selected category is not appropriate for this item.',
+
+      low_quality_images: 'The uploaded images are not of sufficient quality.',
+
+      invalid_images:
+        'The uploaded images do not accurately represent the item.',
+
+      prohibited_item: 'This item cannot be listed on the platform.',
+
+      counterfeit_item:
+        'The item appears to violate authenticity requirements.',
+
+      inappropriate_content: 'The listing contains inappropriate content.',
+
+      duplicate_item: 'A similar listing for this item already exists.',
+
+      incomplete_information: 'The listing is missing required information.',
+
+      other: 'Other.',
+    },
   },
 
   category: {

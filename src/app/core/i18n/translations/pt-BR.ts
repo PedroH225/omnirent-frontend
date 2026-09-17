@@ -75,6 +75,36 @@ export const ptBR = {
       inactive: 'Inativo',
       banned: 'Banido',
     },
+
+    itemRejectionReasons: {
+      invalid_title: 'O título do item não atende às diretrizes da plataforma.',
+
+      invalid_description:
+        'A descrição do item está incompleta ou é inadequada.',
+
+      invalid_category:
+        'A categoria selecionada não é apropriada para este item.',
+
+      low_quality_images:
+        'As imagens enviadas não possuem qualidade suficiente.',
+
+      invalid_images:
+        'As imagens enviadas não representam corretamente o item.',
+
+      prohibited_item: 'Este item não pode ser anunciado na plataforma.',
+
+      counterfeit_item:
+        'O item aparenta violar os requisitos de autenticidade.',
+
+      inappropriate_content: 'O anúncio contém conteúdo inadequado.',
+
+      duplicate_item: 'Já existe um anúncio semelhante para este item.',
+
+      incomplete_information:
+        'O anúncio não contém todas as informações obrigatórias.',
+
+      other: 'Outro.',
+    },
   },
 
   category: {

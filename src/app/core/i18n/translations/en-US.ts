@@ -77,31 +77,63 @@ export const enUS = {
     },
 
     itemRejectionReasons: {
-      invalid_title: 'The item title does not meet the platform guidelines.',
+      placeholder: 'Reason',
 
-      invalid_description:
-        'The item description is incomplete or inappropriate.',
+      invalid_title: {
+        label: 'Invalid title',
+        description: 'The item title does not meet the platform guidelines.',
+      },
 
-      invalid_category:
-        'The selected category is not appropriate for this item.',
+      invalid_description: {
+        label: 'Invalid description',
+        description: 'The item description is incomplete or inappropriate.',
+      },
 
-      low_quality_images: 'The uploaded images are not of sufficient quality.',
+      invalid_category: {
+        label: 'Invalid category',
+        description: 'The selected category is not appropriate for this item.',
+      },
 
-      invalid_images:
-        'The uploaded images do not accurately represent the item.',
+      low_quality_images: {
+        label: 'Low quality images',
+        description: 'The uploaded images are not of sufficient quality.',
+      },
 
-      prohibited_item: 'This item cannot be listed on the platform.',
+      invalid_images: {
+        label: 'Invalid images',
+        description:
+          'The uploaded images do not accurately represent the item.',
+      },
 
-      counterfeit_item:
-        'The item appears to violate authenticity requirements.',
+      prohibited_item: {
+        label: 'Prohibited item',
+        description: 'This item cannot be listed on the platform.',
+      },
 
-      inappropriate_content: 'The listing contains inappropriate content.',
+      counterfeit_item: {
+        label: 'Counterfeit item',
+        description: 'The item appears to violate authenticity requirements.',
+      },
 
-      duplicate_item: 'A similar listing for this item already exists.',
+      inappropriate_content: {
+        label: 'Inappropriate content',
+        description: 'The listing contains inappropriate content.',
+      },
 
-      incomplete_information: 'The listing is missing required information.',
+      duplicate_item: {
+        label: 'Duplicate item',
+        description: 'A similar listing for this item already exists.',
+      },
 
-      other: 'Other.',
+      incomplete_information: {
+        label: 'Incomplete information',
+        description: 'The listing is missing required information.',
+      },
+
+      other: {
+        label: 'Other',
+        description: 'Other.',
+      },
     },
   },
 

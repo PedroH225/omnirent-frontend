@@ -134,28 +134,35 @@
                     [options]="rejectionReasonOptions"
                     [(ngModel)]="selectedRejectionReasons[item.id]"
                     optionLabel="label"
-                    optionValue="code"
+                    appendTo="body"
+                    [fluid]="true"
                     [placeholder]="
-                      'admin.itemsReview.rejectionReason' | translate
+                      'enums.itemRejectionReasons.placeholder' | translate
                     "
                   />
-                  
-                </div>
-                <p-button
-                  [label]="'admin.itemsReview.reject' | translate"
-                  icon="pi pi-times"
-                  severity="danger"
-                  [outlined]="true"
-                  [disabled]="!selectedRejectionReasons[item.id]"
-                  (onClick)="rejectItem(item)"
-                />
 
-                <p-button
-                  [label]="'admin.itemsReview.approve' | translate"
-                  icon="pi pi-check"
-                  severity="success"
-                  (onClick)="approveItem(item)"
-                />
+                  <small class="rejection-description">
+                    {{ selectedRejectionReasons[item.id]?.description || " " }}
+                  </small>
+                </div>
+
+                <div class="action-buttons">
+                  <p-button
+                    [label]="'admin.itemsReview.reject' | translate"
+                    icon="pi pi-times"
+                    severity="danger"
+                    [outlined]="true"
+                    [disabled]="!selectedRejectionReasons[item.id]"
+                    (onClick)="rejectItem(item)"
+                  />
+
+                  <p-button
+                    [label]="'admin.itemsReview.approve' | translate"
+                    icon="pi pi-check"
+                    severity="success"
+                    (onClick)="approveItem(item)"
+                  />
+                </div>
               </div>
             </div>
           </article>

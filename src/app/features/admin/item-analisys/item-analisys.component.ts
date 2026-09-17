@@ -55,9 +55,21 @@ export class ItemAnalisysComponent implements OnInit {
 
   private itemConditionCodes: string[] = [];
   private itemStatusCodes: string[] = [];
+  private rejectionReasonCodes: string[] = [];
 
-  rejectionReasonOptions: EnumOption[] = [];
-  selectedRejectionReasons: Record<string, EnumOption | null> = {};
+  rejectionReasonOptions: {
+    code: string;
+    label: string;
+    description: string;
+  }[] = [];
+  selectedRejectionReasons: Record<
+    string,
+    {
+      code: string;
+      label: string;
+      description: string;
+    } | null
+  > = {};
 
   constructor(
     private readonly itemService: ItemService,
@@ -110,7 +122,7 @@ export class ItemAnalisysComponent implements OnInit {
 
         this.itemStatusCodes = enums.itemStatuses.map((status) => status.code);
 
-        this.rejectionReasonOptions = rejectReasons;
+        this.rejectionReasonCodes = rejectReasons.map((reason) => reason.code);
 
         this.mapEnumLabels();
       },
@@ -136,10 +148,13 @@ export class ItemAnalisysComponent implements OnInit {
       ]),
     );
 
-    this.rejectionReasonOptions = this.rejectionReasonOptions.map((reason) => ({
-      ...reason,
+    this.rejectionReasonOptions = this.rejectionReasonCodes.map((code) => ({
+      code,
       label: this.translationService.translate(
-        `enums.itemRejectionReasons.${reason.code.toLowerCase()}`,
+        `enums.itemRejectionReasons.${code.toLowerCase()}.label`,
+      ),
+      description: this.translationService.translate(
+        `enums.itemRejectionReasons.${code.toLowerCase()}.description`,
       ),
     }));
   }

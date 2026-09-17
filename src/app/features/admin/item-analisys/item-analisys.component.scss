@@ -63,7 +63,7 @@
   border: 1px solid var(--p-surface-200);
   border-radius: var(--p-border-radius-md);
 
-  cursor: pointer;
+  cursor: default;
 
   img {
     width: 100%;
@@ -76,8 +76,12 @@
     transition: transform 0.2s ease;
   }
 
-  &:hover img {
-    transform: scale(1.03);
+  &.clickable {
+    cursor: pointer;
+
+    &:hover img {
+      transform: scale(1.03);
+    }
   }
 }
 
@@ -179,6 +183,8 @@
   color: var(--p-text-color);
   font-size: 0.95rem;
   line-height: 1.5;
+
+  overflow-wrap: anywhere;
 }
 
 .item-details {
@@ -219,14 +225,6 @@
   white-space: nowrap;
 }
 
-.item-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.75rem;
-
-  margin-top: 1rem;
-}
-
 .empty-message {
   min-height: 50vh;
 
@@ -240,30 +238,40 @@
   text-align: center;
 }
 
+.item-actions {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+
+  margin-top: 1rem;
+}
+
 .rejection-reason {
-  flex: 1 1 0;
+  width: 100%;
   min-width: 0;
   max-width: 420px;
 
-  p-select {
-    display: block;
-    width: 100%;
-    min-width: 0;
-    max-width: 100%;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
 
-  ::ng-deep .p-select {
-    width: 100%;
-    min-width: 0;
-    max-width: 100%;
-  }
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
 
-  ::ng-deep .p-select-label {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+  flex-shrink: 0;
+}
+
+.rejection-description {
+  display: block;
+
+  min-height: 2.1rem;
+
+  color: var(--p-text-muted-color);
+  font-size: 0.8rem;
+  line-height: 1.4;
 }
 
 @media (max-width: 900px) {
@@ -279,6 +287,7 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
 @media (max-width: 640px) {
   .review-item {
     grid-template-columns: minmax(0, 1fr);
@@ -305,45 +314,24 @@
   }
 
   .item-actions {
-    width: 100%;
-    min-width: 0;
-
-    flex-direction: column-reverse;
+    flex-direction: column;
     align-items: stretch;
-
-    p-button {
-      width: 100%;
-    }
   }
 
   .rejection-reason {
-    flex: none;
-
     width: 100%;
-    min-width: 0;
-    max-width: 100%;
+    max-width: none;
+  }
 
-    p-select {
-      display: block;
-      width: 100%;
-      min-width: 0;
-      max-width: 100%;
-    }
+  .action-buttons {
+    width: 100%;
 
-    ::ng-deep .p-select {
-      width: 100% !important;
-      min-width: 0 !important;
-      max-width: 100% !important;
-    }
+    p-button {
+      flex: 1;
 
-    ::ng-deep .p-select-label {
-      width: 0;
-      min-width: 0;
-      flex: 1 1 auto;
-
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      ::ng-deep .p-button {
+        width: 100%;
+      }
     }
   }
 }

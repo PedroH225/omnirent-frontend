@@ -78,7 +78,7 @@ export const ptBR = {
 
     itemRejectionReasons: {
       placeholder: 'Motivo',
-      
+
       invalid_title: {
         label: 'Título inválido',
         description: 'O título do item não atende às diretrizes da plataforma.',
@@ -1054,6 +1054,13 @@ export const ptBR = {
 
       approve: 'Aprovar',
       reject: 'Rejeitar',
+
+      approveSuccess: 'O item {{item}} foi aprovado com sucesso.',
+
+      confirmApprove: {
+        title: 'Aprovar item',
+        message: 'Tem certeza de que deseja aprovar o item {{item}}?',
+      },
 
       empty: 'Nenhum item aguardando análise.',
     },

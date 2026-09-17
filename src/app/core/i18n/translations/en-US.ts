@@ -1048,6 +1048,13 @@ export const enUS = {
       approve: 'Approve',
       reject: 'Reject',
 
+      approveSuccess: 'Item {{item}} was successfully approved.',
+
+      confirmApprove: {
+        title: 'Approve item',
+        message: 'Are you sure you want to approve item {{item}}?',
+      },
+
       empty: 'No items awaiting review.',
     },
   },

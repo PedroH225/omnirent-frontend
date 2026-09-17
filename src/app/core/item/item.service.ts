@@ -199,6 +199,11 @@ export class ItemService {
     );
   }
 
+  approveItem(itemId: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/admin/items/approve/${itemId}`, {});
+  }
+
+
   private buildImagesFormData(images: ItemImageForm[]): FormData {
     const formData = new FormData();
 

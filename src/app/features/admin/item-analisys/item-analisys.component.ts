@@ -14,9 +14,11 @@ import { CommonModule } from '@angular/common';
 import { ItemImageModel } from '@core/item/model/Item-image-model';
 import { GalleriaModule } from 'primeng/galleria';
 import { forkJoin } from 'rxjs';
-import { EnumOption } from '@shared/models/EnumOption';
 import { Select } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialog } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-item-analisys',
@@ -30,7 +32,10 @@ import { FormsModule } from '@angular/forms';
     GalleriaModule,
     Select,
     FormsModule,
-  ],
+    ToastModule,
+    ConfirmDialog
+],
+  providers: [MessageService, ConfirmationService],
   templateUrl: './item-analisys.component.html',
   styleUrl: './item-analisys.component.scss',
 })
@@ -77,6 +82,8 @@ export class ItemAnalisysComponent implements OnInit {
     private readonly router: Router,
     private readonly translationService: TranslationService,
     private readonly localeService: LocaleService,
+    private readonly messageService: MessageService,
+    private readonly confirmationService: ConfirmationService,
   ) {
     effect(() => {
       this.localeService.locale();
@@ -232,8 +239,56 @@ export class ItemAnalisysComponent implements OnInit {
     return storageKey ? `${this.storageUrl}/${storageKey}` : this.defaultImage;
   }
 
+  private executeApprove(item: ItemAnalisysModel): void {
+    this.itemService.approveItem(item.id).subscribe({
+      next: () => {
+        this.items = this.items.filter(
+          (currentItem) => currentItem.id !== item.id,
+        );
+
+        this.totalElements--;
+
+        this.messageService.add({
+          severity: 'success',
+          summary: this.translationService.translate('common.messages.success'),
+          detail: this.translationService.translate(
+            'admin.itemsReview.approveSuccess',
+            { item: item.name },
+          ),
+        });
+      },
+    });
+  }
+
   approveItem(item: ItemAnalisysModel): void {
-    // chamada de aprovação
+    this.confirmationService.confirm({
+      header: this.translationService.translate(
+        'admin.itemsReview.confirmApprove.title',
+      ),
+      message: this.translationService.translate(
+        'admin.itemsReview.confirmApprove.message',
+        { item: item.name },
+      ),
+      icon: 'pi pi-check-circle',
+
+      acceptLabel: this.translationService.translate(
+        'admin.itemsReview.approve',
+      ),
+      rejectLabel: this.translationService.translate('common.cancel'),
+
+      acceptButtonProps: {
+        severity: 'success',
+      },
+
+      rejectButtonProps: {
+        severity: 'secondary',
+        outlined: true,
+      },
+
+      accept: () => {
+        this.executeApprove(item);
+      },
+    });
   }
 
   rejectItem(item: ItemAnalisysModel): void {

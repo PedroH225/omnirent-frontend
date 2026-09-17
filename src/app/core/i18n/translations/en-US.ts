@@ -9,9 +9,11 @@ export const enUS = {
     save: 'Save',
     create: 'Create',
     signIn: 'Sign in',
+    all: 'All',
 
     messages: {
       success: 'Success',
+      error: 'Error',
 
       validationError: {
         title: 'Validation failed',
@@ -72,6 +74,66 @@ export const enUS = {
       active: 'Active',
       inactive: 'Inactive',
       banned: 'Banned',
+    },
+
+    itemRejectionReasons: {
+      placeholder: 'Reason',
+
+      invalid_title: {
+        label: 'Invalid title',
+        description: 'The item title does not meet the platform guidelines.',
+      },
+
+      invalid_description: {
+        label: 'Invalid description',
+        description: 'The item description is incomplete or inappropriate.',
+      },
+
+      invalid_category: {
+        label: 'Invalid category',
+        description: 'The selected category is not appropriate for this item.',
+      },
+
+      low_quality_images: {
+        label: 'Low quality images',
+        description: 'The uploaded images are not of sufficient quality.',
+      },
+
+      invalid_images: {
+        label: 'Invalid images',
+        description:
+          'The uploaded images do not accurately represent the item.',
+      },
+
+      prohibited_item: {
+        label: 'Prohibited item',
+        description: 'This item cannot be listed on the platform.',
+      },
+
+      counterfeit_item: {
+        label: 'Counterfeit item',
+        description: 'The item appears to violate authenticity requirements.',
+      },
+
+      inappropriate_content: {
+        label: 'Inappropriate content',
+        description: 'The listing contains inappropriate content.',
+      },
+
+      duplicate_item: {
+        label: 'Duplicate item',
+        description: 'A similar listing for this item already exists.',
+      },
+
+      incomplete_information: {
+        label: 'Incomplete information',
+        description: 'The listing is missing required information.',
+      },
+
+      other: {
+        label: 'Other',
+        description: 'Other.',
+      },
     },
   },
 
@@ -773,6 +835,7 @@ export const enUS = {
       openMenu: 'Open menu',
 
       dashboard: 'Dashboard',
+      admin: 'Administration',
 
       listings: {
         title: 'Listings',
@@ -909,6 +972,147 @@ export const enUS = {
           max_size: 'ZIP code must have at most 20 characters.',
         },
       },
+    },
+  },
+  admin: {
+    sidebar: {
+      title: 'Administration',
+      openMenu: 'Open menu',
+
+      users: {
+        title: 'Users',
+        manage: 'Manage users',
+        banned: 'Banned users',
+      },
+
+      items: {
+        title: 'Items',
+        review: 'Review items',
+        manage: 'Manage items',
+      },
+    },
+
+    dashboard: {
+      title: 'Admin dashboard',
+      description: 'Manage users and items on the platform.',
+    },
+
+    usersManagement: {
+      title: 'User management',
+      description: 'Search, filter, ban, and unban platform users.',
+
+      username: 'Username',
+      usernamePlaceholder: 'Search by username',
+
+      status: 'Status',
+      all: 'All',
+
+      search: 'Search',
+      clear: 'Clear',
+
+      actions: 'Actions',
+      ban: 'Ban',
+      unban: 'Unban',
+
+      empty: 'No users found.',
+
+      confirmBan: {
+        title: 'Ban user',
+        message: 'Are you sure you want to ban user {{username}}?',
+      },
+
+      confirmUnban: {
+        title: 'Unban user',
+        message: 'Are you sure you want to unban user {{username}}?',
+      },
+
+      banSuccess: 'User {{username}} was successfully banned.',
+      unbanSuccess: 'User {{username}} was successfully unbanned.',
+
+      statusChangeError: 'Unable to change the user status.',
+    },
+
+    itemsReview: {
+      title: 'Item review',
+      description:
+        'Review submitted listings before making them available on the platform.',
+
+      owner: 'Owner',
+      brand: 'Brand',
+      model: 'Model',
+      condition: 'Condition',
+      price: 'Base price',
+      category: 'Category',
+      location: 'Location',
+
+      approve: 'Approve',
+      reject: 'Reject',
+
+      approveSuccess: 'Item {{item}} was successfully approved.',
+
+      confirmApprove: {
+        title: 'Approve item',
+        message: 'Are you sure you want to approve item {{item}}?',
+      },
+
+      rejectAndBanOwner: 'Reject and ban',
+
+      confirmReject: {
+        title: 'Reject item',
+        message: 'Are you sure you want to reject item {{item}}?',
+      },
+
+      confirmRejectAndBan: {
+        title: 'Reject item and ban owner',
+        message:
+          'Are you sure you want to reject item {{item}} and ban user {{username}}?',
+      },
+
+      rejectSuccess: 'Item {{item}} was successfully rejected.',
+
+      rejectAndBanSuccess:
+        'Item {{item}} was rejected and user {{username}} was successfully banned.',
+
+      empty: 'No items awaiting review.',
+    },
+
+    itemsManagement: {
+      title: 'Item management',
+      description: 'Search, filter, block, and unblock platform items.',
+
+      item: 'Item',
+      name: 'Title',
+      namePlaceholder: 'Search by title',
+
+      status: 'Status',
+      condition: 'Condition',
+      price: 'Price',
+      createdAt: 'Created at',
+      actions: 'Actions',
+
+      search: 'Search',
+      clear: 'Clear',
+
+      block: 'Block',
+      unblock: 'Unblock',
+
+      empty: 'No items found.',
+
+      confirmBlock: {
+        title: 'Block item',
+        message: 'Are you sure you want to block item {{item}}?',
+      },
+
+      confirmUnblock: {
+        title: 'Unblock item',
+        message: 'Are you sure you want to unblock item {{item}}?',
+      },
+
+      blockSuccess: 'Item {{item}} was successfully blocked.',
+
+      unblockSuccess: 'Item {{item}} was successfully unblocked.',
+
+      statusChangeError: 'Unable to change the item status.',
     },
   },
 } as const;

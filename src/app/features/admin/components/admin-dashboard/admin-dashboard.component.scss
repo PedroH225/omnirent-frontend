@@ -1,0 +1,18 @@
+.admin-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.dashboard-header h1 {
+  margin: 0 0 0.5rem;
+
+  font-size: 1.75rem;
+  color: var(--p-text-color);
+}
+
+.dashboard-header p {
+  margin: 0;
+
+  color: var(--p-text-muted-color);
+}

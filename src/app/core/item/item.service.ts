@@ -13,6 +13,9 @@ import { ItemDetailModel } from './model/item-detail-model';
 import { UpdateItemRequestModel } from '@features/items/model/item-update-request-model';
 import { ItemUpdatedModel } from './model/item-updated-model';
 import { CacheDuration, CacheService } from '@core/cache/cache.service';
+import { ItemAnalisysModel } from './model/item-analisys-model';
+import { EnumOption } from '@shared/models/EnumOption';
+import { ItemRejectRequest } from './model/item-reject-request';
 
 @Injectable({
   providedIn: 'root',
@@ -22,6 +25,9 @@ export class ItemService {
 
   private itemEnums$?: Observable<ItemEnumsResponse>;
   private readonly ITEM_ENUMS_CACHE_KEY = 'item-enums';
+
+  private rejectionReasons$?: Observable<EnumOption[]>;
+  private readonly ITEM_REJECTION_REASONS_CACHE_KEY = 'item-rejection-reasons';
 
   constructor(
     private http: HttpClient,
@@ -72,16 +78,22 @@ export class ItemService {
 
   getItemEnums(): Observable<ItemEnumsResponse> {
     if (!this.itemEnums$) {
-      const cached = this.cacheService.get<ItemEnumsResponse>('item-enums');
+      const cached = this.cacheService.get<ItemEnumsResponse>(
+        this.ITEM_ENUMS_CACHE_KEY,
+      );
 
       if (cached) {
-        this.itemEnums$ = of(cached);        
+        this.itemEnums$ = of(cached);
       } else {
         this.itemEnums$ = this.http
           .get<ItemEnumsResponse>(this.apiUrl + '/item/enums')
           .pipe(
             tap((response) => {
-              this.cacheService.set('item-enums', response, CacheDuration.LONG);
+              this.cacheService.set(
+                this.ITEM_ENUMS_CACHE_KEY,
+                response,
+                CacheDuration.LONG,
+              );
             }),
             shareReplay(1),
           );
@@ -89,6 +101,33 @@ export class ItemService {
     }
 
     return this.itemEnums$;
+  }
+
+  getItemRejectReasons(): Observable<EnumOption[]> {
+    if (!this.rejectionReasons$) {
+      const cached = this.cacheService.get<EnumOption[]>(
+        this.ITEM_REJECTION_REASONS_CACHE_KEY,
+      );
+
+      if (cached) {
+        this.rejectionReasons$ = of(cached);
+      } else {
+        this.rejectionReasons$ = this.http
+          .get<EnumOption[]>(`${this.apiUrl}/admin/items/enums`)
+          .pipe(
+            tap((response) => {
+              this.cacheService.set(
+                this.ITEM_REJECTION_REASONS_CACHE_KEY,
+                response,
+                CacheDuration.LONG,
+              );
+            }),
+            shareReplay(1),
+          );
+      }
+    }
+
+    return this.rejectionReasons$;
   }
 
   getItemFeedHome(category: string): Observable<PageResponse<ItemFeed>> {
@@ -147,6 +186,61 @@ export class ItemService {
       this.apiUrl + '/item/find/user/me',
       { params },
     );
+  }
+
+  getUnderAnalisys(
+    page = 0,
+    size = 20,
+  ): Observable<PageResponse<ItemAnalisysModel>> {
+    const params = new HttpParams().set('page', page).set('size', size);
+
+    return this.http.get<PageResponse<ItemAnalisysModel>>(
+      `${this.apiUrl}/admin/items/analisys`,
+      { params },
+    );
+  }
+
+  searchItems(
+    name?: string,
+    status?: string,
+    page = 0,
+    size = 10,
+  ): Observable<PageResponse<ItemDisplay>> {
+    let params = new HttpParams().set('page', page).set('size', size);
+
+    if (name) {
+      params = params.set('name', name);
+    }
+
+    if (status) {
+      params = params.set('status', status);
+    }
+
+    return this.http.get<PageResponse<ItemDisplay>>(
+      `${this.apiUrl}/admin/items`,
+      { params },
+    );
+  }
+
+  approveItem(itemId: string): Observable<void> {
+    return this.http.patch<void>(
+      `${this.apiUrl}/admin/items/approve/${itemId}`,
+      {},
+    );
+  }
+
+  rejectItem(
+    itemId: string,
+    rejectRequest: ItemRejectRequest,
+  ): Observable<void> {
+    return this.http.patch<void>(
+      `${this.apiUrl}/admin/items/reject/${itemId}`,
+      rejectRequest,
+    );
+  }
+
+  toggleItemBlocking(itemId: string): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/admin/items/status/${itemId}`, {});
   }
 
   private buildImagesFormData(images: ItemImageForm[]): FormData {

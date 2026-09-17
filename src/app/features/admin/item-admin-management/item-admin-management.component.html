@@ -1,0 +1,164 @@
+<section class="items-management">
+  <header class="page-header">
+    <h1>
+      {{ "admin.itemsManagement.title" | translate }}
+    </h1>
+
+    <p>
+      {{ "admin.itemsManagement.description" | translate }}
+    </p>
+  </header>
+
+  <div class="filters">
+    <div class="filter-field">
+      <label for="name">
+        {{ "admin.itemsManagement.name" | translate }}
+      </label>
+
+      <input
+        id="name"
+        pInputText
+        [(ngModel)]="name"
+        [placeholder]="'admin.itemsManagement.namePlaceholder' | translate"
+        (keyup.enter)="search()"
+      />
+    </div>
+
+    <div class="filter-field">
+      <label for="status">
+        {{ "admin.itemsManagement.status" | translate }}
+      </label>
+
+      <p-select
+        inputId="status"
+        [options]="statusOptions"
+        [(ngModel)]="status"
+        optionLabel="label"
+        optionValue="value"
+        [placeholder]="'common.all' | translate"
+      />
+    </div>
+
+    <div class="filter-actions">
+      <p-button
+        [label]="'admin.itemsManagement.search' | translate"
+        icon="pi pi-search"
+        (onClick)="search()"
+      />
+
+      <p-button
+        [label]="'admin.itemsManagement.clear' | translate"
+        icon="pi pi-filter-slash"
+        severity="secondary"
+        [outlined]="true"
+        (onClick)="clearFilters()"
+      />
+    </div>
+  </div>
+
+  <p-table
+    [value]="items"
+    [lazy]="true"
+    [paginator]="true"
+    [first]="page * size"
+    [rows]="size"
+    [totalRecords]="totalElements"
+    [loading]="loading"
+    [rowsPerPageOptions]="[10, 20, 50]"
+    (onPage)="onPageChange($event)"
+  >
+    <ng-template #header>
+      <tr>
+        <th class="mobile-actions">
+          {{ "admin.itemsManagement.actions" | translate }}
+        </th>
+        <th>
+          {{ "admin.itemsManagement.item" | translate }}
+        </th>
+
+        <th>
+          {{ "admin.itemsManagement.status" | translate }}
+        </th>
+
+        <th>
+          {{ "admin.itemsManagement.createdAt" | translate }}
+        </th>
+
+        <th class="desktop-actions">
+          {{ "admin.itemsManagement.actions" | translate }}
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template #body let-item>
+      <tr>
+        <td class="mobile-actions">
+          <p-button
+            [icon]="getActionIcon(item)"
+            [severity]="item.itemStatus === 'BLOCKED' ? 'success' : 'danger'"
+            [outlined]="true"
+            (onClick)="toggleBlock(item)"
+          />
+        </td>
+
+        <td>
+          <div class="item-summary">
+            <img
+              [src]="getThumbnailUrl(item)"
+              [alt]="item.name"
+              (error)="onImageError($event)"
+            />
+
+            <div>
+              <strong>{{ item.name }}</strong>
+
+              <span>
+                {{ item.subCategoryName }}
+              </span>
+            </div>
+          </div>
+        </td>
+
+        <td>
+          <p-tag
+            [value]="getStatusLabel(item.itemStatus)"
+            [severity]="getStatusSeverity(item.itemStatus)"
+          />
+        </td>
+
+        <td>
+          {{ item.createdAt | date: "dd/MM/yyyy" }}
+        </td>
+
+        <td class="actions-column desktop-actions">
+          <p-button
+            [label]="
+              (item.itemStatus === 'BLOCKED'
+                ? 'admin.itemsManagement.unblock'
+                : 'admin.itemsManagement.block'
+              ) | translate
+            "
+            [icon]="getActionIcon(item)"
+            [severity]="item.itemStatus === 'BLOCKED' ? 'success' : 'danger'"
+            [outlined]="true"
+            (onClick)="toggleBlock(item)"
+          />
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="6">
+          <div class="empty-message">
+            {{ "admin.itemsManagement.empty" | translate }}
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</section>
+
+<p-confirmDialog [draggable]="false" />
+
+<p-toast />

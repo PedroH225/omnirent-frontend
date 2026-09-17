@@ -1,0 +1,147 @@
+.items-management {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.page-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  h1 {
+    margin: 0;
+
+    color: var(--p-text-color);
+    font-size: 1.75rem;
+    font-weight: 600;
+  }
+
+  p {
+    margin: 0;
+
+    color: var(--p-text-muted-color);
+    font-size: 0.95rem;
+  }
+}
+
+.filters {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.filter-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+
+  min-width: 220px;
+
+  label {
+    color: var(--p-text-color);
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  input,
+  p-select {
+    width: 100%;
+  }
+}
+
+.filter-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.item-summary {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  min-width: 220px;
+
+  img {
+    width: 56px;
+    height: 56px;
+
+    flex-shrink: 0;
+
+    object-fit: cover;
+
+    background: var(--p-surface-100);
+
+    border: 1px solid var(--p-surface-200);
+    border-radius: var(--p-border-radius-md);
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+
+    min-width: 0;
+  }
+
+  strong {
+    color: var(--p-text-color);
+    font-size: 0.9rem;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  span {
+    color: var(--p-text-muted-color);
+    font-size: 0.8rem;
+  }
+}
+
+.empty-message {
+  min-height: 35vh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--p-text-muted-color);
+}
+
+.mobile-actions {
+  display: none;
+}
+
+@media (max-width: 640px) {
+  .desktop-actions {
+    display: none;
+  }
+
+  .mobile-actions {
+    display: table-cell;
+  }
+
+  .filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter-field {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .filter-actions {
+    width: 100%;
+
+    p-button {
+      flex: 1;
+
+      ::ng-deep .p-button {
+        width: 100%;
+      }
+    }
+  }
+}

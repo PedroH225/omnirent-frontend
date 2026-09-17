@@ -9,9 +9,11 @@ export const ptBR = {
     save: 'Salvar',
     create: 'Criar',
     signIn: 'Entrar',
+    all: 'Todos',
 
     messages: {
       success: 'Sucesso',
+      error: 'Erro',
 
       validationError: {
         title: 'Falha na validação',
@@ -72,6 +74,65 @@ export const ptBR = {
       active: 'Ativo',
       inactive: 'Inativo',
       banned: 'Banido',
+    },
+
+    itemRejectionReasons: {
+      placeholder: 'Motivo',
+
+      invalid_title: {
+        label: 'Título inválido',
+        description: 'O título do item não atende às diretrizes da plataforma.',
+      },
+
+      invalid_description: {
+        label: 'Descrição inválida',
+        description: 'A descrição do item está incompleta ou é inadequada.',
+      },
+
+      invalid_category: {
+        label: 'Categoria inválida',
+        description: 'A categoria selecionada não é apropriada para este item.',
+      },
+
+      low_quality_images: {
+        label: 'Imagens de baixa qualidade',
+        description: 'As imagens enviadas não possuem qualidade suficiente.',
+      },
+
+      invalid_images: {
+        label: 'Imagens inválidas',
+        description: 'As imagens enviadas não representam corretamente o item.',
+      },
+
+      prohibited_item: {
+        label: 'Item proibido',
+        description: 'Este item não pode ser anunciado na plataforma.',
+      },
+
+      counterfeit_item: {
+        label: 'Item falsificado',
+        description: 'O item aparenta violar os requisitos de autenticidade.',
+      },
+
+      inappropriate_content: {
+        label: 'Conteúdo inadequado',
+        description: 'O anúncio contém conteúdo inadequado.',
+      },
+
+      duplicate_item: {
+        label: 'Item duplicado',
+        description: 'Já existe um anúncio semelhante para este item.',
+      },
+
+      incomplete_information: {
+        label: 'Informações incompletas',
+        description: 'O anúncio não contém todas as informações obrigatórias.',
+      },
+
+      other: {
+        label: 'Outro',
+        description: 'Outro.',
+      },
     },
   },
 
@@ -781,6 +842,7 @@ export const ptBR = {
       openMenu: 'Abrir menu',
 
       dashboard: 'Painel',
+      admin: 'Administração',
 
       listings: {
         title: 'Anúncios',
@@ -917,6 +979,148 @@ export const ptBR = {
           max_size: 'O CEP deve ter no máximo 20 caracteres.',
         },
       },
+    },
+  },
+  admin: {
+    sidebar: {
+      title: 'Administração',
+      openMenu: 'Abrir menu',
+
+      users: {
+        title: 'Usuários',
+        manage: 'Gerenciar usuários',
+        banned: 'Usuários banidos',
+      },
+
+      items: {
+        title: 'Itens',
+        review: 'Avaliar itens',
+        manage: 'Gerenciar itens',
+      },
+    },
+
+    dashboard: {
+      title: 'Painel administrativo',
+      description: 'Gerencie usuários e itens da plataforma.',
+    },
+
+    usersManagement: {
+      title: 'Gerenciamento de usuários',
+      description: 'Consulte, filtre, bana e desbana usuários da plataforma.',
+
+      username: 'Username',
+      usernamePlaceholder: 'Buscar por username',
+
+      status: 'Status',
+      all: 'Todos',
+
+      search: 'Buscar',
+      clear: 'Limpar',
+
+      actions: 'Ações',
+      ban: 'Banir',
+      unban: 'Desbanir',
+
+      empty: 'Nenhum usuário encontrado.',
+
+      confirmBan: {
+        title: 'Banir usuário',
+        message: 'Tem certeza de que deseja banir o usuário {{username}}?',
+      },
+
+      confirmUnban: {
+        title: 'Desbanir usuário',
+        message: 'Tem certeza de que deseja desbanir o usuário {{username}}?',
+      },
+
+      banSuccess: 'O usuário {{username}} foi banido com sucesso.',
+      unbanSuccess: 'O usuário {{username}} foi desbanido com sucesso.',
+
+      statusChangeError: 'Não foi possível alterar o status do usuário.',
+    },
+
+    itemsReview: {
+      title: 'Análise de itens',
+      description:
+        'Analise os anúncios enviados antes de disponibilizá-los na plataforma.',
+
+      owner: 'Proprietário',
+      brand: 'Marca',
+      model: 'Modelo',
+      condition: 'Condição',
+      price: 'Preço base',
+      category: 'Categoria',
+      location: 'Localização',
+
+      approve: 'Aprovar',
+      reject: 'Rejeitar',
+
+      approveSuccess: 'O item {{item}} foi aprovado com sucesso.',
+
+      confirmApprove: {
+        title: 'Aprovar item',
+        message: 'Tem certeza de que deseja aprovar o item {{item}}?',
+      },
+
+      rejectAndBanOwner: 'Rejeitar e banir',
+
+      confirmReject: {
+        title: 'Rejeitar item',
+        message: 'Tem certeza de que deseja rejeitar o item {{item}}?',
+      },
+
+      confirmRejectAndBan: {
+        title: 'Rejeitar item e banir proprietário',
+        message:
+          'Tem certeza de que deseja rejeitar o item {{item}} e banir o usuário {{username}}?',
+      },
+
+      rejectSuccess: 'O item {{item}} foi rejeitado com sucesso.',
+
+      rejectAndBanSuccess:
+        'O item {{item}} foi rejeitado e o usuário {{username}} foi banido com sucesso.',
+
+      empty: 'Nenhum item aguardando análise.',
+    },
+
+    itemsManagement: {
+      title: 'Gerenciamento de itens',
+      description:
+        'Consulte, filtre, bloqueie e desbloqueie itens da plataforma.',
+
+      item: 'Item',
+      name: 'Título',
+      namePlaceholder: 'Buscar por título',
+
+      status: 'Status',
+      condition: 'Condição',
+      price: 'Preço',
+      createdAt: 'Criado em',
+      actions: 'Ações',
+
+      search: 'Buscar',
+      clear: 'Limpar',
+
+      block: 'Bloquear',
+      unblock: 'Desbloquear',
+
+      empty: 'Nenhum item encontrado.',
+
+      confirmBlock: {
+        title: 'Bloquear item',
+        message: 'Tem certeza de que deseja bloquear o item {{item}}?',
+      },
+
+      confirmUnblock: {
+        title: 'Desbloquear item',
+        message: 'Tem certeza de que deseja desbloquear o item {{item}}?',
+      },
+
+      blockSuccess: 'O item {{item}} foi bloqueado com sucesso.',
+
+      unblockSuccess: 'O item {{item}} foi desbloqueado com sucesso.',
+
+      statusChangeError: 'Não foi possível alterar o status do item.',
     },
   },
 } as const;

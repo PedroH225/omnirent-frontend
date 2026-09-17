@@ -1,0 +1,31 @@
+<aside class="sidebar">
+  <p-panelmenu [model]="items" [multiple]="true" />
+</aside>
+
+<div class="mobile-sidebar">
+  <p-button
+    icon="pi pi-bars"
+    [text]="true"
+    [rounded]="true"
+    [attr.aria-label]="'admin.sidebar.openMenu' | translate"
+    (onClick)="drawerVisible = true"
+  />
+
+  <div class="mobile-sidebar-divider"></div>
+
+  <span class="mobile-sidebar-title">
+    {{ "admin.sidebar.title" | translate }}
+  </span>
+
+  <div class="mobile-sidebar-spacer"></div>
+
+  <i class="pi pi-shield mobile-sidebar-icon"></i>
+</div>
+
+<p-drawer
+  [(visible)]="drawerVisible"
+  position="left"
+  [style]="{ width: '280px' }"
+>
+  <p-panelmenu [model]="items" [multiple]="true" />
+</p-drawer>

@@ -24,10 +24,10 @@ export class AppComponent {
     private csrfService: CsrfService,
   ) {
     this.csrfService.loadToken().subscribe();
-    // this.userService.loadLoggedUserData().subscribe({
-    //   error: (error) => {
-    //     console.error(error);
-    //   },
-    // });
+    this.userService.loadLoggedUserData().subscribe({
+      error: (error) => {
+        console.error(error);
+      },
+    });
   }
 }

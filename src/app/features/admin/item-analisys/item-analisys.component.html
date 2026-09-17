@@ -157,6 +157,14 @@
                   />
 
                   <p-button
+                    [label]="'admin.itemsReview.rejectAndBanOwner' | translate"
+                    icon="pi pi-ban"
+                    severity="danger"
+                    [disabled]="!selectedRejectionReasons[item.id]"
+                    (onClick)="rejectItemAndBanOwner(item)"
+                  />
+
+                  <p-button
                     [label]="'admin.itemsReview.approve' | translate"
                     icon="pi pi-check"
                     severity="success"

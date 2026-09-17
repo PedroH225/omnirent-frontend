@@ -19,6 +19,7 @@ import { FormsModule } from '@angular/forms';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialog } from 'primeng/confirmdialog';
+import { ItemRejectRequest } from '@core/item/model/item-reject-request';
 
 @Component({
   selector: 'app-item-analisys',
@@ -33,8 +34,8 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
     Select,
     FormsModule,
     ToastModule,
-    ConfirmDialog
-],
+    ConfirmDialog,
+  ],
   providers: [MessageService, ConfirmationService],
   templateUrl: './item-analisys.component.html',
   styleUrl: './item-analisys.component.scss',
@@ -292,6 +293,88 @@ export class ItemAnalisysComponent implements OnInit {
   }
 
   rejectItem(item: ItemAnalisysModel): void {
-    // chamada de rejeição/bloqueio
+    this.confirmReject(item, false);
+  }
+
+  rejectItemAndBanOwner(item: ItemAnalisysModel): void {
+    this.confirmReject(item, true);
+  }
+
+  private confirmReject(item: ItemAnalisysModel, banOwner: boolean): void {
+    const reason = this.selectedRejectionReasons[item.id];
+
+    if (!reason) {
+      return;
+    }
+
+    this.confirmationService.confirm({
+      header: this.translationService.translate(
+        banOwner
+          ? 'admin.itemsReview.confirmRejectAndBan.title'
+          : 'admin.itemsReview.confirmReject.title',
+      ),
+
+      message: this.translationService.translate(
+        banOwner
+          ? 'admin.itemsReview.confirmRejectAndBan.message'
+          : 'admin.itemsReview.confirmReject.message',
+        {
+          item: item.name,
+          username: item.owner.username,
+        },
+      ),
+
+      icon: 'pi pi-exclamation-triangle',
+
+      acceptLabel: this.translationService.translate(
+        banOwner
+          ? 'admin.itemsReview.rejectAndBanOwner'
+          : 'admin.itemsReview.reject',
+      ),
+
+      rejectLabel: this.translationService.translate('common.cancel'),
+
+      acceptButtonProps: {
+        severity: 'danger',
+      },
+
+      rejectButtonProps: {
+        severity: 'secondary',
+        outlined: true,
+      },
+
+      accept: () => {
+        this.executeReject(item, {reason: reason.code, banOwner: banOwner} as ItemRejectRequest);
+      },
+    });
+  }
+
+  private executeReject(
+    item: ItemAnalisysModel,
+    rejectRequest: ItemRejectRequest
+  ): void {
+    this.itemService.rejectItem(item.id, rejectRequest).subscribe({
+      next: () => {
+        this.items = this.items.filter(
+          (currentItem) => currentItem.id !== item.id,
+        );
+
+        this.totalElements--;
+
+        this.messageService.add({
+          severity: 'success',
+          summary: this.translationService.translate('common.messages.success'),
+          detail: this.translationService.translate(
+            rejectRequest.banOwner
+              ? 'admin.itemsReview.rejectAndBanSuccess'
+              : 'admin.itemsReview.rejectSuccess',
+            {
+              item: item.name,
+              username: item.owner.username,
+            },
+          ),
+        });
+      },
+    });
   }
 }

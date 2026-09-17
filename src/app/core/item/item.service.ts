@@ -15,6 +15,7 @@ import { ItemUpdatedModel } from './model/item-updated-model';
 import { CacheDuration, CacheService } from '@core/cache/cache.service';
 import { ItemAnalisysModel } from './model/item-analisys-model';
 import { EnumOption } from '@shared/models/EnumOption';
+import { ItemRejectRequest } from './model/item-reject-request';
 
 @Injectable({
   providedIn: 'root',
@@ -203,6 +204,9 @@ export class ItemService {
     return this.http.patch<void>(`${this.apiUrl}/admin/items/approve/${itemId}`, {});
   }
 
+  rejectItem(itemId: string, rejectRequest: ItemRejectRequest): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/admin/items/reject/${itemId}`, rejectRequest);
+  }
 
   private buildImagesFormData(images: ItemImageForm[]): FormData {
     const formData = new FormData();

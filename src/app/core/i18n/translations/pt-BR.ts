@@ -1062,6 +1062,24 @@ export const ptBR = {
         message: 'Tem certeza de que deseja aprovar o item {{item}}?',
       },
 
+      rejectAndBanOwner: 'Rejeitar e banir',
+
+      confirmReject: {
+        title: 'Rejeitar item',
+        message: 'Tem certeza de que deseja rejeitar o item {{item}}?',
+      },
+
+      confirmRejectAndBan: {
+        title: 'Rejeitar item e banir proprietário',
+        message:
+          'Tem certeza de que deseja rejeitar o item {{item}} e banir o usuário {{username}}?',
+      },
+
+      rejectSuccess: 'O item {{item}} foi rejeitado com sucesso.',
+
+      rejectAndBanSuccess:
+        'O item {{item}} foi rejeitado e o usuário {{username}} foi banido com sucesso.',
+
       empty: 'Nenhum item aguardando análise.',
     },
   },

@@ -1055,6 +1055,24 @@ export const enUS = {
         message: 'Are you sure you want to approve item {{item}}?',
       },
 
+      rejectAndBanOwner: 'Reject and ban',
+
+      confirmReject: {
+        title: 'Reject item',
+        message: 'Are you sure you want to reject item {{item}}?',
+      },
+
+      confirmRejectAndBan: {
+        title: 'Reject item and ban owner',
+        message:
+          'Are you sure you want to reject item {{item}} and ban user {{username}}?',
+      },
+
+      rejectSuccess: 'Item {{item}} was successfully rejected.',
+
+      rejectAndBanSuccess:
+        'Item {{item}} was rejected and user {{username}} was successfully banned.',
+
       empty: 'No items awaiting review.',
     },
   },

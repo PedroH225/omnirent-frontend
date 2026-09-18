@@ -867,6 +867,16 @@ export const ptBR = {
       favorites: 'Favoritos',
     },
 
+    profile: {
+      title: 'Perfil',
+      description: 'Visualize suas informações pessoais.',
+
+      name: 'Nome',
+      username: 'Usuário',
+      email: 'E-mail',
+      birthDate: 'Data de nascimento',
+    },
+
     rentals: {
       loading: 'Carregando Aluguéis...',
       empty: {

@@ -22,6 +22,7 @@ import { Role } from '@core/auth/auth-state.service';
 import { UsersManagementComponent } from '@features/admin/components/users-management/users-management.component';
 import { ItemAnalisysComponent } from '@features/admin/item-analisys/item-analisys.component';
 import { ItemAdminManagementComponent } from '@features/admin/item-admin-management/item-admin-management.component';
+import { ProfileComponent } from '@features/user/pages/profile/profile.component';
 
 export const routes: Routes = [
   {
@@ -98,6 +99,10 @@ export const routes: Routes = [
           {
             path: 'addresses',
             component: UserAddressComponent,
+          },
+          {
+            path: 'profile',
+            component: ProfileComponent,
           },
         ],
       },

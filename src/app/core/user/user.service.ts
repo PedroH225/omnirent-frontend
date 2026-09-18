@@ -17,6 +17,7 @@ import { UserSummary } from './model/user-summary-model';
 import { PageResponse } from '@shared/models/page.response.model';
 import { UserEnumsResponse } from './model/user-enums-model';
 import { CacheDuration, CacheService } from '@core/cache/cache.service';
+import { UserDetail } from './model/user-detail-model';
 
 @Injectable({
   providedIn: 'root',
@@ -54,6 +55,10 @@ export class UserService {
         return throwError(() => error);
       }),
     );
+  }
+
+  findById(): Observable<UserDetail> {
+    return this.http.get<UserDetail>(`${this.apiUrl}/user/find`);
   }
 
   searchUsers(

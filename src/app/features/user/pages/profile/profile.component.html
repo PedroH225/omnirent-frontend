@@ -1,0 +1,30 @@
+@if (user(); as user) {
+  <section class="profile">
+    <div class="profile-header">
+      <h1>{{ 'account.profile.title' | translate }}</h1>
+      <p>{{ 'account.profile.description' | translate }}</p>
+    </div>
+
+    <div class="profile-content">
+      <div class="profile-field">
+        <label>{{ 'account.profile.name' | translate }}</label>
+        <p>{{ user.name }}</p>
+      </div>
+
+      <div class="profile-field">
+        <label>{{ 'account.profile.username' | translate }}</label>
+        <p>{{ user.username }}</p>
+      </div>
+
+      <div class="profile-field">
+        <label>{{ 'account.profile.email' | translate }}</label>
+        <p>{{ user.email }}</p>
+      </div>
+
+      <div class="profile-field">
+        <label>{{ 'account.profile.birthDate' | translate }}</label>
+        <p>{{ user.birthDate ?? '-' }}</p>
+      </div>
+    </div>
+  </section>
+}

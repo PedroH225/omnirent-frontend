@@ -860,6 +860,16 @@ export const enUS = {
       favorites: 'Favorites',
     },
 
+    profile: {
+      title: 'Profile',
+      description: 'View your personal information.',
+
+      name: 'Name',
+      username: 'Username',
+      email: 'Email',
+      birthDate: 'Birth date',
+    },
+
     rentals: {
       loading: 'Loading Rentals...',
       empty: {

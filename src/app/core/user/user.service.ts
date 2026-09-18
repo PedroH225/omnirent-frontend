@@ -124,5 +124,6 @@ export class UserService {
 
   clearCurrentUser() {
     this._currentUser.set(null);
+    this.authStateService.setUnauthenticated();
   }
 }

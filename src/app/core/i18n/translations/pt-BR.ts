@@ -867,6 +867,36 @@ export const ptBR = {
       favorites: 'Favoritos',
     },
 
+    dashboard: {
+      title: 'Minha conta',
+      description:
+        'Acesse e gerencie as principais informações e recursos relacionados à sua conta.',
+
+      profile: {
+        title: 'Perfil',
+        description:
+          'Visualize e atualize suas informações pessoais, como nome, usuário, e-mail e data de nascimento.',
+      },
+
+      rentals: {
+        title: 'Aluguéis',
+        description:
+          'Acompanhe e gerencie seus aluguéis, tanto como proprietário quanto como locatário, durante todo o fluxo da plataforma.',
+      },
+
+      settings: {
+        title: 'Configurações',
+        description:
+          'Gerencie suas preferências de idioma, fuso horário e outras configurações da conta.',
+      },
+
+      listings: {
+        title: 'Meus anúncios',
+        description:
+          'Acompanhe e gerencie os itens que você disponibilizou para aluguel na plataforma.',
+      },
+    },
+
     profile: {
       title: 'Perfil',
       description: 'Visualize suas informações pessoais.',

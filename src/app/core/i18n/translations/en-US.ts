@@ -860,6 +860,36 @@ export const enUS = {
       favorites: 'Favorites',
     },
 
+    dashboard: {
+      title: 'My account',
+      description:
+        'Access and manage the main information and features related to your account.',
+
+      profile: {
+        title: 'Profile',
+        description:
+          'View and update your personal information, such as your name, username, email, and birth date.',
+      },
+
+      rentals: {
+        title: 'Rentals',
+        description:
+          'Track and manage your rentals as both an owner and a renter throughout the entire platform workflow.',
+      },
+
+      settings: {
+        title: 'Settings',
+        description:
+          'Manage your language, time zone, and other account preferences.',
+      },
+
+      listings: {
+        title: 'My listings',
+        description:
+          'View and manage the items you have listed for rent on the platform.',
+      },
+    },
+
     profile: {
       title: 'Profile',
       description: 'View your personal information.',

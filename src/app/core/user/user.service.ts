@@ -95,6 +95,10 @@ export class UserService {
     );
   }
 
+  toggleActivatedStatus(): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/user/changeStatus`, {});
+  }
+
   getEnums(): Observable<UserEnumsResponse> {
     if (!this.userEnums$) {
       const cached = this.cacheService.get<UserEnumsResponse>(

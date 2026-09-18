@@ -923,6 +923,14 @@ export const ptBR = {
         description:
           'Sua conta será desativada e você perderá o acesso aos recursos da plataforma.',
         button: 'Desativar conta',
+
+        confirm: {
+          title: 'Desativar conta',
+          message:
+            'Tem certeza de que deseja desativar sua conta? Você será desconectado após a confirmação.',
+          accept: 'Desativar',
+          cancel: 'Cancelar',
+        },
       },
     },
 

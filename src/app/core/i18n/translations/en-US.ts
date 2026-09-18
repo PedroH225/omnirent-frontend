@@ -915,6 +915,14 @@ export const enUS = {
         description:
           'Your account will be deactivated and you will lose access to platform features.',
         button: 'Deactivate account',
+
+        confirm: {
+          title: 'Deactivate account',
+          message:
+            'Are you sure you want to deactivate your account? You will be signed out after confirmation.',
+          accept: 'Deactivate',
+          cancel: 'Cancel',
+        },
       },
     },
 

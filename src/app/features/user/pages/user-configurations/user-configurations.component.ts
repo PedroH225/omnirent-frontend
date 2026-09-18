@@ -13,6 +13,11 @@ import {
 } from '@shared/components/locale-selector/locale-selector.component';
 import { UserPreferencesService } from '@core/user/user-preferences.service';
 import { UserPreferences } from '@core/user/model/user-preferences-model';
+import { UserService } from '@core/user/user.service';
+import { AuthService } from '@core/auth/auth.service';
+import { Router } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialog } from 'primeng/confirmdialog';
 
 interface SelectOption {
   label: string;
@@ -27,7 +32,9 @@ interface SelectOption {
     Button,
     TranslatePipe,
     LocaleSelectorComponent,
-  ],
+    ConfirmDialog
+],
+  providers: [ConfirmationService],
   templateUrl: './user-configurations.component.html',
   styleUrl: './user-configurations.component.scss',
 })
@@ -42,6 +49,10 @@ export class UserConfigurationsComponent implements OnInit {
     private readonly localeService: LocaleService,
     private readonly translationService: TranslationService,
     private readonly preferencesService: UserPreferencesService,
+    private readonly userService: UserService,
+    private readonly authenticationService: AuthService,
+    private readonly router: Router,
+    private readonly confirmationService: ConfirmationService
   ) {}
 
   ngOnInit(): void {
@@ -64,7 +75,35 @@ export class UserConfigurationsComponent implements OnInit {
   }
 
   deactivateAccount(): void {
-    // abrir confirmação ou dialog de desativação
+    this.confirmationService.confirm({
+      header: this.translationService.translate(
+        'account.configurations.deactivate.confirm.title',
+      ),
+      message: this.translationService.translate(
+        'account.configurations.deactivate.confirm.message',
+      ),
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: this.translationService.translate(
+        'account.configurations.deactivate.confirm.accept',
+      ),
+      rejectLabel: this.translationService.translate(
+        'account.configurations.deactivate.confirm.cancel',
+      ),
+      acceptButtonProps: {
+        severity: 'danger',
+      },
+      accept: () => {
+        this.userService.toggleActivatedStatus().subscribe({
+          next: () => {
+            this.userService.clearCurrentUser();
+            this.router.navigate(['/']);
+          },
+          error: (error) => {
+            console.error(error);
+          },
+        });
+      },
+    });
   }
 
   private loadOptions(): void {

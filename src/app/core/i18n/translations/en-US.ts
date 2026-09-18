@@ -879,6 +879,45 @@ export const enUS = {
       },
     },
 
+    configurations: {
+      title: 'Settings',
+      description: 'Manage your account preferences and settings.',
+
+      language: {
+        title: 'Language',
+        description: 'Choose the language used throughout the platform.',
+      },
+
+      timezone: {
+        title: 'Time zone',
+        description: 'Choose the time zone used to display dates and times.',
+      },
+
+      languages: {
+        ptbr: 'Portuguese (Brazil)',
+        en: 'English',
+      },
+
+      timezones: {
+        saopaulo: 'São Paulo (UTC-3)',
+        newyork: 'Nova York (UTC-5 / UTC-4)',
+        london: 'Londres (UTC+0 / UTC+1)',
+        utc: 'UTC',
+      },
+
+      dangerzone: {
+        title: 'Danger zone',
+        description: 'Actions that directly affect access to your account.',
+      },
+
+      deactivate: {
+        title: 'Deactivate account',
+        description:
+          'Your account will be deactivated and you will lose access to platform features.',
+        button: 'Deactivate account',
+      },
+    },
+
     rentals: {
       loading: 'Loading Rentals...',
       empty: {

@@ -23,6 +23,7 @@ import { UsersManagementComponent } from '@features/admin/components/users-manag
 import { ItemAnalisysComponent } from '@features/admin/item-analisys/item-analisys.component';
 import { ItemAdminManagementComponent } from '@features/admin/item-admin-management/item-admin-management.component';
 import { ProfileComponent } from '@features/user/pages/profile/profile.component';
+import { UserConfigurationsComponent } from '@features/user/pages/user-configurations/user-configurations.component';
 
 export const routes: Routes = [
   {
@@ -103,6 +104,10 @@ export const routes: Routes = [
           {
             path: 'profile',
             component: ProfileComponent,
+          },
+          {
+            path: 'settings',
+            component: UserConfigurationsComponent,
           },
         ],
       },

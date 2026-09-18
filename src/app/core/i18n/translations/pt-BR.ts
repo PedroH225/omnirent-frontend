@@ -886,6 +886,46 @@ export const ptBR = {
       },
     },
 
+    configurations: {
+      title: 'Configurações',
+      description: 'Gerencie suas preferências e configurações da conta.',
+
+      language: {
+        title: 'Idioma',
+        description: 'Escolha o idioma utilizado na plataforma.',
+      },
+
+      timezone: {
+        title: 'Fuso horário',
+        description:
+          'Escolha o fuso horário utilizado para exibir datas e horários.',
+      },
+
+      languages: {
+        ptbr: 'Português (Brasil)',
+        en: 'Inglês',
+      },
+
+      timezones: {
+        saopaulo: 'São Paulo (UTC-3)',
+        newyork: 'New York (UTC-5 / UTC-4)',
+        london: 'London (UTC+0 / UTC+1)',
+        utc: 'UTC',
+      },
+
+      dangerzone: {
+        title: 'Zona de risco',
+        description: 'Ações que afetam diretamente o acesso à sua conta.',
+      },
+
+      deactivate: {
+        title: 'Desativar conta',
+        description:
+          'Sua conta será desativada e você perderá o acesso aos recursos da plataforma.',
+        button: 'Desativar conta',
+      },
+    },
+
     rentals: {
       loading: 'Carregando Aluguéis...',
       empty: {

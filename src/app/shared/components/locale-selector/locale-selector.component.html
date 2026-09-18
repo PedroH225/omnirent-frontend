@@ -9,9 +9,17 @@
 >
   <ng-template #selectedItem let-selected>
     <span class="locale-selected">
-      <span class="locale-flag">
-        {{ selected?.flag }}
-      </span>
+      @if (mode === SelectorMode.MINIMAL) {
+        <span class="locale-flag">
+          {{ selected?.flag }}
+        </span>
+      }
+
+      @if (mode === SelectorMode.FULL) {
+        <span class="locale-flag">
+          {{ selected?.flag }} {{ selected?.label }}
+        </span>
+      }
     </span>
   </ng-template>
 

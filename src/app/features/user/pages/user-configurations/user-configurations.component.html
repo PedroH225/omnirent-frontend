@@ -1,0 +1,58 @@
+<section class="configurations">
+  <div class="configurations-header">
+    <h1>{{ "account.configurations.title" | translate }}</h1>
+    <p>{{ "account.configurations.description" | translate }}</p>
+  </div>
+
+  <div class="configurations-content">
+    <div class="configuration-item">
+      <div class="configuration-info">
+        <h2>{{ "account.configurations.language.title" | translate }}</h2>
+        <p>{{ "account.configurations.language.description" | translate }}</p>
+      </div>
+
+      <app-locale-selector [mode]="SelectorMode.FULL"></app-locale-selector>
+    </div>
+
+    <div class="configuration-item">
+      <div class="configuration-info">
+        <h2>{{ "account.configurations.timezone.title" | translate }}</h2>
+        <p>{{ "account.configurations.timezone.description" | translate }}</p>
+      </div>
+
+      <p-select
+        [options]="timezoneOptions"
+        optionLabel="label"
+        optionValue="value"
+        [ngModel]="selectedTimezone()"
+        (ngModelChange)="onTimezoneChange($event)"
+      />
+    </div>
+  </div>
+
+  <div class="danger-zone">
+    <div class="danger-zone-header">
+      <h2>{{ "account.configurations.dangerzone.title" | translate }}</h2>
+      <p>{{ "account.configurations.dangerzone.description" | translate }}</p>
+    </div>
+
+    <div class="danger-zone-item">
+      <div>
+        <h3>
+          {{ "account.configurations.deactivate.title" | translate }}
+        </h3>
+
+        <p>
+          {{ "account.configurations.deactivate.description" | translate }}
+        </p>
+      </div>
+
+      <p-button
+        severity="danger"
+        outlined
+        [label]="'account.configurations.deactivate.button' | translate"
+        (onClick)="deactivateAccount()"
+      />
+    </div>
+  </div>
+</section>

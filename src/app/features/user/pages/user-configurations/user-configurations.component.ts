@@ -7,7 +7,12 @@ import { Button } from 'primeng/button';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { TranslationService } from '@core/i18n/translation.service';
 import { LocaleService } from '@core/i18n/locale.service';
-import { LocaleSelectorComponent, SelectorMode } from '@shared/components/locale-selector/locale-selector.component';
+import {
+  LocaleSelectorComponent,
+  SelectorMode,
+} from '@shared/components/locale-selector/locale-selector.component';
+import { UserPreferencesService } from '@core/user/user-preferences.service';
+import { UserPreferences } from '@core/user/model/user-preferences-model';
 
 interface SelectOption {
   label: string;
@@ -29,34 +34,33 @@ interface SelectOption {
 export class UserConfigurationsComponent implements OnInit {
   readonly SelectorMode = SelectorMode;
 
-  selectedLanguage = signal<string>('pt-BR');
   selectedTimezone = signal<string>('America/Sao_Paulo');
 
-  languageOptions: SelectOption[] = [];
   timezoneOptions: SelectOption[] = [];
 
   constructor(
     private readonly localeService: LocaleService,
     private readonly translationService: TranslationService,
+    private readonly preferencesService: UserPreferencesService,
   ) {}
 
   ngOnInit(): void {
     this.loadOptions();
   }
 
-  onLanguageChange(locale: string): void {
-    this.selectedLanguage.set(locale);
-
-    // use aqui o método que você já possui no LocaleService
-    // this.localeService.setLocale(locale);
-
-    this.loadOptions();
-  }
-
   onTimezoneChange(timezone: string): void {
     this.selectedTimezone.set(timezone);
 
-    // persistir posteriormente no backend/localStorage
+    const body: UserPreferences = {
+      locale: null,
+      timezone,
+    };
+
+    this.preferencesService.savePreferences(body).subscribe({
+      error: (error) => {
+        console.error(error);
+      },
+    });
   }
 
   deactivateAccount(): void {
@@ -64,21 +68,6 @@ export class UserConfigurationsComponent implements OnInit {
   }
 
   private loadOptions(): void {
-    this.languageOptions = [
-      {
-        label: this.translationService.translate(
-          'account.configurations.languages.ptbr',
-        ),
-        value: 'pt-BR',
-      },
-      {
-        label: this.translationService.translate(
-          'account.configurations.languages.en',
-        ),
-        value: 'en',
-      },
-    ];
-
     this.timezoneOptions = [
       {
         label: this.translationService.translate(

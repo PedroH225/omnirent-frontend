@@ -5,7 +5,7 @@
   optionValue="value"
   appendTo="body"
   [showClear]="false"
-  (onChange)="setLocale($event.value)"
+  (onChange)="onLocaleChange($event.value)"
 >
   <ng-template #selectedItem let-selected>
     <span class="locale-selected">

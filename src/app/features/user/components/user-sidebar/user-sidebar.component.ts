@@ -109,25 +109,12 @@ export class UserSidebarComponent {
           },
           {
             label: this.translationService.translate(
-              'account.sidebar.account.security',
-            ),
-            icon: 'pi pi-lock',
-            routerLink: '/account/security',
-          },
-          {
-            label: this.translationService.translate(
               'account.sidebar.account.settings',
             ),
             icon: 'pi pi-cog',
             routerLink: '/account/settings',
           },
         ],
-      },
-
-      {
-        label: this.translationService.translate('account.sidebar.favorites'),
-        icon: 'pi pi-heart',
-        routerLink: '/account/favorites',
       },
     ];
 

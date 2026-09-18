@@ -18,6 +18,7 @@ import { PageResponse } from '@shared/models/page.response.model';
 import { UserEnumsResponse } from './model/user-enums-model';
 import { CacheDuration, CacheService } from '@core/cache/cache.service';
 import { UserDetail } from './model/user-detail-model';
+import { UpdateUserRequest } from './model/update-user-model';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +39,10 @@ export class UserService {
     private authStateService: AuthStateService,
     private cacheService: CacheService,
   ) {}
+
+  updateUser(updateRequest: UpdateUserRequest): Observable<UserDetail> {
+    return this.http.put<UserDetail>(`${this.apiUrl}/user/update`, updateRequest);
+  }
 
   loadLoggedUserData(): Observable<void> {
     return this.http.get<LoggedUserModel>(`${this.apiUrl}/user/me`).pipe(

@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { Password } from 'primeng/password';
 import { FloatLabel } from 'primeng/floatlabel';
 import { Button } from 'primeng/button';
@@ -12,6 +19,7 @@ import { FieldErrorComponent } from '@shared/components/field-error/field-error.
 import { SaveUserFormValidator } from '@features/auth/validators/user-form-validator';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { TranslationService } from '@core/i18n/translation.service';
+import { UserDetail } from '@core/user/model/user-detail-model';
 
 type UserFormMode = 'create' | 'edit';
 
@@ -31,10 +39,11 @@ type UserFormMode = 'create' | 'edit';
   templateUrl: './save-user-form.component.html',
   styleUrl: './save-user-form.component.scss',
 })
-export class SaveUserFormComponent {
+export class SaveUserFormComponent implements OnChanges {
   today: Date = new Date();
 
   @Input() mode: UserFormMode = 'create';
+  @Input() user: UserDetail | null = null;
   @Input() backendErrors: FieldError[] = [];
 
   @Output() onSave = new EventEmitter<UserFormModel>();
@@ -45,12 +54,24 @@ export class SaveUserFormComponent {
 
   localErrors: FieldError[] = [];
 
-  constructor(private translationService: TranslationService) {}
+  constructor(private readonly translationService: TranslationService) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (
+      this.mode === 'edit' &&
+      this.user &&
+      (changes['user'] || changes['mode'])
+    ) {
+      this.form = this.createEditForm(this.user);
+    }
+  }
 
   save(): void {
-    this.localErrors = SaveUserFormValidator.validate(this.form);
+    this.localErrors = SaveUserFormValidator.validate(this.form, this.mode);
 
     if (this.localErrors.length > 0) {
+      console.table(this.localErrors);
+
       this.validationError.emit();
       return;
     }
@@ -80,7 +101,28 @@ export class SaveUserFormComponent {
     this.formChange.emit(this.form);
   }
 
-  createEmptyForm(): UserFormModel {
+  resetForm() {
+    this.localErrors = [];
+
+    if (this.user && this.mode === 'edit') {
+      this.form = this.createEditForm(this.user);
+    } else {
+      this.form = this.createEmptyForm();
+    }
+  }
+
+  private createEditForm(user: UserDetail): UserFormModel {
+    return {
+      name: user.name,
+      username: user.username,
+      email: user.email,
+      birthDate: user.birthDate ? new Date(user.birthDate) : null,
+      password: '',
+      repeatedPassword: '',
+    };
+  }
+
+  private createEmptyForm(): UserFormModel {
     return {
       name: '',
       username: '',

@@ -875,6 +875,15 @@ export const ptBR = {
       username: 'Usuário',
       email: 'E-mail',
       birthDate: 'Data de nascimento',
+
+      editTitle: 'Editar perfil',
+
+      messages: {
+        updated: {
+          title: 'Perfil atualizado',
+          message: 'Suas informações foram atualizadas com sucesso.',
+        },
+      },
     },
 
     rentals: {

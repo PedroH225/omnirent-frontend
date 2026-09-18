@@ -1,30 +1,58 @@
 @if (user(); as user) {
   <section class="profile">
     <div class="profile-header">
-      <h1>{{ 'account.profile.title' | translate }}</h1>
-      <p>{{ 'account.profile.description' | translate }}</p>
+      <div>
+        <h1>{{ "account.profile.title" | translate }}</h1>
+        <p>{{ "account.profile.description" | translate }}</p>
+      </div>
+
+      <p-button
+        icon="pi pi-pencil"
+        [label]="'common.edit' | translate"
+        (onClick)="openEditDialog()"
+      />
     </div>
 
     <div class="profile-content">
       <div class="profile-field">
-        <label>{{ 'account.profile.name' | translate }}</label>
+        <label>{{ "account.profile.name" | translate }}</label>
         <p>{{ user.name }}</p>
       </div>
 
       <div class="profile-field">
-        <label>{{ 'account.profile.username' | translate }}</label>
+        <label>{{ "account.profile.username" | translate }}</label>
         <p>{{ user.username }}</p>
       </div>
 
       <div class="profile-field">
-        <label>{{ 'account.profile.email' | translate }}</label>
+        <label>{{ "account.profile.email" | translate }}</label>
         <p>{{ user.email }}</p>
       </div>
 
       <div class="profile-field">
-        <label>{{ 'account.profile.birthDate' | translate }}</label>
-        <p>{{ user.birthDate ?? '-' }}</p>
+        <label>{{ "account.profile.birthDate" | translate }}</label>
+        <p>
+          {{ user.birthDate ? (user.birthDate | date: "dd/MM/yyyy") : "-" }}
+        </p>
       </div>
     </div>
   </section>
+
+  <p-dialog
+    [header]="'common.edit' | translate"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    [style]="{ width: '32rem', maxWidth: '95vw' }"
+    [(visible)]="editDialogVisible"
+    (onHide)="closeEditDialog()"
+  >
+    <app-save-user-form
+      mode="edit"
+      [user]="user"
+      [backendErrors]="backendErrors"
+      (onSave)="onUserUpdated($event)"
+      (validationError)="showValidationErrorMessage()"
+    />
+  </p-dialog>
 }

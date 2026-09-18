@@ -4,6 +4,15 @@
   gap: 1.5rem;
 
   .profile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+
+    > div {
+      min-width: 0;
+    }
+
     h1 {
       margin: 0;
       font-size: 1.5rem;
@@ -13,6 +22,10 @@
     p {
       margin: 0.5rem 0 0;
       color: var(--p-text-muted-color);
+    }
+
+    p-button {
+      flex-shrink: 0;
     }
   }
 
@@ -44,6 +57,17 @@
 
 @media (max-width: 768px) {
   .profile {
+    min-height: 60dvh;
+
+    .profile-header {
+      align-items: flex-start;
+      flex-direction: column;
+
+      p-button {
+        align-self: flex-start;
+      }
+    }
+
     .profile-content {
       grid-template-columns: 1fr;
       gap: 1.25rem;

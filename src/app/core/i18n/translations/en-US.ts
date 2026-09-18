@@ -868,6 +868,15 @@ export const enUS = {
       username: 'Username',
       email: 'Email',
       birthDate: 'Birth date',
+
+      editTitle: 'Edit profile',
+
+      messages: {
+        updated: {
+          title: 'Profile updated',
+          message: 'Your information has been updated successfully.',
+        },
+      },
     },
 
     rentals: {

@@ -109,7 +109,15 @@
     </div>
   }
 
-  <div class="button-container">
-    <p-button type="submit" [label]="'auth.register.form.submit' | translate" />
-  </div>
+<div class="button-container">
+  <p-button
+    type="submit"
+    [label]="
+      (mode === 'create'
+        ? 'auth.register.form.submit'
+        : 'common.edit'
+      ) | translate
+    "
+  />
+</div>
 </form>

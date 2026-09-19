@@ -83,14 +83,14 @@ export class CacheService {
     keysToRemove.forEach((key) => localStorage.removeItem(key));
   }
 
-  clearByPrefix(userId: string): void {
+  clearByPrefix(prefix: string): void {
     const keysToRemove: string[] = [];
-    const userPrefix = `${this.PREFIX}${userId}:`;
+    const fullPrefix = `${this.PREFIX}${prefix}`;
 
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
 
-      if (key?.startsWith(userPrefix)) {
+      if (key?.startsWith(fullPrefix)) {
         keysToRemove.push(key);
       }
     }

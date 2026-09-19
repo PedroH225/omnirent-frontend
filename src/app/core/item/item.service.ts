@@ -34,6 +34,7 @@ export class ItemService {
   private readonly ITEM_SEARCH_CACHE_KEY = 'item-search';
   private readonly ITEM_DETAIL_CACHE_KEY = 'item-detail';
   private readonly USER_ITEMS_CACHE_KEY = 'user-items';
+  private readonly ADMIN_ITEMS_ANALYSIS_CACHE_KEY = 'admin-items-analysis';
 
   constructor(
     private http: HttpClient,
@@ -284,12 +285,36 @@ export class ItemService {
     page = 0,
     size = 20,
   ): Observable<PageResponse<ItemAnalisysModel>> {
+    const currentUser = this.userService.currentUser();
+
     const params = new HttpParams().set('page', page).set('size', size);
 
-    return this.http.get<PageResponse<ItemAnalisysModel>>(
-      `${this.apiUrl}/admin/items/analisys`,
-      { params },
-    );
+    if (!currentUser) {
+      return this.http.get<PageResponse<ItemAnalisysModel>>(
+        `${this.apiUrl}/admin/items/analisys`,
+        { params },
+      );
+    }
+
+    const cacheKey = `${currentUser.id}:${this.ADMIN_ITEMS_ANALYSIS_CACHE_KEY}:${params.toString()}`;
+
+    const cached =
+      this.cacheService.get<PageResponse<ItemAnalisysModel>>(cacheKey);
+
+    if (cached) {
+      return of(cached);
+    }
+
+    return this.http
+      .get<
+        PageResponse<ItemAnalisysModel>
+      >(`${this.apiUrl}/admin/items/analisys`, { params })
+      .pipe(
+        tap((response) => {
+          this.cacheService.set(cacheKey, response, CacheDuration.VERY_SHORT);
+        }),
+        shareReplay(1),
+      );
   }
 
   searchItems(
@@ -315,20 +340,18 @@ export class ItemService {
   }
 
   approveItem(itemId: string): Observable<void> {
-    return this.http.patch<void>(
-      `${this.apiUrl}/admin/items/approve/${itemId}`,
-      {},
-    );
+    return this.http
+      .patch<void>(`${this.apiUrl}/admin/items/approve/${itemId}`, {})
+      .pipe(tap(() => this.clearCachedAdminItemsAnalysis()));
   }
 
   rejectItem(
     itemId: string,
     rejectRequest: ItemRejectRequest,
   ): Observable<void> {
-    return this.http.patch<void>(
-      `${this.apiUrl}/admin/items/reject/${itemId}`,
-      rejectRequest,
-    );
+    return this.http
+      .patch<void>(`${this.apiUrl}/admin/items/reject/${itemId}`, rejectRequest)
+      .pipe(tap(() => this.clearCachedAdminItemsAnalysis()));
   }
 
   toggleItemBlocking(itemId: string): Observable<void> {
@@ -353,6 +376,18 @@ export class ItemService {
   private getLastUpdate(itemId: string): Observable<LastUpdate> {
     return this.http.get<LastUpdate>(
       `${this.apiUrl}/item/lastUpdate/${itemId}`,
+    );
+  }
+
+  private clearCachedAdminItemsAnalysis(): void {
+    const currentUser = this.userService.currentUser();
+
+    if (!currentUser) {
+      return;
+    }
+
+    this.cacheService.clearByPrefix(
+      `${currentUser.id}:${this.ADMIN_ITEMS_ANALYSIS_CACHE_KEY}:`,
     );
   }
 

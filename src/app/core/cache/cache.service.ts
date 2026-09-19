@@ -1,8 +1,13 @@
 import { Injectable } from '@angular/core';
 
 export enum CacheDuration {
+  // 5 minutes
   SHORT = 5 * 60 * 1000,
+
+  // 30 minutes
   MEDIUM = 30 * 60 * 1000,
+
+  // 24 hours
   LONG = 24 * 60 * 60 * 1000,
 }
 

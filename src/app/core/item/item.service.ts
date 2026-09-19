@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Observable, of, shareReplay, tap } from 'rxjs';
+import { Observable, of, share, shareReplay, tap } from 'rxjs';
 import { ItemEnumsResponse } from './model/ItemEnumsResponse';
 import { ItemFeed } from './model/item-feed-model';
 import { PageResponse } from '../../shared/models/page.response.model';
@@ -28,6 +28,8 @@ export class ItemService {
 
   private rejectionReasons$?: Observable<EnumOption[]>;
   private readonly ITEM_REJECTION_REASONS_CACHE_KEY = 'item-rejection-reasons';
+
+  private readonly ITEM_HOME_KEY = 'item-home';
 
   constructor(
     private http: HttpClient,
@@ -131,13 +133,26 @@ export class ItemService {
   }
 
   getItemFeedHome(category: string): Observable<PageResponse<ItemFeed>> {
+    const categoryKey = `${this.ITEM_HOME_KEY}:${category.toLowerCase()}`;
+
+    const cached = this.cacheService.get<PageResponse<ItemFeed>>(categoryKey);
+    if (cached) {
+      return of(cached);
+    }
+    
     const params = new HttpParams()
       .set('category', category)
       .set('sort', 'NEWEST');
 
-    return this.http.get<PageResponse<ItemFeed>>(this.apiUrl + '/item/feed', {
-      params,
-    });
+    const response$ = this.http
+      .get<PageResponse<ItemFeed>>(`${this.apiUrl}/item/feed`, { params })
+      .pipe(
+        tap((response) => {
+          this.cacheService.set(categoryKey, response, CacheDuration.MEDIUM);
+        }),
+        shareReplay(1),
+      );
+    return response$;
   }
 
   getItemFeed(
@@ -240,7 +255,10 @@ export class ItemService {
   }
 
   toggleItemBlocking(itemId: string): Observable<void> {
-    return this.http.patch<void>(`${this.apiUrl}/admin/items/status/${itemId}`, {});
+    return this.http.patch<void>(
+      `${this.apiUrl}/admin/items/status/${itemId}`,
+      {},
+    );
   }
 
   private buildImagesFormData(images: ItemImageForm[]): FormData {

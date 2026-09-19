@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Observable, of, share, shareReplay, tap } from 'rxjs';
+import { Observable, of, share, shareReplay, switchMap, tap } from 'rxjs';
 import { ItemEnumsResponse } from './model/ItemEnumsResponse';
 import { ItemFeed } from './model/item-feed-model';
 import { PageResponse } from '../../shared/models/page.response.model';
@@ -16,6 +16,7 @@ import { CacheDuration, CacheService } from '@core/cache/cache.service';
 import { ItemAnalisysModel } from './model/item-analisys-model';
 import { EnumOption } from '@shared/models/EnumOption';
 import { ItemRejectRequest } from './model/item-reject-request';
+import { LastUpdate } from '@shared/models/last-update-model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,10 +29,9 @@ export class ItemService {
 
   private rejectionReasons$?: Observable<EnumOption[]>;
   private readonly ITEM_REJECTION_REASONS_CACHE_KEY = 'item-rejection-reasons';
-
   private readonly ITEM_HOME_KEY = 'item-home';
-
   private readonly ITEM_SEARCH_CACHE_KEY = 'item-search';
+  private readonly ITEM_DETAIL_CACHE_KEY = 'item-detail';
 
   constructor(
     private http: HttpClient,
@@ -39,7 +39,36 @@ export class ItemService {
   ) {}
 
   getItemDetail(itemId: string): Observable<ItemDetailModel> {
-    return this.http.get<ItemDetailModel>(`${this.apiUrl}/item/find/${itemId}`);
+    const cacheKey = `${this.ITEM_DETAIL_CACHE_KEY}:${itemId}`;
+    const cached = this.cacheService.get<ItemDetailModel>(cacheKey);
+
+    if (!cached) {
+      return this.fetchAndCacheItemDetail(itemId, cacheKey);
+    }
+
+    return this.getLastUpdate(itemId).pipe(
+      switchMap((lastUpdate) => {
+        if (cached.updatedAt === lastUpdate.updatedAt) {
+          return of(cached);
+        }
+
+        return this.fetchAndCacheItemDetail(itemId, cacheKey);
+      }),
+    );
+  }
+
+  private fetchAndCacheItemDetail(
+    itemId: string,
+    cacheKey: string,
+  ): Observable<ItemDetailModel> {
+    return this.http
+      .get<ItemDetailModel>(`${this.apiUrl}/item/find/${itemId}`)
+      .pipe(
+        tap((response) => {
+          this.cacheService.set(cacheKey, response, CacheDuration.LONG);
+        }),
+        shareReplay(1),
+      );
   }
 
   createItem(newItem: ItemRequestModel): Observable<ItemCreatedModel> {
@@ -190,7 +219,8 @@ export class ItemService {
 
     const searchCacheKey = `${this.ITEM_SEARCH_CACHE_KEY}:${params.toString()}`;
 
-    const cached$ = this.cacheService.get<PageResponse<ItemFeed>>(searchCacheKey);
+    const cached$ =
+      this.cacheService.get<PageResponse<ItemFeed>>(searchCacheKey);
     if (cached$) {
       return of(cached$);
     }
@@ -276,6 +306,12 @@ export class ItemService {
     return this.http.patch<void>(
       `${this.apiUrl}/admin/items/status/${itemId}`,
       {},
+    );
+  }
+
+  private getLastUpdate(itemId: string): Observable<LastUpdate> {
+    return this.http.get<LastUpdate>(
+      `${this.apiUrl}/item/lastUpdate/${itemId}`,
     );
   }
 

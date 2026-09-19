@@ -30,6 +30,7 @@ export class UserService {
 
   private userEnums$?: Observable<UserEnumsResponse>;
   private readonly USER_ENUMS_CACHE_KEY = 'user-enums';
+  private readonly USER_DETAIL_CACHE_KEY = 'user-detail';
 
   readonly currentUser = this._currentUser.asReadonly();
 
@@ -41,10 +42,9 @@ export class UserService {
   ) {}
 
   updateUser(updateRequest: UpdateUserRequest): Observable<UserDetail> {
-    return this.http.put<UserDetail>(
-      `${this.apiUrl}/user/update`,
-      updateRequest,
-    );
+    return this.http
+      .put<UserDetail>(`${this.apiUrl}/user/update`, updateRequest)
+      .pipe(tap(() => this.clearCachedUserDetail()));
   }
 
   loadLoggedUserData(): Observable<void> {
@@ -65,7 +65,24 @@ export class UserService {
   }
 
   findById(): Observable<UserDetail> {
-    return this.http.get<UserDetail>(`${this.apiUrl}/user/find`);
+    if (!this.currentUser()) {
+      return this.http.get<UserDetail>(`${this.apiUrl}/user/find`);
+    }
+
+    const cacheKey = `${this.currentUser()?.id}:${this.USER_DETAIL_CACHE_KEY}`;
+
+    const cached = this.cacheService.get<UserDetail>(cacheKey);
+
+    if (cached) {
+      return of(cached);
+    }
+
+    return this.http.get<UserDetail>(`${this.apiUrl}/user/find`).pipe(
+      tap((response) => {
+        this.cacheService.set(cacheKey, response, CacheDuration.MEDIUM);
+      }),
+      shareReplay(1),
+    );
   }
 
   searchUsers(
@@ -136,5 +153,15 @@ export class UserService {
     }
     this._currentUser.set(null);
     this.authStateService.setUnauthenticated();
+  }
+
+  private clearCachedUserDetail(): void {
+    if (!this.currentUser()) {
+      return;
+    }
+
+    this.cacheService.remove(
+      `${this.currentUser()?.id}:${this.USER_DETAIL_CACHE_KEY}`,
+    );
   }
 }

@@ -31,6 +31,7 @@ export class UserService {
   private userEnums$?: Observable<UserEnumsResponse>;
   private readonly USER_ENUMS_CACHE_KEY = 'user-enums';
   private readonly USER_DETAIL_CACHE_KEY = 'user-detail';
+  private readonly ADMIN_USERS_CACHE_KEY = 'admin-users';
 
   readonly currentUser = this._currentUser.asReadonly();
 
@@ -91,6 +92,8 @@ export class UserService {
     page = 0,
     size = 10,
   ): Observable<PageResponse<UserSummary>> {
+    const currentUser = this.currentUser();
+
     let params = new HttpParams().set('page', page).set('size', size);
 
     if (username) {
@@ -101,17 +104,35 @@ export class UserService {
       params = params.set('status', status);
     }
 
-    return this.http.get<PageResponse<UserSummary>>(
-      `${this.apiUrl}/admin/users`,
-      { params },
-    );
+    if (!currentUser) {
+      return this.http.get<PageResponse<UserSummary>>(
+        `${this.apiUrl}/admin/users`,
+        { params },
+      );
+    }
+
+    const cacheKey = `${currentUser.id}:${this.ADMIN_USERS_CACHE_KEY}:${params.toString()}`;
+
+    const cached = this.cacheService.get<PageResponse<UserSummary>>(cacheKey);
+
+    if (cached) {
+      return of(cached);
+    }
+
+    return this.http
+      .get<PageResponse<UserSummary>>(`${this.apiUrl}/admin/users`, { params })
+      .pipe(
+        tap((response) => {
+          this.cacheService.set(cacheKey, response, CacheDuration.VERY_SHORT);
+        }),
+        shareReplay(1),
+      );
   }
 
   toggleUserBan(userId: string): Observable<void> {
-    return this.http.patch<void>(
-      `${this.apiUrl}/admin/users/status/${userId}`,
-      {},
-    );
+    return this.http
+      .patch<void>(`${this.apiUrl}/admin/users/status/${userId}`, {})
+      .pipe(tap(() => this.clearCachedAdminUsers()));
   }
 
   toggleActivatedStatus(): Observable<void> {
@@ -162,6 +183,18 @@ export class UserService {
 
     this.cacheService.remove(
       `${this.currentUser()?.id}:${this.USER_DETAIL_CACHE_KEY}`,
+    );
+  }
+
+  private clearCachedAdminUsers(): void {
+    const currentUser = this.currentUser();
+
+    if (!currentUser) {
+      return;
+    }
+
+    this.cacheService.clearByPrefix(
+      `${currentUser.id}:${this.ADMIN_USERS_CACHE_KEY}:`,
     );
   }
 }

@@ -80,6 +80,40 @@ export class CacheService {
     keysToRemove.forEach((key) => localStorage.removeItem(key));
   }
 
+  clearInvalid(): void {    
+    const keysToRemove: string[] = [];
+
+    for (let i = 0; i < localStorage.length; i++) {
+      const storageKey = localStorage.key(i);
+
+      if (!storageKey?.startsWith(this.PREFIX)) {
+        continue;
+      }
+
+      const raw = localStorage.getItem(storageKey);
+
+      if (!raw) {
+        keysToRemove.push(storageKey);
+        continue;
+      }
+
+      try {
+        const entry = JSON.parse(raw) as CacheEntry<unknown>;
+
+        const invalidVersion = entry.version !== this.CACHE_VERSION;
+        const expired = Date.now() >= entry.expiresAt;
+
+        if (invalidVersion || expired) {
+          keysToRemove.push(storageKey);
+        }
+      } catch {
+        keysToRemove.push(storageKey);
+      }
+    }
+
+    keysToRemove.forEach((key) => localStorage.removeItem(key));
+  }
+
   private getStorageKey(key: string): string {
     return `${this.PREFIX}${key}`;
   }

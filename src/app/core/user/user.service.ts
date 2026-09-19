@@ -41,7 +41,10 @@ export class UserService {
   ) {}
 
   updateUser(updateRequest: UpdateUserRequest): Observable<UserDetail> {
-    return this.http.put<UserDetail>(`${this.apiUrl}/user/update`, updateRequest);
+    return this.http.put<UserDetail>(
+      `${this.apiUrl}/user/update`,
+      updateRequest,
+    );
   }
 
   loadLoggedUserData(): Observable<void> {
@@ -55,7 +58,6 @@ export class UserService {
       map(() => void 0),
       catchError((error) => {
         this.clearCurrentUser();
-        this.authStateService.setUnauthenticated();
 
         return throwError(() => error);
       }),
@@ -127,6 +129,11 @@ export class UserService {
   }
 
   clearCurrentUser() {
+    const userId = this.currentUser()?.id;
+
+    if (userId) {
+      this.cacheService.clearByUserId(userId);
+    }
     this._currentUser.set(null);
     this.authStateService.setUnauthenticated();
   }

@@ -80,7 +80,22 @@ export class CacheService {
     keysToRemove.forEach((key) => localStorage.removeItem(key));
   }
 
-  clearInvalid(): void {    
+  clearByUserId(userId: string): void {
+    const keysToRemove: string[] = [];
+    const userPrefix = `${this.PREFIX}${userId}:`;
+
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+
+      if (key?.startsWith(userPrefix)) {
+        keysToRemove.push(key);
+      }
+    }
+
+    keysToRemove.forEach((key) => localStorage.removeItem(key));
+  }
+
+  clearInvalid(): void {
     const keysToRemove: string[] = [];
 
     for (let i = 0; i < localStorage.length; i++) {

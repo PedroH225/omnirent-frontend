@@ -35,6 +35,7 @@ export class ItemService {
   private readonly ITEM_DETAIL_CACHE_KEY = 'item-detail';
   private readonly USER_ITEMS_CACHE_KEY = 'user-items';
   private readonly ADMIN_ITEMS_ANALYSIS_CACHE_KEY = 'admin-items-analysis';
+  private readonly ADMIN_ITEMS_CACHE_KEY = 'admin-items';
 
   constructor(
     private http: HttpClient,
@@ -323,6 +324,8 @@ export class ItemService {
     page = 0,
     size = 10,
   ): Observable<PageResponse<ItemDisplay>> {
+    const currentUser = this.userService.currentUser();
+
     let params = new HttpParams().set('page', page).set('size', size);
 
     if (name) {
@@ -333,10 +336,29 @@ export class ItemService {
       params = params.set('status', status);
     }
 
-    return this.http.get<PageResponse<ItemDisplay>>(
-      `${this.apiUrl}/admin/items`,
-      { params },
-    );
+    if (!currentUser) {
+      return this.http.get<PageResponse<ItemDisplay>>(
+        `${this.apiUrl}/admin/items`,
+        { params },
+      );
+    }
+
+    const cacheKey = `${currentUser.id}:${this.ADMIN_ITEMS_CACHE_KEY}:${params.toString()}`;
+
+    const cached = this.cacheService.get<PageResponse<ItemDisplay>>(cacheKey);
+
+    if (cached) {
+      return of(cached);
+    }
+
+    return this.http
+      .get<PageResponse<ItemDisplay>>(`${this.apiUrl}/admin/items`, { params })
+      .pipe(
+        tap((response) => {
+          this.cacheService.set(cacheKey, response, CacheDuration.VERY_SHORT);
+        }),
+        shareReplay(1),
+      );
   }
 
   approveItem(itemId: string): Observable<void> {
@@ -355,10 +377,9 @@ export class ItemService {
   }
 
   toggleItemBlocking(itemId: string): Observable<void> {
-    return this.http.patch<void>(
-      `${this.apiUrl}/admin/items/status/${itemId}`,
-      {},
-    );
+    return this.http
+      .patch<void>(`${this.apiUrl}/admin/items/status/${itemId}`, {})
+      .pipe(tap(() => this.clearCachedAdminItems()));
   }
 
   private clearCachedUserItems(): void {
@@ -388,6 +409,18 @@ export class ItemService {
 
     this.cacheService.clearByPrefix(
       `${currentUser.id}:${this.ADMIN_ITEMS_ANALYSIS_CACHE_KEY}:`,
+    );
+  }
+
+  private clearCachedAdminItems(): void {
+    const currentUser = this.userService.currentUser();
+
+    if (!currentUser) {
+      return;
+    }
+
+    this.cacheService.clearByPrefix(
+      `${currentUser.id}:${this.ADMIN_ITEMS_CACHE_KEY}:`,
     );
   }
 

@@ -31,6 +31,8 @@ export class ItemService {
 
   private readonly ITEM_HOME_KEY = 'item-home';
 
+  private readonly ITEM_SEARCH_CACHE_KEY = 'item-search';
+
   constructor(
     private http: HttpClient,
     private readonly cacheService: CacheService,
@@ -139,7 +141,7 @@ export class ItemService {
     if (cached) {
       return of(cached);
     }
-    
+
     const params = new HttpParams()
       .set('category', category)
       .set('sort', 'NEWEST');
@@ -186,9 +188,25 @@ export class ItemService {
       params = params.set('sort', sort);
     }
 
-    return this.http.get<PageResponse<ItemFeed>>(this.apiUrl + '/item/feed', {
-      params,
-    });
+    const searchCacheKey = `${this.ITEM_SEARCH_CACHE_KEY}:${params.toString()}`;
+
+    const cached$ = this.cacheService.get<PageResponse<ItemFeed>>(searchCacheKey);
+    if (cached$) {
+      return of(cached$);
+    }
+
+    const response$ = this.http
+      .get<PageResponse<ItemFeed>>(`${this.apiUrl}/item/feed`, {
+        params,
+      })
+      .pipe(
+        tap((response) => {
+          this.cacheService.set(searchCacheKey, response, CacheDuration.SHORT);
+        }),
+        shareReplay(1),
+      );
+
+    return response$;
   }
 
   getUserItems(

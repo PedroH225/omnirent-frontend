@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 
 export enum CacheDuration {
+  // 1 minute
+  VERY_SHORT = 60 * 1000,
+
   // 5 minutes
   SHORT = 5 * 60 * 1000,
 
@@ -80,7 +83,7 @@ export class CacheService {
     keysToRemove.forEach((key) => localStorage.removeItem(key));
   }
 
-  clearByUserId(userId: string): void {
+  clearByPrefix(userId: string): void {
     const keysToRemove: string[] = [];
     const userPrefix = `${this.PREFIX}${userId}:`;
 

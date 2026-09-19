@@ -132,7 +132,7 @@ export class UserService {
     const userId = this.currentUser()?.id;
 
     if (userId) {
-      this.cacheService.clearByUserId(userId);
+      this.cacheService.clearByPrefix(userId);
     }
     this._currentUser.set(null);
     this.authStateService.setUnauthenticated();

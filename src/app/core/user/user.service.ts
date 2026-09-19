@@ -4,6 +4,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { LoggedUserModel } from './model/logged-user-model';
 import {
   catchError,
+  finalize,
   map,
   Observable,
   of,
@@ -61,6 +62,9 @@ export class UserService {
         this.clearCurrentUser();
 
         return throwError(() => error);
+      }),
+      finalize(() => {
+        this.authStateService.setInitialized();
       }),
     );
   }

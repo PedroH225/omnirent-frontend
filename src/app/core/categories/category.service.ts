@@ -1,29 +1,43 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Observable, shareReplay } from 'rxjs';
+import { Observable, of, shareReplay, tap } from 'rxjs';
 import { CategoryResponse } from './model/category.model';
+import { CacheDuration, CacheService } from '@core/cache/cache.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CategoryService {
-
   private readonly apiUrl: string = environment.apiUrl;
 
-  private categoriesWithSub$?: Observable<CategoryResponse[]>;
+  constructor(
+    private http: HttpClient,
+    private cacheService: CacheService,
+  ) {}
 
-  constructor(private http: HttpClient) { }
+  private readonly CATEGORIES_WITH_SUB_CACHE_KEY = 'categories-with-sub';
 
   getCategoriesWithSub(): Observable<CategoryResponse[]> {
-    if (!this.categoriesWithSub$) {
-      this.categoriesWithSub$ = this.http
-        .get<CategoryResponse[]>(this.apiUrl + '/category/findAll')
-        .pipe(
-          shareReplay(1)
-        );
+    const cached = this.cacheService.get<CategoryResponse[]>(
+      this.CATEGORIES_WITH_SUB_CACHE_KEY,
+    );
+
+    if (cached) {
+      return of(cached);
     }
 
-    return this.categoriesWithSub$;
+    return this.http
+      .get<CategoryResponse[]>(`${this.apiUrl}/category/findAll`)
+      .pipe(
+        tap((response) => {
+          this.cacheService.set(
+            this.CATEGORIES_WITH_SUB_CACHE_KEY,
+            response,
+            CacheDuration.LONG,
+          );
+        }),
+        shareReplay(1),
+      );
   }
 }

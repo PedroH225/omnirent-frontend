@@ -860,6 +860,102 @@ export const enUS = {
       favorites: 'Favorites',
     },
 
+    dashboard: {
+      title: 'My account',
+      description:
+        'Access and manage the main information and features related to your account.',
+
+      profile: {
+        title: 'Profile',
+        description:
+          'View and update your personal information, such as your name, username, email, and birth date.',
+      },
+
+      rentals: {
+        title: 'Rentals',
+        description:
+          'Track and manage your rentals as both an owner and a renter throughout the entire platform workflow.',
+      },
+
+      settings: {
+        title: 'Settings',
+        description:
+          'Manage your language, time zone, and other account preferences.',
+      },
+
+      listings: {
+        title: 'My listings',
+        description:
+          'View and manage the items you have listed for rent on the platform.',
+      },
+    },
+
+    profile: {
+      title: 'Profile',
+      description: 'View your personal information.',
+
+      name: 'Name',
+      username: 'Username',
+      email: 'Email',
+      birthDate: 'Birth date',
+
+      editTitle: 'Edit profile',
+
+      messages: {
+        updated: {
+          title: 'Profile updated',
+          message: 'Your information has been updated successfully.',
+        },
+      },
+    },
+
+    configurations: {
+      title: 'Settings',
+      description: 'Manage your account preferences and settings.',
+
+      language: {
+        title: 'Language',
+        description: 'Choose the language used throughout the platform.',
+      },
+
+      timezone: {
+        title: 'Time zone',
+        description: 'Choose the time zone used to display dates and times.',
+      },
+
+      languages: {
+        ptbr: 'Portuguese (Brazil)',
+        en: 'English',
+      },
+
+      timezones: {
+        saopaulo: 'São Paulo (UTC-3)',
+        newyork: 'Nova York (UTC-5 / UTC-4)',
+        london: 'Londres (UTC+0 / UTC+1)',
+        utc: 'UTC',
+      },
+
+      dangerzone: {
+        title: 'Danger zone',
+        description: 'Actions that directly affect access to your account.',
+      },
+
+      deactivate: {
+        title: 'Deactivate account',
+        description:
+          'Your account will be deactivated and you will lose access to platform features.',
+        button: 'Deactivate account',
+
+        confirm: {
+          title: 'Deactivate account',
+          message:
+            'Are you sure you want to deactivate your account? You will be signed out after confirmation.',
+          accept: 'Deactivate',
+          cancel: 'Cancel',
+        },
+      },
+    },
+
     rentals: {
       loading: 'Loading Rentals...',
       empty: {

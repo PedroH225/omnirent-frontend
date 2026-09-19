@@ -17,6 +17,8 @@ import { UserSummary } from './model/user-summary-model';
 import { PageResponse } from '@shared/models/page.response.model';
 import { UserEnumsResponse } from './model/user-enums-model';
 import { CacheDuration, CacheService } from '@core/cache/cache.service';
+import { UserDetail } from './model/user-detail-model';
+import { UpdateUserRequest } from './model/update-user-model';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +40,10 @@ export class UserService {
     private cacheService: CacheService,
   ) {}
 
+  updateUser(updateRequest: UpdateUserRequest): Observable<UserDetail> {
+    return this.http.put<UserDetail>(`${this.apiUrl}/user/update`, updateRequest);
+  }
+
   loadLoggedUserData(): Observable<void> {
     return this.http.get<LoggedUserModel>(`${this.apiUrl}/user/me`).pipe(
       tap((user) => {
@@ -54,6 +60,10 @@ export class UserService {
         return throwError(() => error);
       }),
     );
+  }
+
+  findById(): Observable<UserDetail> {
+    return this.http.get<UserDetail>(`${this.apiUrl}/user/find`);
   }
 
   searchUsers(
@@ -85,6 +95,10 @@ export class UserService {
     );
   }
 
+  toggleActivatedStatus(): Observable<void> {
+    return this.http.patch<void>(`${this.apiUrl}/user/changeStatus`, {});
+  }
+
   getEnums(): Observable<UserEnumsResponse> {
     if (!this.userEnums$) {
       const cached = this.cacheService.get<UserEnumsResponse>(
@@ -114,5 +128,6 @@ export class UserService {
 
   clearCurrentUser() {
     this._currentUser.set(null);
+    this.authStateService.setUnauthenticated();
   }
 }

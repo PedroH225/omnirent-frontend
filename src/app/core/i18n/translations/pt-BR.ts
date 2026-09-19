@@ -867,6 +867,103 @@ export const ptBR = {
       favorites: 'Favoritos',
     },
 
+    dashboard: {
+      title: 'Minha conta',
+      description:
+        'Acesse e gerencie as principais informações e recursos relacionados à sua conta.',
+
+      profile: {
+        title: 'Perfil',
+        description:
+          'Visualize e atualize suas informações pessoais, como nome, usuário, e-mail e data de nascimento.',
+      },
+
+      rentals: {
+        title: 'Aluguéis',
+        description:
+          'Acompanhe e gerencie seus aluguéis, tanto como proprietário quanto como locatário, durante todo o fluxo da plataforma.',
+      },
+
+      settings: {
+        title: 'Configurações',
+        description:
+          'Gerencie suas preferências de idioma, fuso horário e outras configurações da conta.',
+      },
+
+      listings: {
+        title: 'Meus anúncios',
+        description:
+          'Acompanhe e gerencie os itens que você disponibilizou para aluguel na plataforma.',
+      },
+    },
+
+    profile: {
+      title: 'Perfil',
+      description: 'Visualize suas informações pessoais.',
+
+      name: 'Nome',
+      username: 'Usuário',
+      email: 'E-mail',
+      birthDate: 'Data de nascimento',
+
+      editTitle: 'Editar perfil',
+
+      messages: {
+        updated: {
+          title: 'Perfil atualizado',
+          message: 'Suas informações foram atualizadas com sucesso.',
+        },
+      },
+    },
+
+    configurations: {
+      title: 'Configurações',
+      description: 'Gerencie suas preferências e configurações da conta.',
+
+      language: {
+        title: 'Idioma',
+        description: 'Escolha o idioma utilizado na plataforma.',
+      },
+
+      timezone: {
+        title: 'Fuso horário',
+        description:
+          'Escolha o fuso horário utilizado para exibir datas e horários.',
+      },
+
+      languages: {
+        ptbr: 'Português (Brasil)',
+        en: 'Inglês',
+      },
+
+      timezones: {
+        saopaulo: 'São Paulo (UTC-3)',
+        newyork: 'New York (UTC-5 / UTC-4)',
+        london: 'London (UTC+0 / UTC+1)',
+        utc: 'UTC',
+      },
+
+      dangerzone: {
+        title: 'Zona de risco',
+        description: 'Ações que afetam diretamente o acesso à sua conta.',
+      },
+
+      deactivate: {
+        title: 'Desativar conta',
+        description:
+          'Sua conta será desativada e você perderá o acesso aos recursos da plataforma.',
+        button: 'Desativar conta',
+
+        confirm: {
+          title: 'Desativar conta',
+          message:
+            'Tem certeza de que deseja desativar sua conta? Você será desconectado após a confirmação.',
+          accept: 'Desativar',
+          cancel: 'Cancelar',
+        },
+      },
+    },
+
     rentals: {
       loading: 'Carregando Aluguéis...',
       empty: {

@@ -9,7 +9,7 @@ export class SaveUserFormValidator {
     return `${this.PREFIX}${field}.${rule}`;
   }
 
-  static validate(form: UserFormModel): FieldError[] {
+  static validate(form: UserFormModel, mode: string): FieldError[] {
     const errors: FieldError[] = [];
 
     FormValidationHelper.notBlank(errors, 'name', form.name, 'required');
@@ -47,49 +47,51 @@ export class SaveUserFormValidator {
 
     this.validateBirthDate(errors, form.birthDate);
 
-    FormValidationHelper.notBlank(
-      errors,
-      'password',
-      form.password,
-      'required',
-    );
-
-    if (form.password?.trim()) {
-      FormValidationHelper.minLength(
+    if (mode === 'create') {
+      FormValidationHelper.notBlank(
         errors,
         'password',
         form.password,
-        8,
-        'size',
+        'required',
       );
 
-      FormValidationHelper.maxLength(
+      if (form.password?.trim()) {
+        FormValidationHelper.minLength(
+          errors,
+          'password',
+          form.password,
+          8,
+          'size',
+        );
+
+        FormValidationHelper.maxLength(
+          errors,
+          'password',
+          form.password,
+          100,
+          'size',
+        );
+
+        this.validatePasswordPattern(errors, form.password);
+      }
+
+      FormValidationHelper.notBlank(
         errors,
-        'password',
-        form.password,
-        100,
-        'size',
+        'repeatedPassword',
+        form.repeatedPassword,
+        'required',
       );
 
-      this.validatePasswordPattern(errors, form.password);
-    }
-
-    FormValidationHelper.notBlank(
-      errors,
-      'repeatedPassword',
-      form.repeatedPassword,
-      'required',
-    );
-
-    if (
-      form.password &&
-      form.repeatedPassword &&
-      form.password !== form.repeatedPassword
-    ) {
-      errors.push({
-        field: 'repeatedPassword',
-        message: 'password_mismatch',
-      });
+      if (
+        form.password &&
+        form.repeatedPassword &&
+        form.password !== form.repeatedPassword
+      ) {
+        errors.push({
+          field: 'repeatedPassword',
+          message: 'password_mismatch',
+        });
+      }
     }
 
     return errors.map((error) => ({

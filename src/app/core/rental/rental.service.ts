@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PageResponse } from '../../shared/models/page.response.model';
 import { RentalDisplayModel } from '@features/rentals/model/rental-display-model';
-import { Observable, of, shareReplay, tap } from 'rxjs';
+import { map, Observable, of, shareReplay, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { RentalDetailModel } from '@features/rentals/model/rental-detail-model';
 import { RentalEnumsResponse } from '@features/rentals/model/rental-enums-model';
@@ -10,6 +10,7 @@ import { CreateRentalRequest } from '@features/rentals/model/create-rental-reque
 import { RentalCreatedModel } from '@features/rentals/model/rental-created-model';
 import { RentalOperationalModel } from '@features/rentals/model/rental-operational-model ';
 import { CacheDuration, CacheService } from '@core/cache/cache.service';
+import { UserService } from '@core/user/user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +18,15 @@ import { CacheDuration, CacheService } from '@core/cache/cache.service';
 export class RentalService {
   private readonly apiUrl: string = environment.apiUrl;
 
+  private readonly RENTAL_DETAIL_CACHE_KEY = 'rental-detail';
+
   private readonly RENTAL_ENUMS_CACHE_KEY = 'rental-enums';
 
-  constructor(private http: HttpClient, private cacheService: CacheService) {}
+  constructor(
+    private http: HttpClient,
+    private cacheService: CacheService,
+    private userService: UserService,
+  ) {}
 
   createRental(request: CreateRentalRequest): Observable<RentalCreatedModel> {
     return this.http.post<RentalDetailModel>(`${this.apiUrl}/rental`, request);
@@ -72,9 +79,38 @@ export class RentalService {
   }
 
   getRentalDetail(rentalId: string): Observable<RentalDetailModel> {
-    return this.http.get<RentalDetailModel>(
-      `${this.apiUrl}/rental/find/${rentalId}`,
-    );
+    const currentUser = this.userService.currentUser();
+
+    if (!currentUser) {
+      return this.http.get<RentalDetailModel>(
+        `${this.apiUrl}/rental/find/${rentalId}`,
+      );
+    }
+
+    const cacheKey = `${currentUser.id}:${this.RENTAL_DETAIL_CACHE_KEY}:${rentalId}`;
+
+    const cached = this.cacheService.get<RentalDetailModel>(cacheKey);
+
+    if (cached) {
+      return this.getOperationalData(rentalId).pipe(
+        map((operational) => ({
+          ...cached,
+          status: operational.status,
+          startDate: operational.startDate,
+          endDate: operational.endDate,
+          updatedAt: operational.updatedAt,
+        })),
+      );
+    }
+
+    return this.http
+      .get<RentalDetailModel>(`${this.apiUrl}/rental/find/${rentalId}`)
+      .pipe(
+        tap((response) => {
+          this.cacheService.set(cacheKey, response, CacheDuration.LONG);
+        }),
+        shareReplay(1),
+      );
   }
 
   getOperationalData(rentalId: string): Observable<RentalOperationalModel> {

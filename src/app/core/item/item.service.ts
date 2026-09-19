@@ -17,6 +17,7 @@ import { ItemAnalisysModel } from './model/item-analisys-model';
 import { EnumOption } from '@shared/models/EnumOption';
 import { ItemRejectRequest } from './model/item-reject-request';
 import { LastUpdate } from '@shared/models/last-update-model';
+import { UserService } from '@core/user/user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -32,10 +33,12 @@ export class ItemService {
   private readonly ITEM_HOME_KEY = 'item-home';
   private readonly ITEM_SEARCH_CACHE_KEY = 'item-search';
   private readonly ITEM_DETAIL_CACHE_KEY = 'item-detail';
+  private readonly USER_ITEMS_CACHE_KEY = 'user-items';
 
   constructor(
     private http: HttpClient,
     private readonly cacheService: CacheService,
+    private readonly userService: UserService,
   ) {}
 
   getItemDetail(itemId: string): Observable<ItemDetailModel> {
@@ -72,20 +75,23 @@ export class ItemService {
   }
 
   createItem(newItem: ItemRequestModel): Observable<ItemCreatedModel> {
-    return this.http.post<ItemCreatedModel>(`${this.apiUrl}/item`, newItem);
+    return this.http
+      .post<ItemCreatedModel>(`${this.apiUrl}/item`, newItem)
+      .pipe(tap(() => this.clearCachedUserItems()));
   }
 
   updateItem(
     updatedItem: UpdateItemRequestModel,
   ): Observable<ItemUpdatedModel> {
-    return this.http.put<ItemUpdatedModel>(`${this.apiUrl}/item`, updatedItem);
+    return this.http
+      .put<ItemUpdatedModel>(`${this.apiUrl}/item`, updatedItem)
+      .pipe(tap(() => this.clearCachedUserItems()));
   }
 
   changeAvailability(itemId: string): Observable<void> {
-    return this.http.patch<void>(
-      `${this.apiUrl}/item/changeAvailability/${itemId}`,
-      {},
-    );
+    return this.http
+      .patch<void>(`${this.apiUrl}/item/changeAvailability/${itemId}`, {})
+      .pipe(tap(() => this.clearCachedUserItems()));
   }
 
   changeAddress(itemId: string, addressId: string): Observable<void> {
@@ -243,12 +249,35 @@ export class ItemService {
     page: number,
     size: number,
   ): Observable<PageResponse<ItemDisplay>> {
+    const currentUser = this.userService.currentUser();
+
     const params = new HttpParams().set('page', page).set('size', size);
 
-    return this.http.get<PageResponse<ItemDisplay>>(
-      this.apiUrl + '/item/find/user/me',
-      { params },
-    );
+    if (!currentUser) {
+      return this.http.get<PageResponse<ItemDisplay>>(
+        `${this.apiUrl}/item/find/user/me`,
+        { params },
+      );
+    }
+
+    const cacheKey = `${currentUser.id}:${this.USER_ITEMS_CACHE_KEY}:${params.toString()}`;
+
+    const cached = this.cacheService.get<PageResponse<ItemDisplay>>(cacheKey);
+
+    if (cached) {
+      return of(cached);
+    }
+
+    return this.http
+      .get<
+        PageResponse<ItemDisplay>
+      >(`${this.apiUrl}/item/find/user/me`, { params })
+      .pipe(
+        tap((response) => {
+          this.cacheService.set(cacheKey, response, CacheDuration.VERY_SHORT);
+        }),
+        shareReplay(1),
+      );
   }
 
   getUnderAnalisys(
@@ -306,6 +335,18 @@ export class ItemService {
     return this.http.patch<void>(
       `${this.apiUrl}/admin/items/status/${itemId}`,
       {},
+    );
+  }
+
+  private clearCachedUserItems(): void {
+    const currentUser = this.userService.currentUser();
+
+    if (!currentUser) {
+      return;
+    }
+
+    this.cacheService.clearByPrefix(
+      `${currentUser.id}:${this.USER_ITEMS_CACHE_KEY}`,
     );
   }
 

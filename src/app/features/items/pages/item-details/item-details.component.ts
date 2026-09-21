@@ -122,6 +122,14 @@ export class ItemDetailComponent implements OnInit {
       this.updateItemMenu();
       this.getRentalPeriods();
     });
+
+    effect(() => {
+      this.userService.currentUser();
+
+      if (this.item) {
+        this.checkUser(this.item.owner);
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -169,10 +177,11 @@ export class ItemDetailComponent implements OnInit {
       next: (item) => {
         this.item = item;
 
-        this.checkUser(item.owner);
         this.loadGallery();
         this.updateItemMenu();
         this.updateSelectedPrice();
+        this.checkUser(item.owner);
+
         this.isLoading = false;
       },
       error: () => {

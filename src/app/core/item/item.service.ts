@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Observable, of, shareReplay, tap } from 'rxjs';
+import { Observable, of, share, shareReplay, switchMap, tap } from 'rxjs';
 import { ItemEnumsResponse } from './model/ItemEnumsResponse';
 import { ItemFeed } from './model/item-feed-model';
 import { PageResponse } from '../../shared/models/page.response.model';
@@ -16,6 +16,8 @@ import { CacheDuration, CacheService } from '@core/cache/cache.service';
 import { ItemAnalisysModel } from './model/item-analisys-model';
 import { EnumOption } from '@shared/models/EnumOption';
 import { ItemRejectRequest } from './model/item-reject-request';
+import { LastUpdate } from '@shared/models/last-update-model';
+import { UserService } from '@core/user/user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -28,31 +30,70 @@ export class ItemService {
 
   private rejectionReasons$?: Observable<EnumOption[]>;
   private readonly ITEM_REJECTION_REASONS_CACHE_KEY = 'item-rejection-reasons';
+  private readonly ITEM_HOME_KEY = 'item-home';
+  private readonly ITEM_SEARCH_CACHE_KEY = 'item-search';
+  private readonly ITEM_DETAIL_CACHE_KEY = 'item-detail';
+  private readonly USER_ITEMS_CACHE_KEY = 'user-items';
+  private readonly ADMIN_ITEMS_ANALYSIS_CACHE_KEY = 'admin-items-analysis';
+  private readonly ADMIN_ITEMS_CACHE_KEY = 'admin-items';
 
   constructor(
     private http: HttpClient,
     private readonly cacheService: CacheService,
+    private readonly userService: UserService,
   ) {}
 
   getItemDetail(itemId: string): Observable<ItemDetailModel> {
-    return this.http.get<ItemDetailModel>(`${this.apiUrl}/item/find/${itemId}`);
+    const cacheKey = `${this.ITEM_DETAIL_CACHE_KEY}:${itemId}`;
+    const cached = this.cacheService.get<ItemDetailModel>(cacheKey);
+
+    if (!cached) {
+      return this.fetchAndCacheItemDetail(itemId, cacheKey);
+    }
+
+    return this.getLastUpdate(itemId).pipe(
+      switchMap((lastUpdate) => {
+        if (cached.updatedAt === lastUpdate.updatedAt) {
+          return of(cached);
+        }
+
+        return this.fetchAndCacheItemDetail(itemId, cacheKey);
+      }),
+    );
+  }
+
+  private fetchAndCacheItemDetail(
+    itemId: string,
+    cacheKey: string,
+  ): Observable<ItemDetailModel> {
+    return this.http
+      .get<ItemDetailModel>(`${this.apiUrl}/item/find/${itemId}`)
+      .pipe(
+        tap((response) => {
+          this.cacheService.set(cacheKey, response, CacheDuration.LONG);
+        }),
+        shareReplay(1),
+      );
   }
 
   createItem(newItem: ItemRequestModel): Observable<ItemCreatedModel> {
-    return this.http.post<ItemCreatedModel>(`${this.apiUrl}/item`, newItem);
+    return this.http
+      .post<ItemCreatedModel>(`${this.apiUrl}/item`, newItem)
+      .pipe(tap(() => this.clearCachedUserItems()));
   }
 
   updateItem(
     updatedItem: UpdateItemRequestModel,
   ): Observable<ItemUpdatedModel> {
-    return this.http.put<ItemUpdatedModel>(`${this.apiUrl}/item`, updatedItem);
+    return this.http
+      .put<ItemUpdatedModel>(`${this.apiUrl}/item`, updatedItem)
+      .pipe(tap(() => this.clearCachedUserItems()));
   }
 
   changeAvailability(itemId: string): Observable<void> {
-    return this.http.patch<void>(
-      `${this.apiUrl}/item/changeAvailability/${itemId}`,
-      {},
-    );
+    return this.http
+      .patch<void>(`${this.apiUrl}/item/changeAvailability/${itemId}`, {})
+      .pipe(tap(() => this.clearCachedUserItems()));
   }
 
   changeAddress(itemId: string, addressId: string): Observable<void> {
@@ -131,13 +172,26 @@ export class ItemService {
   }
 
   getItemFeedHome(category: string): Observable<PageResponse<ItemFeed>> {
+    const categoryKey = `${this.ITEM_HOME_KEY}:${category.toLowerCase()}`;
+
+    const cached = this.cacheService.get<PageResponse<ItemFeed>>(categoryKey);
+    if (cached) {
+      return of(cached);
+    }
+
     const params = new HttpParams()
       .set('category', category)
       .set('sort', 'NEWEST');
 
-    return this.http.get<PageResponse<ItemFeed>>(this.apiUrl + '/item/feed', {
-      params,
-    });
+    const response$ = this.http
+      .get<PageResponse<ItemFeed>>(`${this.apiUrl}/item/feed`, { params })
+      .pipe(
+        tap((response) => {
+          this.cacheService.set(categoryKey, response, CacheDuration.MEDIUM);
+        }),
+        shareReplay(1),
+      );
+    return response$;
   }
 
   getItemFeed(
@@ -171,33 +225,97 @@ export class ItemService {
       params = params.set('sort', sort);
     }
 
-    return this.http.get<PageResponse<ItemFeed>>(this.apiUrl + '/item/feed', {
-      params,
-    });
+    const searchCacheKey = `${this.ITEM_SEARCH_CACHE_KEY}:${params.toString()}`;
+
+    const cached$ =
+      this.cacheService.get<PageResponse<ItemFeed>>(searchCacheKey);
+    if (cached$) {
+      return of(cached$);
+    }
+
+    const response$ = this.http
+      .get<PageResponse<ItemFeed>>(`${this.apiUrl}/item/feed`, {
+        params,
+      })
+      .pipe(
+        tap((response) => {
+          this.cacheService.set(searchCacheKey, response, CacheDuration.SHORT);
+        }),
+        shareReplay(1),
+      );
+
+    return response$;
   }
 
   getUserItems(
     page: number,
     size: number,
   ): Observable<PageResponse<ItemDisplay>> {
+    const currentUser = this.userService.currentUser();
+
     const params = new HttpParams().set('page', page).set('size', size);
 
-    return this.http.get<PageResponse<ItemDisplay>>(
-      this.apiUrl + '/item/find/user/me',
-      { params },
-    );
+    if (!currentUser) {
+      return this.http.get<PageResponse<ItemDisplay>>(
+        `${this.apiUrl}/item/find/user/me`,
+        { params },
+      );
+    }
+
+    const cacheKey = `${currentUser.id}:${this.USER_ITEMS_CACHE_KEY}:${params.toString()}`;
+
+    const cached = this.cacheService.get<PageResponse<ItemDisplay>>(cacheKey);
+
+    if (cached) {
+      return of(cached);
+    }
+
+    return this.http
+      .get<
+        PageResponse<ItemDisplay>
+      >(`${this.apiUrl}/item/find/user/me`, { params })
+      .pipe(
+        tap((response) => {
+          this.cacheService.set(cacheKey, response, CacheDuration.VERY_SHORT);
+        }),
+        shareReplay(1),
+      );
   }
 
   getUnderAnalisys(
     page = 0,
     size = 20,
   ): Observable<PageResponse<ItemAnalisysModel>> {
+    const currentUser = this.userService.currentUser();
+
     const params = new HttpParams().set('page', page).set('size', size);
 
-    return this.http.get<PageResponse<ItemAnalisysModel>>(
-      `${this.apiUrl}/admin/items/analisys`,
-      { params },
-    );
+    if (!currentUser) {
+      return this.http.get<PageResponse<ItemAnalisysModel>>(
+        `${this.apiUrl}/admin/items/analisys`,
+        { params },
+      );
+    }
+
+    const cacheKey = `${currentUser.id}:${this.ADMIN_ITEMS_ANALYSIS_CACHE_KEY}:${params.toString()}`;
+
+    const cached =
+      this.cacheService.get<PageResponse<ItemAnalisysModel>>(cacheKey);
+
+    if (cached) {
+      return of(cached);
+    }
+
+    return this.http
+      .get<
+        PageResponse<ItemAnalisysModel>
+      >(`${this.apiUrl}/admin/items/analisys`, { params })
+      .pipe(
+        tap((response) => {
+          this.cacheService.set(cacheKey, response, CacheDuration.VERY_SHORT);
+        }),
+        shareReplay(1),
+      );
   }
 
   searchItems(
@@ -206,6 +324,8 @@ export class ItemService {
     page = 0,
     size = 10,
   ): Observable<PageResponse<ItemDisplay>> {
+    const currentUser = this.userService.currentUser();
+
     let params = new HttpParams().set('page', page).set('size', size);
 
     if (name) {
@@ -216,31 +336,92 @@ export class ItemService {
       params = params.set('status', status);
     }
 
-    return this.http.get<PageResponse<ItemDisplay>>(
-      `${this.apiUrl}/admin/items`,
-      { params },
-    );
+    if (!currentUser) {
+      return this.http.get<PageResponse<ItemDisplay>>(
+        `${this.apiUrl}/admin/items`,
+        { params },
+      );
+    }
+
+    const cacheKey = `${currentUser.id}:${this.ADMIN_ITEMS_CACHE_KEY}:${params.toString()}`;
+
+    const cached = this.cacheService.get<PageResponse<ItemDisplay>>(cacheKey);
+
+    if (cached) {
+      return of(cached);
+    }
+
+    return this.http
+      .get<PageResponse<ItemDisplay>>(`${this.apiUrl}/admin/items`, { params })
+      .pipe(
+        tap((response) => {
+          this.cacheService.set(cacheKey, response, CacheDuration.VERY_SHORT);
+        }),
+        shareReplay(1),
+      );
   }
 
   approveItem(itemId: string): Observable<void> {
-    return this.http.patch<void>(
-      `${this.apiUrl}/admin/items/approve/${itemId}`,
-      {},
-    );
+    return this.http
+      .patch<void>(`${this.apiUrl}/admin/items/approve/${itemId}`, {})
+      .pipe(tap(() => this.clearCachedAdminItemsAnalysis()));
   }
 
   rejectItem(
     itemId: string,
     rejectRequest: ItemRejectRequest,
   ): Observable<void> {
-    return this.http.patch<void>(
-      `${this.apiUrl}/admin/items/reject/${itemId}`,
-      rejectRequest,
-    );
+    return this.http
+      .patch<void>(`${this.apiUrl}/admin/items/reject/${itemId}`, rejectRequest)
+      .pipe(tap(() => this.clearCachedAdminItemsAnalysis()));
   }
 
   toggleItemBlocking(itemId: string): Observable<void> {
-    return this.http.patch<void>(`${this.apiUrl}/admin/items/status/${itemId}`, {});
+    return this.http
+      .patch<void>(`${this.apiUrl}/admin/items/status/${itemId}`, {})
+      .pipe(tap(() => this.clearCachedAdminItems()));
+  }
+
+  private clearCachedUserItems(): void {
+    const currentUser = this.userService.currentUser();
+
+    if (!currentUser) {
+      return;
+    }
+
+    this.cacheService.clearByPrefix(
+      `${currentUser.id}:${this.USER_ITEMS_CACHE_KEY}`,
+    );
+  }
+
+  private getLastUpdate(itemId: string): Observable<LastUpdate> {
+    return this.http.get<LastUpdate>(
+      `${this.apiUrl}/item/lastUpdate/${itemId}`,
+    );
+  }
+
+  private clearCachedAdminItemsAnalysis(): void {
+    const currentUser = this.userService.currentUser();
+
+    if (!currentUser) {
+      return;
+    }
+
+    this.cacheService.clearByPrefix(
+      `${currentUser.id}:${this.ADMIN_ITEMS_ANALYSIS_CACHE_KEY}:`,
+    );
+  }
+
+  private clearCachedAdminItems(): void {
+    const currentUser = this.userService.currentUser();
+
+    if (!currentUser) {
+      return;
+    }
+
+    this.cacheService.clearByPrefix(
+      `${currentUser.id}:${this.ADMIN_ITEMS_CACHE_KEY}:`,
+    );
   }
 
   private buildImagesFormData(images: ItemImageForm[]): FormData {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { RentalDetailModel } from '../model/rental-detail-model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RentalService } from '@core/rental/rental.service';
@@ -23,6 +23,7 @@ import { ReturnedComponent } from '../components/actions/returned/returned.compo
 import { LateRentalComponent } from '../components/actions/late-rental/late-rental.component';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { TranslationService } from '@core/i18n/translation.service';
+import { AuthStateService } from '@core/auth/auth-state.service';
 
 @Component({
   selector: 'app-rental-detail',
@@ -59,10 +60,22 @@ export class RentalDetailComponent {
     private rentalService: RentalService,
     private userService: UserService,
     private translationService: TranslationService,
-  ) {}
+    private authStateService: AuthStateService,
+  ) {
+    effect(() => {
+      if (!this.authStateService.initialized()) {
+        return;
+      }
+
+      if (!this.userService.currentUser()) {
+        return;
+      }
+
+      this.loadRental();
+    });
+  }
 
   ngOnInit(): void {
-    this.loadRental();
     this.getRentalEnums();
   }
 

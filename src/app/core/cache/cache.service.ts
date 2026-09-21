@@ -1,8 +1,16 @@
 import { Injectable } from '@angular/core';
 
 export enum CacheDuration {
+  // 1 minute
+  VERY_SHORT = 60 * 1000,
+
+  // 5 minutes
   SHORT = 5 * 60 * 1000,
+
+  // 30 minutes
   MEDIUM = 30 * 60 * 1000,
+
+  // 24 hours
   LONG = 24 * 60 * 60 * 1000,
 }
 
@@ -69,6 +77,55 @@ export class CacheService {
 
       if (key?.startsWith(this.PREFIX)) {
         keysToRemove.push(key);
+      }
+    }
+
+    keysToRemove.forEach((key) => localStorage.removeItem(key));
+  }
+
+  clearByPrefix(prefix: string): void {
+    const keysToRemove: string[] = [];
+    const fullPrefix = `${this.PREFIX}${prefix}`;
+
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+
+      if (key?.startsWith(fullPrefix)) {
+        keysToRemove.push(key);
+      }
+    }
+
+    keysToRemove.forEach((key) => localStorage.removeItem(key));
+  }
+
+  clearInvalid(): void {
+    const keysToRemove: string[] = [];
+
+    for (let i = 0; i < localStorage.length; i++) {
+      const storageKey = localStorage.key(i);
+
+      if (!storageKey?.startsWith(this.PREFIX)) {
+        continue;
+      }
+
+      const raw = localStorage.getItem(storageKey);
+
+      if (!raw) {
+        keysToRemove.push(storageKey);
+        continue;
+      }
+
+      try {
+        const entry = JSON.parse(raw) as CacheEntry<unknown>;
+
+        const invalidVersion = entry.version !== this.CACHE_VERSION;
+        const expired = Date.now() >= entry.expiresAt;
+
+        if (invalidVersion || expired) {
+          keysToRemove.push(storageKey);
+        }
+      } catch {
+        keysToRemove.push(storageKey);
       }
     }
 

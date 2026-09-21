@@ -15,6 +15,14 @@ export class AuthStateService {
 
   readonly state = this._state.asReadonly();
 
+  private readonly _initialized = signal(false);
+
+  readonly initialized = this._initialized.asReadonly();
+
+  setInitialized(): void {
+    this._initialized.set(true);
+  }
+  
   setAuthenticated(): void {
     this._state.set('authenticated');
   }

@@ -43,12 +43,11 @@ export class ConfirmRentalComponent {
       this.handlePaymentUpdate(),
     );
 
-    const success = new URLSearchParams(window.location.search).get('success');
+    const sucess = new URLSearchParams(window.location.search).get('success');
 
-    if (success === 'true') {
+    if (sucess === 'true') {
       this.paymentStatus = 'PROCESSING_PAYMENT';
       this.canCancel.emit(false);
-      return;
     }
 
     this.preparePayment();
@@ -112,7 +111,16 @@ export class ConfirmRentalComponent {
   }
 
   private handleCheckout(checkout: PaymentCheckout): void {
+    if (checkout.status === 'PAID') {
+      this.handlePaymentUpdate();
+      return;
+    }
     this.paymentCheckout = checkout;
+
+    if (this.paymentStatus === 'PROCESSING_PAYMENT') {
+      return;
+    }
+
     this.paymentStatus = 'PENDING';
 
     this.startPaymentTimer(checkout.now);

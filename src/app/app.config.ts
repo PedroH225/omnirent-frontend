@@ -15,6 +15,7 @@ import Lara from '@primeng/themes/lara';
 import { definePreset } from '@primeng/themes';
 import { localeInterceptor } from '@core/i18n/locale.interceptor';
 import { timezoneInterceptor } from '@core/i18n/timezone.interceptor';
+import { MessageService } from 'primeng/api';
 
 const OmniRentTheme = definePreset(Lara, {
   semantic: {
@@ -96,6 +97,7 @@ const OmniRentTheme = definePreset(Lara, {
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    MessageService,
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     providePrimeNG({

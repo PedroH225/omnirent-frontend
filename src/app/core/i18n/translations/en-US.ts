@@ -23,6 +23,12 @@ export const enUS = {
     },
   },
 
+  error: {
+    tooManyRequests: {
+      title: 'Too many requests',
+    }
+  },
+
   enums: {
     itemStatus: {
       analisys: 'Analysis',

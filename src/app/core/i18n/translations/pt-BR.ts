@@ -23,6 +23,12 @@ export const ptBR = {
     },
   },
 
+    error: {
+    tooManyRequests: {
+      title: 'Muitas solicitações',
+    }
+  },
+
   enums: {
     itemStatus: {
       analisys: 'Em análise',

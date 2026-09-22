@@ -24,6 +24,7 @@ import { LateRentalComponent } from '../components/actions/late-rental/late-rent
 import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { TranslationService } from '@core/i18n/translation.service';
 import { AuthStateService } from '@core/auth/auth-state.service';
+import { ApiException } from '@shared/models/api-exception';
 
 @Component({
   selector: 'app-rental-detail',
@@ -48,7 +49,10 @@ import { AuthStateService } from '@core/auth/auth-state.service';
   styleUrl: './rental-detail.component.scss',
 })
 export class RentalDetailComponent {
+  isLoading = false;
   canCancel = true;
+  rentalNotFound = false;
+
   storageUrl = environment.storageUrl;
 
   rental: RentalDetailModel | null = null;
@@ -91,6 +95,7 @@ export class RentalDetailComponent {
   }
 
   private loadRental(): void {
+    this.isLoading = true;
     const rentalId = this.route.snapshot.paramMap.get('id');
 
     if (!rentalId) {
@@ -99,12 +104,25 @@ export class RentalDetailComponent {
 
     this.rentalService.getRentalDetail(rentalId).subscribe({
       next: (rental) => {
+        this.isLoading = false;
         this.rental = rental;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.isLoading = false;
+        const apiError = error.error as ApiException;
+
+        if (apiError.errorCode === 'RENTAL_NOT_FOUND') {
+          this.rentalNotFound = true;
+          return;
+        }
+
+        console.error(error);
       },
     });
   }
 
   reloadOperationalData(): void {
+    this.isLoading = true;
     if (!this.rental) {
       return;
     }
@@ -117,8 +135,17 @@ export class RentalDetailComponent {
           this.rental.rentalStatus = response.status;
           this.rental.updatedAt = response.updatedAt;
         }
+        this.isLoading = false;
       },
       error: (error: HttpErrorResponse) => {
+        this.isLoading = false;
+        const apiError = error.error as ApiException;
+
+        if (apiError.errorCode === 'RENTAL_NOT_FOUND') {
+          this.rentalNotFound = true;
+          return;
+        }
+
         console.error(error);
       },
     });

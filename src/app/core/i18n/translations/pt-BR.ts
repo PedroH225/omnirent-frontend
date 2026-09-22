@@ -10,6 +10,7 @@ export const ptBR = {
     create: 'Criar',
     signIn: 'Entrar',
     all: 'Todos',
+    loading: 'Carregando...',
 
     messages: {
       success: 'Sucesso',
@@ -503,6 +504,7 @@ export const ptBR = {
     },
   },
 
+  // RENTAL DETAIL
   rental: {
     header: {
       eyebrow: 'Aluguel',
@@ -531,6 +533,11 @@ export const ptBR = {
       preparation: 'Preparação',
       in_use: 'Em uso',
       return: 'Devolução',
+    },
+
+    notFound: {
+      title: 'Aluguel não encontrado',
+      description: 'Este aluguel não existe ou não está mais disponível.',
     },
 
     actions: {

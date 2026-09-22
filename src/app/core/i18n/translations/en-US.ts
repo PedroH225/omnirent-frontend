@@ -10,6 +10,7 @@ export const enUS = {
     create: 'Create',
     signIn: 'Sign in',
     all: 'All',
+    loading: 'Loading...',
 
     messages: {
       success: 'Success',
@@ -499,6 +500,7 @@ export const enUS = {
     },
   },
 
+  // RENTAL DETAIL
   rental: {
     header: {
       eyebrow: 'Rental',
@@ -527,6 +529,11 @@ export const enUS = {
       preparation: 'Preparation',
       in_use: 'In use',
       return: 'Return',
+    },
+
+    notFound: {
+      title: 'Rental not found',
+      description: 'This rental does not exist or is no longer available.',
     },
 
     actions: {

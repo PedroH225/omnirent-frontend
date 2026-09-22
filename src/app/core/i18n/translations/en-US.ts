@@ -329,6 +329,11 @@ export const enUS = {
     rentalPeriod: 'Rental period',
     rentLoginRequired: 'Log in to your account to rent this item.',
 
+    notFound: {
+      title: 'Item not found',
+      description: 'This item does not exist or is no longer available.',
+    },
+
     description: {
       title: 'Description',
       empty: 'No description provided.',
@@ -366,8 +371,7 @@ export const enUS = {
 
       cooldown: {
         title: 'Rental unavailable',
-        detail:
-          'This item was just released from a rental. Try again later',
+        detail: 'This item was just released from a rental. Try again later',
       },
     },
 

@@ -106,6 +106,7 @@ export class ItemDetailComponent implements OnInit {
   anonymous = true;
   showLoginMessage = false;
   disableRent = false;
+  itemNotFound = false;
 
   constructor(
     private itemService: ItemService,
@@ -186,8 +187,17 @@ export class ItemDetailComponent implements OnInit {
 
         this.isLoading = false;
       },
-      error: () => {
+      error: (error: HttpErrorResponse) => {
         this.isLoading = false;
+
+        const apiError = error.error as ApiException;
+
+        if (apiError.errorCode === 'ITEM_NOT_FOUND') {
+          this.itemNotFound = true;
+          return;
+        }
+
+        console.error(error);
       },
     });
   }

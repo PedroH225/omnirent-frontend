@@ -330,6 +330,11 @@ export const ptBR = {
     rentalPeriod: 'Período de aluguel',
     rentLoginRequired: 'Entre na sua conta para poder alugar este item.',
 
+    notFound: {
+      title: 'Item não encontrado',
+      description: 'Este item não existe ou não está mais disponível.',
+    },
+
     description: {
       title: 'Descrição',
       empty: 'Nenhuma descrição fornecida.',

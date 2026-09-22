@@ -1005,6 +1005,7 @@ export const ptBR = {
       },
     },
 
+    // USER ADDRESSES
     addresses: {
       title: 'Meus endereços',
       description: 'Gerencie seus endereços salvos',
@@ -1027,6 +1028,12 @@ export const ptBR = {
         confirmDelete: {
           title: 'Excluir endereço',
           message: 'Tem certeza de que deseja excluir este endereço?',
+        },
+
+        inUse: {
+          title: 'Endereço em uso',
+          detail:
+            'Este endereço não pode ser excluído porque está sendo utilizado por um ou mais itens.',
         },
 
         create: {

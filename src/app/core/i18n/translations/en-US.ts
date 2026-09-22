@@ -1020,6 +1020,12 @@ export const enUS = {
           message: 'Are you sure you want to delete this address?',
         },
 
+        inUse: {
+          title: 'Address in use',
+          detail:
+            'This address cannot be deleted because it is being used by one or more items.',
+        },
+
         create: {
           loading: 'Creating listing...',
           uploadingImages: 'Uploading images...',

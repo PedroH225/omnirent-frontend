@@ -47,7 +47,7 @@
           >
             <p-button
               [label]="'item.rentNow' | translate"
-              [disabled]="item.itemStatus !== 'AVAILABLE' || anonymous"
+              [disabled]="item.itemStatus !== 'AVAILABLE' || anonymous || disableRent"
               (onClick)="rentItem()"
             />
 

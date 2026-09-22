@@ -34,6 +34,7 @@ import { LocaleService } from '@core/i18n/locale.service';
 import { TranslationService } from '@core/i18n/translation.service';
 import { UserResponseModel } from '@core/user/model/user-response-model';
 import { TooltipModule } from 'primeng/tooltip';
+import { ApiException } from '@shared/models/api-exception';
 
 @Component({
   selector: 'app-item-detail',
@@ -104,6 +105,7 @@ export class ItemDetailComponent implements OnInit {
   isOwner = false;
   anonymous = true;
   showLoginMessage = false;
+  disableRent = false;
 
   constructor(
     private itemService: ItemService,
@@ -410,6 +412,7 @@ export class ItemDetailComponent implements OnInit {
   }
 
   rentItem(): void {
+    this.disableRent = true;
     if (!this.item) {
       return;
     }
@@ -447,7 +450,22 @@ export class ItemDetailComponent implements OnInit {
             this.router.navigate(['/rentals', response.id]);
           },
           error: (error: HttpErrorResponse) => {
-            console.error(error);
+            const apiError = error.error as ApiException;
+
+            if (apiError.errorCode === 'RENTAL_CREATION_COOLDOWN') {
+              this.disableRent = true;
+              this.messageService.add({
+                severity: 'warn',
+                summary: this.translationService.translate(
+                  'item.rental.cooldown.title',
+                ),
+                detail: this.translationService.translate(
+                  'item.rental.cooldown.detail',
+                ),
+              });
+
+              return;
+            }
           },
         });
       },

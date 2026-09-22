@@ -321,6 +321,7 @@ export const ptBR = {
     },
   },
 
+  // ITEM DETAIL
   item: {
     day: 'dia',
 
@@ -363,6 +364,12 @@ export const ptBR = {
       cancel: 'Cancelar',
       createdTitle: 'Aluguel criado',
       createdMessage: 'Aluguel criado com sucesso.',
+
+      cooldown: {
+        title: 'Aluguel indisponível',
+        detail:
+          'Este item acabou de sair de um aluguel. Tente novamente mais tarde',
+      },
     },
 
     address: {

@@ -320,6 +320,7 @@ export const enUS = {
     },
   },
 
+  // ITEM DETAIL
   item: {
     day: 'day',
 
@@ -362,6 +363,12 @@ export const enUS = {
       cancel: 'Cancel',
       createdTitle: 'Rental created',
       createdMessage: 'Rental created successfully.',
+
+      cooldown: {
+        title: 'Rental unavailable',
+        detail:
+          'This item was just released from a rental. Try again later',
+      },
     },
 
     address: {

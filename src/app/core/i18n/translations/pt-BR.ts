@@ -23,10 +23,16 @@ export const ptBR = {
     },
   },
 
-    error: {
+  error: {
     tooManyRequests: {
       title: 'Muitas solicitações',
-    }
+    },
+
+    serverUnavailable: {
+      title: 'Serviço indisponível',
+      detail:
+        'Não foi possível conectar ao servidor. Tente novamente em alguns instantes.',
+    },
   },
 
   enums: {
@@ -385,8 +391,7 @@ export const ptBR = {
 
       invalidStatusTransition: {
         title: 'Não foi possível concluir o aluguel',
-        detail:
-          'Este item não está mais disponível.',
+        detail: 'Este item não está mais disponível.',
       },
     },
 

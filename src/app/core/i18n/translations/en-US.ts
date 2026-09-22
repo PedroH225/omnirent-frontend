@@ -26,7 +26,13 @@ export const enUS = {
   error: {
     tooManyRequests: {
       title: 'Too many requests',
-    }
+    },
+
+    serverUnavailable: {
+      title: 'Service unavailable',
+      detail:
+        'Unable to connect to the server. Please try again in a few moments.',
+    },
   },
 
   enums: {
@@ -383,8 +389,7 @@ export const enUS = {
 
       invalidStatusTransition: {
         title: 'Unable to complete rental',
-        detail:
-          'This item is no longer available.',
+        detail: 'This item is no longer available.',
       },
     },
 

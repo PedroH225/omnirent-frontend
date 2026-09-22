@@ -6,6 +6,8 @@ import { inject } from '@angular/core';
 import { TranslationService } from '@core/i18n/translation.service';
 import { MessageService } from 'primeng/api';
 
+const unavailableStatuses = [502, 503, 504, 522];
+
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const translationService = inject(TranslationService);
@@ -14,6 +16,23 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       const apiError = error.error as ApiException;
+
+      if (error.status === 0 || unavailableStatuses.includes(error.status)) {
+        messageService.clear();
+
+        messageService.add({
+          severity: 'error',
+          summary: translationService.translate(
+            'error.serverUnavailable.title',
+          ),
+          detail: translationService.translate(
+            'error.serverUnavailable.detail',
+          ),
+        });
+
+        return throwError(() => error);
+      }
+
       switch (apiError.errorCode) {
         case 'FORBIDDEN':
           if (router.url.startsWith('/admin')) {
@@ -29,7 +48,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             summary: translationService.translate(
               'error.tooManyRequests.title',
             ),
-            detail: apiError.message
+            detail: apiError.message,
           });
 
           break;

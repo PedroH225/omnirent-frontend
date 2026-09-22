@@ -462,8 +462,19 @@ export class ItemDetailComponent implements OnInit {
           error: (error: HttpErrorResponse) => {
             const apiError = error.error as ApiException;
 
+            if (apiError.errorCode === 'INVALID_STATUS_TRANSITION') {
+              this.messageService.add({
+                severity: 'warn',
+                summary: this.translationService.translate(
+                  'item.rental.invalidStatusTransition.title',
+                ),
+                detail: this.translationService.translate(
+                  'item.rental.invalidStatusTransition.detail',
+                ),
+              });
+            }
+
             if (apiError.errorCode === 'RENTAL_CREATION_COOLDOWN') {
-              this.disableRent = true;
               this.messageService.add({
                 severity: 'warn',
                 summary: this.translationService.translate(

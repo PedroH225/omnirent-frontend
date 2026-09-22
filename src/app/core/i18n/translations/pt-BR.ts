@@ -376,6 +376,12 @@ export const ptBR = {
         detail:
           'Este item acabou de sair de um aluguel. Tente novamente mais tarde',
       },
+
+      invalidStatusTransition: {
+        title: 'Não foi possível concluir o aluguel',
+        detail:
+          'Este item não está mais disponível.',
+      },
     },
 
     address: {

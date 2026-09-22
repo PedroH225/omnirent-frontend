@@ -374,6 +374,12 @@ export const enUS = {
         title: 'Rental unavailable',
         detail: 'This item was just released from a rental. Try again later',
       },
+
+      invalidStatusTransition: {
+        title: 'Unable to complete rental',
+        detail:
+          'This item is no longer available.',
+      },
     },
 
     address: {

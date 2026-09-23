@@ -28,6 +28,11 @@ export const enUS = {
       title: 'Too many requests',
     },
 
+    internalServer: {
+      title: 'Something went wrong',
+      detail: 'Unable to complete the operation. Please try again later.',
+    },
+
     serverUnavailable: {
       title: 'Service unavailable',
       detail:

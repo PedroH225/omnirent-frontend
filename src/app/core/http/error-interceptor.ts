@@ -48,6 +48,13 @@ function handleApiError(
         detail: apiError.message,
       });
       break;
+    case 'INTERNAL_SERVER_ERROR':
+      messageService.add({
+        severity: 'warn',
+        summary: translationService.translate('error.internalServer.title'),
+        detail: translationService.translate('error.internalServer.detail'),
+      });
+      break;
 
     default:
       break;
@@ -64,6 +71,13 @@ function handleStatus(
       severity: 'error',
       summary: translationService.translate('error.serverUnavailable.title'),
       detail: translationService.translate('error.serverUnavailable.detail'),
+    });
+  }
+  if (error.status === 500) {
+    messageService.add({
+      severity: 'warn',
+      summary: translationService.translate('error.internalServer.title'),
+      detail: translationService.translate('error.internalServer.detail'),
     });
   }
 }

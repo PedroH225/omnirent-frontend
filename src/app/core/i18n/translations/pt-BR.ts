@@ -28,6 +28,12 @@ export const ptBR = {
       title: 'Muitas solicitações',
     },
 
+    internalServer: {
+      title: 'Ocorreu um erro',
+      detail:
+        'Não foi possível concluir a operação. Tente novamente mais tarde.',
+    },
+
     serverUnavailable: {
       title: 'Serviço indisponível',
       detail:

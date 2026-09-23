@@ -35,8 +35,8 @@
         </label>
       </p-floatlabel>
 
-      @if (errorMessage) {
-        <p-message severity="error" [text]="errorMessage" />
+      @if (errorMessageKey) {
+        <p-message severity="error" [text]="errorMessageKey | translate" />
       }
 
       <div class="button-container">
@@ -44,11 +44,11 @@
       </div>
 
       <div class="social-login">
-        <button type="button" class="social-button">
+        <button type="button" class="social-button" (click)="loginWithGithub()">
           <i class="pi pi-github"></i>
         </button>
 
-        <button type="button" class="social-button">
+        <button type="button" class="social-button" (click)="loginWithGoogle()">
           <i class="pi pi-google"></i>
         </button>
       </div>

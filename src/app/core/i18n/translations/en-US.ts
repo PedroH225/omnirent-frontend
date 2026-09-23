@@ -24,6 +24,10 @@ export const enUS = {
   },
 
   error: {
+    unknown: {
+      title: 'Unexpected error. Try again later.',
+    },
+
     tooManyRequests: {
       title: 'Too many requests',
     },
@@ -195,6 +199,15 @@ export const enUS = {
       fields: {
         email: 'Email',
         password: 'Password',
+      },
+
+      oauth: {
+        error:
+          'We couldn’t sign you in with this method. Try again or use another way to log in.',
+      },
+
+      invalidCredentials: {
+        message: 'Invalid email or password.',
       },
     },
 

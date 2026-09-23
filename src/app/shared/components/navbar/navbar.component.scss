@@ -96,7 +96,11 @@
 }
 
 :host ::ng-deep .user-menu .p-button-label {
-  display: inline;
+  max-width: 90px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .theme-button {

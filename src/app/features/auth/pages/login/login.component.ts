@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { PasswordModule } from 'primeng/password';
 import { CardModule } from 'primeng/card';
 import { FormsModule } from '@angular/forms';
@@ -7,11 +7,19 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { AuthModel } from '../../models/auth.model';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+} from '@angular/router';
 import { MessageModule } from 'primeng/message';
 import { ApiException } from '../../../../shared/models/api-exception';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
+import { TranslationService } from '@core/i18n/translation.service';
+import { LocaleService } from '@core/i18n/locale.service';
+import { AuthStateService } from '@core/auth/auth-state.service';
 
 const DISPLAYABLE_ERRORS = ['INVALID_CREDENTIALS'];
 
@@ -35,12 +43,30 @@ const DISPLAYABLE_ERRORS = ['INVALID_CREDENTIALS'];
 export class LoginComponent {
   email: string = '';
   password: string = '';
-  errorMessage: string = '';
+  errorMessageKey: string = '';
 
   constructor(
     private authService: AuthService,
     private router: Router,
+    private route: ActivatedRoute,
   ) {}
+
+  ngOnInit(): void {
+    const error = this.route.snapshot.queryParamMap.get('oauthError');
+
+    if (!error) {
+      return;
+    }
+
+    this.errorMessageKey = 'auth.login.oauth.error';
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { oauthError: null },
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
+  }
 
   login() {
     const payload = new AuthModel(this.email, this.password);
@@ -52,18 +78,22 @@ export class LoginComponent {
       error: (error: HttpErrorResponse) => {
         const apiError = error.error as ApiException;
 
-        if (
-          apiError?.errorCode &&
-          apiError?.message &&
-          this.isDisplayableError(apiError)
-        ) {
-          this.errorMessage = apiError.message;
+        if (apiError.errorCode === 'INVALID_CREDENTIALS') {
+          this.errorMessageKey = 'auth.login.invalidCredentials.message';
           return;
         }
 
-        this.errorMessage = 'Unexpected error. Try again later.';
+        this.errorMessageKey = 'error.unknown.title';
       },
     });
+  }
+
+  loginWithGoogle(): void {
+    window.location.href = '/api/oauth2/authorization/google';
+  }
+
+  loginWithGithub(): void {
+    window.location.href = '/api/oauth2/authorization/github';
   }
 
   private isDisplayableError(error: ApiException): boolean {

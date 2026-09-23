@@ -49,15 +49,7 @@ export class LoginComponent {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private authStateService: AuthStateService,
-  ) {
-    effect(() => {
-      if (this.authStateService.isAuthenticated()) {
-        this.router.navigate(['/account']);
-        return;
-      }
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     const error = this.route.snapshot.queryParamMap.get('oauthError');

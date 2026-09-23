@@ -7,6 +7,7 @@ import { TranslationService } from '@core/i18n/translation.service';
 import { MessageService } from 'primeng/api';
 
 const unavailableStatuses = [0, 502, 503, 504, 522];
+let lastServerErrorAt = 0;
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
@@ -15,8 +16,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-      messageService.clear();
-
       if (isApiException(error.error)) {
         handleApiError(error.error, router, messageService, translationService);
       } else {
@@ -34,6 +33,7 @@ function handleApiError(
   messageService: MessageService,
   translationService: TranslationService,
 ): void {
+  messageService.clear();
   switch (apiError.errorCode) {
     case 'FORBIDDEN':
       if (router.url.startsWith('/admin')) {
@@ -42,6 +42,7 @@ function handleApiError(
       break;
 
     case 'RATE_LIMIT_EXCEEDED':
+      messageService.clear();
       messageService.add({
         severity: 'warn',
         summary: translationService.translate('error.tooManyRequests.title'),
@@ -49,13 +50,14 @@ function handleApiError(
       });
       break;
     case 'INTERNAL_SERVER_ERROR':
-      messageService.add({
-        severity: 'warn',
-        summary: translationService.translate('error.internalServer.title'),
-        detail: translationService.translate('error.internalServer.detail'),
-      });
+      showMessage(
+        'error',
+        'error.internalServer.title',
+        'error.internalServer.detail',
+        messageService,
+        translationService,
+      );
       break;
-
     default:
       break;
   }
@@ -66,19 +68,29 @@ function handleStatus(
   messageService: MessageService,
   translationService: TranslationService,
 ): void {
+  const now = Date.now();
+  if (now - lastServerErrorAt < 10000) {
+    return;
+  }
+  lastServerErrorAt = now;
+
   if (unavailableStatuses.includes(error.status)) {
-    messageService.add({
-      severity: 'error',
-      summary: translationService.translate('error.serverUnavailable.title'),
-      detail: translationService.translate('error.serverUnavailable.detail'),
-    });
+    showMessage(
+      'error',
+      'error.serverUnavailable.title',
+      'error.serverUnavailable.detail',
+      messageService,
+      translationService,
+    );
   }
   if (error.status === 500) {
-    messageService.add({
-      severity: 'warn',
-      summary: translationService.translate('error.internalServer.title'),
-      detail: translationService.translate('error.internalServer.detail'),
-    });
+    showMessage(
+      'error',
+      'error.internalServer.title',
+      'error.internalServer.detail',
+      messageService,
+      translationService,
+    );
   }
 }
 
@@ -89,4 +101,20 @@ function isApiException(error: unknown): error is ApiException {
     'errorCode' in error &&
     'message' in error
   );
+}
+
+function showMessage(
+  severity: 'success' | 'info' | 'warn' | 'error',
+  titleKey: string,
+  detailKey: string,
+  messageService: MessageService,
+  translationService: TranslationService,
+): void {
+  messageService.clear();
+
+  messageService.add({
+    severity,
+    summary: translationService.translate(titleKey),
+    detail: translationService.translate(detailKey),
+  });
 }

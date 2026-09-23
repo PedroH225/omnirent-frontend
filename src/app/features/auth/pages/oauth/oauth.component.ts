@@ -1,5 +1,5 @@
 import { Component, effect } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthStateService } from '@core/auth/auth-state.service';
 import { UserService } from '@core/user/user.service';
 
@@ -13,7 +13,16 @@ export class OauthComponent {
   constructor(
     private readonly authStateService: AuthStateService,
     private readonly router: Router,
+    private readonly route: ActivatedRoute,
   ) {
+    const error = this.route.snapshot.queryParamMap.get('error');
+
+    if (error !== null) {
+      this.router.navigate(['/auth/login'], {
+        queryParams: { oauthError: true },
+      });
+      return;
+    }
     effect(() => {
       if (!this.authStateService.initialized()) {
         return;

@@ -201,6 +201,11 @@ export const ptBR = {
         password: 'Senha',
       },
 
+      oauth: {
+        error:
+          'Não foi possível entrar com esse método. Tente novamente ou use outra forma de login.',
+      },
+
       invalidCredentials: {
         message: 'Email ou senha incorretos.',
       },

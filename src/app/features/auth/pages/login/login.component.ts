@@ -7,13 +7,19 @@ import { InputTextModule } from 'primeng/inputtext';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { AuthModel } from '../../models/auth.model';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  ActivatedRoute,
+  Router,
+  RouterLink,
+  RouterLinkActive,
+} from '@angular/router';
 import { MessageModule } from 'primeng/message';
 import { ApiException } from '../../../../shared/models/api-exception';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { TranslationService } from '@core/i18n/translation.service';
 import { LocaleService } from '@core/i18n/locale.service';
+import { AuthStateService } from '@core/auth/auth-state.service';
 
 const DISPLAYABLE_ERRORS = ['INVALID_CREDENTIALS'];
 
@@ -42,7 +48,33 @@ export class LoginComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
-  ) {}
+    private route: ActivatedRoute,
+    private authStateService: AuthStateService,
+  ) {
+    effect(() => {
+      if (this.authStateService.isAuthenticated()) {
+        this.router.navigate(['/account']);
+        return;
+      }
+    });
+  }
+
+  ngOnInit(): void {
+    const error = this.route.snapshot.queryParamMap.get('oauthError');
+
+    if (!error) {
+      return;
+    }
+
+    this.errorMessageKey = 'auth.login.oauth.error';
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { oauthError: null },
+      queryParamsHandling: 'merge',
+      replaceUrl: true,
+    });
+  }
 
   login() {
     const payload = new AuthModel(this.email, this.password);

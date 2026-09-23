@@ -201,9 +201,14 @@ export const enUS = {
         password: 'Password',
       },
 
+      oauth: {
+        error:
+          'We couldn’t sign you in with this method. Try again or use another way to log in.',
+      },
+
       invalidCredentials: {
-        message: 'Invalid email or password.'
-      }
+        message: 'Invalid email or password.',
+      },
     },
 
     register: {

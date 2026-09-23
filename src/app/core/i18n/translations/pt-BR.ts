@@ -24,6 +24,10 @@ export const ptBR = {
   },
 
   error: {
+    unknown: {
+      title: 'Erro desconhecido. Tente novamente mais tarde',
+    },
+
     tooManyRequests: {
       title: 'Muitas solicitações',
     },
@@ -195,6 +199,10 @@ export const ptBR = {
       fields: {
         email: 'E-mail',
         password: 'Senha',
+      },
+
+      invalidCredentials: {
+        message: 'Email ou senha incorretos.',
       },
     },
 

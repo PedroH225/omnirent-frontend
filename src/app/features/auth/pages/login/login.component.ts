@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { PasswordModule } from 'primeng/password';
 import { CardModule } from 'primeng/card';
 import { FormsModule } from '@angular/forms';
@@ -12,6 +12,8 @@ import { MessageModule } from 'primeng/message';
 import { ApiException } from '../../../../shared/models/api-exception';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
+import { TranslationService } from '@core/i18n/translation.service';
+import { LocaleService } from '@core/i18n/locale.service';
 
 const DISPLAYABLE_ERRORS = ['INVALID_CREDENTIALS'];
 
@@ -35,7 +37,7 @@ const DISPLAYABLE_ERRORS = ['INVALID_CREDENTIALS'];
 export class LoginComponent {
   email: string = '';
   password: string = '';
-  errorMessage: string = '';
+  errorMessageKey: string = '';
 
   constructor(
     private authService: AuthService,
@@ -52,16 +54,12 @@ export class LoginComponent {
       error: (error: HttpErrorResponse) => {
         const apiError = error.error as ApiException;
 
-        if (
-          apiError?.errorCode &&
-          apiError?.message &&
-          this.isDisplayableError(apiError)
-        ) {
-          this.errorMessage = apiError.message;
+        if (apiError.errorCode === 'INVALID_CREDENTIALS') {
+          this.errorMessageKey = 'auth.login.invalidCredentials.message';
           return;
         }
 
-        this.errorMessage = 'Unexpected error. Try again later.';
+        this.errorMessageKey = 'error.unknown.title';
       },
     });
   }

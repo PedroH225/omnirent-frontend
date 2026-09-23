@@ -35,8 +35,8 @@
         </label>
       </p-floatlabel>
 
-      @if (errorMessage) {
-        <p-message severity="error" [text]="errorMessage" />
+      @if (errorMessageKey) {
+        <p-message severity="error" [text]="errorMessageKey | translate" />
       }
 
       <div class="button-container">

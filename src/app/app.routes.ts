@@ -24,6 +24,7 @@ import { ItemAnalisysComponent } from '@features/admin/item-analisys/item-analis
 import { ItemAdminManagementComponent } from '@features/admin/item-admin-management/item-admin-management.component';
 import { ProfileComponent } from '@features/user/pages/profile/profile.component';
 import { UserConfigurationsComponent } from '@features/user/pages/user-configurations/user-configurations.component';
+import { OauthComponent } from '@features/auth/pages/oauth/oauth.component';
 
 export const routes: Routes = [
   {
@@ -112,6 +113,10 @@ export const routes: Routes = [
         ],
       },
     ],
+  },
+  {
+    path: 'oauth/callback',
+    component: OauthComponent,
   },
   {
     path: 'auth',

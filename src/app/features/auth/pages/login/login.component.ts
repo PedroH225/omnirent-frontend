@@ -66,6 +66,14 @@ export class LoginComponent {
     });
   }
 
+  loginWithGoogle(): void {
+    window.location.href = '/api/oauth2/authorization/google';
+  }
+
+  loginWithGithub(): void {
+    window.location.href = '/api/oauth2/authorization/github';
+  }
+
   private isDisplayableError(error: ApiException): boolean {
     return !!error && DISPLAYABLE_ERRORS.includes(error.errorCode);
   }

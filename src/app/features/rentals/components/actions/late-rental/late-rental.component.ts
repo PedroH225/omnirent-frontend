@@ -35,6 +35,10 @@ export class LateRentalComponent {
   ) {}
 
   ngOnInit(): void {
+    if (this.isOwner || !this.rentalId) {
+      return;
+    }
+
     this.paymentWebSocketService.connectPaymentUpdate(this.rentalId, () =>
       this.handlePaymentUpdate(),
     );
@@ -43,10 +47,13 @@ export class LateRentalComponent {
 
     if (success === 'true') {
       this.paymentStatus = 'PROCESSING_PAYMENT';
-      return;
     }
 
     this.preparePayment();
+  }
+
+  ngOnDestroy(): void {
+    this.paymentWebSocketService.disconnect();
   }
 
   preparePayment(): void {
@@ -57,6 +64,10 @@ export class LateRentalComponent {
     this.paymentService.findCheckout(this.rentalId).subscribe({
       next: (response) => {
         this.paymentCheckout = response;
+
+        if (response.status === 'PAID') {
+          this.handlePaymentUpdate();
+        }
       },
 
       error: (error: HttpErrorResponse) => {
@@ -90,7 +101,7 @@ export class LateRentalComponent {
     window.location.href = this.paymentCheckout.checkoutUrl;
   }
 
-  private handlePaymentUpdate() {    
+  private handlePaymentUpdate() {
     this.rentalRenewed.emit();
   }
 }

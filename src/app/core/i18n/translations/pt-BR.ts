@@ -10,6 +10,7 @@ export const ptBR = {
     create: 'Criar',
     signIn: 'Entrar',
     all: 'Todos',
+    loading: 'Carregando...',
 
     messages: {
       success: 'Sucesso',
@@ -19,6 +20,24 @@ export const ptBR = {
         title: 'Falha na validação',
         message: 'Revise os campos destacados e tente novamente.',
       },
+    },
+  },
+
+  error: {
+    tooManyRequests: {
+      title: 'Muitas solicitações',
+    },
+
+    internalServer: {
+      title: 'Ocorreu um erro',
+      detail:
+        'Não foi possível concluir a operação. Tente novamente mais tarde.',
+    },
+
+    serverUnavailable: {
+      title: 'Serviço indisponível',
+      detail:
+        'Não foi possível conectar ao servidor. Tente novamente em alguns instantes.',
     },
   },
 
@@ -321,6 +340,7 @@ export const ptBR = {
     },
   },
 
+  // ITEM DETAIL
   item: {
     day: 'dia',
 
@@ -328,6 +348,11 @@ export const ptBR = {
     rentNow: 'Alugar agora',
     rentalPeriod: 'Período de aluguel',
     rentLoginRequired: 'Entre na sua conta para poder alugar este item.',
+
+    notFound: {
+      title: 'Item não encontrado',
+      description: 'Este item não existe ou não está mais disponível.',
+    },
 
     description: {
       title: 'Descrição',
@@ -363,6 +388,17 @@ export const ptBR = {
       cancel: 'Cancelar',
       createdTitle: 'Aluguel criado',
       createdMessage: 'Aluguel criado com sucesso.',
+
+      cooldown: {
+        title: 'Aluguel indisponível',
+        detail:
+          'Este item acabou de sair de um aluguel. Tente novamente mais tarde',
+      },
+
+      invalidStatusTransition: {
+        title: 'Não foi possível concluir o aluguel',
+        detail: 'Este item não está mais disponível.',
+      },
     },
 
     address: {
@@ -491,6 +527,7 @@ export const ptBR = {
     },
   },
 
+  // RENTAL DETAIL
   rental: {
     header: {
       eyebrow: 'Aluguel',
@@ -519,6 +556,11 @@ export const ptBR = {
       preparation: 'Preparação',
       in_use: 'Em uso',
       return: 'Devolução',
+    },
+
+    notFound: {
+      title: 'Aluguel não encontrado',
+      description: 'Este aluguel não existe ou não está mais disponível.',
     },
 
     actions: {
@@ -986,6 +1028,7 @@ export const ptBR = {
       },
     },
 
+    // USER ADDRESSES
     addresses: {
       title: 'Meus endereços',
       description: 'Gerencie seus endereços salvos',
@@ -1008,6 +1051,12 @@ export const ptBR = {
         confirmDelete: {
           title: 'Excluir endereço',
           message: 'Tem certeza de que deseja excluir este endereço?',
+        },
+
+        inUse: {
+          title: 'Endereço em uso',
+          detail:
+            'Este endereço não pode ser excluído porque está sendo utilizado por um ou mais itens.',
         },
 
         create: {

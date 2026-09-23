@@ -8,6 +8,20 @@
   </div>
 }
 
+@if (itemNotFound) {
+  <div class="item-not-found">
+    <i class="pi pi-box"></i>
+
+    <strong>
+      {{ "item.notFound.title" | translate }}
+    </strong>
+
+    <span>
+      {{ "item.notFound.description" | translate }}
+    </span>
+  </div>
+}
+
 @if (item && !isLoading) {
   <div class="item-detail">
     <header class="item-header">
@@ -42,12 +56,12 @@
 
       @if (!isOwner) {
         <div class="rent-action">
-          <div
-            class="rent-button-wrapper"
-          >
+          <div class="rent-button-wrapper">
             <p-button
               [label]="'item.rentNow' | translate"
-              [disabled]="item.itemStatus !== 'AVAILABLE' || anonymous"
+              [disabled]="
+                item.itemStatus !== 'AVAILABLE' || anonymous || disableRent
+              "
               (onClick)="rentItem()"
             />
 

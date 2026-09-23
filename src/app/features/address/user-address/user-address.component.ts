@@ -16,6 +16,7 @@ import { ApiValidationException } from '@shared/models/api-field-exception';
 import { finalize } from 'rxjs';
 import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { TranslationService } from '@core/i18n/translation.service';
+import { ApiException } from '@shared/models/api-exception';
 
 @Component({
   selector: 'app-user-address',
@@ -45,7 +46,7 @@ export class UserAddressComponent {
   constructor(
     private addressService: AddressService,
     private messageService: MessageService,
-    private translationService: TranslationService
+    private translationService: TranslationService,
   ) {}
 
   ngOnInit(): void {
@@ -108,7 +109,9 @@ export class UserAddressComponent {
         this.messageService.add({
           severity: 'success',
           summary: this.translationService.translate('common.messages.success'),
-          detail: this.translationService.translate('account.addresses.messages.added'),
+          detail: this.translationService.translate(
+            'account.addresses.messages.added',
+          ),
         });
 
         this.backendErrors = [];
@@ -139,7 +142,9 @@ export class UserAddressComponent {
         this.messageService.add({
           severity: 'success',
           summary: this.translationService.translate('common.messages.success'),
-          detail: this.translationService.translate('account.addresses.messages.updated'),
+          detail: this.translationService.translate(
+            'account.addresses.messages.updated',
+          ),
         });
 
         this.backendErrors = [];
@@ -161,8 +166,22 @@ export class UserAddressComponent {
           (address) => address.id !== addressId,
         );
       },
-      error: (error) => {
-        console.error(error);
+      error: (error: HttpErrorResponse) => {
+        const apiError = error.error as ApiException;
+
+        if (apiError.errorCode === 'ADDRESS_IN_USE') {
+          this.messageService.add({
+            severity: 'warn',
+            summary: this.translationService.translate(
+              'account.addresses.messages.inUse.title',
+            ),
+            detail: this.translationService.translate(
+              'account.addresses.messages.inUse.detail',
+            ),
+          });
+
+          return;
+        }
       },
     });
   }

@@ -94,7 +94,7 @@ export class RentalService {
       return this.getOperationalData(rentalId).pipe(
         map((operational) => ({
           ...cached,
-          status: operational.status,
+          rentalStatus: operational.status,
           startDate: operational.startDate,
           endDate: operational.endDate,
           updatedAt: operational.updatedAt,

@@ -10,6 +10,7 @@ export const enUS = {
     create: 'Create',
     signIn: 'Sign in',
     all: 'All',
+    loading: 'Loading...',
 
     messages: {
       success: 'Success',
@@ -19,6 +20,23 @@ export const enUS = {
         title: 'Validation failed',
         message: 'Please review the highlighted fields and try again.',
       },
+    },
+  },
+
+  error: {
+    tooManyRequests: {
+      title: 'Too many requests',
+    },
+
+    internalServer: {
+      title: 'Something went wrong',
+      detail: 'Unable to complete the operation. Please try again later.',
+    },
+
+    serverUnavailable: {
+      title: 'Service unavailable',
+      detail:
+        'Unable to connect to the server. Please try again in a few moments.',
     },
   },
 
@@ -320,6 +338,7 @@ export const enUS = {
     },
   },
 
+  // ITEM DETAIL
   item: {
     day: 'day',
 
@@ -327,6 +346,11 @@ export const enUS = {
     rentNow: 'Rent now',
     rentalPeriod: 'Rental period',
     rentLoginRequired: 'Log in to your account to rent this item.',
+
+    notFound: {
+      title: 'Item not found',
+      description: 'This item does not exist or is no longer available.',
+    },
 
     description: {
       title: 'Description',
@@ -362,6 +386,16 @@ export const enUS = {
       cancel: 'Cancel',
       createdTitle: 'Rental created',
       createdMessage: 'Rental created successfully.',
+
+      cooldown: {
+        title: 'Rental unavailable',
+        detail: 'This item was just released from a rental. Try again later',
+      },
+
+      invalidStatusTransition: {
+        title: 'Unable to complete rental',
+        detail: 'This item is no longer available.',
+      },
     },
 
     address: {
@@ -488,6 +522,7 @@ export const enUS = {
     },
   },
 
+  // RENTAL DETAIL
   rental: {
     header: {
       eyebrow: 'Rental',
@@ -516,6 +551,11 @@ export const enUS = {
       preparation: 'Preparation',
       in_use: 'In use',
       return: 'Return',
+    },
+
+    notFound: {
+      title: 'Rental not found',
+      description: 'This rental does not exist or is no longer available.',
     },
 
     actions: {
@@ -1000,6 +1040,12 @@ export const enUS = {
         confirmDelete: {
           title: 'Delete address',
           message: 'Are you sure you want to delete this address?',
+        },
+
+        inUse: {
+          title: 'Address in use',
+          detail:
+            'This address cannot be deleted because it is being used by one or more items.',
         },
 
         create: {

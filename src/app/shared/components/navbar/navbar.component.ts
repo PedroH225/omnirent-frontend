@@ -1,4 +1,11 @@
-import { Component, effect, Input, Signal } from '@angular/core';
+import {
+  Component,
+  effect,
+  EventEmitter,
+  Input,
+  Output,
+  Signal,
+} from '@angular/core';
 import { ButtonModule } from 'primeng/button';
 import { SplitButtonModule } from 'primeng/splitbutton';
 import { IconFieldModule } from 'primeng/iconfield';
@@ -17,6 +24,7 @@ import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { LocaleSelectorComponent } from '../locale-selector/locale-selector.component';
 import { TranslationService } from '@core/i18n/translation.service';
 import { LocaleService } from '@core/i18n/locale.service';
+import { UserSidebarComponent } from '@features/user/components/user-sidebar/user-sidebar.component';
 
 type NavbarMode = 'default' | 'auth';
 
@@ -34,12 +42,14 @@ type NavbarMode = 'default' | 'auth';
     ImageModule,
     TranslatePipe,
     LocaleSelectorComponent,
-  ],
+    UserSidebarComponent
+],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
 export class NavbarComponent {
   @Input() mode: NavbarMode = 'default';
+  @Output() openUserSidebar = new EventEmitter<void>();
 
   readonly currentUser: Signal<LoggedUserModel | null>;
 

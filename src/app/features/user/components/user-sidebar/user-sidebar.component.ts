@@ -3,15 +3,21 @@ import { MenuItem } from 'primeng/api';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { Button } from 'primeng/button';
 import { DrawerModule } from 'primeng/drawer';
-import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { LocaleService } from '@core/i18n/locale.service';
 import { TranslationService } from '@core/i18n/translation.service';
 import { UserService } from '@core/user/user.service';
 import { AuthStateService, Role } from '@core/auth/auth-state.service';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-user-sidebar',
-  imports: [PanelMenuModule, Button, DrawerModule, TranslatePipe],
+  imports: [
+    PanelMenuModule,
+    Button,
+    DrawerModule,
+    RouterLinkActive,
+    RouterLink,
+  ],
   templateUrl: './user-sidebar.component.html',
   styleUrl: './user-sidebar.component.scss',
 })
@@ -28,6 +34,7 @@ export class UserSidebarComponent {
   ) {
     effect(() => {
       this.localeService.locale();
+      this.authStateService.state();
 
       this.updateItems();
     });
@@ -123,7 +130,7 @@ export class UserSidebarComponent {
 
   private handleAuthorities(): void {
     const hasPermission = this.authStateService.hasPermission([Role.ADMIN]);
-    
+
     if (hasPermission) {
       this.items.push({
         label: this.translationService.translate('account.sidebar.admin'),

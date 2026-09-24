@@ -107,6 +107,22 @@
   flex-shrink: 0;
 }
 
+.content-user-sidebar {
+  display: block;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+
+  min-width: 0;
+}
+
+app-locale-selector {
+  margin-right: 0.5rem;
+}
+
 @media (max-width: 768px) {
   .navbar {
     grid-template-columns: auto minmax(0, 1fr);
@@ -117,9 +133,10 @@
     padding: 0.75rem 1rem;
   }
 
-  .navbar-logo {
+  .navbar-left {
     grid-column: 1;
     grid-row: 1;
+    gap: 0.5rem;
   }
 
   .navbar-actions {
@@ -149,10 +166,10 @@
   }
 
   :host ::ng-deep .user-menu .p-button-label {
-    max-width: 90px;
+    display: none;
+  }
 
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  .content-user-sidebar {
+    display: none;
   }
 }

@@ -22,7 +22,7 @@ export class AuthStateService {
   setInitialized(): void {
     this._initialized.set(true);
   }
-  
+
   setAuthenticated(): void {
     this._state.set('authenticated');
   }
@@ -35,6 +35,7 @@ export class AuthStateService {
 
   setUnauthenticated(): void {
     this._state.set('unauthenticated');
+    this.setPermissions([]);
   }
 
   isAuthenticated(): boolean {

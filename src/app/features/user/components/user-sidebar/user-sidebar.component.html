@@ -1,31 +1,63 @@
-<aside class="sidebar">
-  <p-panelmenu [model]="items" [multiple]="true" />
-</aside>
-
-<div class="mobile-sidebar">
+<div class="sidebar-trigger">
   <p-button
     icon="pi pi-bars"
     [text]="true"
     [rounded]="true"
-    [attr.aria-label]="'account.sidebar.openMenu' | translate"
     (onClick)="drawerVisible = true"
   />
-
-  <div class="mobile-sidebar-divider"></div>
-
-  <span class="mobile-sidebar-title">
-    {{ "account.sidebar.title" | translate }}
-  </span>
-
-  <div class="mobile-sidebar-spacer"></div>
-
-  <i class="pi pi-user mobile-sidebar-icon"></i>
 </div>
 
 <p-drawer
   [(visible)]="drawerVisible"
   position="left"
-  [style]="{ width: '280px' }"
+  styleClass="user-sidebar-drawer"
 >
-  <p-panelmenu [model]="items" [multiple]="true" />
+  <nav class="sidebar-menu">
+    @for (item of items; track item.label) {
+      <div class="sidebar-section">
+        @if (item.items?.length) {
+          <div class="sidebar-group">
+            <div class="sidebar-group-title">
+              @if (item.icon) {
+                <i [class]="item.icon"></i>
+              }
+
+              <span>{{ item.label }}</span>
+            </div>
+
+            <div class="sidebar-group-items">
+              @for (child of item.items; track child.label) {
+                <a
+                  class="sidebar-item sidebar-child"
+                  [routerLink]="child.routerLink"
+                  routerLinkActive="sidebar-item-active"
+                  (click)="drawerVisible = false"
+                >
+                  @if (child.icon) {
+                    <i [class]="child.icon"></i>
+                  }
+
+                  <span>{{ child.label }}</span>
+                </a>
+              }
+            </div>
+          </div>
+        } @else {
+          <a
+            class="sidebar-item"
+            [routerLink]="item.routerLink"
+            routerLinkActive="sidebar-item-active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            (click)="drawerVisible = false"
+          >
+            @if (item.icon) {
+              <i [class]="item.icon"></i>
+            }
+
+            <span>{{ item.label }}</span>
+          </a>
+        }
+      </div>
+    }
+  </nav>
 </p-drawer>

@@ -1,126 +1,123 @@
 :host {
-  display: block;
+  display: inline-flex;
+  width: auto;
+}
+
+.sidebar-trigger {
+  display: flex;
+  align-items: center;
+}
+
+:host ::ng-deep .sidebar-trigger .p-button {
+  flex-shrink: 0;
+
+  width: 3rem;
+  height: 3rem;
+
+  color: var(--p-primary-500);
+}
+
+:host ::ng-deep .sidebar-trigger .p-button .p-button-icon {
+  font-size: 2rem;
+}
+
+:host ::ng-deep .sidebar-trigger .p-button:hover {
+  background: var(--p-primary-50);
+  color: var(--p-primary-600);
+}
+
+:host ::ng-deep .user-sidebar-drawer .p-drawer-content {
+  padding: 0;
+}
+
+.sidebar-menu {
+  display: flex;
+  flex-direction: column;
+
+  width: 100%;
+  padding: 0.5rem;
+}
+
+.sidebar-section {
+  padding: 0.5rem 0;
+
+  border-bottom: 1px solid var(--p-surface-200);
+}
+
+.sidebar-section:first-child {
+  border-top: 1px solid var(--p-surface-200);
+}
+
+.sidebar-group {
   width: 100%;
 }
 
-.sidebar {
-  display: block;
-
-  width: 100%;
-  max-width: 18rem;
-
-  position: sticky;
-  top: 1rem;
-  align-self: start;
-}
-
-.mobile-sidebar {
-  display: none;
-}
-
-:host ::ng-deep .p-panelmenu {
-  width: 100%;
-
-  border: 1px solid var(--p-surface-200);
-  border-radius: 1rem;
-  overflow: hidden;
-
-  background: var(--p-surface-0);
-}
-
-:host ::ng-deep .p-panelmenu-header-link,
-:host ::ng-deep .p-panelmenu-item-link {
-  padding: 0.9rem 1rem;
+.sidebar-group-title {
+  display: flex;
+  align-items: center;
   gap: 0.75rem;
 
+  padding: 0.9rem 1rem;
+
   color: var(--p-text-color);
+  font-weight: 600;
+}
+
+.sidebar-group-title i {
+  width: 1.25rem;
+
+  color: var(--p-primary-500);
+  text-align: center;
+}
+
+.sidebar-group-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  width: 100%;
+  padding: 0.9rem 1rem;
+
+  border-radius: 0.5rem;
+
+  color: var(--p-text-color);
+  text-decoration: none;
+
+  cursor: pointer;
 
   transition:
     background-color 0.2s ease,
     color 0.2s ease;
 }
 
-:host ::ng-deep .p-panelmenu-header-link:hover,
-:host ::ng-deep .p-panelmenu-item-link:hover {
+.sidebar-child {
+  padding-left: 2.5rem;
+}
+
+.sidebar-item i {
+  width: 1.25rem;
+
+  color: var(--p-primary-500);
+  font-size: 1rem;
+  text-align: center;
+}
+
+.sidebar-item:hover {
   background: var(--p-primary-50);
   color: var(--p-primary-600);
 }
 
-:host ::ng-deep .p-panelmenu-item-link.p-focus,
-:host ::ng-deep .p-panelmenu-header-link.p-focus {
-  box-shadow: none;
+.sidebar-item-active {
+  background: var(--p-primary-50);
+  color: var(--p-primary-600);
+  font-weight: 500;
 }
 
-:host ::ng-deep .p-panelmenu-icon,
-:host ::ng-deep .p-menuitem-icon {
-  color: var(--p-primary-500);
-}
-
-:host ::ng-deep .p-panelmenu-content {
-  border: none;
-  background: var(--p-surface-0);
-}
-
-:host ::ng-deep .p-panelmenu-item-link {
-  padding-left: 2.5rem;
-}
-
-@media (max-width: 768px) {
-  .sidebar {
-    display: none;
-  }
-
-  .mobile-sidebar {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-
-    width: 100%;
-    min-height: 3.25rem;
-
-    margin-bottom: 1rem;
-    padding: 0.35rem 0.5rem;
-
-    background: var(--p-surface-0);
-
-    border-bottom: 1px solid var(--p-surface-200);
-  }
-
-  :host ::ng-deep .mobile-sidebar .p-button {
-    flex-shrink: 0;
-
-    width: 2.5rem;
-    height: 2.5rem;
-
-    color: var(--p-primary-500);
-  }
-
-  :host ::ng-deep .mobile-sidebar .p-button:hover {
-    background: var(--p-primary-50);
-    color: var(--p-primary-600);
-  }
-
-  .mobile-sidebar-divider {
-    width: 1px;
-    height: 1.5rem;
-
-    background: var(--p-surface-200);
-  }
-
-  .mobile-sidebar-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--p-text-color);
-  }
-
-  .mobile-sidebar-spacer {
-    flex: 1;
-  }
-
-  .mobile-sidebar-icon {
-    margin-right: 0.75rem;
-
-    color: var(--p-primary-500);
-    font-size: 1.1rem;
-  }
+.sidebar-item-active i {
+  color: var(--p-primary-600);
 }

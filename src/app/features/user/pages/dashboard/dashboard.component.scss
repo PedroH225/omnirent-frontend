@@ -1,41 +1,96 @@
 .account-dashboard {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 2rem;
 
   .dashboard-header {
+    padding-left: 0.25rem;
+
     h1 {
       margin: 0;
-      font-size: 1.5rem;
-      font-weight: 600;
+
+      font-size: 1.6rem;
+      font-weight: 650;
+      color: var(--p-text-color);
     }
 
     p {
       margin: 0.5rem 0 0;
+
       color: var(--p-text-muted-color);
+      line-height: 1.5;
     }
   }
 
-  .dashboard-content {
+  .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.25rem;
+    gap: 1rem;
   }
 
   .dashboard-section {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+
+    min-height: 7rem;
     padding: 1.25rem;
-    border: 1px solid var(--p-content-border-color);
-    border-radius: var(--p-border-radius-md);
-    background: var(--p-content-background);
+
+    border-radius: 0.9rem;
+
+    background: var(--p-surface-50);
+
+    position: relative;
+    overflow: hidden;
+
+    &::before {
+      content: "";
+
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      width: 4px;
+      height: 100%;
+
+      background: var(--p-primary-500);
+    }
+  }
+
+  .section-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    width: 2.75rem;
+    height: 2.75rem;
+
+    border-radius: 0.75rem;
+
+    background: var(--p-primary-50);
+    color: var(--p-primary-600);
+
+    i {
+      font-size: 1.2rem;
+    }
+  }
+
+  .section-content {
+    min-width: 0;
 
     h2 {
       margin: 0;
+
       font-size: 1rem;
       font-weight: 600;
+      color: var(--p-text-color);
     }
 
     p {
-      margin: 0.5rem 0 0;
+      margin: 0.4rem 0 0;
+
       color: var(--p-text-muted-color);
       font-size: 0.9rem;
       line-height: 1.5;
@@ -46,9 +101,15 @@
 @media (max-width: 768px) {
   .account-dashboard {
     min-height: 60dvh;
+    gap: 1.5rem;
 
-    .dashboard-content {
+    .dashboard-grid {
       grid-template-columns: 1fr;
+    }
+
+    .dashboard-section {
+      min-height: auto;
+      padding: 1rem;
     }
   }
 }

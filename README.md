@@ -24,7 +24,7 @@ O projeto foi desenvolvido com o objetivo de compor um portfólio em desenvolvim
 * **Internacionalização**: Suporte a múltiplos idiomas, locale e fusos horários
 * **Segurança**: Proteção CSRF, guards de autenticação e autorização
 * **Responsividade**: Interface adaptada para desktop e dispositivos móveis
-* **CI/CD**: GitHub Actions
+- **Deploy / Hospedagem:** Cloudflare Workers
 
 ## Execução
 

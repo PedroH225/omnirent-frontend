@@ -22,7 +22,7 @@ The project was developed as part of a frontend development portfolio, applying 
 * **Internationalization**: Multiple languages, locale support, and time zone handling
 * **Security**: CSRF protection, authentication guards, and authorization guards
 * **Responsive Design**: Interface adapted for desktop and mobile devices
-* **CI/CD**: GitHub Actions
+- **Deployment / Hosting:** Cloudflare Workers
 
 ## Running the Application
 

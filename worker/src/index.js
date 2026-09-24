@@ -8,7 +8,19 @@ export default {
       backendUrl.protocol = "https:";
       backendUrl.hostname = "api.omnirentplatform.com";
 
-      return fetch(new Request(backendUrl, request));
+      const headers = new Headers(request.headers);
+
+      headers.set("X-Forwarded-Host", url.host);
+      headers.set("X-Forwarded-Proto", url.protocol.replace(":", ""));
+
+      return fetch(
+        new Request(backendUrl, {
+          method: request.method,
+          headers,
+          body: request.body,
+          redirect: "manual",
+        }),
+      );
     }
 
     return env.ASSETS.fetch(request);

@@ -27,8 +27,8 @@ The project was developed as part of a frontend development portfolio, applying 
 ## Running the Application
 
 **1.** Configure the API URL in the application environment files:
-- [dev](src/scripts/proxy.conf.json)
-- [prod](worker/src/index.js)
+- [Development](src/scripts/proxy.conf.json)
+- [Production](worker/src/index.js)
 
 **2.** Install the dependencies:
 

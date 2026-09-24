@@ -29,8 +29,8 @@ O projeto foi desenvolvido com o objetivo de compor um portfólio em desenvolvim
 ## Execução
 
 **1.** Configure o endereço da API nos arquivos de ambiente da aplicação.
-- [dev](src/scripts/proxy.conf.json) 
-- [prod](worker/src/index.js)
+- [Development](src/scripts/proxy.conf.json) 
+- [Production](worker/src/index.js)
 
 **2.** Instale as dependências:
 

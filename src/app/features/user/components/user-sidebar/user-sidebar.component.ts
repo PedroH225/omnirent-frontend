@@ -1,4 +1,4 @@
-import { Component, effect } from '@angular/core';
+import { Component, effect, Input } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { Button } from 'primeng/button';
@@ -22,6 +22,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrl: './user-sidebar.component.scss',
 })
 export class UserSidebarComponent {
+  @Input() mode: 'drawer' | 'sidebar' = 'drawer';
+
   drawerVisible = false;
 
   items: MenuItem[] = [];

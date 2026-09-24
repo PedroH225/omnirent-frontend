@@ -1,63 +1,116 @@
-<div class="sidebar-trigger">
-  <p-button
-    icon="pi pi-bars"
-    [text]="true"
-    [rounded]="true"
-    (onClick)="drawerVisible = true"
-  />
-</div>
+@if (mode === "sidebar") {
+  <aside class="desktop-sidebar-menu">
+    <nav class="sidebar-menu">
+      @for (item of items; track item.label) {
+        <div class="sidebar-section">
+          @if (item.items?.length) {
+            <div class="sidebar-group">
+              <div class="sidebar-group-title">
+                @if (item.icon) {
+                  <i [class]="item.icon"></i>
+                }
 
-<p-drawer
-  [(visible)]="drawerVisible"
-  position="left"
-  styleClass="user-sidebar-drawer"
->
-  <nav class="sidebar-menu">
-    @for (item of items; track item.label) {
-      <div class="sidebar-section">
-        @if (item.items?.length) {
-          <div class="sidebar-group">
-            <div class="sidebar-group-title">
+                <span>{{ item.label }}</span>
+              </div>
+
+              <div class="sidebar-group-items">
+                @for (child of item.items; track child.label) {
+                  <a
+                    class="sidebar-item sidebar-child"
+                    [routerLink]="child.routerLink"
+                    routerLinkActive="sidebar-item-active"
+                  >
+                    @if (child.icon) {
+                      <i [class]="child.icon"></i>
+                    }
+
+                    <span>{{ child.label }}</span>
+                  </a>
+                }
+              </div>
+            </div>
+          } @else {
+            <a
+              class="sidebar-item"
+              [routerLink]="item.routerLink"
+              routerLinkActive="sidebar-item-active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
               @if (item.icon) {
                 <i [class]="item.icon"></i>
               }
 
               <span>{{ item.label }}</span>
+            </a>
+          }
+        </div>
+      }
+    </nav>
+  </aside>
+}
+
+@if (mode === "drawer") {
+  <div class="sidebar-trigger">
+    <p-button
+      icon="pi pi-bars"
+      [text]="true"
+      [rounded]="true"
+      (onClick)="drawerVisible = true"
+    />
+  </div>
+
+  <p-drawer
+    [(visible)]="drawerVisible"
+    position="left"
+    styleClass="user-sidebar-drawer"
+  >
+    <nav class="sidebar-menu">
+      @for (item of items; track item.label) {
+        <div class="sidebar-section">
+          @if (item.items?.length) {
+            <div class="sidebar-group">
+              <div class="sidebar-group-title">
+                @if (item.icon) {
+                  <i [class]="item.icon"></i>
+                }
+
+                <span>{{ item.label }}</span>
+              </div>
+
+              <div class="sidebar-group-items">
+                @for (child of item.items; track child.label) {
+                  <a
+                    class="sidebar-item sidebar-child"
+                    [routerLink]="child.routerLink"
+                    routerLinkActive="sidebar-item-active"
+                    (click)="drawerVisible = false"
+                  >
+                    @if (child.icon) {
+                      <i [class]="child.icon"></i>
+                    }
+
+                    <span>{{ child.label }}</span>
+                  </a>
+                }
+              </div>
             </div>
-
-            <div class="sidebar-group-items">
-              @for (child of item.items; track child.label) {
-                <a
-                  class="sidebar-item sidebar-child"
-                  [routerLink]="child.routerLink"
-                  routerLinkActive="sidebar-item-active"
-                  (click)="drawerVisible = false"
-                >
-                  @if (child.icon) {
-                    <i [class]="child.icon"></i>
-                  }
-
-                  <span>{{ child.label }}</span>
-                </a>
+          } @else {
+            <a
+              class="sidebar-item"
+              [routerLink]="item.routerLink"
+              routerLinkActive="sidebar-item-active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              (click)="drawerVisible = false"
+            >
+              @if (item.icon) {
+                <i [class]="item.icon"></i>
               }
-            </div>
-          </div>
-        } @else {
-          <a
-            class="sidebar-item"
-            [routerLink]="item.routerLink"
-            routerLinkActive="sidebar-item-active"
-            [routerLinkActiveOptions]="{ exact: true }"
-            (click)="drawerVisible = false"
-          >
-            @if (item.icon) {
-              <i [class]="item.icon"></i>
-            }
 
-            <span>{{ item.label }}</span>
-          </a>
-        }
-      </div>
-    }
-  </nav>
-</p-drawer>
+              <span>{{ item.label }}</span>
+            </a>
+          }
+        </div>
+      }
+    </nav>
+  </p-drawer>
+}

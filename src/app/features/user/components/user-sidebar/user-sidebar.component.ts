@@ -3,7 +3,6 @@ import { MenuItem } from 'primeng/api';
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { Button } from 'primeng/button';
 import { DrawerModule } from 'primeng/drawer';
-import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { LocaleService } from '@core/i18n/locale.service';
 import { TranslationService } from '@core/i18n/translation.service';
 import { UserService } from '@core/user/user.service';
@@ -35,12 +34,7 @@ export class UserSidebarComponent {
   ) {
     effect(() => {
       this.localeService.locale();
-
-      this.updateItems();
-    });
-
-    effect(() => {
-      this.userService.currentUser();
+      this.authStateService.state();
 
       this.updateItems();
     });

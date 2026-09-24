@@ -1,14 +1,16 @@
 .user-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: 16rem minmax(0, 1fr);
+  gap: 1rem;
 
   width: 100%;
-  max-width: 1800px;
+  max-width: 1600px;
 
-  margin: 2rem auto;
-  padding: 0 1.5rem;
+  margin: 1rem auto;
+  padding: 0 1rem;
 
   align-items: start;
+  margin-top: 1.5rem;
 }
 
 .user-content {
@@ -18,17 +20,21 @@
   min-height: 60vh;
 
   margin: 0 auto;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
 }
 
 @media (max-width: 768px) {
   .user-layout {
     display: block;
 
-    margin: 1rem auto;
-    margin-top: 0.25rem;
-
+    margin: 0.25rem auto 1rem;
     padding: 0 1rem;
+  }
+
+  .desktop-sidebar {
+    display: none;
+  }
+
+  .user-content {
+    margin: 1rem auto;
   }
 }

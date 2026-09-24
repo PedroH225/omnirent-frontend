@@ -4,7 +4,7 @@ import { RouterModule } from "@angular/router";
 
 @Component({
   selector: 'app-user-layout',
-  imports: [UserSidebarComponent, RouterModule],
+  imports: [RouterModule, UserSidebarComponent],
   templateUrl: './user-layout.component.html',
   styleUrl: './user-layout.component.scss'
 })

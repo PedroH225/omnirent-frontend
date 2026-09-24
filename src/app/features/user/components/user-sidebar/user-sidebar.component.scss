@@ -3,11 +3,6 @@
   width: auto;
 }
 
-.sidebar-trigger {
-  display: flex;
-  align-items: center;
-}
-
 :host ::ng-deep .sidebar-trigger .p-button {
   flex-shrink: 0;
 
@@ -120,4 +115,20 @@
 
 .sidebar-item-active i {
   color: var(--p-primary-600);
+}
+
+.desktop-sidebar-menu {
+  display: block;
+  width: 18rem;
+}
+
+.sidebar-trigger {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .desktop-sidebar-menu {
+    display: none;
+  }
 }

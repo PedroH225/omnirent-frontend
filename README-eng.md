@@ -40,12 +40,6 @@ npm install
 ng serve
 ```
 
-By default, the application will be available at:
-
-```text
-http://localhost:4200
-```
-
 ## Features
 
 ### Equipment

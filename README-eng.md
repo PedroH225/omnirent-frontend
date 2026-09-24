@@ -22,11 +22,13 @@ The project was developed as part of a frontend development portfolio, applying 
 * **Internationalization**: Multiple languages, locale support, and time zone handling
 * **Security**: CSRF protection, authentication guards, and authorization guards
 * **Responsive Design**: Interface adapted for desktop and mobile devices
-- **Deployment / Hosting:** Cloudflare Workers
-
+*  **Deployment / Hosting:** Cloudflare Workers
+ 
 ## Running the Application
 
-**1.** Configure the API URL in the application environment files.
+**1.** Configure the API URL in the application environment files:
+- [dev](src/scripts/proxy.conf.json)
+- [prod](worker/src/index.js)
 
 **2.** Install the dependencies:
 

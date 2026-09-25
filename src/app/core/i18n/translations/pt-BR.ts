@@ -45,6 +45,14 @@ export const ptBR = {
     },
   },
 
+  api: {
+    offline: {
+      title: 'Servidor temporariamente indisponível',
+      detail:
+        'O OmniRent fica offline entre 00:00 e 08:00, no horário de Brasília.',
+    },
+  },
+
   enums: {
     itemStatus: {
       analisys: 'Em análise',

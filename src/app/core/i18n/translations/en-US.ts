@@ -44,6 +44,13 @@ export const enUS = {
     },
   },
 
+  api: {
+    offline: {
+      title: 'Server temporarily unavailable',
+      detail: 'OmniRent is offline daily between 12:00 AM and 8:00 AM (UTC-3).',
+    },
+  },
+
   enums: {
     itemStatus: {
       analisys: 'Analysis',

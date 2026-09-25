@@ -33,7 +33,7 @@ function handleApiError(
   messageService: MessageService,
   translationService: TranslationService,
 ): void {
-  messageService.clear();
+  clearMessages(messageService);
   switch (apiError.errorCode) {
     case 'FORBIDDEN':
       if (router.url.startsWith('/admin')) {
@@ -42,8 +42,9 @@ function handleApiError(
       break;
 
     case 'RATE_LIMIT_EXCEEDED':
-      messageService.clear();
+      clearMessages(messageService);
       messageService.add({
+        key: 'error',
         severity: 'warn',
         summary: translationService.translate('error.tooManyRequests.title'),
         detail: apiError.message,
@@ -110,11 +111,16 @@ function showMessage(
   messageService: MessageService,
   translationService: TranslationService,
 ): void {
-  messageService.clear();
+  clearMessages(messageService);
 
   messageService.add({
+    key: 'error',
     severity,
     summary: translationService.translate(titleKey),
     detail: translationService.translate(detailKey),
   });
+}
+
+function clearMessages(messageService: MessageService) {
+  messageService.clear('error')
 }

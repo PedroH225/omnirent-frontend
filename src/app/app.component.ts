@@ -33,7 +33,7 @@ export class AppComponent {
   }
 
   ngAfterViewInit(): void {
-    if (!isApiOfflineTime()) {
+    if (isApiOfflineTime()) {
       this.messageService.add({
         key: 'offline',
         severity: 'info',

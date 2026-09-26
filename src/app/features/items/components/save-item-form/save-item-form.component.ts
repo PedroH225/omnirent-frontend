@@ -35,6 +35,7 @@ import { ItemImagesValidator } from '@features/items/validators/item-image-valid
 import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { TranslationService } from '@core/i18n/translation.service';
 import { LocaleService } from '@core/i18n/locale.service';
+import { RouterLink } from '@angular/router';
 
 type ItemFormMode = 'create' | 'edit';
 
@@ -58,6 +59,7 @@ type ItemFormMode = 'create' | 'edit';
     InputTextModule,
     TextareaModule,
     TranslatePipe,
+    RouterLink
   ],
   providers: [ConfirmationService],
   templateUrl: './save-item-form.component.html',

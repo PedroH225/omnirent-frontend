@@ -1,3 +1,5 @@
+import { empty } from 'rxjs';
+
 export const ptBR = {
   common: {
     detail: 'Detalhes',
@@ -442,6 +444,7 @@ export const ptBR = {
       },
     },
 
+    // ITEM FORM
     form: {
       tabs: {
         details: 'Detalhes do anúncio',
@@ -465,6 +468,15 @@ export const ptBR = {
         daily: 'Diário',
         weekly: 'Semanal',
         monthly: 'Mensal',
+      },
+
+      address: {
+        empty: {
+          title: 'Nenhum endereço cadastrado',
+          description:
+            'Cadastre um endereço para continuar com o cadastro do item.',
+          addAddress: 'Cadastrar endereço',
+        },
       },
 
       images: {

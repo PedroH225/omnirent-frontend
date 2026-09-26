@@ -1,3 +1,5 @@
+import { empty } from 'rxjs';
+
 export const enUS = {
   common: {
     detail: 'Details',
@@ -437,6 +439,7 @@ export const enUS = {
       },
     },
 
+    // ITEM FORM
     form: {
       tabs: {
         details: 'Item Details',
@@ -460,6 +463,14 @@ export const enUS = {
         daily: 'Daily',
         weekly: 'Weekly',
         monthly: 'Monthly',
+      },
+
+      address: {
+        empty: {
+          title: 'No addresses registered',
+          description: 'Add an address to continue creating the item.',
+          addAddress: 'Add address',
+        },
       },
 
       images: {

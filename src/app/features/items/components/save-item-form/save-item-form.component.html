@@ -11,6 +11,14 @@
         </p-tab>
 
         @if (mode === "create") {
+          <p-tab value="address">
+            <span>{{ "item.form.tabs.address" | translate }}</span>
+
+            @if (getTabHasError("address")) {
+              <i class="pi pi-exclamation-circle tab-error-icon"></i>
+            }
+          </p-tab>
+
           <p-tab value="images">
             <span>{{ "item.form.tabs.images" | translate }}</span>
 
@@ -19,14 +27,6 @@
             }
           </p-tab>
         }
-
-        <p-tab value="address">
-          <span>{{ "item.form.tabs.address" | translate }}</span>
-
-          @if (getTabHasError("address")) {
-            <i class="pi pi-exclamation-circle tab-error-icon"></i>
-          }
-        </p-tab>
       </p-tablist>
 
       <p-tabpanels>
@@ -249,18 +249,38 @@
 
         <p-tabpanel value="address">
           <div class="address-section">
-            <div class="addresses-grid">
-              <app-address-card
-                *ngFor="let address of addresses"
-                [address]="address"
-                [showActions]="false"
-                [selectable]="true"
-                [selected]="form.address?.id === address.id"
-                (ngModelChange)="onFieldChange('addressId')"
-                (select)="selectAddress($event)"
-              >
-              </app-address-card>
-            </div>
+            @if (addresses.length === 0) {
+              <div class="empty-addresses">
+                <i class="pi pi-map-marker"></i>
+
+                <div class="empty-addresses-content">
+                  <h3>{{ "item.form.address.empty.title" | translate }}</h3>
+
+                  <p>
+                    {{ "item.form.address.empty.description" | translate }}
+                  </p>
+
+                  <p-button
+                    [label]="'item.form.address.empty.addAddress' | translate"
+                    icon="pi pi-plus"
+                    routerLink="/account/addresses"
+                  />
+                </div>
+              </div>
+            } @else {
+              <div class="addresses-grid">
+                <app-address-card
+                  *ngFor="let address of addresses"
+                  [address]="address"
+                  [showActions]="false"
+                  [selectable]="true"
+                  [selected]="form.address?.id === address.id"
+                  (ngModelChange)="onFieldChange('addressId')"
+                  (select)="selectAddress($event)"
+                >
+                </app-address-card>
+              </div>
+            }
 
             <app-field-error [message]="getFieldError('addressId')">
             </app-field-error>

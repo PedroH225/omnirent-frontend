@@ -538,6 +538,16 @@ export const ptBR = {
             'As imagens não podem ter a mesma ordem de exibição.',
         },
       },
+
+      draft: {
+        title: 'Continuar cadastro?',
+        description:
+          'Encontramos um cadastro de item que não foi concluído. Deseja continuar de onde parou?',
+        continue: 'Continuar',
+        startOver: 'Começar novamente',
+        autoSave:
+          'Suas alterações são salvas automaticamente.',
+      },
     },
 
     messages: {

@@ -130,6 +130,7 @@ export class CreateItemComponent {
       ),
     });
 
+    this.itemService.clearItemFormDraft();
     this.router.navigate(['/account/my-items']);
   }
 

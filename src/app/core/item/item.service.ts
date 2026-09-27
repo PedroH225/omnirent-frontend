@@ -18,6 +18,8 @@ import { EnumOption } from '@shared/models/EnumOption';
 import { ItemRejectRequest } from './model/item-reject-request';
 import { LastUpdate } from '@shared/models/last-update-model';
 import { UserService } from '@core/user/user.service';
+import { ItemFormModel } from '@features/items/model/item-form-model';
+import { ItemFormDraft } from '@features/items/model/item-form-draft-model';
 
 @Injectable({
   providedIn: 'root',
@@ -36,6 +38,7 @@ export class ItemService {
   private readonly USER_ITEMS_CACHE_KEY = 'user-items';
   private readonly ADMIN_ITEMS_ANALYSIS_CACHE_KEY = 'admin-items-analysis';
   private readonly ADMIN_ITEMS_CACHE_KEY = 'admin-items';
+  private readonly ITEM_FORM_DRAFT_CACHE_KEY = 'item-form-draft';
 
   constructor(
     private http: HttpClient,
@@ -422,6 +425,54 @@ export class ItemService {
     this.cacheService.clearByPrefix(
       `${currentUser.id}:${this.ADMIN_ITEMS_CACHE_KEY}:`,
     );
+  }
+
+  saveItemFormDraft(form: ItemFormModel): void {
+    const userId = this.userService.currentUser()?.id;
+
+    if (!userId) {
+      return;
+    }
+
+    const cacheKey = `${userId}:${this.ITEM_FORM_DRAFT_CACHE_KEY}`;
+
+    const draft: ItemFormDraft = {
+      name: form.name,
+      model: form.model,
+      brand: form.brand,
+      description: form.description,
+      basePrice: form.basePrice,
+      itemCondition: form.itemCondition,
+      categoryId: form.category?.id,
+      subCategoryId: form.subCategory?.id,
+      addressId: form.address?.id,
+    };
+
+    this.cacheService.set(cacheKey, draft, CacheDuration.MEDIUM);
+  }
+
+  getItemFormDraft(): ItemFormDraft | undefined {
+    const userId = this.userService.currentUser()?.id;
+
+    if (!userId) {
+      return undefined;
+    }
+
+    const cacheKey = `${userId}:${this.ITEM_FORM_DRAFT_CACHE_KEY}`;
+
+    return this.cacheService.get<ItemFormDraft>(cacheKey);
+  }
+
+  clearItemFormDraft(): void {
+    const userId = this.userService.currentUser()?.id;
+
+    if (!userId) {
+      return;
+    }
+
+    const cacheKey = `${userId}:${this.ITEM_FORM_DRAFT_CACHE_KEY}`;
+
+    this.cacheService.remove(cacheKey);
   }
 
   private buildImagesFormData(images: ItemImageForm[]): FormData {

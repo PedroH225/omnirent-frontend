@@ -521,14 +521,15 @@ export const enUS = {
           required: 'Address is required.',
           blank: 'Address is required.',
         },
+      },
 
-        images: {
-          max_images: 'You can upload a maximum of 5 images.',
-          empty: 'This image file is empty.',
-          unsupported_media_type:
-            'Unsupported image format. Use JPEG, PNG, or WebP.',
-          duplicate_order: 'Images cannot have the same display order.',
-        },
+      draft: {
+        title: 'Continue listing?',
+        description:
+          'We found an unfinished item listing. Would you like to continue where you left off?',
+        continue: 'Continue',
+        startOver: 'Start over',
+        autoSave: 'Your changes are saved automatically.',
       },
     },
 

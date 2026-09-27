@@ -24,6 +24,13 @@
       />
     </div>
   }
+
+  @if (mode === "create") {
+    <div class="draft-info">
+      <i class="pi pi-save"></i>
+      <span>{{ "item.form.draft.autoSave" | translate }}</span>
+    </div>
+  }
   <div class="form-container">
     <p-tabs value="details" (valueChange)="onTabChange($event)">
       <p-tablist>
@@ -35,15 +42,14 @@
           }
         </p-tab>
 
+        <p-tab value="address">
+          <span>{{ "item.form.tabs.address" | translate }}</span>
+
+          @if (getTabHasError("address")) {
+            <i class="pi pi-exclamation-circle tab-error-icon"></i>
+          }
+        </p-tab>
         @if (mode === "create") {
-          <p-tab value="address">
-            <span>{{ "item.form.tabs.address" | translate }}</span>
-
-            @if (getTabHasError("address")) {
-              <i class="pi pi-exclamation-circle tab-error-icon"></i>
-            }
-          </p-tab>
-
           <p-tab value="images">
             <span>{{ "item.form.tabs.images" | translate }}</span>
 
@@ -326,3 +332,5 @@
     </div>
   </div>
 </div>
+
+<p-confirmDialog />

@@ -36,6 +36,8 @@ import { TranslatePipe } from '@core/i18n/translation-pipe';
 import { TranslationService } from '@core/i18n/translation.service';
 import { LocaleService } from '@core/i18n/locale.service';
 import { RouterLink } from '@angular/router';
+import { ConfirmDialog } from 'primeng/confirmdialog';
+import { ItemFormDraft } from '@features/items/model/item-form-draft-model';
 
 type ItemFormMode = 'create' | 'edit';
 
@@ -60,6 +62,7 @@ type ItemFormMode = 'create' | 'edit';
     TextareaModule,
     TranslatePipe,
     RouterLink,
+    ConfirmDialog,
   ],
   providers: [ConfirmationService],
   templateUrl: './save-item-form.component.html',
@@ -97,6 +100,7 @@ export class SaveItemFormComponent {
     private itemService: ItemService,
     private translationService: TranslationService,
     private localeService: LocaleService,
+    private confirmationService: ConfirmationService,
   ) {
     effect(() => {
       this.localeService.locale();
@@ -182,6 +186,12 @@ export class SaveItemFormComponent {
       (error) => error.field !== field,
     );
 
+    if (this.hasFormChanges() && this.mode === 'create') {
+      this.itemService.saveItemFormDraft(this.form);
+    } else {
+      this.itemService.clearItemFormDraft();
+    }
+
     this.formChange.emit(this.form);
   }
 
@@ -220,7 +230,10 @@ export class SaveItemFormComponent {
         if (this.mode === 'edit' && this.item) {
           this.initializeCategory();
           this.initializeEditForm();
+          return;
         }
+
+        this.checkItemFormDraft();
       },
     });
   }
@@ -287,6 +300,7 @@ export class SaveItemFormComponent {
   selectAddress(address: AddressModel): void {
     this.form.address = address;
     this.formChange.emit(this.form);
+    this.onFieldChange('addressId');
   }
 
   getTabHasError(tab: string): boolean {
@@ -342,5 +356,70 @@ export class SaveItemFormComponent {
       subCategory: undefined,
       address: undefined,
     };
+  }
+
+  private checkItemFormDraft(): void {
+    const draft = this.itemService.getItemFormDraft();
+
+    if (!draft || this.mode !== 'create') {
+      return;
+    }
+
+    this.confirmationService.confirm({
+      header: this.translationService.translate('item.form.draft.title'),
+      message: this.translationService.translate('item.form.draft.description'),
+      icon: 'pi pi-history',
+
+      acceptLabel: this.translationService.translate(
+        'item.form.draft.continue',
+      ),
+      rejectLabel: this.translationService.translate(
+        'item.form.draft.startOver',
+      ),
+      rejectButtonStyleClass: 'p-button-danger p-button-outlined',
+
+      accept: () => {
+        this.restoreDraft(draft);
+      },
+
+      reject: () => {
+        this.itemService.clearItemFormDraft();
+        this.form = this.createEmptyItem();
+      },
+    });
+  }
+
+  private restoreDraft(draft: ItemFormDraft): void {
+    const category = this.categories.find(
+      (option) => option.value.id === draft.categoryId,
+    )?.value;
+
+    const subCategory = category?.subCategories.find(
+      (sub) => sub.id === draft.subCategoryId,
+    );
+
+    const address = this.addresses.find(
+      (address) => address.id === draft.addressId,
+    );
+
+    this.form = {
+      name: draft.name,
+      model: draft.model,
+      brand: draft.brand,
+      description: draft.description,
+      basePrice: draft.basePrice,
+      itemCondition: draft.itemCondition!,
+      category,
+      subCategory,
+      address,
+    };
+
+    this.updateSubCategories();
+  }
+
+  private hasFormChanges(): boolean {
+    const emptyForm = this.createEmptyItem();
+
+    return JSON.stringify(this.form) !== JSON.stringify(emptyForm);
   }
 }

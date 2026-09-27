@@ -206,6 +206,78 @@
   }
 }
 
+.address-warning {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.25rem;
+
+  border: 1px solid var(--p-orange-200);
+  border-radius: 0.75rem;
+  background: var(--p-orange-50);
+
+  animation:
+    address-warning-enter 0.45s ease-out,
+    address-warning-highlight 1.2s ease-out;
+}
+
+.address-warning-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+
+  i {
+    margin-top: 0.15rem;
+    color: var(--p-orange-500);
+    font-size: 1.1rem;
+  }
+
+  strong {
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  p {
+    margin: 0;
+    color: var(--p-text-muted-color);
+  }
+}
+
+@keyframes address-warning-enter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes address-warning-highlight {
+  0% {
+    background: var(--p-orange-100);
+    border-color: var(--p-orange-400);
+    transform: scale(1);
+  }
+
+  35% {
+    background: var(--p-orange-100);
+    border-color: var(--p-orange-500);
+    transform: scale(1.01);
+  }
+
+  100% {
+    background: var(--p-orange-50);
+    border-color: var(--p-orange-200);
+    transform: scale(1);
+  }
+}
+
 @media (max-width: 480px) {
   :host ::ng-deep {
     .p-tabpanels {
@@ -215,5 +287,14 @@
 
   .addresses-grid {
     grid-template-columns: 1fr;
+  }
+
+  .address-warning {
+    flex-direction: column;
+    align-items: stretch;
+
+    p-button {
+      width: 100%;
+    }
   }
 }

@@ -1,4 +1,29 @@
 <div class="item-form">
+  @if (addresses.length === 0) {
+    <div class="address-warning">
+      <div class="address-warning-content">
+        <i class="pi pi-exclamation-triangle"></i>
+
+        <div>
+          <strong>
+            {{ "item.form.address.empty.title" | translate }}
+          </strong>
+
+          <p>
+            {{ "item.form.address.empty.description" | translate }}
+          </p>
+        </div>
+      </div>
+
+      <p-button
+        [label]="'item.form.address.empty.addAddress' | translate"
+        icon="pi pi-map-marker"
+        routerLink="/account/addresses"
+        severity="warn"
+        [outlined]="true"
+      />
+    </div>
+  }
   <div class="form-container">
     <p-tabs value="details" (valueChange)="onTabChange($event)">
       <p-tablist>

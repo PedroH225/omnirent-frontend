@@ -59,7 +59,7 @@ type ItemFormMode = 'create' | 'edit';
     InputTextModule,
     TextareaModule,
     TranslatePipe,
-    RouterLink
+    RouterLink,
   ],
   providers: [ConfirmationService],
   templateUrl: './save-item-form.component.html',

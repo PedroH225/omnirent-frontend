@@ -8,6 +8,7 @@ import { PaymentService } from '@core/payment/payment.service';
 import { ApiException } from '@shared/models/api-exception';
 import { Button } from 'primeng/button';
 import { PopoverModule } from 'primeng/popover';
+import { retry, timer } from 'rxjs';
 
 @Component({
   selector: 'app-confirm-rental',
@@ -28,7 +29,8 @@ export class ConfirmRentalComponent {
   paymentCheckout: PaymentCheckout | undefined;
 
   paymentStatus: string = 'PREPARING_PAYMENT';
-
+  private readonly PROCESSING_RETRY_LIMIT = 5;
+  private readonly PROCESSING_RETRY_DELAY = 2000;
   remainingSeconds = 0;
 
   private paymentTimer?: ReturnType<typeof setInterval>;
@@ -39,6 +41,10 @@ export class ConfirmRentalComponent {
   ) {}
 
   ngOnInit() {
+    this.paymentWebSocketService.connect(this.rentalId, (response) =>
+      this.handlePaymentEvent(response),
+    );
+
     this.paymentWebSocketService.connectPaymentUpdate(this.rentalId, () =>
       this.handlePaymentUpdate(),
     );
@@ -69,33 +75,63 @@ export class ConfirmRentalComponent {
   }
 
   preparePayment(): void {
+    if (this.paymentStatus === 'ERROR') {
+      this.paymentStatus = 'PREPARING_PAYMENT';
+    }
+
     if (!this.rentalId) {
       return;
     }
 
-    this.paymentService.findCheckout(this.rentalId).subscribe({
-      next: (response) => {
-        this.handleCheckout(response);
-      },
-      error: (error: HttpErrorResponse) => {
-        const apiException = error.error as ApiException;
-
-        if (apiException?.errorCode === 'PAYMENT_NOT_FOUND') {
-          this.paymentStatus = 'PREPARING_PAYMENT';
-
-          this.paymentWebSocketService.connect(this.rentalId, (response) =>
-            this.handlePaymentEvent(response),
-          );
-
-          return;
-        }
-
-        this.paymentStatus = 'ERROR';
-      },
-    });
+    this.findCheckout();
   }
 
-  private handlePaymentUpdate() {
+  private findCheckout(processingAttempt = 0): void {
+    this.paymentService
+      .findCheckout(this.rentalId)
+      .pipe(
+        retry({
+          count: 3,
+          delay: (error: HttpErrorResponse, retryCount) => {
+            const apiException = error.error as ApiException;
+
+            if (apiException?.errorCode !== 'PAYMENT_NOT_FOUND') {
+              throw error;
+            }
+
+            return timer(retryCount * 2000);
+          },
+        }),
+      )
+      .subscribe({
+        next: (response) => {
+          if (response.status === 'PAID') {
+            this.handleCheckout(response);
+            return;
+          }
+
+          if (response.status !== 'PENDING') {
+            return;
+          }
+
+          this.handleCheckout(response);
+
+          if (
+            this.paymentStatus === 'PROCESSING_PAYMENT' &&
+            processingAttempt < this.PROCESSING_RETRY_LIMIT
+          ) {
+            timer(this.PROCESSING_RETRY_DELAY).subscribe(() => {
+              this.findCheckout(processingAttempt + 1);
+            });
+          }
+        },
+        error: () => {
+          this.paymentStatus = 'ERROR';
+        },
+      });
+  }
+
+  private handlePaymentUpdate() {    
     this.canCancel.emit(true);
     this.paymentConfirmed.emit('CONFIRMED');
   }
@@ -111,10 +147,11 @@ export class ConfirmRentalComponent {
   }
 
   private handleCheckout(checkout: PaymentCheckout): void {
-    if (checkout.status === 'PAID') {
+    if (checkout.status === 'PAID') {      
       this.handlePaymentUpdate();
       return;
     }
+
     this.paymentCheckout = checkout;
 
     if (this.paymentStatus === 'PROCESSING_PAYMENT') {

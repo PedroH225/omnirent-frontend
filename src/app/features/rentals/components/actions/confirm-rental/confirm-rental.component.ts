@@ -169,7 +169,7 @@ export class ConfirmRentalComponent {
     }
 
     const createdTime = new Date(createdAt).getTime();
-    const expirationTime = createdTime + 30 * 60 * 1000;
+    const expirationTime = createdTime + 10 * 60 * 1000;
 
     const updateTimer = () => {
       const remaining = Math.max(0, expirationTime - Date.now());
